@@ -11,10 +11,10 @@
     "serve": "npm-run-all --parallel serve:lib serve:docs",
     "serve:lib": "webpack --config build/webpack.lib.conf.js --watch --progress --hide-modules",
     "serve:docs": "node build/dev-server.js",
-    "build": "yarn run build:lib && yarn run build:docs && yarn run deploy",
+    "build": "yarn run build:lib && yarn run build:docs",
     "build:lib": "node build/build-lib.js",
     "build:docs": "node build/build.js",
-    "deploy": "node build/deploy.js",
+    "deploy": "yarn run build && node build/deploy.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
