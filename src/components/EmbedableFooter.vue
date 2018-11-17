@@ -16,6 +16,7 @@
 <script>
   import IframeResizer from '../utils/iframe-resizer'
   import SharingOptions from './SharingOptions'
+  import config from '../config'
 
   export default {
     name: 'EmbedableFooter',
@@ -25,7 +26,7 @@
     props: {
       title: {
         type: String,
-        default: ''
+        default: () => config.get('projectName')
       },
       lead: {
         type: String,

@@ -1,6 +1,6 @@
 {
   "name": "icij-vue-collection",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A collection of Vue component from ICIJ team",
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.min.js",
@@ -19,6 +19,7 @@
   "dependencies": {
     "bootstrap": "^4.1.3",
     "bootstrap-vue": "^2.0.0-rc.11",
+    "es6-symbol": "^3.1.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.11",
     "promise-polyfill": "^8.1.0",

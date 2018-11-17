@@ -4,12 +4,7 @@
       Support ICIJ
     </h2>
     <slot name="introduction">
-      <p>
-        ICIJ’s investigations are supported by readers like you. Help keep our
-        databases free and open to the public by joining our
-        <strong><a target="_blank" href="https://icij.org/donate">ICIJ Insiders</a></strong>
-        community.
-      </p>
+      <p v-html="introduction"></p>
     </slot>
     <div class="donate-form__payment mb-4">
       <form action="//checkout.fundjournalism.org/memberform" method="get" target="_blank" class="donate-form__payment__form bg-light p-4">
@@ -148,12 +143,17 @@
   import map from 'lodash/map'
   import sortBy from 'lodash/sortBy'
   import forEach from 'lodash/forEach'
+  import config from '../config'
 
   export default {
     name: 'DonateForm',
     props: {
       noTitle: {
         type: Boolean
+      },
+      introduction: {
+        type: String,
+        default: () => config.get('donateFormIntroduction')
       }
     },
     data() {

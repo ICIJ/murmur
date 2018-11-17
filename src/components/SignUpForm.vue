@@ -23,13 +23,14 @@
 <script>
 import $ from 'jquery'
 import last from 'lodash/last'
+import config from '../config'
 
 export default {
   name: "SignUpForm",
   props: {
     action: {
-      default: 'https://icij.us15.list-manage.com/subscribe/post?u=0d48a33b1c24d257734cc2a79&id=992ecfdbb2',
-      type: String
+      type: String,
+      default: () => config.get('signupFormAction')
     },
     noLabel: {
       type: Boolean
@@ -39,7 +40,7 @@ export default {
     },
     tracker: {
       type: String,
-      default: 'EXTERNAL'
+      default: () => config.get('signupFormTracker')
     }
   },
   data () {

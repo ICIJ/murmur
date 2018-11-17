@@ -75,6 +75,7 @@
   import { headroom } from 'vue-headroom'
   import DonateForm from './DonateForm.vue'
   import FollowUsPopover from './FollowUsPopover.vue'
+  import config from '../config'
 
   export default {
     name: 'MainHeader',
@@ -97,11 +98,11 @@
       },
       project: {
         type: String,
-        default: 'Project'
+        default: () => config.get('projectName')
       },
       title: {
         type: String,
-        default: 'Awesome App'
+        default: () => config.get('appName')
       }
     },
     data () {

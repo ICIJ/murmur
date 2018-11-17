@@ -68,7 +68,7 @@
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <div class="card">
-              <embedable-footer title="Awesome App" class="position-relative"></embedable-footer>
+              <embedable-footer class="position-relative"></embedable-footer>
             </div>
           </section>
 
@@ -108,7 +108,7 @@
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
             <div class="card d-inline-block w-100">
-              <main-header title="Awesome App" no-headroom position="relative"></main-header>
+              <main-header no-headroom position="relative"></main-header>
             </div>
           </section>
 
