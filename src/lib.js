@@ -1,16 +1,27 @@
+import ContentPlaceholder from './components/ContentPlaceholder.vue'
+import DonateForm from './components/DonateForm.vue'
+import EmbedableFooter from './components/EmbedableFooter.vue'
+import EmbedForm from './components/EmbedForm.vue'
+import FollowUsPopover from './components/FollowUsPopover.vue'
+import GenericFooter from './components/GenericFooter.vue'
+import MainHeader from './components/MainHeader.vue'
+import SharingOptions from './components/SharingOptions.vue'
+import SignUpForm from './components/SignUpForm.vue'
+import config from './config'
+
 export const components = {
-  ContentPlaceholder: require('./components/ContentPlaceholder.vue').default,
-  DonateForm: require('./components/DonateForm.vue').default,
-  EmbedableFooter: require('./components/EmbedableFooter.vue').default,
-  EmbedForm: require('./components/EmbedForm.vue').default,
-  FollowUsPopover: require('./components/FollowUsPopover.vue').default,
-  GenericFooter: require('./components/GenericFooter.vue').default,
-  MainHeader: require('./components/MainHeader.vue').default,
-  SharingOptions: require('./components/SharingOptions.vue').default,
-  SignUpForm: require('./components/SignUpForm.vue'.default)
+  ContentPlaceholder,
+  DonateForm,
+  EmbedableFooter,
+  EmbedForm,
+  FollowUsPopover,
+  GenericFooter,
+  MainHeader,
+  SharingOptions,
+  SignUpForm,
 }
 
 export default {
-  config: require('./config').default,
+  config,
   components
 }
