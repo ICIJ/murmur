@@ -1,0 +1,89 @@
+$tradewind: #68beb0 !default;
+$cuttysark: #50676b !default;
+$blumine: #195172 !default;
+$mercury: #e5e5e5 !default;
+$copper: #a57a36 !default;
+$bostonblue: #3b98ab !default;
+$punch:#A83324 !default;
+
+$icij-primary: #f8b700 !default;
+$icij-secondary: #852308 !default;
+
+$primary: $icij-secondary !default;
+$secondary: #f0f0f0 !default;
+$tertiary: #852308 !default;
+$success: #28a745 !default;
+$info: $bostonblue !default;
+$warning: #fff0c7 !default;
+$danger: $punch !default;
+$light: #ebebeb !default;
+$dark: #333 !default;
+
+$event-bg: #fde7d6 !default;
+$event-emphasis: #ab4e3c !default;
+
+$device-bg: #d7eef2 !default;
+$device-emphasis: #195172 !default;
+
+$manufacturer-bg: #ded2c2 !default;
+$manufacturer-emphasis: #806147 !default;
+
+$home-overview-bg: #b0dde0 !default;
+
+$callout-button-bg: $dark !default;
+$callout-button-color: #fff !default;
+$callout-button-emphasis: $copper !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge((
+  icij-primary: $icij-primary,
+  icij-secondary: $icij-secondary,
+  blumine: $blumine,
+  mercury: $mercury,
+  copper: $copper
+), $theme-colors);
+
+$body-bg: #fff !default;
+$jumbotron-bg: $mercury !default;
+$component-active-bg: $copper !default;
+
+$input-focus-border-color: darken($component-active-bg, 20) !default;
+$input-box-shadow: none !default;
+$btn-box-shadow: none !default;
+
+
+$table-dark-bg: darken($cuttysark, 20%) !default;
+$table-dark-border-color: lighten($table-dark-bg, 7.5) !default;
+
+$enable-rounded: false !default;
+$enable-shadows: true !default;
+$enable-gradients: false !default;
+
+$font-family-sans-serif: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-serif: "Merriweather", Georgia, "Times New Roman", Times, serif !default;
+
+$headings-font-family: "Fira Sans", $font-family-serif !default;
+$headings-font-weight: 700 !default;
+$text-muted: #717171 !default;
+
+$fade-bg: #ebe6e3 !default;
+$list-group-bg: transparent !default;
+
+$input-focus-border-color: $secondary !default;
+$input-bg: #f8f8f8 !default;
+$input-focus-bg: #fff !default;
+
+$form-check-input-gutter: 1.5rem !default;
+
+$popover-body-padding-y: 0 !default;
+$popover-body-padding-x: 0 !default;
+$popover-max-width: 300px !default;
+
+$popover-box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15) !default;
+$dropdown-link-active-bg: $punch !default;
+$dropdown-box-shadow: $popover-box-shadow !default;
+
+$modal-backdrop-bg: #fff !default;
+$modal-lg: 990px !default;
+$modal-content-box-shadow-xs: $popover-box-shadow !default;
+$modal-content-box-shadow-sm-up: $popover-box-shadow !default;

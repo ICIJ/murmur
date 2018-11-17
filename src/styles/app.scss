@@ -1,0 +1,14 @@
+// Import your library's styles
+@import './lib';
+@import 'node_modules/bootstrap/scss/bootstrap';
+
+
+.card-xs {
+  max-width: 330px;
+}
+
+@each $breakpoint, $width in $container-max-widths {
+  .card-#{$breakpoint} {
+    max-width: $width;
+  }
+}
