@@ -1,0 +1,91 @@
+$tradewind: #68beb0;
+$cuttysark: #50676b;
+$blumine: #195172;
+$mercury: #e5e5e5;
+$copper: #a57a36;
+$bostonblue: #3b98ab;
+$punch:#A83324;
+
+$icij-primary: #f8b700;
+$icij-secondary: #852308;
+
+$primary: $icij-secondary;
+$secondary: #f0f0f0;
+$tertiary: #852308;
+$success: #28a745;
+$info: $bostonblue;
+$warning: #fff0c7;
+$danger: $punch;
+$light: #ebebeb;
+$dark: #333;
+
+$event-bg: #fde7d6;
+$event-emphasis: #ab4e3c;
+
+$device-bg: #d7eef2;
+$device-emphasis: #195172;
+
+$manufacturer-bg: #ded2c2;
+$manufacturer-emphasis: #806147;
+
+$home-overview-bg: #b0dde0;
+
+$callout-button-bg: $dark;
+$callout-button-color: #fff;
+$callout-button-emphasis: $copper;
+
+$theme-colors: (
+  icij-primary: $icij-primary,
+  icij-secondary: $icij-secondary,
+  blumine: $blumine,
+  mercury: $mercury,
+  copper: $copper
+);
+
+$body-bg: #fff;
+$jumbotron-bg: $mercury;
+$component-active-bg: $copper;
+
+$link-color: $tertiary;
+$link-hover-color: darken($tertiary, 10%);
+
+$input-focus-border-color: darken($component-active-bg, 20);
+$input-box-shadow: none;
+$btn-box-shadow: none;
+
+
+$table-dark-bg: darken($cuttysark, 20%);
+$table-dark-border-color: lighten($table-dark-bg, 7.5);
+
+$enable-rounded: false;
+$enable-shadows: true;
+$enable-gradients: false;
+
+$font-family-sans-serif: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-serif: "Merriweather", Georgia, "Times New Roman", Times, serif !default;
+
+$headings-font-family: "Fira Sans", $font-family-serif;
+$headings-font-weight: 700;
+$text-muted: #717171;
+
+$fade-bg: #ebe6e3;
+$list-group-bg: transparent;
+
+$input-focus-border-color: $secondary;
+$input-bg: #f8f8f8;
+$input-focus-bg: #fff;
+
+$form-check-input-gutter: 1.5rem;
+
+$popover-body-padding-y: 0;
+$popover-body-padding-x: 0;
+$popover-max-width: 300px;
+
+$popover-box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15);
+$dropdown-link-active-bg: $punch;
+$dropdown-box-shadow: $popover-box-shadow;
+
+$modal-backdrop-bg: #fff;
+$modal-lg: 990px;
+$modal-content-box-shadow-xs: $popover-box-shadow;
+$modal-content-box-shadow-sm-up: $popover-box-shadow;

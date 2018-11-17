@@ -1,0 +1,12 @@
+@import url('https://use.fontawesome.com/releases/v5.3.1/css/all.css');
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,700,800|Lato:300,400');
+
+@import './variables.scss';
+@import './mixins.scss';
+@import './functions.scss';
+// Bootstrap variables and mixins must be available everywhere
+@import 'node_modules/bootstrap/scss/_functions.scss';
+@import 'node_modules/bootstrap/scss/_variables.scss';
+@import 'node_modules/bootstrap/scss/_mixins.scss';
+// Bootstrap Vue
+@import 'node_modules/bootstrap-vue/dist/bootstrap-vue';
