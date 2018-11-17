@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "yarn run build",
+    "postpublish": "yarn deploy",
     "serve": "npm-run-all --parallel serve:lib serve:docs",
     "serve:lib": "webpack --config build/webpack.lib.conf.js --watch --progress --hide-modules",
     "serve:docs": "node build/dev-server.js",
