@@ -26,9 +26,6 @@
             <a href="#section-mainheader">Main Header</a>
           </li>
           <li>
-            <a href="#section-screendoorform">Screendoor Form</a>
-          </li>
-          <li>
             <a href="#section-sharingoptions">Sharing Options</a>
           </li>
           <li>
@@ -116,16 +113,6 @@
           </section>
 
           <section class="mb-5">
-            <h3 id="section-screendoorform">Screendoor Form</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card card-body card-md">
-              <screendoor-form project-id="410"></screendoor-form>
-            </div>
-          </section>
-
-          <section class="mb-5">
             <h3 id="section-sharingoptions">Sharing Options</h3>
             <p class="mb-2">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -140,8 +127,11 @@
             <p class="mb-2">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
-            <div class="card card-body card-xs">
+            <div class="card card-body card-xs d-inline-block">
               <sign-up-form></sign-up-form>
+            </div>
+            <div class="card card-body card-xs d-inline-block">
+              <sign-up-form horizontal></sign-up-form>
             </div>
           </section>
 
@@ -159,7 +149,6 @@ import EmbedForm from './components/EmbedForm.vue'
 import FollowUsPopover from './components/FollowUsPopover.vue'
 import GenericFooter from './components/GenericFooter.vue'
 import MainHeader from './components/MainHeader.vue'
-import ScreendoorForm from './components/ScreendoorForm.vue'
 import SharingOptions from './components/SharingOptions.vue'
 import SignUpForm from './components/SignUpForm.vue'
 
@@ -173,7 +162,6 @@ export default {
     FollowUsPopover,
     GenericFooter,
     MainHeader,
-    ScreendoorForm,
     SharingOptions,
     SignUpForm
   }

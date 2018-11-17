@@ -64,6 +64,10 @@
 
 <script>
   import IframeResizer from '../utils/iframe-resizer'
+  import VueClipboard from 'vue-clipboard2'
+  import Vue from 'vue'
+
+  Vue.use(VueClipboard)
 
   export default {
     name: 'EmbedForm',

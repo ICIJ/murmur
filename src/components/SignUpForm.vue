@@ -4,9 +4,9 @@
       <label class="text-uppercase text-muted font-weight-bold" for="input-email" v-if="!noLabel">
         Stories in your inbox
       </label>
-      <div class="sign-up-form__fieldset__group">
+      <div class="sign-up-form__fieldset__group" :class="{ 'input-group': horizontal }">
         <input v-model="email" name="EMAIL" type="text" class="form-control" placeholder="Email address" id="input-email" />
-        <div class="sign-up-form__fieldset__group__addon">
+        <div class="sign-up-form__fieldset__group__addon" :class="{ 'input-group-append': horizontal }">
           <button class="btn btn-primary text-uppercase font-weight-bold" type="submit">
             Sign up
           </button>
@@ -96,7 +96,6 @@ export default {
 
 <style lang="scss">
   @import '../styles/lib.scss';
-  @import 'node_modules/bootstrap/scss/bootstrap';
 
   .sign-up-form {
 
@@ -104,20 +103,11 @@ export default {
       font-size: 0.9em;
     }
 
-    &--horizontal {
-      .sign-up-form__fieldset__group {
-        @extend .input-group;
-
-        &__addon {
-          @extend .input-group-append;
-        }
-      }
-    }
-
     &:not(&--horizontal) {
 
       .sign-up-form__fieldset__group__addon .btn {
-        @extend .btn-block;
+        display: block;
+        width: 100%;
       }
     }
   }
