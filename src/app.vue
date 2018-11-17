@@ -80,8 +80,8 @@
             <p class="mb-2">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
-            <div class="card py-2">
-              <embed-form url="https://jplusplus.github.io/the-accountant/#/" :height="440"></embed-form>
+            <div class="card card-sm py-2">
+              <embed-form url="about:blank" no-preview></embed-form>
             </div>
           </section>
 
