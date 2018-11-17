@@ -9,7 +9,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    docs: './src/docs.js',
+    docs: './docs/main.js',
     ['icij-vue-collection']: './src/lib.js'
   },
   output: {
@@ -23,7 +23,6 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'node_modules': resolve('node_modules'),
-      'assets': resolve('src/assets'),
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
     }
