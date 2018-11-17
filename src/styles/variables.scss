@@ -34,20 +34,18 @@ $callout-button-bg: $dark !default;
 $callout-button-color: #fff !default;
 $callout-button-emphasis: $copper !default;
 
-$theme-colors: (
+$theme-colors: () !default;
+$theme-colors: map-merge((
   icij-primary: $icij-primary,
   icij-secondary: $icij-secondary,
   blumine: $blumine,
   mercury: $mercury,
   copper: $copper
-) !default;
+), $theme-colors);
 
 $body-bg: #fff !default;
 $jumbotron-bg: $mercury !default;
 $component-active-bg: $copper !default;
-
-$link-color: $tertiary !default;
-$link-hover-color: darken($tertiary, 10%) !default;
 
 $input-focus-border-color: darken($component-active-bg, 20) !default;
 $input-box-shadow: none !default;
