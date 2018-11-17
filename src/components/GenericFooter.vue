@@ -76,7 +76,8 @@
         </div>
       </div>
       <p class="text-white text-md-right small mt-5">
-        <strong>© {{ year }} — The International Consortium of Investigative Journalists.</strong> All rights reserved
+        <strong>© {{ year }} — The International Consortium of Investigative Journalists.</strong> All rights reserved<br />
+        <span v-if="version" class="text-muted">Version {{ version }}</span>
       </p>
     </div>
   </footer>
@@ -85,6 +86,12 @@
 <script>
 export default {
   name: 'GenericFooter',
+  props: {
+    version: {
+      type: String,
+      default: ''
+    }
+  },
   computed: {
     year () {
       return (new Date()).getFullYear()
