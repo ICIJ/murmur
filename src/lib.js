@@ -1,10 +1,16 @@
-export { default as ContentPlaceholder } from './components/ContentPlaceholder.vue'
-export { default as DonateForm } from './components/DonateForm.vue'
-export { default as EmbedableFooter } from './components/EmbedableFooter.vue'
-export { default as EmbedForm } from './components/EmbedForm.vue'
-export { default as FollowUsPopover } from './components/FollowUsPopover.vue'
-export { default as GenericFooter } from './components/GenericFooter.vue'
-export { default as MainHeader } from './components/MainHeader.vue'
-export { default as SharingOptions } from './components/SharingOptions.vue'
-export { default as SignUpForm } from './components/SignUpForm.vue'
-export { default as config } from './config'
+export const components = {
+  ContentPlaceholder: require('./components/ContentPlaceholder.vue').default,
+  DonateForm: require('./components/DonateForm.vue').default,
+  EmbedableFooter: require('./components/EmbedableFooter.vue').default,
+  EmbedForm: require('./components/EmbedForm.vue').default,
+  FollowUsPopover: require('./components/FollowUsPopover.vue').default,
+  GenericFooter: require('./components/GenericFooter.vue').default,
+  MainHeader: require('./components/MainHeader.vue').default,
+  SharingOptions: require('./components/SharingOptions.vue').default,
+  SignUpForm: require('./components/SignUpForm.vue'.default)
+}
+
+export default {
+  config: require('./config').default,
+  components
+}
