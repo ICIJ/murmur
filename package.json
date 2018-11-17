@@ -1,6 +1,6 @@
 {
   "name": "icij-vue-collection",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A collection of Vue component from ICIJ team",
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.min.js",
@@ -15,7 +15,7 @@
     "build": "yarn run build:lib && yarn run build:docs",
     "build:lib": "node build/build-lib.js",
     "build:docs": "node build/build.js",
-    "deploy": "yarn run build && node build/deploy.js",
+    "deploy": "node build/deploy.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
