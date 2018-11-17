@@ -25,33 +25,30 @@
               <h5 class="text-icij-primary text-uppercase mb-3">
                 Investigations
               </h5>
-              <ul class="list-unstyled">
-                <li class="list-unstyled-item">
-                  <a href="https://www.icij.org/investigations/the-implant-files/" target="_blank">
-                    The Implant Files
-                  </a>
-                </li>
-                <li class="list-unstyled-item">
-                  <a href="https://www.icij.org/investigations/paradise-papers/" target="_blank">
-                    Paradise Papers
-                  </a>
-                </li>
-                <li class="list-unstyled-item">
-                  <a href="https://www.icij.org/investigations/panama-papers/" target="_blank">
-                    Panama Papers
-                  </a>
-                </li>
-                <li class="list-unstyled-item">
-                  <a href="https://www.icij.org/investigations/world-bank" target="_blank">
-                    Evicted and Abandoned
-                  </a>
-                </li>
-                <li class="list-unstyled-item">
-                  <a href="https://www.icij.org/investigations/offshore/" target="_blank">
-                    Secrecy for Sale
-                  </a>
-                </li>
-              </ul>
+              <slot name="investigations">
+                <ul class="list-unstyled">
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/paradise-papers/" target="_blank">
+                      Paradise Papers
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/panama-papers/" target="_blank">
+                      Panama Papers
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/world-bank" target="_blank">
+                      Evicted and Abandoned
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/offshore/" target="_blank">
+                      Secrecy for Sale
+                    </a>
+                  </li>
+                </ul>
+              </slot>
             </div>
             <div class="col-md-4">
               <h5 class="text-icij-primary text-uppercase mb-3">
