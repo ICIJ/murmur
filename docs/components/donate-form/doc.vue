@@ -1,21 +1,31 @@
 <template>
   <div>
-    <h3 id="section-donateform">Donate Form</h3>
-    <p class="mb-2">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    </p>
-    <div class="card">
-      <donate-form></donate-form>
-    </div>
+    <h3>Donate Form</h3>
+    <sample-card description="A form to encourage donations. We usualy put this form inside a modal." :component="sampleModal" :code="codeModal"></sample-card>
+    <sample-card description="You can show it in the page directly." :component="sample" :code="code"></sample-card>
   </div>
 </template>
 
 <script>
-  import DonateForm from '@/components/DonateForm'
+  import SampleCard from '../SampleCard.vue'
+
+  import sampleModal from './sample-modal.vue'
+  import codeModal from '!!raw-loader!./sample-modal.vue'
+
+  import sample from './sample.vue'
+  import code from '!!raw-loader!./sample.vue'
 
   export default {
     components: {
-      DonateForm
+      SampleCard
+    },
+    data () {
+      return {
+        sampleModal,
+        codeModal,
+        sample,
+        code
+      }
     }
   }
 </script>

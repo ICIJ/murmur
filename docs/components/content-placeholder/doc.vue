@@ -1,24 +1,26 @@
 <template>
   <div>
-    <h3 id="section-contentplaceholder">Content Placeholder</h3>
-    <p class="mb-2">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    </p>
-    <div class="card card-block card-xs">
-      <content-placeholder class="m-2"></content-placeholder>
-      <content-placeholder class="m-2"></content-placeholder>
-      <content-placeholder class="m-2"></content-placeholder>
-      <content-placeholder class="m-2"></content-placeholder>
-    </div>
+    <h3>Content Placeholder</h3>
+    <p class="text-muted">A component to fill empty spaces with animated placeholders until content is loaded.</p>
+    <sample-card title="" description="" :component="sample" :code="code"></sample-card>
   </div>
 </template>
 
 <script>
-  import ContentPlaceholder from '@/components/ContentPlaceholder'
+  import SampleCard from '../SampleCard.vue'
+
+  import sample from './sample.vue'
+  import code from '!!raw-loader!./sample.vue'
 
   export default {
     components: {
-      ContentPlaceholder
+      SampleCard
+    },
+    data () {
+      return {
+        sample,
+        code
+      }
     }
   }
 </script>

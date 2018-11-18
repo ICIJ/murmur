@@ -5880,6 +5880,10 @@ raw-body@2.3.3:
     iconv-lite "0.4.23"
     unpipe "1.0.0"
 
+raw-loader@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
+
 rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
@@ -7279,6 +7283,10 @@ vue-loader@^15.4.2:
 vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
+
+vue-slide-up-down@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/vue-slide-up-down/-/vue-slide-up-down-1.4.1.tgz#6d2889bab9dc092c0f8fd6cc5d2ff1e4261c17aa"
 
 vue-social-sharing@^2.3.3:
   version "2.3.3"
