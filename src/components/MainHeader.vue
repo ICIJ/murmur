@@ -2,7 +2,7 @@
   <div>
     <component :is="rootElement" id="main-header" data-turbolinks-permanent class="navbar navbar-expand-lg navbar-light main-header" :offset="100" :z-index="1020" :on-unpin="closeFollowUsPopover" :class="{ 'headroom--frozen': !collapseNavbar }" :style="{ position: position }">
       <slot name="brand">
-        <a href="/" class="navbar-brand main-header__brand">
+        <a :href="homeUrl" class="navbar-brand main-header__brand">
           <img src="../assets/images/icij-black@2x.png" height="25" class="mr-3" />
           {{ project }}
         </a>
@@ -95,6 +95,10 @@
       dropdownItems: {
         type: Array,
         default: () => config.get('main-header.dropdown.items')
+      },
+      homeUrl: {
+        type: String,
+        default: () => config.get('app.home')
       }
     },
     data () {

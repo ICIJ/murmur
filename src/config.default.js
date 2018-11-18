@@ -8,6 +8,7 @@ export default {
   ],
   'project.name': 'Secret Papers',
   'app.name': 'Awesome App',
+  'app.home': './',
   'sharing-options.url': null,
   'sharing-options.title': 'Awesome App by ICIJ',
   'sharing-options.description': 'null',

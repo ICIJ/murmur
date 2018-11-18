@@ -1,6 +1,6 @@
 <template>
   <div class="embedable-footer p-2 text-nowrap">
-    <a href="/" target="_blank" class="text-white embedable-footer__brand">
+    <a :href="homeUrl" target="_blank" class="text-white embedable-footer__brand">
       <img src="../assets/images/icij-white@2x.png" height="20" class="mr-2" />
       {{ title }}
     </a>
@@ -37,6 +37,10 @@
       },
       iframeMinWidth: {
         type: Number
+      },
+      homeUrl: {
+        type: String,
+        default: () => config.get('app.home')
       }
     },
     data () {
