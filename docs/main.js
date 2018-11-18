@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 
 import config from '@/config'
 
-config.set('project.yolo.name', 'Demo Project')
+config.set('project.name', 'Demo Project')
 
 import App from './components/app'
 import routes from './routes'
