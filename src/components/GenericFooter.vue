@@ -5,7 +5,7 @@
         <div class="col-md-4">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
             <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo">
-              <img src="~assets/images/icij@2x.png" class="mw-100" />
+              <img src="../assets/images/icij@2x.png" class="mw-100" />
             </a>
             International Consortium of Investigative Journalists
           </h5>

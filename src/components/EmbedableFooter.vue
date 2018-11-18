@@ -1,7 +1,7 @@
 <template>
   <div class="embedable-footer p-2 text-nowrap">
     <a href="/" target="_blank" class="text-white embedable-footer__brand">
-      <img src="@/assets/images/icij-white@2x.png" height="20" class="mr-2" />
+      <img src="../assets/images/icij-white@2x.png" height="20" class="mr-2" />
       {{ title }}
     </a>
     <div class="embedable-footer__lead small text-truncate" v-html="lead"></div>

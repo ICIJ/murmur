@@ -5,31 +5,49 @@
         <h4 class="mt-4">Components</h4>
         <ul class="list-unstyled">
           <li>
-            <a href="#section-contentplaceholder">Content Placeholder</a>
+            <router-link to="/content-placeholder">
+              Content Placeholder
+            </router-link>
           </li>
           <li>
-            <a href="#section-donateform">Donate Form</a>
+            <router-link to="/donate-form">
+              Donate Form
+            </router-link>
           </li>
           <li>
-            <a href="#section-embedablefooter">Embedable Footer</a>
+            <router-link to="/embedable-footer">
+              Embedable Footer
+            </router-link>
           </li>
           <li>
-            <a href="#section-embedform">Embed Form</a>
+            <router-link to="/embed-form">
+              Embed Form
+            </router-link>
           </li>
           <li>
-            <a href="#section-followuspopover">Follow Us Popover</a>
+            <router-link to="/follow-us-popover">
+              Follow Us Popover
+            </router-link>
           </li>
           <li>
-            <a href="#section-genericfooter">Generic Footer</a>
+            <router-link to="/generic-footer">
+              Generic Footer
+            </router-link>
           </li>
           <li>
-            <a href="#section-mainheader">Main Header</a>
+            <router-link to="/main-header">
+              Main Header
+            </router-link>
           </li>
           <li>
-            <a href="#section-sharingoptions">Sharing Options</a>
+            <router-link to="/sharing-options">
+              Sharing Options
+            </router-link>
           </li>
           <li>
-            <a href="#section-signupform">Sign Up Form</a>
+            <router-link to="/sign-up-form">
+              Sign Up Form
+            </router-link>
           </li>
         </ul>
       </div>
@@ -37,104 +55,11 @@
         <div class="container">
           <div class="border-bottom py-4 my-4">
             <h1>ICIJ Vue Collection</h1>
-            <p class="lead m-0">A collection of Vue components and utilities function by the ICIJ team.</p>
+            <p class="lead m-0">
+              A collection of Vue components and utilities function by the ICIJ team.
+            </p>
           </div>
-          <section class="mb-5">
-            <h3 id="section-contentplaceholder">Content Placeholder</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card card-block card-xs">
-              <content-placeholder class="m-2"></content-placeholder>
-              <content-placeholder class="m-2"></content-placeholder>
-              <content-placeholder class="m-2"></content-placeholder>
-              <content-placeholder class="m-2"></content-placeholder>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-donateform">Donate Form</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card">
-              <donate-form></donate-form>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-embedablefooter">Embedable Footer</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card">
-              <embedable-footer class="position-relative"></embedable-footer>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-embedform">Embed Form</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card card-sm py-2">
-              <embed-form url="about:blank" no-preview></embed-form>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-followuspopover">Follow Us Popover</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card d-inline-block">
-              <follow-us-popover></follow-us-popover>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-genericfooter">Generic Footer</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card w-100">
-              <generic-footer></generic-footer>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-mainheader">Main Header</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card d-inline-block w-100">
-              <main-header no-headroom position="relative"></main-header>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-sharingoptions">Sharing Options</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card card-body d-inline-block">
-              <sharing-options class="justify-content-center"></sharing-options>
-            </div>
-          </section>
-
-          <section class="mb-5">
-            <h3 id="section-signupform">Sign Up Form</h3>
-            <p class="mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            <div class="card card-body card-xs d-inline-block">
-              <sign-up-form></sign-up-form>
-            </div>
-            <div class="card card-body card-xs d-inline-block">
-              <sign-up-form horizontal></sign-up-form>
-            </div>
-          </section>
-
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -142,28 +67,8 @@
 </template>
 
 <script>
-import ContentPlaceholder from '@/components/ContentPlaceholder.vue'
-import DonateForm from '@/components/DonateForm.vue'
-import EmbedableFooter from '@/components/EmbedableFooter.vue'
-import EmbedForm from '@/components/EmbedForm.vue'
-import FollowUsPopover from '@/components/FollowUsPopover.vue'
-import GenericFooter from '@/components/GenericFooter.vue'
-import MainHeader from '@/components/MainHeader.vue'
-import SharingOptions from '@/components/SharingOptions.vue'
-import SignUpForm from '@/components/SignUpForm.vue'
 
 export default {
   name: 'app',
-  components: {
-    ContentPlaceholder,
-    DonateForm,
-    EmbedableFooter,
-    EmbedForm,
-    FollowUsPopover,
-    GenericFooter,
-    MainHeader,
-    SharingOptions,
-    SignUpForm
-  }
 }
 </script>
