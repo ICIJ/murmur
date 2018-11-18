@@ -1,13 +1,17 @@
 var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
+var VueLoaderPlugin = require('vue-loader/lib/plugin')
 var vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+process.traceDeprecation = true
+
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
     docs: './docs/main.js',
     ['icij-vue-collection']: './src/lib.js'
@@ -76,5 +80,8 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
 }
