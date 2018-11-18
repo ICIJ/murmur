@@ -1,7 +1,6 @@
 const { join } = require('path')
 const resolve = filepath => join(__dirname, filepath)
 
-
 module.exports = {
   // The app use hashbang routes so we can have relative path in BASE_URL
   baseUrl: './',

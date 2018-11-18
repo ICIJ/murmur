@@ -1,29 +1,25 @@
-# vue-collection
+# ICIJ Vue Collection
 
-## Project setup
-```
-yarn install
-```
+> A collection of Vue components from ICIJ team
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+## Build Setup
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+``` bash
+# install dependencies
+yarn
 
-### Run your tests
-```
-yarn run test
-```
+# serve with hot reload at localhost:8080
+yarn serve
 
-### Lints and fixes files
-```
-yarn run lint
-```
+# build for production with minification
+yarn build
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# build for production and view the bundle analyzer report
+yarn build --report
+
+# deploy the doc on Github Pages
+yarn deploy
+
+# publish a vestion of the package on NPM registry
+yarn publish
+```

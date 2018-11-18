@@ -7,10 +7,13 @@
   "private": false,
   "license": "MIT",
   "scripts": {
+    "prepublishOnly": "yarn build",
+    "postpublish": "yarn deploy",
     "serve": "vue-cli-service serve",
     "build": "yarn build:docs && yarn build:lib",
     "build:docs": "vue-cli-service build --dest dist/docs",
     "build:lib": "vue-cli-service build --target lib --dest dist/lib 'src/main.js'",
+    "deploy": "node deploy.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
