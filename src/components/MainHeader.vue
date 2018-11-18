@@ -17,20 +17,8 @@
               <template slot="button-content">
                 {{ title }}
               </template>
-              <b-dropdown-item href="#">
-                Graphics
-              </b-dropdown-item>
-              <b-dropdown-item href="#">
-                Overview
-              </b-dropdown-item>
-              <b-dropdown-item href="#">
-                Visual overview
-              </b-dropdown-item>
-              <b-dropdown-item href="#">
-                Backgrounder
-              </b-dropdown-item>
-              <b-dropdown-item href="#">
-                About this project
+              <b-dropdown-item v-for="(item, $index) in dropdownItems"  :key="$index" :href="item.href" v-bind="{ active: !!item.active }">
+                {{ item.label }}
               </b-dropdown-item>
             </b-nav-dropdown>
           </ul>
@@ -103,6 +91,10 @@
       title: {
         type: String,
         default: () => config.get('appName')
+      },
+      dropdownItems: {
+        type: Array,
+        default: () => config.get('mainHeaderDropdownItems')
       }
     },
     data () {
