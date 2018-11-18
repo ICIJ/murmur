@@ -38,7 +38,7 @@
           <p>
             Copy the code bellow to embed this on your website.
           </p>
-          <textarea class="form-control embed-form__code mb-2" readonly @click="selectCode">{{ embedCode() }}</textarea>
+          <textarea class="form-control embed-form__code mb-2" readonly @click="selectCode" :value="embedCode()"></textarea>
 
           <label class="custom-control custom-checkbox btn btn-sm float-left">
             <input type="checkbox" class="custom-control-input" v-model="responsiveCheck">

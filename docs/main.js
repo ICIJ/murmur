@@ -12,8 +12,6 @@ Vue.use(VueRouter)
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  template: '<App/>',
-  components: { App },
+  render: h => h(App),
   router: new VueRouter({ routes })
-})
+}).$mount('#app')
