@@ -8,6 +8,11 @@ export default {
   ],
   projectName: 'Secret Papers',
   appName: 'Awesome App',
+  sharingUrl: null,
+  sharingTitle: 'Awesome App by ICIJ',
+  sharingDescription: 'null',
+  sharingMedia: null,
+  sharingTwitterUser: 'ICIJorg',
   signupFormTracker: 'EXTERNAL',
   signupFormAction: 'https://icij.us15.list-manage.com/subscribe/post?u=0d48a33b1c24d257734cc2a79&id=992ecfdbb2',
   donateFormIntroduction: `ICIJ’s investigations are supported by readers like you. Help keep our

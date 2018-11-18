@@ -39,10 +39,12 @@
 <script>
   import bModal from 'bootstrap-vue/es/components/modal/modal'
   import SocialSharing from 'vue-social-sharing';
-
   import get from 'lodash/get'
   import reduce from 'lodash/reduce'
+
   import EmbedForm from './EmbedForm.vue'
+  import config from '../config'
+  import IframeResizer from '../utils/iframe-resizer'
 
   export default {
     name: 'SharingOptions',
@@ -54,7 +56,7 @@
     props: {
       url: {
         type: String,
-        default: window.location.href
+        default: () => config.get('sharingUrl', null) || IframeResizer.deletePymParams()
       },
       direction: {
         default: 'row',
@@ -63,7 +65,12 @@
         }
       },
       values: {
-        default: () => ({}),
+        default: () => ({
+          'title': config.get('sharingTitle'),
+          'description': config.get('sharingDescription'),
+          'media': config.get('sharingMedia'),
+          'twitter-user': config.get('sharingTwitterUser'),
+        }),
         type: Object
       },
       valuesKeys: {
