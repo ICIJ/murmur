@@ -30,7 +30,7 @@ export default {
   props: {
     action: {
       type: String,
-      default: () => config.get('signupFormAction')
+      default: () => config.get('signup-form.action')
     },
     noLabel: {
       type: Boolean
@@ -40,7 +40,7 @@ export default {
     },
     tracker: {
       type: String,
-      default: () => config.get('signupFormTracker')
+      default: () => config.get('signup-form.tracker')
     }
   },
   data () {

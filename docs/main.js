@@ -3,6 +3,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import config from '@/config'
+
+config.set('project.yolo.name', 'Demo Project')
+console.log(config.scope('project').scope('yolo').values())
+
 import App from './components/app'
 import routes from './routes'
 import './styles/app.scss'

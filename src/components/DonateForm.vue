@@ -153,7 +153,7 @@
       },
       introduction: {
         type: String,
-        default: () => config.get('donateFormIntroduction')
+        default: () => config.get('donate-form.introduction')
       }
     },
     data() {

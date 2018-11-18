@@ -86,15 +86,15 @@
       },
       project: {
         type: String,
-        default: () => config.get('projectName')
+        default: () => config.get('project.name')
       },
       title: {
         type: String,
-        default: () => config.get('appName')
+        default: () => config.get('app.name')
       },
       dropdownItems: {
         type: Array,
-        default: () => config.get('mainHeaderDropdownItems')
+        default: () => config.get('main-header.dropdown.items')
       }
     },
     data () {

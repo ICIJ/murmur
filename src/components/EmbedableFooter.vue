@@ -26,7 +26,7 @@
     props: {
       title: {
         type: String,
-        default: () => config.get('projectName')
+        default: () => config.get('project.name')
       },
       lead: {
         type: String,

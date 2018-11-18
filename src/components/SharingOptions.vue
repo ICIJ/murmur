@@ -56,7 +56,7 @@
     props: {
       url: {
         type: String,
-        default: () => config.get('sharingUrl', null) || IframeResizer.deletePymParams()
+        default: () => config.get('sharing-options.url', null) || IframeResizer.deletePymParams()
       },
       direction: {
         default: 'row',
@@ -66,10 +66,10 @@
       },
       values: {
         default: () => ({
-          'title': config.get('sharingTitle'),
-          'description': config.get('sharingDescription'),
-          'media': config.get('sharingMedia'),
-          'twitter-user': config.get('sharingTwitterUser'),
+          'title': config.get('sharing-options.title'),
+          'description': config.get('sharing-options.description'),
+          'media': config.get('sharing-options.media'),
+          'twitter-user': config.get('sharing-options.twitter-user'),
         }),
         type: Object
       },
