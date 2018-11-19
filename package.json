@@ -1,6 +1,6 @@
 {
   "name": "icij-vue-collection",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "A collection of Vue component from ICIJ team",
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.umd.min.js",
