@@ -52,7 +52,7 @@
         </ul>
       </div>
       <div class="col">
-        <div class="container">
+        <div class="app__main">
           <div class="border-bottom py-4 my-4">
             <h1>ICIJ Vue Collection</h1>
             <p class="lead m-0">
@@ -67,8 +67,16 @@
 </template>
 
 <script>
-
 export default {
   name: 'app',
 }
 </script>
+
+<style lang="scss" scoped>
+  .app {
+    &__main {
+      max-width: 770px;
+      margin: auto;
+    }
+  }
+</style>

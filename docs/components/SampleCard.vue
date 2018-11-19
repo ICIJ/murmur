@@ -7,8 +7,10 @@
       {{ description }}
     </p>
     <div class="sample-card__body card">
-      <slide-up-down :active="collapseCode" class="sample-card__body__render bg-light" :duration="200">
-        <component :is="component" />
+      <slide-up-down :active="collapseCode" :duration="200">
+        <div class="sample-card__body__render bg-light">
+          <component :is="component" />
+        </div>
       </slide-up-down>
       <div class="sample-card__body__actions border-top row no-gutters">
         <button class="btn btn-sm font-weight-bold btn-primary col" @click="toggleCode()" :class="{ active: !collapseCode }">
@@ -69,6 +71,7 @@
   .sample-card {
 
     &__body {
+
       &__render {
         overflow: auto;
         max-width: 100%;

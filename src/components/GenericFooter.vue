@@ -2,12 +2,12 @@
   <footer class="generic-footer">
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
             <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo">
               <img src="../assets/images/icij@2x.png" class="mw-100" />
             </a>
-            International Consortium of Investigative Journalists
+            International&nbsp;Consortium of Investigative&nbsp;Journalists
           </h5>
           <p class="">
             1710 Rhode Island Ave NW | 11th floor <br />
@@ -19,7 +19,7 @@
             </strong>
           </p>
         </div>
-        <div class="col-md-6 offset-md-2">
+        <div class="col-md-7">
           <div class="row justify-content-end">
             <div class="col-md-5">
               <h5 class="text-icij-primary text-uppercase mb-3">

@@ -1,21 +1,25 @@
 <template>
   <div>
-    <h3 id="section-genericfooter">Generic Footer</h3>
-    <p class="mb-2">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    </p>
-    <div class="card w-100">
-      <generic-footer></generic-footer>
-    </div>
+    <h3>Generic Footer</h3>
+    <sample-card description="" :component="sample" :code="code"></sample-card>
   </div>
 </template>
 
 <script>
-  import GenericFooter from '@/components/GenericFooter'
+  import SampleCard from '../SampleCard.vue'
+
+  import sample from './sample.vue'
+  import code from '!!raw-loader!./sample.vue'
 
   export default {
     components: {
-      GenericFooter
+      SampleCard
+    },
+    data () {
+      return {
+        sample,
+        code
+      }
     }
   }
 </script>
