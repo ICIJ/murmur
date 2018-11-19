@@ -65,13 +65,8 @@
         }
       },
       values: {
-        default: () => ({
-          'title': config.get('sharing-options.title'),
-          'description': config.get('sharing-options.description'),
-          'media': config.get('sharing-options.media'),
-          'twitter-user': config.get('sharing-options.twitter-user'),
-        }),
-        type: Object
+        type: Object,
+        default: () => ({})
       },
       valuesKeys: {
         default: () => ['title', 'description', 'media', 'twitter-user'],
@@ -85,6 +80,9 @@
       },
       iframeMinWidth: {
         type: Number
+      },
+      noMeta: {
+        type: Boolean
       }
     },
     methods: {
@@ -93,16 +91,29 @@
         return this.$refs.embedForm.show()
       },
       valuesFor (network) {
-        return reduce(this.valuesKeys, (values, key) => {
-          values[key] = get(this.values, `${network}_${key}`, this.values[key])
-          return values
+        const values = Object.assign(this.metaValues, this.values)
+        return reduce(this.valuesKeys, (res, key) => {
+          res[key] = get(values, `${network}_${key}`, values[key])
+          return res
         }, {})
+      },
+      defaultValueFor(key, metaSelector = 'meta[name="description"]') {
+        const meta = document.head.querySelector(metaSelector)
+        return this.noMeta ? config.get(key) : get(meta, 'content', config.get(key))
       }
     },
     computed: {
       style () {
         return {
           'flex-direction': this.direction
+        }
+      },
+      metaValues () {
+        return {
+          'title': this.defaultValueFor('sharing-options.title', 'meta[property="og:title"]'),
+          'description': this.defaultValueFor('sharing-options.description', 'meta[property="og:description"]'),
+          'media':  this.defaultValueFor('sharing-options.media', 'meta[property="og:image"]'),
+          'twitter-user': this.defaultValueFor('sharing-options.twitter-user', 'meta[name="twitter:site"]')
         }
       }
     }
