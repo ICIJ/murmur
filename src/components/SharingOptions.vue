@@ -97,9 +97,11 @@
           return res
         }, {})
       },
-      defaultValueFor(key, metaSelector = 'meta[name="description"]') {
-        const meta = document.head.querySelector(metaSelector)
-        return this.noMeta ? config.get(key) : get(meta, 'content', config.get(key))
+      defaultValueFor(key, metaSelector = null) {
+        if (this.noMeta || !metaSelector) {
+          return config.get(key)
+        }
+        return get(document.head.querySelector(metaSelector), 'content', config.get(key))
       }
     },
     computed: {
@@ -110,10 +112,13 @@
       },
       metaValues () {
         return {
-          'title': this.defaultValueFor('sharing-options.title', 'meta[property="og:title"]'),
-          'description': this.defaultValueFor('sharing-options.description', 'meta[property="og:description"]'),
-          'media':  this.defaultValueFor('sharing-options.media', 'meta[property="og:image"]'),
-          'twitter-user': this.defaultValueFor('sharing-options.twitter-user', 'meta[name="twitter:site"]')
+          'title': this.defaultValueFor('sharing-options.title'),
+          'description': this.defaultValueFor('sharing-options.description', 'meta[name="description]'),
+          'facebook_title': this.defaultValueFor('sharing-options.facebook_title', 'meta[property="og:title"]'),
+          'facebook_description': this.defaultValueFor('sharing-options.description', 'meta[property="og:description"]'),
+          'facebook_media':  this.defaultValueFor('sharing-options.media', 'meta[property="og:image"]'),
+          'twitter_media':  this.defaultValueFor('sharing-options.media', 'meta[name="twitter:image"]'),
+          'twitter_twitter-user': this.defaultValueFor('sharing-options.twitter-user', 'meta[name="twitter:site"]')
         }
       }
     }

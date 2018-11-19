@@ -9,7 +9,7 @@
       <i class="fas fa-share-alt"></i>
       <span class="sr-only">Share</span>
     </button>
-    <sharing-options v-if="showShareOptions" direction="column-reverse" :iframe-min-height="iframeMinHeight" :iframe-min-width="iframeMinWidth"></sharing-options>
+    <sharing-options :value="sharingOptionsValues" v-if="showShareOptions" direction="column-reverse" :iframe-min-height="iframeMinHeight" :iframe-min-width="iframeMinWidth"></sharing-options>
   </div>
 </template>
 
@@ -41,6 +41,10 @@
       homeUrl: {
         type: String,
         default: () => config.get('app.home')
+      },
+      sharingOptionsValues: {
+        type: Object,
+        default: () => ({})
       }
     },
     data () {
