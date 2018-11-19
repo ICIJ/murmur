@@ -9,7 +9,7 @@
       <i class="fas fa-share-alt"></i>
       <span class="sr-only">Share</span>
     </button>
-    <sharing-options :value="sharingOptionsValues" v-if="showShareOptions" direction="column-reverse" :iframe-min-height="iframeMinHeight" :iframe-min-width="iframeMinWidth"></sharing-options>
+    <sharing-options :values="sharingOptionsValues" v-if="showShareOptions" direction="column-reverse" :iframe-min-height="iframeMinHeight" :iframe-min-width="iframeMinWidth"></sharing-options>
   </div>
 </template>
 
