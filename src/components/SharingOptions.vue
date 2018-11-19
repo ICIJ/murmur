@@ -94,7 +94,7 @@
       },
       valuesFor (network) {
         return reduce(this.valuesKeys, (values, key) => {
-          values[key] = get(this.values, `${network}.${key}`, this.values[key])
+          values[key] = get(this.values, `${network}_${key}`, this.values[key])
           return values
         }, {})
       }
