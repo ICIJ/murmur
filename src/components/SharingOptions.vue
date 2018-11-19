@@ -1,24 +1,24 @@
 <template>
   <div class="sharing-options" :style="style">
-    <social-sharing v-bind="valuesFor('twitter')" :url="url" inline-template>
+    <social-sharing v-bind="valuesFor('twitter')" inline-template>
       <network network="twitter" class="sharing-options__link">
         <i class="fab fa-twitter"></i>
         <span class="sr-only">Share on Twitter</span>
       </network>
     </social-sharing>
-    <social-sharing v-bind="valuesFor('facebook')" :url="url" inline-template>
+    <social-sharing v-bind="valuesFor('facebook')" inline-template>
       <network network="facebook" class="sharing-options__link">
         <i class="fab fa-facebook"></i>
         <span class="sr-only">Share on Facebook</span>
       </network>
     </social-sharing>
-    <social-sharing v-bind="valuesFor('linkedin')" :url="url" inline-template>
+    <social-sharing v-bind="valuesFor('linkedin')" inline-template>
       <network network="linkedin" class="sharing-options__link">
         <i class="fab fa-linkedin"></i>
         <span class="sr-only">Share on Linkedin</span>
       </network>
     </social-sharing>
-    <social-sharing v-bind="valuesFor('email')" :url="url" inline-template>
+    <social-sharing v-bind="valuesFor('email')" inline-template>
       <network network="email" class="sharing-options__link">
         <i class="fas fa-envelope"></i>
         <span class="sr-only">Share by email</span>
@@ -69,7 +69,7 @@
         default: () => ({})
       },
       valuesKeys: {
-        default: () => ['title', 'description', 'media', 'twitter-user'],
+        default: () => ['url', 'title', 'description', 'media', 'twitter-user'],
         type: Array
       },
       noEmbed: {
@@ -112,11 +112,13 @@
       },
       metaValues () {
         return {
+          'url': this.url,
           'title': this.defaultValueFor('sharing-options.title'),
           'description': this.defaultValueFor('sharing-options.description', 'meta[name="description]'),
           'facebook_title': this.defaultValueFor('sharing-options.facebook_title', 'meta[property="og:title"]'),
           'facebook_description': this.defaultValueFor('sharing-options.description', 'meta[property="og:description"]'),
           'facebook_media':  this.defaultValueFor('sharing-options.media', 'meta[property="og:image"]'),
+          'facebook_url':  this.defaultValueFor('app.home', 'meta[property="og:url"]'),
           'twitter_media':  this.defaultValueFor('sharing-options.media', 'meta[name="twitter:image"]'),
           'twitter_twitter-user': this.defaultValueFor('sharing-options.twitter-user', 'meta[name="twitter:site"]')
         }
