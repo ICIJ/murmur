@@ -7,7 +7,10 @@
             <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo">
               <img src="../assets/images/icij@2x.png" class="mw-100" />
             </a>
-            International&nbsp;Consortium of Investigative&nbsp;Journalists
+            <a class="text-nowrap" href="https://icij.org" target="_blank">
+              International Consortium of<br />
+              Investigative Journalists
+            </a>
           </h5>
           <p class="">
             1710 Rhode Island Ave NW | 11th floor <br />
@@ -118,7 +121,7 @@ export default {
 
     h5 {
       font-family: $font-family-sans-serif;
-      font-size: 18px;
+      font-size: 1rem;
     }
 
     &__icij {
@@ -126,11 +129,19 @@ export default {
       justify-content: start;
       align-items: center;
 
+      @include media-breakpoint-down(xs) {
+        display: block;
+      }
+
       &__logo {
         display: block;
         width: 54px;
         flex: 0 0 54px;
         margin-right: 8px;
+
+        @include media-breakpoint-down(xs) {
+          margin-bottom: $spacer;
+        }
       }
     }
   }
