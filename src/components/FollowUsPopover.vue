@@ -1,7 +1,7 @@
 <template>
   <div class="follow-us">
     <button class="btn btn-link text-light follow-us__close" @click="closeSignupPopover">
-      <i class="fas fa-times"></i>
+      <fa icon="times" />
     </button>
     <sign-up-form class="p-3"></sign-up-form>
     <div class="px-3 pb-1 text-uppercase text-muted font-weight-bold">
@@ -11,19 +11,19 @@
       <div class="row">
         <div class="col">
           <a href="https://twitter.com/icijorg" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Twitter">
-            <i class="fab fa-twitter"></i>
+            <fa :icon="['fab', 'twitter']" />
             <span class="sr-only">Twitter</span>
           </a>
         </div>
         <div class="col">
           <a href="https://www.facebook.com/ICIJ.org" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Facebook">
-            <i class="fab fa-facebook"></i>
+            <fa :icon="['fab', 'facebook']" />
             <span class="sr-only">Facebook</span>
           </a>
         </div>
         <div class="col">
           <a href="https://www.linkedin.com/company/1732242/" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Linkedin">
-            <i class="fab fa-linkedin"></i>
+            <fa :icon="['fab', 'linkedin']" />
             <span class="sr-only">Linkedin</span>
           </a>
         </div>
@@ -33,19 +33,21 @@
 </template>
 
 <script>
+  import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
   import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
   import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
   import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
   import SignUpForm from './SignUpForm.vue'
 
-  import { library } from '@/components/FontAwesomeIcon'
-  library.add(faTwitter, faFacebook, faLinkedin)
+  import { library, default as Fa } from '@/components/Fa'
+  library.add(faTimes, faTwitter, faFacebook, faLinkedin)
 
   export default {
     name: 'FollowUsPopover',
     components: {
-      SignUpForm,
+      Fa,
+      SignUpForm
     },
     methods: {
       closeSignupPopover() {

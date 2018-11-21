@@ -6,7 +6,7 @@
     </a>
     <div class="embedable-footer__lead small text-truncate" v-html="lead"></div>
     <button class="btn btn-link text-white btn-sm py-0 embedable-footer__share-btn" @click="showShareOptions = !showShareOptions" :class="{ active: showShareOptions }">
-      <i class="fas fa-share-alt"></i>
+      <fa icon="share-alt" />
       <span class="sr-only">Share</span>
     </button>
     <sharing-options :values="sharingOptionsValues" v-if="showShareOptions" direction="column-reverse" :iframe-min-height="iframeMinHeight" :iframe-min-width="iframeMinWidth"></sharing-options>
@@ -19,14 +19,15 @@
   import IframeResizer from '../utils/iframe-resizer'
   import SharingOptions from './SharingOptions'
   import config from '../config'
-  
-  import { library } from '@/components/FontAwesomeIcon'
+
+  import { library, default as Fa } from '@/components/Fa'
   library.add(faShareAlt)
 
   export default {
     name: 'EmbedableFooter',
     components: {
-      SharingOptions,
+      Fa,
+      SharingOptions
     },
     props: {
       title: {

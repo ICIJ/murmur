@@ -14,12 +14,12 @@
       </slide-up-down>
       <div class="sample-card__body__actions border-top row no-gutters">
         <button class="btn btn-sm font-weight-bold btn-primary col" @click="toggleCode()" :class="{ active: !collapseCode }">
-          <i class="fas fa-code mr-1"></i>
+          <fa icon="code" class="mr-1" />
           <span v-if="collapseCode">Show code</span>
           <span v-if="!collapseCode">Hide code</span>
         </button>
         <button class="btn btn-sm font-weight-bold btn-primary col" @click="$copyText(code)">
-          <i class="fas fa-paste"></i>
+          <fa icon="paste" class="mr-1" />
           Copy
         </button>
       </div>
@@ -35,13 +35,14 @@
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
   import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
 
-  import { library } from '@/components/FontAwesomeIcon'
+  import { library, default as Fa } from '@/components/Fa'
   library.add(faCode, faPaste)
 
   export default {
     name: 'SampleCard',
     components: {
-      SlideUpDown
+      SlideUpDown,
+      Fa
     },
     props: {
       title: {

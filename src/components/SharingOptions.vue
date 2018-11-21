@@ -2,31 +2,31 @@
   <div class="sharing-options" :style="style">
     <social-sharing v-bind="valuesFor('twitter')" inline-template>
       <network network="twitter" class="sharing-options__link">
-        <i class="fab fa-twitter"></i>
+        <fa :icon="['fab', 'twitter']" />
         <span class="sr-only">Share on Twitter</span>
       </network>
     </social-sharing>
     <social-sharing v-bind="valuesFor('facebook')" inline-template>
       <network network="facebook" class="sharing-options__link">
-        <i class="fab fa-facebook"></i>
+        <fa :icon="['fab', 'facebook']" />
         <span class="sr-only">Share on Facebook</span>
       </network>
     </social-sharing>
     <social-sharing v-bind="valuesFor('linkedin')" inline-template>
       <network network="linkedin" class="sharing-options__link">
-        <i class="fab fa-linkedin"></i>
+        <fa :icon="['fab', 'linkedin']" />
         <span class="sr-only">Share on Linkedin</span>
       </network>
     </social-sharing>
     <social-sharing v-bind="valuesFor('email')" inline-template>
       <network network="email" class="sharing-options__link">
-        <i class="fas fa-envelope"></i>
+        <fa icon="envelope" />
         <span class="sr-only">Share by email</span>
       </network>
     </social-sharing>
     <div class="sharing-options__link" v-show="!noEmbed">
       <a @click="showEmbedForm">
-        <i class="fas fa-code"></i>
+        <fa icon="code" />
         <span class="sr-only">Embed</span>
       </a>
     </div>
@@ -52,14 +52,17 @@
   import config from '../config'
   import IframeResizer from '../utils/iframe-resizer'
 
-  import { library } from '@/components/FontAwesomeIcon'
+  import { library, default as Fa } from '@/components/Fa'
   library.add(faCode, faEnvelope, faTwitter, faFacebook, faLinkedin)
+
+  SocialSharing.components.Fa = Fa
 
   export default {
     name: 'SharingOptions',
     components: {
       bModal,
       EmbedForm,
+      Fa,
       SocialSharing
     },
     props: {

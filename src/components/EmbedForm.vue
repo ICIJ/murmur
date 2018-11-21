@@ -49,7 +49,7 @@
 
           <div class="text-right">
             <button class="btn btn-link btn-sm text-uppercase font-weight-bold" @click="copyEmbedCode">
-              <i class="fas fa-clipboard"></i>
+              <fa icon="clipboard" />
               Copy
             </button>
           </div>
@@ -63,12 +63,12 @@
 </template>
 
 <script>
-import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
+  import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import VueClipboard from 'vue-clipboard2'
   import Vue from 'vue'
 
   import IframeResizer from '@/utils/iframe-resizer'
-  import { library } from '@/components/FontAwesomeIcon'
+  import { library, default as Fa } from '@/components/Fa'
   library.add(faClipboard)
 
   Vue.use(VueClipboard)
@@ -79,6 +79,9 @@ import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
       return {
         responsiveCheck: false
       }
+    },
+    components: {
+      Fa
     },
     props: {
       noTitle: {
