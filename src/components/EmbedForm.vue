@@ -63,9 +63,13 @@
 </template>
 
 <script>
-  import IframeResizer from '../utils/iframe-resizer'
+import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import VueClipboard from 'vue-clipboard2'
   import Vue from 'vue'
+
+  import IframeResizer from '@/utils/iframe-resizer'
+  import { library } from '@/components/FontAwesomeIcon'
+  library.add(faClipboard)
 
   Vue.use(VueClipboard)
 

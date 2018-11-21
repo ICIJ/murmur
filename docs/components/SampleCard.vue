@@ -32,6 +32,11 @@
 
 <script>
   import SlideUpDown from 'vue-slide-up-down'
+  import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+  import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
+
+  import { library } from '@/components/FontAwesomeIcon'
+  library.add(faCode, faPaste)
 
   export default {
     name: 'SampleCard',

@@ -42,9 +42,18 @@
   import get from 'lodash/get'
   import reduce from 'lodash/reduce'
 
+  import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
+  import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope'
+  import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
+  import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
+  import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
+
   import EmbedForm from './EmbedForm.vue'
   import config from '../config'
   import IframeResizer from '../utils/iframe-resizer'
+
+  import { library } from '@/components/FontAwesomeIcon'
+  library.add(faCode, faEnvelope, faTwitter, faFacebook, faLinkedin)
 
   export default {
     name: 'SharingOptions',

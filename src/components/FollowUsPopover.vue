@@ -33,7 +33,14 @@
 </template>
 
 <script>
+  import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
+  import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
+  import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
+
   import SignUpForm from './SignUpForm.vue'
+
+  import { library } from '@/components/FontAwesomeIcon'
+  library.add(faTwitter, faFacebook, faLinkedin)
 
   export default {
     name: 'FollowUsPopover',

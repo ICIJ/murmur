@@ -14,9 +14,14 @@
 </template>
 
 <script>
+  import { faShareAlt } from '@fortawesome/free-solid-svg-icons/faShareAlt'
+
   import IframeResizer from '../utils/iframe-resizer'
   import SharingOptions from './SharingOptions'
   import config from '../config'
+  
+  import { library } from '@/components/FontAwesomeIcon'
+  library.add(faShareAlt)
 
   export default {
     name: 'EmbedableFooter',
