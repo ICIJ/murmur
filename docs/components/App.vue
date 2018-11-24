@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container-fluid">
     <div class="row">
-      <div class="col-2 border-right">
+      <div class="col-2 d-none d-md-block border-right">
         <h4 class="mt-4">Components</h4>
         <ul class="list-unstyled">
           <li>

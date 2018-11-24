@@ -1,21 +1,26 @@
 <template>
   <div>
-    <h3 id="section-mainheader">Main Header</h3>
-    <p class="mb-2">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    </p>
-    <div class="card d-inline-block w-100">
-      <main-header no-headroom position="relative"></main-header>
-    </div>
+    <h3>Main Header</h3>
+    <p class="text-muted">A component to create header with generic features.</p>
+    <sample-card title="" description="" :component="sample" :code="code"></sample-card>
   </div>
 </template>
 
 <script>
-  import MainHeader from '@/components/MainHeader'
+  import SampleCard from '../SampleCard.vue'
+
+  import sample from './sample.vue'
+  import code from '!!raw-loader!./sample.vue'
 
   export default {
     components: {
-      MainHeader
+      SampleCard
+    },
+    data () {
+      return {
+        sample,
+        code
+      }
     }
   }
 </script>

@@ -13,7 +13,7 @@
       <div class="navbar-collapse" :class="{ collapse: collapseNavbar }">
         <slot name="navbar">
           <ul class="navbar-nav mr-auto">
-            <b-nav-dropdown>
+            <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
               <template slot="button-content">
                 {{ title }}
               </template>
@@ -113,6 +113,8 @@
       },
       toggleNavbar () {
         this.collapseNavbar = !this.collapseNavbar
+        this.$root.$emit('bv::hide::popover')
+        this.$root.$emit('bv::hide::dropdwon')
       }
     },
     computed: {
@@ -132,7 +134,11 @@
     position: relative;
     top:0;
     width: 100%;
-    z-index: $zindex-sticky;
+    z-index: $zindex-sticky;    
+
+    .popover {
+      width: 100%;
+    }
 
     @include media-breakpoint-down(md) {
       background: $mercury;
@@ -184,8 +190,11 @@
       margin: 0;
     }
 
-    .dropdown .nav-link {
+    .dropdown-item {
+      white-space: normal;
+    }
 
+    .dropdown .nav-link {
 
       @include media-breakpoint-up(lg) {
         font-size: 1.2rem;
