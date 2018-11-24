@@ -134,7 +134,7 @@
     position: relative;
     top:0;
     width: 100%;
-    z-index: $zindex-sticky;    
+    z-index: $zindex-sticky;
 
     .popover {
       width: 100%;
@@ -192,6 +192,12 @@
 
     .dropdown-item {
       white-space: normal;
+      width: 440px;
+      max-width: 90vw;
+
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
     }
 
     .dropdown .nav-link {

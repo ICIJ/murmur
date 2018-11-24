@@ -2,7 +2,8 @@
   <div>
     <h3>Main Header</h3>
     <p class="text-muted">A component to create header with generic features.</p>
-    <sample-card title="" description="" :component="sample" :code="code"></sample-card>
+    <component :is="sample" class="mb-4"></component>
+    <sample-card title="" description="" :code="code"></sample-card>
   </div>
 </template>
 

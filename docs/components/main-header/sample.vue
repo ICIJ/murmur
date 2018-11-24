@@ -1,5 +1,5 @@
 <template>
-  <main-header no-headroom position="absolute">
+  <main-header no-headroom position="relative">
     <template slot="navbar">
       <ul class="navbar-nav mr-auto">
         <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
@@ -41,9 +41,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .card {
-    min-width: 800px;
-  }
-</style>

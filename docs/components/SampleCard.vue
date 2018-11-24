@@ -7,7 +7,7 @@
       {{ description }}
     </p>
     <div class="sample-card__body card">
-      <div v-if="collapseCode">
+      <div v-if="collapseCode && component">
         <div class="sample-card__body__render bg-light">
           <component :is="component" />
         </div>
@@ -52,8 +52,7 @@
         type: String
       },
       component: {
-        type: [Object, Function],
-        required: true
+        type: [Object, Function]
       },
       code: {
         type: String,
