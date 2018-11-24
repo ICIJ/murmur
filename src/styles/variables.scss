@@ -82,6 +82,7 @@ $popover-max-width: 300px !default;
 $popover-box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15) !default;
 $dropdown-link-active-bg: $punch !default;
 $dropdown-box-shadow: $popover-box-shadow !default;
+$dropdown-min-width: 14rem;
 
 $modal-backdrop-bg: #fff !default;
 $modal-lg: 990px !default;

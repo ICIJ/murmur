@@ -6,6 +6,7 @@ import FollowUsPopover from './components/FollowUsPopover.vue'
 import FontAwesomeIcon from './components/Fa'
 import GenericFooter from './components/GenericFooter.vue'
 import MainHeader from './components/MainHeader.vue'
+import ResponsiveIframe from './components/ResponsiveIframe.vue'
 import SharingOptions from './components/SharingOptions.vue'
 import SignUpForm from './components/SignUpForm.vue'
 
@@ -19,6 +20,7 @@ export { default as FollowUsPopover } from './components/FollowUsPopover.vue'
 export { default as FontAwesomeIcon } from './components/Fa'
 export { default as GenericFooter } from './components/GenericFooter.vue'
 export { default as MainHeader } from './components/MainHeader.vue'
+export { default as ResponsiveIframe } from './components/ResponsiveIframe.vue'
 export { default as SharingOptions } from './components/SharingOptions.vue'
 export { default as SignUpForm } from './components/SignUpForm.vue'
 
@@ -31,6 +33,7 @@ export const components = {
   FontAwesomeIcon,
   GenericFooter,
   MainHeader,
+  ResponsiveIframe,
   SharingOptions,
   SignUpForm,
 }

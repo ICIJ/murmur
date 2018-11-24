@@ -45,6 +45,11 @@
             </router-link>
           </li>
           <li>
+            <router-link to="/responsive-iframe">
+              Responsive Iframe
+            </router-link>
+          </li>
+          <li>
             <router-link to="/sign-up-form">
               Sign Up Form
             </router-link>

@@ -28,6 +28,10 @@ export default [
     component: () => import(/* webpackChunkName: "main-header" */ './components/main-header/doc.vue')
   },
   { 
+    path: '/responsive-iframe',
+    component: () => import(/* webpackChunkName: "responsive-iframe" */ './components/responsive-iframe/doc.vue')
+  },
+  { 
     path: '/sharing-options',
     component: () => import(/* webpackChunkName: "sharing-options" */ './components/sharing-options/doc.vue')
   },

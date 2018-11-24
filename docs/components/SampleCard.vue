@@ -7,11 +7,11 @@
       {{ description }}
     </p>
     <div class="sample-card__body card">
-      <slide-up-down :active="collapseCode" :duration="200">
+      <div v-if="collapseCode">
         <div class="sample-card__body__render bg-light">
           <component :is="component" />
         </div>
-      </slide-up-down>
+      </div>
       <div class="sample-card__body__actions border-top row no-gutters">
         <button class="btn btn-sm font-weight-bold btn-primary col" @click="toggleCode()" :class="{ active: !collapseCode }">
           <fa icon="code" class="mr-1" />
@@ -23,9 +23,9 @@
           Copy
         </button>
       </div>
-      <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark" :duration="200">
+      <div v-if="!collapseCode" class="sample-card__body__code bg-dark">
         <pre class="text-light p-2 m-0"><code>{{ code }}</code></pre>
-      </slide-up-down>
+      </div>
     </div>
   </div>
 </template>
