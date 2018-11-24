@@ -11,19 +11,19 @@
       <div class="row">
         <div class="col">
           <a href="https://twitter.com/icijorg" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Twitter">
-            <fa :icon="['fab', 'twitter']" />
+            <fa :icon="['fab', 'twitter']" size="lg" />
             <span class="sr-only">Twitter</span>
           </a>
         </div>
         <div class="col">
           <a href="https://www.facebook.com/ICIJ.org" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Facebook">
-            <fa :icon="['fab', 'facebook']" />
+            <fa :icon="['fab', 'facebook']" size="lg" />
             <span class="sr-only">Facebook</span>
           </a>
         </div>
         <div class="col">
           <a href="https://www.linkedin.com/company/1732242/" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Linkedin">
-            <fa :icon="['fab', 'linkedin']" />
+            <fa :icon="['fab', 'linkedin']" size="lg" />
             <span class="sr-only">Linkedin</span>
           </a>
         </div>
