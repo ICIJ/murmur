@@ -7,13 +7,13 @@ module.exports = {
   lintOnSave: false,
   chainWebpack: config => {
     config.entry('app').clear().add('./docs/main.js')
-    config.entry('lib').add('./src/main.js')
+    config.entry('lib').add('./lib/main.js')
     // Aliases configuration
     config.resolve.alias
       .set('node_modules', resolve('node_modules'))
-      .set('@', resolve('src'))
-      .set('@assets', resolve('src/assets'))
-      .set('@styles', resolve('src/styles'))
-      .set('@components', resolve('src/components'))
+      .set('@', resolve('lib'))
+      .set('@assets', resolve('lib/assets'))
+      .set('@styles', resolve('lib/styles'))
+      .set('@components', resolve('lib/components'))
   }
 }

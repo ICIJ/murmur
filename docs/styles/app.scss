@@ -8,7 +8,7 @@ $danger: #dc4b55;
 $info: #05808c;
 $light: #e5e3e3;
 
-@import '../../src/styles/lib.scss';
+@import '../../lib/styles/lib.scss';
 @import 'node_modules/bootstrap/scss/bootstrap';
 
 .card-xs {

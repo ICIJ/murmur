@@ -5,7 +5,7 @@
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.umd.min.js",
   "files": [
-    "src/**/*",
+    "lib/**/*",
     "dist/lib/**/*"
   ],
   "private": false,
