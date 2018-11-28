@@ -1,6 +1,6 @@
 <template>
   <div class="card m-4">
-    <responsive-iframe url="https://blog.apps.npr.org/pym.js/examples/table/child.html"></responsive-iframe>
+    <responsive-iframe url="https://projects-staging.cloud.icij.org/the-implant-files/graphics/#/adverse-events?no-embeddable-footer=1"></responsive-iframe>
   </div>
 </template>
 
