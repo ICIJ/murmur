@@ -1,5 +1,8 @@
 <template>
   <div class="docs-menu">
+    <a class="docs-menu__brand">
+      <img src="@/assets/images/icij-white.svg" />
+    </a>
     <h4 class="docs-menu__heading">
       Components
     </h4>
@@ -43,10 +46,21 @@
 
   .docs-menu {
     background: $docs-menu-bg;
-    padding: $spacer * 4 $spacer * 2;
+    padding:  $spacer * 2;
     min-height: 100vh;
     height: 100%;
     color: $docs-menu-color;
+
+    &__brand {
+      display: block;
+      border:1px solid $primary;
+      margin-bottom: $spacer * 3;
+      max-width: 110px;
+
+      img {
+        width: 100%;
+      }
+    }
 
     &__heading {
       font-size: 0.9rem;
@@ -64,7 +78,7 @@
         &__icon {
           color: $docs-menu-muted;
           margin-left: 0.25 * $spacer;
-          
+
           .router-link-active & {
             color: $primary;
           }
@@ -77,6 +91,7 @@
           &:hover {
             color: $docs-menu-color;
             text-decoration: none;
+
             &:before {
               background: rgba($docs-menu-muted, 0.1);
             }

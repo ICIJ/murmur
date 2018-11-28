@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <div class="row no-gutters">
-      <div class="col-2 d-none d-md-block">
+      <div class="col app__menu">
         <docs-menu></docs-menu>
       </div>
       <div class="col">
@@ -32,6 +32,11 @@ export default {
 
 <style lang="scss" scoped>
   .app {
+
+    &__menu {
+      max-width: 300px;
+    }
+
     &__main {
       max-width: 770px;
       margin: auto;

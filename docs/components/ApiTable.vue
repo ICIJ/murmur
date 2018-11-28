@@ -1,6 +1,8 @@
 <template>
   <section class="api-table">
-    <h3 class="api-table__heading">API</h3>
+    <h3 class="api-table__heading mb-3">
+      API
+    </h3>
     <template v-for="component in api">
       <div :key="component.title" class="api-table__component">
         <h4 v-if="component.title" class="api-table__component__heading">
@@ -98,6 +100,15 @@
 
       &__tabs {
 
+        .nav-item {
+          text-transform: uppercase;
+          font-size: 0.9rem;
+
+          .active {
+            font-weight: bolder;
+          }
+        }
+
         &__container {
           padding: $spacer / 2;
           overflow: auto;
@@ -113,7 +124,6 @@
                 min-width: 330px;
               }
             }
-
 
             td > span > code {
               white-space: nowrap;
