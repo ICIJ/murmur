@@ -7,11 +7,9 @@
       {{ description }}
     </p>
     <div class="sample-card__body card">
-      <div v-if="collapseCode && component">
-        <div class="sample-card__body__render bg-light">
-          <component :is="component" />
-        </div>
-      </div>
+      <slide-up-down :active="collapseCode && !!component" class="sample-card__body__render bg-light">
+        <component :is="component" />
+      </slide-up-down>
       <div class="sample-card__body__actions border-top row no-gutters">
         <button class="btn btn-sm font-weight-bold btn-primary col" @click="toggleCode()" :class="{ active: !collapseCode }">
           <fa icon="code" class="mr-1" />
@@ -23,19 +21,20 @@
           Copy
         </button>
       </div>
-      <div v-if="!collapseCode" class="sample-card__body__code bg-dark">
+      <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark">
         <pre class="text-light p-2 m-0"><code>{{ code }}</code></pre>
-      </div>
+      </slide-up-down>
     </div>
   </div>
 </template>
 
 <script>
-  import SlideUpDown from 'vue-slide-up-down'
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
   import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
 
   import { library, default as Fa } from '@/components/Fa'
+  import SlideUpDown from '@/components/SlideUpDown'
+
   library.add(faCode, faPaste)
 
   export default {
@@ -78,7 +77,7 @@
     &__body {
 
       &__render {
-        overflow: auto;
+        overflow: visible;
         max-width: 100%;
       }
     }

@@ -52,7 +52,6 @@
     "ora": "^3.0.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^7.0.1",
-    "vue-slide-up-down": "^1.4.1",
     "vue-template-compiler": "^2.5.17"
   },
   "eslintConfig": {

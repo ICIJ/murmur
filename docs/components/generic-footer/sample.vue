@@ -1,6 +1,6 @@
 <template>
-  <div class="card m-4">
-    <generic-footer></generic-footer>
+  <div class="full-width">
+    <generic-footer class="card m-4"></generic-footer>
   </div>
 </template>
 
@@ -15,7 +15,10 @@
 </script>
 
 <style lang="scss" scoped>
-  .card {
-    width: 100vw;
+  .full-width {
+    overflow: auto;
+    .generic-footer {
+      width: 100vw;
+    }
   }
 </style>
