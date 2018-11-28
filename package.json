@@ -1,6 +1,6 @@
 {
   "name": "icij-vue-collection",
-  "version": "0.0.31",
+  "version": "0.0.34",
   "description": "A collection of Vue component from ICIJ team",
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.umd.min.js",
@@ -16,7 +16,7 @@
     "serve": "vue-cli-service serve",
     "build": "yarn build:docs && yarn build:lib",
     "build:docs": "vue-cli-service build --dest dist/docs",
-    "build:lib": "vue-cli-service build --target lib --dest dist/lib 'src/main.js'",
+    "build:lib": "vue-cli-service build --target lib --dest dist/lib 'lib/main.js'",
     "deploy": "node deploy.js",
     "lint": "vue-cli-service lint"
   },
