@@ -1,6 +1,6 @@
 <template>
   <div class="content-placeholder" v-once>
-    <div class="content-placeholder__wrapper" :style="{backgroundSize: size}">
+    <div class="content-placeholder__wrapper" :style="{ backgroundSize: size }">
       <div class="content-placeholder__wrapper__row" :style="{height: row.height}" v-for="(row, r) in formattedRows" :key="r">
         <div :style="box.style" v-for="(box, b) in row.boxes" :key="b">
           <div v-if="box.subClass" :class="box.subClass"></div>
@@ -16,8 +16,7 @@ import { formatRows } from '../utils/placeholder.js'
 export default {
   props: {
     rows: {
-      type: Array,
-      required: false
+      type: Array
     },
     size: {
       type: String,

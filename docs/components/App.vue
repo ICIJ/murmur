@@ -64,7 +64,7 @@
               A collection of Vue components and utilities function by the ICIJ team.
             </p>
           </div>
-          <router-view></router-view>
+          <router-view class="mb-4"></router-view>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@
 
 <script>
   import SampleCard from '../SampleCard.vue'
+  import ApiTable from '../ApiTable.vue'
 
   import sampleModal from './sample-modal.vue'
   import codeModal from '!!raw-loader!./sample-modal.vue'

@@ -66,23 +66,22 @@
       return {
         propsFields: [
           { label: 'Name', key: 'name' },
-          { label: 'Description', key: 'description' },
+          { label: 'Description', key: 'description', class: 'description' },
           { label: 'Type', key: 'type' },
-          { label: 'Values', key: 'values' },
           { label: 'Default', key: 'default' }
         ],
         slotsFields: [
           { label: 'Slot name', key: 'name' },
-          { label: 'Description', key: 'description' }
+          { label: 'Description', key: 'description', class: 'description' }
         ],
         eventsFields: [
           { label: 'Name', key: 'name' },
-          { label: 'Description', key: 'description' },
+          { label: 'Description', key: 'description' , class: 'description'},
           { label: 'Parameters', key: 'parameters' }
         ],
         methodsFields: [
           { label: 'Name', key: 'name' },
-          { label: 'Description', key: 'description' },
+          { label: 'Description', key: 'description', class: 'description' },
           { label: 'Return', key: 'return' }
         ]
       }
@@ -106,11 +105,21 @@
           border: 1px solid $table-border-color;
           border-top: 0;
 
-          .table thead th {
-            border-top: 0;
+          .table {
+            thead th {
+              border-top: 0;
+              
+              &.description {
+                min-width: 330px;
+              }
+            }
+
+
+            td > span > code {
+              white-space: nowrap;
+            }
           }
         }
-
       }
     }
   }

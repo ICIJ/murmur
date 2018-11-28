@@ -16,7 +16,8 @@
 
   export default {
     components: {
-      SampleCard
+      SampleCard,
+      ApiTable
     },
     data () {
       return { sample, code, api }
