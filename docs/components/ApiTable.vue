@@ -1,11 +1,11 @@
 <template>
   <section class="api-table">
-    <h2 class="api-table__heading">API</h2>
+    <h3 class="api-table__heading">API</h3>
     <template v-for="component in api">
       <div :key="component.title" class="api-table__component">
-        <h3 v-if="component.title" class="api-table__component__heading">
+        <h4 v-if="component.title" class="api-table__component__heading">
           {{ component.title }}
-        </h3>
+        </h4>
         <b-tabs class="api-table__component__tabs">
           <b-tab v-if="component.props && component.props.length" title="Properties" class="api-table__component__tabs__container">
             <b-table :items="component.props" :fields="propsFields" small class="m-0 small">
@@ -108,7 +108,7 @@
           .table {
             thead th {
               border-top: 0;
-              
+
               &.description {
                 min-width: 330px;
               }

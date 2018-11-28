@@ -1,60 +1,8 @@
 <template>
-  <div id="app" class="container-fluid">
-    <div class="row">
-      <div class="col-2 d-none d-md-block border-right">
-        <h4 class="mt-4">Components</h4>
-        <ul class="list-unstyled">
-          <li>
-            <router-link to="/content-placeholder">
-              Content Placeholder
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/donate-form">
-              Donate Form
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/embedable-footer">
-              Embedable Footer
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/embed-form">
-              Embed Form
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/follow-us-popover">
-              Follow Us Popover
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/generic-footer">
-              Generic Footer
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/main-header">
-              Main Header
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/sharing-options">
-              Sharing Options
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/responsive-iframe">
-              Responsive Iframe
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/sign-up-form">
-              Sign Up Form
-            </router-link>
-          </li>
-        </ul>
+  <div id="app">
+    <div class="row no-gutters">
+      <div class="col-2 d-none d-md-block">
+        <docs-menu></docs-menu>
       </div>
       <div class="col">
         <div class="app__main">
@@ -72,8 +20,13 @@
 </template>
 
 <script>
+import DocsMenu from './DocsMenu.vue'
+
 export default {
   name: 'app',
+  components: {
+    DocsMenu
+  }
 }
 </script>
 

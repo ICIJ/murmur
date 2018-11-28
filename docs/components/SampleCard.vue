@@ -3,7 +3,7 @@
     <h4 class="sample-card__title" v-if="title">
       {{ title }}
     </h4>
-    <p class="sample-card__description" v-if="description">
+    <p class="sample-card__description text-muted" v-if="description">
       {{ description }}
     </p>
     <div class="sample-card__body card">

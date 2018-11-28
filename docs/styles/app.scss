@@ -1,15 +1,6 @@
 // Import your library's styles
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,700,800|Lato:300,400,400italic,700');
-
-$primary: #c10448;
-$secondary: #003552;
-$dark: #001226;
-$danger: #dc4b55;
-$info: #05808c;
-$light: #e5e3e3;
-
-@import '../../lib/styles/lib.scss';
-@import 'node_modules/bootstrap/scss/bootstrap';
+@import './variables.scss';
 
 .card-xs {
   max-width: 330px;
