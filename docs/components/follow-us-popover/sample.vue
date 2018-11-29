@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import FollowUsPopover from '@/components/FollowUsPopover'
+  import { FollowUsPopover } from '@/main'
 
   export default {
     components: {

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import SharingOptions from '@/components/SharingOptions'
+  import { SharingOptions } from '@/main'
 
   export default {
     components: {

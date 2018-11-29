@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import EmbedForm from '@/components/EmbedForm'
+  import { EmbedForm } from '@/main'
 
   export default {
     components: {

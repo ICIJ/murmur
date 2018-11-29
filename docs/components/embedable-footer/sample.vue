@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import EmbedableFooter from '@/components/EmbedableFooter'
+  import { EmbedableFooter } from '@/main'
 
   export default {
     components: {
