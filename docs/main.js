@@ -3,15 +3,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueClipboard from 'vue-clipboard2'
-
-import config from '@/config'
-
-config.set('project .name', 'Demo Project')
+import Collection from '@/main'
 
 import App from './components/App'
 import routes from './routes'
 import './styles/app.scss'
 
+Collection.config.set('project.name', 'Demo Project')
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
