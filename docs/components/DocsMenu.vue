@@ -1,8 +1,13 @@
 <template>
   <div class="docs-menu">
-    <router-link class="docs-menu__brand" :to="{ name: 'home-page' }">
-      <img src="@/assets/images/icij-white.svg" />
-    </router-link>
+    <div class="docs-menu__brand">
+      <router-link class="docs-menu__brand__logo" :to="{ name: 'home-page' }">
+        <img src="@/assets/images/icij-white.svg" alt="ICIJ" />
+      </router-link>
+      <div class="docs-menu__brand__version">
+        <div>{{ version }}</div>
+      </div>
+    </div>
     <h4 class="docs-menu__heading">
       Components
     </h4>
@@ -33,7 +38,10 @@
       Fa
     },
     data () {
-      return { componentsRoutes }
+      return {
+        componentsRoutes,
+        version: require('../../package.json').version
+      }
     },
     methods: {
       label (name) {
@@ -58,13 +66,29 @@
     color: $docs-menu-color;
 
     &__brand {
-      display: block;
-      border:1px solid $primary;
+      display: flex;
       margin-bottom: $spacer * 3;
-      max-width: 110px;
 
-      img {
-        width: 100%;
+      &__logo {
+        display: block;
+        border:1px solid $primary;
+
+        img {
+          width: 110px;
+          max-width: 100%;
+        }
+      }
+
+      &__version {
+        background: $primary;
+        width: 1em * $line-height-base;
+
+        & > * {
+          transform: rotate(90deg) translateY(-100%);
+          transform-origin: left top;
+          width: 110px;
+          text-align: center;
+        }
       }
     }
 
