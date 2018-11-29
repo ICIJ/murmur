@@ -1,18 +1,18 @@
 <template>
   <div class="docs-menu">
-    <a class="docs-menu__brand">
+    <router-link class="docs-menu__brand" :to="{ name: 'home-page' }">
       <img src="@/assets/images/icij-white.svg" />
-    </a>
+    </router-link>
     <h4 class="docs-menu__heading">
       Components
     </h4>
     <ul class="docs-menu__list list-unstyled">
-      <li v-for="route in routes" :key="route.path" class="docs-menu__list__item">
+      <li v-for="route in componentsRoutes" :key="route.path" class="docs-menu__list__item">
         <router-link :to="route.path">
           <span class="docs-menu__list__item__icon">
             <fa icon="puzzle-piece" class="mr-1" />
           </span>
-          {{ route.label }}
+          {{ label(route.name) }}
         </router-link>
       </li>
     </ul>
@@ -20,9 +20,10 @@
 </template>
 
 <script>
+  import startCase from 'lodash/startCase'
   import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons/faPuzzlePiece'
 
-  import routes from '../routes'
+  import { componentsRoutes } from '../routes'
   import { library, default as Fa } from '@/components/Fa'
   library.add(faPuzzlePiece)
 
@@ -32,7 +33,12 @@
       Fa
     },
     data () {
-      return { routes }
+      return { componentsRoutes }
+    },
+    methods: {
+      label (name) {
+        return startCase(name)
+      }
     }
   }
 </script>
