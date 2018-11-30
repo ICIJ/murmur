@@ -64,7 +64,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import '../styles/lib';
   @import '../styles/mixins';
 
@@ -131,11 +131,11 @@
       }
     }
 
-    .sharing-options {
+    & /deep/ .sharing-options {
       position: absolute;
       bottom: 100%;
       right: 0;
-      margin: $spacer / 2;
+      margin: $spacer * 0.25;
 
       &__link {
         opacity: 0;
@@ -143,5 +143,6 @@
         @include animation-delay-loop(0, 10, 50ms);
       }
     }
+
   }
 </style>
