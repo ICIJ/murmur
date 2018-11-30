@@ -70,10 +70,6 @@
 <style lang="scss">
   @import '../styles/variables.scss';
 
-  $docs-menu-bg: $dark;
-  $docs-menu-color: text-contrast(#46424C);
-  $docs-menu-muted: mix($docs-menu-bg, $docs-menu-color, 50);
-
   .docs-menu {
     background: $docs-menu-bg;
     padding:  $spacer * 1.5 $spacer;

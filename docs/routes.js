@@ -2,6 +2,7 @@ export const visualRoutes = [
   {
     path: '/visual/colors',
     name: 'colors',
+    component: () => import(/* webpackChunkName: "colors" */ './visual/colors/doc.vue')
   },
   {
     path: '/visual/states',

@@ -1,0 +1,105 @@
+<template>
+  <div class="palette-presenter">
+    <ul class="list-unstyled palette-presenter__list">
+      <li v-for="({ value }, name) in colors" :style="bgStyle(name)" class="palette-presenter__list__item">
+        <span class="font-weight-bold palette-presenter__list__item__name">
+          {{ name }}
+        </span>
+        <span class="font-weight-bold palette-presenter__list__item__value d-flex align-items-center">
+          <span class="palette-presenter__list__item__value__hex">
+            {{ value.hex }}
+          </span>
+          <button class="btn btn-sm btn-link ml-2" @click="$copyText(value.hex)">
+            <fa icon="paste" />
+          </button>
+        </span>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+  import chroma from 'chroma-js'
+  import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
+  import { library, default as Fa } from '@/components/Fa'
+  library.add(faPaste)
+
+  export default {
+    components: {
+      Fa
+    },
+    props: {
+      colors: {
+        type: Object
+      }
+    },
+    methods: {
+      bgStyle(name) {
+        return {
+          backgroundColor: this.colors[name].value.hex,
+          color: this.textContrast(name)
+        }
+      },
+      textContrast(name) {
+        const hex = this.colors[name].value.hex
+        return chroma.contrast(hex, '#000') > 4.5 ? '#000' : '#fff'
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+  @import '../styles/variables.scss';
+  @import 'node_modules/bootstrap/scss/_mixins.scss';
+
+  .palette-presenter {
+
+    &__list {
+      margin: 0 -1 * $spacer;
+      display: flex;
+      flex-wrap: wrap;
+
+      &__item {
+        padding: 0;
+        display: block;
+        position: relative;
+        flex: calc(50% - #{$spacer * 2}) 0;
+        margin: $spacer;
+        box-shadow: inset 0 0 0 1px rgba(#000, .1);
+
+        @include media-breakpoint-down(md) {
+          flex: 100% 0;
+        }
+
+        &:after {
+          content: "";
+          display: block;
+          width: 100%;
+          padding-top: 30%;
+          min-height: 4rem * $line-height-base;
+        }
+
+        &__name {
+          position: absolute;
+          top: $spacer;
+          left: $spacer;
+        }
+
+        &__value {
+          position: absolute;
+          right: $spacer;
+          bottom: $spacer;
+          padding: .25em;
+          padding-left: .5em;
+          background: rgba(#fff, .2);
+          box-shadow: 0 0 0 1px rgba(#000, .1);
+
+          button {
+            color: inherit;
+            background: rgba(#fff, .2);
+          }
+        }
+      }
+    }
+  }
+</style>
