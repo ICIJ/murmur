@@ -8,44 +8,62 @@
         <div>{{ version }}</div>
       </div>
     </div>
-    <h4 class="docs-menu__heading">
-      Components
-    </h4>
-    <ul class="docs-menu__list list-unstyled">
-      <li v-for="route in componentsRoutes" :key="route.path" class="docs-menu__list__item">
-        <router-link :to="route.path">
-          <span class="docs-menu__list__item__icon">
-            <fa icon="puzzle-piece" class="mr-1" />
-          </span>
-          {{ label(route.name) }}
-        </router-link>
-      </li>
-    </ul>
+    <div class="mb-4">
+      <router-link class="docs-menu__link" :to="{ name: 'home-page' }">
+        <fa icon="rocket" class="docs-menu__link__icon mr-1" />
+        Getting started
+      </router-link>
+    </div>
+    <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
   </div>
 </template>
 
 <script>
-  import startCase from 'lodash/startCase'
   import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons/faPuzzlePiece'
+  import { faRocket } from '@fortawesome/free-solid-svg-icons/faRocket'
 
-  import { componentsRoutes } from '../routes'
+  import { componentsRoutes, visualRoutes, utilitiesRoutes, dataVisualisationRoutes } from '../routes'
+  import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
+
   library.add(faPuzzlePiece)
+  library.add(faRocket)
 
   export default {
     name: 'DocsMenu',
     components: {
+      DocsMenuSection,
       Fa
+    },
+    props: {
+      sections: {
+        type: Array,
+        default () {
+          return [
+            {
+              name: 'Visual guidelines',
+              routes: visualRoutes
+            },
+            {
+              name: 'Components',
+              routes: componentsRoutes,
+              icon: faPuzzlePiece
+            },
+            {
+              name: 'Data Visualisation',
+              routes: dataVisualisationRoutes
+            },
+            {
+              name: 'utilities',
+              routes: utilitiesRoutes
+            }
+          ]
+        }
+      }
     },
     data () {
       return {
-        componentsRoutes,
         version: require('../../package.json').version
-      }
-    },
-    methods: {
-      label (name) {
-        return startCase(name)
       }
     }
   }
@@ -100,50 +118,44 @@
       margin-bottom: $spacer;
     }
 
-    &__list {
+    &__link {
+      color: $docs-menu-color;
+      position: relative;
+      margin-bottom: $spacer * 0.5;
+      padding: $spacer * 0.25 $spacer * 0.75;
+      display: inline-block;
 
-      &__item {
-        padding-bottom: $spacer;
+      &__icon {
+        color: $docs-menu-muted;
 
-        &__icon {
-          color: $docs-menu-muted;
-          margin-left: 0.25 * $spacer;
-
-          .router-link-active & {
-            color: $primary;
-          }
-        }
-
-        a {
-          color: $docs-menu-color;
-          position: relative;
-
-          &:hover {
-            color: $docs-menu-color;
-            text-decoration: none;
-
-            &:before {
-              background: rgba($docs-menu-muted, 0.1);
-            }
-          }
-
-          &:before {
-            content: "";
-            position: absolute;
-            top: -0.5 * $spacer;
-            bottom: -0.5 * $spacer;
-            left: -0.5 * $spacer;
-            right: -0.5 * $spacer;
-            border-radius: 1em;
-          }
-
-          &.router-link-active:before {
-            border: 1px solid rgba(white, 0.5);
-            background: rgba($docs-menu-muted, 0.2);
-          }
+        .router-link-exact-active & {
+          color: $primary;
         }
       }
-    }
 
+      &:hover {
+        color: $docs-menu-color;
+        text-decoration: none;
+
+        &:before {
+          background: rgba($docs-menu-muted, 0.1);
+        }
+      }
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 1em * $line-height-base;
+      }
+
+      &.router-link-exact-active:before {
+        border: 1px solid rgba(white, 0.5);
+        background: rgba($docs-menu-muted, 0.2);
+      }
+    }
   }
 </style>

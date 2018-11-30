@@ -7,3 +7,7 @@ $light: #e5e3e3;
 
 @import '../../lib/styles/lib.scss';
 @import 'node_modules/bootstrap/scss/bootstrap';
+
+$docs-menu-bg: $dark;
+$docs-menu-color: text-contrast(#46424C);
+$docs-menu-muted: mix($docs-menu-bg, $docs-menu-color, 50);
