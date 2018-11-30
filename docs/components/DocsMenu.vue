@@ -8,12 +8,10 @@
         <div>{{ version }}</div>
       </div>
     </div>
-    <div class="mb-4">
-      <router-link class="docs-menu__link" :to="{ name: 'home-page' }">
-        <fa icon="rocket" class="docs-menu__link__icon mr-1" />
-        Getting started
-      </router-link>
-    </div>
+    <router-link class="docs-menu__link mb-4" :to="{ name: 'home-page' }">
+      <fa icon="rocket" class="docs-menu__link__icon mr-1" />
+      Getting started
+    </router-link>
     <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
   </div>
 </template>
@@ -78,7 +76,7 @@
 
   .docs-menu {
     background: $docs-menu-bg;
-    padding:  $spacer * 2;
+    padding:  $spacer * 1.5 $spacer;
     min-height: 100vh;
     height: 100%;
     color: $docs-menu-color;

@@ -83,7 +83,7 @@ export const utilitiesRoutes = [
   }
 ]
 
-let routes = [
+export const mainRoutes = [
   {
     path: '/',
     name: 'home-page',
@@ -91,6 +91,8 @@ let routes = [
   }
 ]
 
+let routes = []
+routes = routes.concat(mainRoutes)
 routes = routes.concat(visualRoutes)
 routes = routes.concat(componentsRoutes)
 routes = routes.concat(utilitiesRoutes)

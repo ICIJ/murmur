@@ -7,7 +7,7 @@
       <div class="col">
         <div class="app__main">
           <div class="border-bottom py-4 my-4">
-            <h1>ICIJ Vue Collection</h1>
+            <h1>ICIJ Design System</h1>
             <p class="lead m-0">
               A collection of Vue components and utilities function by the ICIJ team.
             </p>
