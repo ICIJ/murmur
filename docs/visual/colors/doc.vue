@@ -1,6 +1,8 @@
 <template>
   <div>
     <h3>Theme</h3>
+    <palette-presenter :colors="themeColors"></palette-presenter>
+    <h3>Colors</h3>
     <palette-presenter :colors="mainColors"></palette-presenter>
     <h3>Grays</h3>
     <palette-presenter :colors="graysColors"></palette-presenter>
@@ -19,8 +21,11 @@
       PalettePresenter,
     },
     computed: {
-      mainColors () {
+      themeColors () {
         return mainVariables.global["$theme-colors"].value
+      },
+      mainColors () {
+        return mainVariables.global["$colors"].value
       },
       graysColors () {
         return mainVariables.global["$grays"].value
