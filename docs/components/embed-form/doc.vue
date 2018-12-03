@@ -11,7 +11,7 @@
   import ApiTable from '../ApiTable.vue'
   import SampleCard from '../SampleCard.vue'
 
-  import api from './api'
+  import api from '!!vue-docgen-loader!@/components/EmbedForm.vue'
   import sample from './sample.vue'
   import samplePreview from './sample-preview.vue'
   import code from '!!raw-loader!./sample.vue'

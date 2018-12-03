@@ -1,15 +1,28 @@
+<script>
 const noop = () => (null)
 
+/**
+ * SlideUpDown
+ */
 export default {
   name: 'SlideUpDown',
   props: {
+    /**
+     * Toggler property. Set to <em>false</em> to hide the component.
+     */
     active: {
       type: Boolean,
     },
+    /**
+     * Duration of the animation.
+     */
     duration: {
       type: Number,
       default: 200
     },
+    /**
+     * HTML tag to render this component to.
+     */
     tag: {
       type: String,
       default: 'div'
@@ -94,3 +107,4 @@ export default {
     },
   }
 }
+</script>

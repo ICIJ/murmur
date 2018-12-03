@@ -28,6 +28,7 @@
               <h5 class="text-icij-primary text-uppercase mb-3">
                 Investigations
               </h5>
+              <!-- @slot List of investigations -->
               <slot name="investigations">
                 <ul class="list-unstyled">
                   <li class="list-unstyled-item">
@@ -87,9 +88,15 @@
 </template>
 
 <script>
+/**
+ * GenericFooter
+ */
 export default {
   name: 'GenericFooter',
   props: {
+    /**
+     * Version of the app to display in the bottom-right corner of the footer
+     */
     version: {
       type: String,
       default: ''

@@ -25,19 +25,34 @@ import $ from 'jquery'
 import last from 'lodash/last'
 import config from '../config'
 
+/**
+ * SignUpForm
+ */
 export default {
   name: "SignUpForm",
   props: {
+    /**
+     * Mailchimp URL to send the data to.
+     */
     action: {
       type: String,
       default: () => config.get('signup-form.action')
     },
+    /**
+     * Disable the main label.
+     */
     noLabel: {
       type: Boolean
     },
+    /**
+     * Horizontal layout of the form.
+     */
     horizontal: {
       type: Boolean
     },
+    /**
+     * Mailchimp tracker tag to identify the origin.
+     */
     tracker: {
       type: String,
       default: () => config.get('signup-form.tracker')

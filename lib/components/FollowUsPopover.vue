@@ -39,18 +39,31 @@
   import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
   import SignUpForm from './SignUpForm.vue'
+  import { library } from './Fa'
 
-  import { library, default as Fa } from '@/components/Fa'
-  library.add(faTimes, faTwitter, faFacebook, faLinkedin)
-
+  /**
+   * FollowUsPopover
+   */
   export default {
     name: 'FollowUsPopover',
     components: {
-      Fa,
+      /** Prevent a bug with vue-docgen-api
+       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
+       */
+      Fa: require('./Fa').default,
       SignUpForm
+    },
+    beforeMount () {
+      library.add(faTimes, faTwitter, faFacebook, faLinkedin)
     },
     methods: {
       closeSignupPopover() {
+        /**
+         * Fired when user click on the `close` button
+         *
+         * @event update:show
+         * @type {boolean}
+         */
         this.$emit('update:show', false)
       }
     }

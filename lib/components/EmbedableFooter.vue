@@ -20,34 +20,60 @@
   import SharingOptions from './SharingOptions'
   import config from '../config'
 
-  import { library, default as Fa } from '@/components/Fa'
-  library.add(faShareAlt)
+  import { library } from './Fa'
 
+  /**
+   * EmbedableFooter
+   */
   export default {
     name: 'EmbedableFooter',
+    beforeMount() {
+      library.add(faShareAlt)
+    },
     components: {
-      Fa,
+      /** Prevent a bug with vue-docgen-api
+       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
+       */
+      Fa: require('./Fa').default,
       SharingOptions
     },
     props: {
+      /**
+       * Title to display next to ICIJ logo.
+       */
       title: {
         type: String,
         default: () => config.get('project.name')
       },
+      /**
+       * Lead sentence to display next to the title.
+       */
       lead: {
         type: String,
         default: ''
       },
+      /**
+       * Minimum height for the iframe generated in the embed form.
+       */
       iframeMinHeight: {
         type: Number
       },
+      /**
+       * Minimum width for the iframe generated in the embed form.
+       */
       iframeMinWidth: {
         type: Number
       },
+      /**
+       * Target of the ICIJ logo and title links.
+       */
       homeUrl: {
         type: String,
         default: () => config.get('app.home')
       },
+      /**
+       * Sharing option values to bind to the sharing-options component on the bottom-right corner.
+       */
       sharingOptionsValues: {
         type: Object,
         default: () => ({})

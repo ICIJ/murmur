@@ -11,10 +11,10 @@
   import ApiTable from '../ApiTable.vue'
   import SampleCard from '../SampleCard.vue'
 
-  import api from './api'
+  import api from '!!vue-docgen-loader!@/components/SlideUpDown.vue'
   import sample from './sample.vue'
   import code from '!!raw-loader!./sample.vue'
-
+  
   export default {
     components: {
       SampleCard,

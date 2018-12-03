@@ -33,15 +33,16 @@
   import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
 
   import { library, default as Fa } from '@/components/Fa'
-  import SlideUpDown from '@/components/SlideUpDown'
-
-  library.add(faCode, faPaste)
+  import SlideUpDown from '@/components/SlideUpDown.vue'
 
   export default {
     name: 'SampleCard',
     components: {
       SlideUpDown,
       Fa
+    },
+    beforeMount () {
+      library.add(faCode, faPaste)
     },
     props: {
       title: {

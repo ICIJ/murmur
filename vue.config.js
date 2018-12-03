@@ -8,6 +8,8 @@ module.exports = {
   chainWebpack: config => {
     config.entry('app').clear().add('./docs/main.js')
     config.entry('lib').add('./lib/main.js')
+    // Add custom loader
+    config.resolveLoader.modules.add('./loaders')
     // Aliases configuration
     config.resolve.alias
       .set('node_modules', resolve('node_modules'))

@@ -68,11 +68,13 @@
   import Vue from 'vue'
 
   import IframeResizer from '@/utils/iframe-resizer'
-  import { library, default as Fa } from '@/components/Fa'
-  library.add(faClipboard)
+  import { library } from './Fa'
 
   Vue.use(VueClipboard)
 
+  /**
+   * Embed Form
+   */
   export default {
     name: 'EmbedForm',
     data () {
@@ -80,33 +82,46 @@
         responsiveCheck: false
       }
     },
+    beforeMount() {
+      library.add(faClipboard)
+    },
     components: {
-      Fa
+      /** Prevent a bug with vue-docgen-api
+       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
+       */
+      Fa: require('./Fa').default
     },
     props: {
       noTitle: {
+        description: 'Hide the form title',
         type: Boolean
       },
       noPreview: {
+        description: 'Hide the preview panel',
         type: Boolean
       },
       width: {
+        description: 'Default width of the iframe code',
         type: [Number, String],
         default: '100%'
       },
       height: {
+        description: 'Default height of the iframe code',
         type: Number,
-        default: window.innerHeight
+        default: () => (window.innerHeight)
       },
       minWidth: {
+        description: 'Default minimal width of the iframe code (if extract from window\'s size)',
         type: Number,
         default: 0
       },
       minHeight: {
+        description: 'Default minimal height of the iframe code (if extract from window\'s size)',
         type: Number,
         default: 0
       },
       url: {
+        description: 'URL of the iframe code',
         type: String
       }
     },

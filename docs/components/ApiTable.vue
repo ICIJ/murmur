@@ -3,51 +3,47 @@
     <h3 class="api-table__heading mb-3">
       API
     </h3>
-    <template v-for="component in api">
-      <div :key="component.title" class="api-table__component">
-        <h4 v-if="component.title" class="api-table__component__heading">
-          {{ component.title }}
-        </h4>
-        <b-tabs class="api-table__component__tabs">
-          <b-tab v-if="component.props && component.props.length" title="Properties" class="api-table__component__tabs__container">
-            <b-table :items="component.props" :fields="propsFields" small class="m-0 small">
-              <template v-for="{ key } in propsFields" :slot="key" slot-scope="{ value }">
-                <span v-html="value"></span>
-              </template>
-            </b-table>
-          </b-tab>
+    <div :key="api.title" class="api-table__component">
+      <b-tabs class="api-table__component__tabs">
+        <b-tab v-if="hasItems(api.props)" title="Properties" class="api-table__component__tabs__container">
+          <b-table :items="toItems(api.props)" :fields="propsFields" small class="m-0 small">
+            <template v-for="{ key } in propsFields" :slot="key" slot-scope="{ value }">
+              <span v-html="value"></span>
+            </template>
+          </b-table>
+        </b-tab>
 
-          <b-tab v-if="component.slots && component.slots.length" title="Slots" class="api-table__component__tabs__container">
-            <b-table :items="component.slots" :fields="slotsFields" small class="m-0 small">
-              <template v-for="{ key } in slotsFields" :slot="key" slot-scope="{ value }">
-                <span v-html="value"></span>
-              </template>
-            </b-table>
-          </b-tab>
+        <b-tab v-if="hasItems(api.slots)" title="Slots" class="api-table__component__tabs__container">
+          <b-table :items="toItems(api.slots)" :fields="slotsFields" small class="m-0 small">
+            <template v-for="{ key } in slotsFields" :slot="key" slot-scope="{ value }">
+              <span v-html="value"></span>
+            </template>
+          </b-table>
+        </b-tab>
 
-          <b-tab v-if="component.events && component.events.length" title="Events" class="api-table__component__tabs__container">
-            <b-table :items="component.events" :fields="eventsFields" small class="m-0 small">
-              <template v-for="{ key } in eventsFields" :slot="key" slot-scope="{ value }">
-                <span v-html="value"></span>
-              </template>
-            </b-table>
-          </b-tab>
+        <b-tab v-if="hasItems(api.events)" title="Events" class="api-table__component__tabs__container">
+          <b-table :items="toItems(api.events)" :fields="eventsFields" small class="m-0 small">
+            <template v-for="{ key } in eventsFields" :slot="key" slot-scope="{ value }">
+              <span v-html="value"></span>
+            </template>
+          </b-table>
+        </b-tab>
 
-          <b-tab v-if="component.methods && component.methods.length" title="Methods" class="api-table__component__tabs__container">
-            <b-table :items="component.methods" :fields="methodsFields" small class="m-0 small">
-              <template v-for="{ key } in methodsFields" :slot="key" slot-scope="{ value }">
-                <span v-html="value"></span>
-              </template>
-            </b-table>
-          </b-tab>
-        </b-tabs>
-      </div>
-    </template>
+        <b-tab v-if="hasItems(api.methods)" title="Methods" class="api-table__component__tabs__container">
+          <b-table :items="toItems(api.methods)" :fields="methodsFields" small class="m-0 small">
+            <template v-for="{ key } in methodsFields" :slot="key" slot-scope="{ value }">
+              <span v-html="value"></span>
+            </template>
+          </b-table>
+        </b-tab>
+      </b-tabs>
+    </div>
   </section>
 </template>
 
 <script>
-  import $ from 'jquery'
+  import reduce from 'lodash/reduce'
+  import keys from 'lodash/keys'
   import bTabs from 'bootstrap-vue/es/components/tabs/tabs'
   import bTab from 'bootstrap-vue/es/components/tabs/tab'
   import bTable from 'bootstrap-vue/es/components/table/table'
@@ -60,31 +56,51 @@
     },
     props: {
       api: {
-        type: Array,
-        default: () => []
+        type: Object,
+        default: () => {}
+      }
+    },
+    methods: {
+      toItems(docgen = {}) {
+        return reduce(keys(docgen), (items, name) => {
+          items.push({ name, ...docgen[name] })
+          return items
+        }, [])
+      },
+      hasItems(docgen = {}) {
+        return !!keys(docgen).length
+      },
+      codeFormatter (v = '—') {
+        return `<code>${v}</code>`
+      },
+      varFormatter (v = '—') {
+        if (v.indexOf('function() {') === 0) {
+          return 'computed'
+        }
+        return `<var>${v}</var>`
       }
     },
     data() {
       return {
         propsFields: [
-          { label: 'Name', key: 'name' },
+          { label: 'Name', key: 'name', formatter: this.codeFormatter },
           { label: 'Description', key: 'description', class: 'description' },
-          { label: 'Type', key: 'type' },
-          { label: 'Default', key: 'default' }
+          { label: 'Type', key: 'type.name' },
+          { label: 'Default', key: 'defaultValue.value', formatter: this.varFormatter }
         ],
         slotsFields: [
-          { label: 'Slot name', key: 'name' },
+          { label: 'Slot name', key: 'name', formatter: this.codeFormatter },
           { label: 'Description', key: 'description', class: 'description' }
         ],
         eventsFields: [
-          { label: 'Name', key: 'name' },
+          { label: 'Name', key: 'name', formatter: this.codeFormatter },
           { label: 'Description', key: 'description' , class: 'description'},
-          { label: 'Parameters', key: 'parameters' }
+          { label: 'Parameters', key: 'type.names', formatter: this.varFormatter }
         ],
         methodsFields: [
-          { label: 'Name', key: 'name' },
+          { label: 'Name', key: 'name', formatter: this.codeFormatter },
           { label: 'Description', key: 'description', class: 'description' },
-          { label: 'Return', key: 'return' }
+          { label: 'Return', key: 'return', formatter: this.varFormatter }
         ]
       }
     }

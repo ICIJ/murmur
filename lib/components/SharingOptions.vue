@@ -52,47 +52,80 @@
   import config from '../config'
   import IframeResizer from '../utils/iframe-resizer'
 
-  import { library, default as Fa } from '@/components/Fa'
-  library.add(faCode, faEnvelope, faTwitter, faFacebook, faLinkedin)
-
-  SocialSharing.components.Fa = Fa
-
+  import { library } from './Fa'
+  /**
+   * SharingOptions
+   */
   export default {
     name: 'SharingOptions',
     components: {
       bModal,
       EmbedForm,
-      Fa,
-      SocialSharing
+      SocialSharing,
+      /** Prevent a bug with vue-docgen-api
+       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
+       */
+      Fa: require('./Fa').default
+    },
+    beforeMount () {
+      library.add(faCode, faEnvelope, faTwitter, faFacebook, faLinkedin)
+      // Inject Fa components in child component
+      SocialSharing.components.Fa = require('./Fa').default
     },
     props: {
+      /**
+       * URL to be shared.
+       */
       url: {
         type: String,
         default: () => config.get('sharing-options.url', null) || IframeResizer.deletePymParams()
       },
+      /**
+       * Direction of the sharing options. Can be: <em>row</em>, <em>row-reverse</em>,
+       * <em>column</em> or <em>column-reverse</em>.
+       */
       direction: {
         default: 'row',
         validator (value) {
           return ['row', 'row-reverse', 'column', 'column-reverse'].indexOf(value) !== -1
         }
       },
+      /**
+       * Sharing contents wich can be genereic (<em>title</em>, <em>description</em>, etc)
+       * or specific to a network (<em>twitter_title</em>, <em>facebook_description</em>, etc).
+       */
       values: {
         type: Object,
         default: () => ({})
       },
+      /**
+       * The list of all the keys to automatlcy inject in each social button.
+       */
       valuesKeys: {
         default: () => ['url', 'title', 'description', 'media', 'twitter-user'],
         type: Array
       },
+      /**
+       * Disable embed button.
+       */
       noEmbed: {
         type: Boolean
       },
+      /**
+       * Minimum height of the iframe in the embed form.
+       */
       iframeMinHeight: {
         type: Number
       },
+      /**
+       * Minimum width of the iframe in the embed form.
+       */
       iframeMinWidth: {
         type: Number
       },
+      /**
+       * Prevent from reading default value from the <code>meta</code>.
+       */
       noMeta: {
         type: Boolean
       }

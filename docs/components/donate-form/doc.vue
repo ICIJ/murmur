@@ -14,7 +14,7 @@
   import sampleModal from './sample-modal.vue'
   import codeModal from '!!raw-loader!./sample-modal.vue'
 
-  import api from './api'
+  import api from '!!vue-docgen-loader!@/components/DonateForm.vue'
   import sample from './sample.vue'
   import code from '!!raw-loader!./sample.vue'
 

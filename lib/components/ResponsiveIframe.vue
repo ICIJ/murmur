@@ -7,13 +7,22 @@
 
   var iframeUniqueIdCounter = 0;
 
+  /**
+   * ResponsiveIframe
+   */
   export default {
     name: 'ResponsiveIframe',
     props: {
+      /**
+       * URL of the generated iframe code.
+       */
       url: {
         type: String,
         required : true
       },
+      /**
+       * Option to pass to the constructor of the pymParent instance
+       */
       options: {
         type: Object,
         default: () => ({ })

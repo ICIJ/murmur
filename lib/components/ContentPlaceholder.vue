@@ -13,11 +13,20 @@
 <script>
 import { formatRows } from '../utils/placeholder.js'
 
+/**
+ * A component to fill empty spaces with animated placeholders until content is loaded.
+ */
 export default {
   props: {
+    /**
+     * An array of lines describing a series of cell sizes and margin sizes.
+     */
     rows: {
       type: Array
     },
+    /**
+     * The size of the background gradient with the elapsing effect.
+     */
     size: {
       type: String,
       default: '250%'

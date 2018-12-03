@@ -3,6 +3,7 @@
     <h2 class="text-uppercase font-weight-bold text-primary h5" v-if="!noTitle">
       Support ICIJ
     </h2>
+    <!-- @slot Description of the form (bellow the title). -->
     <slot name="introduction">
       <p v-html="introduction"></p>
     </slot>
@@ -145,12 +146,21 @@
   import forEach from 'lodash/forEach'
   import config from '../config'
 
+  /**
+   * A form to encourage donations. We usualy put this form inside a modal
+   */
   export default {
     name: 'DonateForm',
     props: {
+      /**
+       * Title of the form.
+       */
       noTitle: {
         type: Boolean
       },
+      /**
+       * Description of the form (bellow the title).
+       */
       introduction: {
         type: String,
         default: () => config.get('donate-form.introduction')

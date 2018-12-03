@@ -1,6 +1,7 @@
 <template>
   <div>
     <component :is="rootElement" id="main-header" data-turbolinks-permanent class="navbar navbar-expand-lg navbar-light main-header" :offset="100" :z-index="1020" :on-unpin="closeFollowUsPopover" :class="{ 'headroom--frozen': !collapseNavbar }" :style="{ position: position }">
+      <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand main-header__brand">
           <img src="../assets/images/icij-black@2x.png" height="25" class="mr-3" />
@@ -11,6 +12,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse" :class="{ collapse: collapseNavbar }">
+        <!-- @slot Redefines the main navbar block (containing the dropdown) -->
         <slot name="navbar">
           <ul class="navbar-nav mr-auto">
             <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
@@ -65,6 +67,9 @@
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
 
+  /**
+   * MainHeader
+   */
   export default {
     name: 'MainHeader',
     components: {
@@ -77,25 +82,43 @@
       FollowUsPopover
     },
     props: {
+      /**
+       * CSS position of the header. Can be <em>absolute</em>, <em>relative</em>, <em>static</em> or <em>fixed</em> (default).
+       */
       position: {
         type: String,
         default: 'fixed'
       },
+      /**
+       * Disable Headroom for hiding header until needed.
+       */
       noHeadroom: {
         type: Boolean
       },
+      /**
+       * Project name, to display next to ICIJ logo
+       */
       project: {
         type: String,
         default: () => config.get('project.name')
       },
+      /**
+       * App name, to display next to project name
+       */
       title: {
         type: String,
         default: () => config.get('app.name')
       },
+      /**
+       * An array of objects defining dropdown items. Each item defines a <em>label</em> and a <em>href</em>.
+       */
       dropdownItems: {
         type: Array,
         default: () => config.get('main-header.dropdown.items')
       },
+      /**
+       * Target link of the ICIJ logo and project name.
+       */
       homeUrl: {
         type: String,
         default: () => config.get('app.home')

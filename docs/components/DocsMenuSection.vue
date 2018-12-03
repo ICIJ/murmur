@@ -23,7 +23,7 @@
   import { faAngleUp } from '@fortawesome/free-solid-svg-icons/faAngleUp'
   import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
 
-  import SlideUpDown from '@/components/SlideUpDown'
+  import SlideUpDown from '@/components/SlideUpDown.vue'
   import { library, default as Fa } from '@/components/Fa'
 
   library.add(faAngleDown)
@@ -40,11 +40,6 @@
       return {
         showMenu: this.hasActiveRoute
       }
-    },
-    mounted () {
-      this.$nextTick(() => {
-        this.showMenu = this.hasActiveRoute
-      })
     },
     props: {
       name: {
@@ -63,6 +58,11 @@
     methods: {
       label (name) {
         return startCase(name)
+      }
+    },
+    watch: {
+      $route () {
+        this.showMenu = this.hasActiveRoute
       }
     },
     computed: {
