@@ -7,8 +7,10 @@
       {{ description }}
     </p>
     <div class="sample-card__body card">
-      <slide-up-down :active="collapseCode && !!component" class="sample-card__body__render bg-light">
-        <component :is="component" />
+      <slide-up-down :active="collapseCode" class="sample-card__body__render bg-light">
+        <slot>
+          <component :is="component" />
+        </slot>
       </slide-up-down>
       <div class="sample-card__body__actions border-top row no-gutters">
         <button class="btn btn-sm font-weight-bold btn-primary col" @click="toggleCode()" :class="{ active: !collapseCode }">
@@ -22,7 +24,7 @@
         </button>
       </div>
       <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark">
-        <pre class="text-light p-2 m-0"><code>{{ code }}</code></pre>
+        <pre class="text-light p-2 m-0"><code>{{ unescape(code) }}</code></pre>
       </slide-up-down>
     </div>
   </div>
@@ -31,6 +33,7 @@
 <script>
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
   import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
+  import unescape from 'lodash/unescape'
 
   import { library, default as Fa } from '@/components/Fa'
   import SlideUpDown from '@/components/SlideUpDown.vue'
@@ -52,11 +55,11 @@
         type: String
       },
       component: {
-        type: [Object, Function]
+        type: [Object, Function],
+        default: () => ({ })
       },
       code: {
-        type: String,
-        default: ''
+        type: String
       }
     },
     data () {
@@ -67,6 +70,14 @@
     methods: {
       toggleCode (toggle = !this.collapseCode) {
         this.collapseCode = toggle
+      },
+      unescape (html) {
+        return unescape(html)
+      }
+    },
+    computed: {
+      useSlot () {
+        return !!this.$slots.default && !!this.$slots.default.length
       }
     }
   }

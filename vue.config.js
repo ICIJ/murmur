@@ -10,6 +10,18 @@ module.exports = {
     config.entry('lib').add('./lib/main.js')
     // Add custom loader
     config.resolveLoader.modules.add('./loaders')
+    // Add rule to handle markdown file
+    config.module.rule('markdown').test(/\.md$/)
+      .use('vue-loader')
+        .loader('vue-loader')
+        .end()
+      .use('markdown-loader')
+        .loader(require.resolve('@vuepress/markdown-loader'))
+        .options({
+          sourceDir: resolve('./docs'),
+          // Custom markdown parser
+          markdown: require('./docs/markdown')
+        })
     // Aliases configuration
     config.resolve.alias
       .set('node_modules', resolve('node_modules'))

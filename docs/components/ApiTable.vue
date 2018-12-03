@@ -3,34 +3,34 @@
     <h3 class="api-table__heading mb-3">
       API
     </h3>
-    <div :key="api.title" class="api-table__component">
+    <div :key="docgen.title" class="api-table__component">
       <b-tabs class="api-table__component__tabs">
-        <b-tab v-if="hasItems(api.props)" title="Properties" class="api-table__component__tabs__container">
-          <b-table :items="toItems(api.props)" :fields="propsFields" small class="m-0 small">
+        <b-tab v-if="hasItems(docgen.props)" title="Properties" class="api-table__component__tabs__container">
+          <b-table :items="toItems(docgen.props)" :fields="propsFields" small class="m-0 small">
             <template v-for="{ key } in propsFields" :slot="key" slot-scope="{ value }">
               <span v-html="value"></span>
             </template>
           </b-table>
         </b-tab>
 
-        <b-tab v-if="hasItems(api.slots)" title="Slots" class="api-table__component__tabs__container">
-          <b-table :items="toItems(api.slots)" :fields="slotsFields" small class="m-0 small">
+        <b-tab v-if="hasItems(docgen.slots)" title="Slots" class="api-table__component__tabs__container">
+          <b-table :items="toItems(docgen.slots)" :fields="slotsFields" small class="m-0 small">
             <template v-for="{ key } in slotsFields" :slot="key" slot-scope="{ value }">
               <span v-html="value"></span>
             </template>
           </b-table>
         </b-tab>
 
-        <b-tab v-if="hasItems(api.events)" title="Events" class="api-table__component__tabs__container">
-          <b-table :items="toItems(api.events)" :fields="eventsFields" small class="m-0 small">
+        <b-tab v-if="hasItems(docgen.events)" title="Events" class="api-table__component__tabs__container">
+          <b-table :items="toItems(docgen.events)" :fields="eventsFields" small class="m-0 small">
             <template v-for="{ key } in eventsFields" :slot="key" slot-scope="{ value }">
               <span v-html="value"></span>
             </template>
           </b-table>
         </b-tab>
 
-        <b-tab v-if="hasItems(api.methods)" title="Methods" class="api-table__component__tabs__container">
-          <b-table :items="toItems(api.methods)" :fields="methodsFields" small class="m-0 small">
+        <b-tab v-if="hasItems(docgen.methods)" title="Methods" class="api-table__component__tabs__container">
+          <b-table :items="toItems(docgen.methods)" :fields="methodsFields" small class="m-0 small">
             <template v-for="{ key } in methodsFields" :slot="key" slot-scope="{ value }">
               <span v-html="value"></span>
             </template>
@@ -44,6 +44,8 @@
 <script>
   import reduce from 'lodash/reduce'
   import keys from 'lodash/keys'
+  import isObject from 'lodash/isObject'
+
   import bTabs from 'bootstrap-vue/es/components/tabs/tabs'
   import bTab from 'bootstrap-vue/es/components/tabs/tab'
   import bTable from 'bootstrap-vue/es/components/table/table'
@@ -56,7 +58,7 @@
     },
     props: {
       api: {
-        type: Object,
+        type: [Object, String],
         default: () => {}
       }
     },
@@ -78,6 +80,11 @@
           return 'computed'
         }
         return `<var>${v}</var>`
+      }
+    },
+    computed: {
+      docgen () {
+        return isObject(this.api) ? this.api : JSON.parse(this.api)
       }
     },
     data() {

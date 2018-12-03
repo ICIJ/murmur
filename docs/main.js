@@ -5,15 +5,26 @@ import VueRouter from 'vue-router'
 import VueClipboard from 'vue-clipboard2'
 import Collection from '@/main'
 
-import App from './components/App'
+import App from './components/App.vue'
+import ApiTable from './components/ApiTable.vue'
+import SampleCard from './components/SampleCard.vue'
+
 import routes from './routes'
 import './styles/app.scss'
 
-Collection.config.set('project.name', 'Demo Project')
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 Vue.use(VueClipboard)
+
+Vue.component('ApiTable', ApiTable)
+Vue.component('SampleCard', SampleCard)
+
+Object.keys(Collection.components).forEach(key => {
+  Vue.component(key, Collection.components[key])
+})
+
+Collection.config.set('project.name', 'Demo Project')
 
 /* eslint-disable no-new */
 new Vue({

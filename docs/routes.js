@@ -38,10 +38,10 @@ export const structureRoutes = [
 ]
 
 // Collect doc.vue file paths
-const docs = require.context("./components/", true, /doc\.vue$/).keys()
+const docs = require.context("./components/", true, /doc\./).keys()
 // Create an arry of routes for the components
 export const componentsRoutes = docs.map(path => {
-  const name = path.split('/doc.vue').shift().split('./').pop()
+  const name = path.split('/doc.md').shift().split('/doc.vue').shift().split('./').pop()
   const doc = path.split('./').pop()
   return {
     name,
