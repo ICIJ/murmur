@@ -6,10 +6,10 @@ $copper: #a57a36 !default;
 $bostonblue: #3b98ab !default;
 $punch:#A83324 !default;
 
-$icij-primary: #f8b700 !default;
-$icij-secondary: #852308 !default;
+$selective-yellow: #f8b700 !default;
+$saddle-red: #852308 !default;
 
-$primary: $icij-secondary !default;
+$primary: $saddle-red !default;
 $secondary: #f0f0f0 !default;
 $tertiary: #852308 !default;
 $success: #28a745 !default;
@@ -36,11 +36,8 @@ $callout-button-emphasis: $copper !default;
 
 $theme-colors: () !default;
 $theme-colors: map-merge((
-  icij-primary: $icij-primary,
-  icij-secondary: $icij-secondary,
-  blumine: $blumine,
-  mercury: $mercury,
-  copper: $copper
+  selective-yellow: $selective-yellow,
+  saddle-red: $saddle-red
 ), $theme-colors);
 
 $body-bg: #fff !default;

@@ -6,13 +6,8 @@
       </div>
       <div class="col">
         <div class="app__main">
-          <div class="border-bottom py-4 my-4">
-            <h1>ICIJ Design System</h1>
-            <p class="lead m-0">
-              A collection of Vue components and utilities function by the ICIJ team.
-            </p>
-          </div>
-          <router-view class="mb-4"></router-view>
+          <docs-header></docs-header>
+          <router-view class="app__main__view py-4"></router-view>
         </div>
       </div>
     </div>
@@ -20,17 +15,21 @@
 </template>
 
 <script>
+import DocsHeader from './DocsHeader.vue'
 import DocsMenu from './DocsMenu.vue'
 
 export default {
   name: 'app',
   components: {
+    DocsHeader,
     DocsMenu
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  @import '../styles/variables.scss';
+
   .app {
 
     &__menu {
@@ -38,8 +37,14 @@ export default {
     }
 
     &__main {
-      max-width: 770px;
-      margin: auto;
+      min-height: 100%;
+      border: $spacer solid $docs-menu-bg;
+      position: relative;
+
+      &__view {
+        max-width: 770px;
+        margin: auto;
+      }
     }
   }
 </style>

@@ -40,20 +40,20 @@
           return [
             {
               name: 'Visual guidelines',
-              routes: filterRoutes({ section: 'visual' })
+              routes: filterRoutes({ meta: { section: 'visual' } })
             },
             {
               name: 'Components',
-              routes: filterRoutes({ section: 'components' }),
+              routes: filterRoutes({ meta: { section: 'components' } }),
               icon: faPuzzlePiece
             },
             {
               name: 'Data Visualisation',
-              routes: filterRoutes({ section: 'dataVisualisation' })
+              routes: filterRoutes({ meta: { section: 'dataVisualisation' } })
             },
             {
               name: 'utilities',
-              routes: filterRoutes({ section: 'utilities' })
+              routes: filterRoutes({ meta: { section: 'utilities' } })
             }
           ]
         }

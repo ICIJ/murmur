@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3 id="section-embedablefooter">Embedable Footer</h3>
     <sample-card :component="sample" :code="code"></sample-card>
     <api-table :api="api"></api-table>
   </div>

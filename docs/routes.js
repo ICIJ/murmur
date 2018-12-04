@@ -1,4 +1,4 @@
-import { dirname, extname } from 'path'
+import { dirname } from 'path'
 import filter from 'lodash/filter'
 
 export const ROUTE_SECTIONS = ['components', 'visual', 'structure', 'dataVisualisation', 'utilities']
@@ -10,79 +10,73 @@ const routes = [
     component: () => import(/* webpackChunkName: "home-page" */ './components/HomePage.vue')
   },
   {
-    path: '/visual/colors',
-    name: 'colors',
-    section: 'visual',
-    component: () => import(/* webpackChunkName: "colors" */ './visual/colors/doc.vue')
-  },
-  {
     path: '/visual/states',
     name: 'states',
-    section: 'visual',
+    meta: { section: 'visual' }, 
   },
   {
     path: '/visual/typography',
     name: 'typography',
-    section: 'visual',
+    meta: { section: 'visual' }, 
   },
   {
     path: '/visual/iconography',
     name: 'iconography',
-    section: 'visual',
+    meta: { section: 'visual' }, 
   },
   {
     path: '/visual/themes',
     name: 'themes',
-    section: 'visual',
+    meta: { section: 'visual' }, 
   },
   {
     path: '/structure/grid',
     name: 'grid',
-    section: 'structure',
+    meta: { section: 'structure' }, 
   },
   {
     path: '/structure/breakpoints',
     name: `breakpoints`,
-    section: 'structure',
+    meta: { section: 'structure' }, 
   },
   {
     path: '/visual/spacing',
     name: 'spacing',
-    section: 'structure',
+    meta: { section: 'structure' }, 
   },
   {
     path: '/datavisualisation/columns',
-    section: 'datavisualisation',
+    meta: { section: 'dataVisualisation' }, 
     name: 'columns'
   },
   {
     path: '/datavisualisation/bars',
-    section: 'datavisualisation',
+    meta: { section: 'dataVisualisation' }, 
     name: 'bars'
   },
   {
     path: '/datavisualisation/lines',
-    section: 'datavisualisation',
+    meta: { section: 'dataVisualisation' }, 
     name: 'lines'
   },
   {
     path: '/datavisualisation/stacked',
-    section: 'datavisualisation',
+    meta: { section: 'dataVisualisation' }, 
     name: 'stacked'
   },
   {
     path: '/utilities/config',
-    section: 'utilities',
+    meta: { section: 'utilities' }, 
     name: 'config'
   },
   {
     path: '/utilities/iframes',
-    section: 'utilities',
+    meta: { section: 'utilities' }, 
     name: 'iframes'
   },
   {
     path: '/utilities/assets',
-    section: 'utilities',
+    meta: { section: 'utilities' }, 
     name: 'assets'
   }
 ]
@@ -96,16 +90,14 @@ ROUTE_SECTIONS.forEach(section => {
     // Add the route to the list
     pushRouteOnce({
       name,
-      section,
       path: `/${section}/${name}`,
-      component: () => {
-        // Webpack requires to write the file name explicitly in order to create chunks
-        if (extname(path) === '.md') {
-          return import(/* webpackChunkName: "[request]" */ `./${section}/${name}/doc.md`)
-        } else {
-          return import(/* webpackChunkName: "[request]" */ `./${section}/${name}/doc`)
-        }
-      }
+      // Webpack requires to write the file name explicitly in order to create chunks
+      meta: {
+        section,
+        // We load metadata from the document using front-matter
+        ...require(`!!json-loader!metadata-loader!./${section}/${name}/doc`)
+      },
+      component: () => import(/* webpackChunkName: "[request]" */ `./${section}/${name}/doc`)
     })
   })
 })

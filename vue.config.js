@@ -20,6 +20,8 @@ module.exports = {
           // Custom markdown parser
           markdown: require('./docs/markdown')
         })
+    // Markdown files must be resolved too
+    config.resolve.extensions.add('.md')
     // Aliases configuration
     config.resolve.alias
       .set('node_modules', resolve('node_modules'))

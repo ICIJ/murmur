@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Content Placeholder</h3>
+    <h1>Content Placeholder</h1>
     <p class="text-muted">A component to create a slide up/down animation (with CSS transitions).</p>
     <sample-card :component="sample" :code="code"></sample-card>
     <api-table :api="api"></api-table>
@@ -14,7 +14,7 @@
   import api from '!!vue-docgen-loader!@/components/SlideUpDown.vue'
   import sample from './sample.vue'
   import code from '!!raw-loader!./sample.vue'
-  
+
   export default {
     components: {
       SampleCard,

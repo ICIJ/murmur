@@ -9,6 +9,7 @@ import Collection from '@/main'
 import App from './components/App.vue'
 import ApiTable from './components/ApiTable.vue'
 import SampleCard from './components/SampleCard.vue'
+import PalettePresenter from './components/PalettePresenter.vue'
 
 import routes from './routes'
 import './styles/app.scss'
@@ -21,6 +22,7 @@ Vue.use(BootstrapVue);
 
 Vue.component('ApiTable', ApiTable)
 Vue.component('SampleCard', SampleCard)
+Vue.component('PalettePresenter', PalettePresenter)
 
 Object.keys(Collection.components).forEach(key => {
   Vue.component(key, Collection.components[key])

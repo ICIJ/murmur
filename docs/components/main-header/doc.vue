@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>Main Header</h3>
     <p class="text-muted">A component to create header with generic features.</p>
     <sample-card title="" description="" :component="sample" :code="code"></sample-card>
     <api-table :api="api"></api-table>

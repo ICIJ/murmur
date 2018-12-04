@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>Generic Footer</h3>
     <sample-card description="" :component="sample" :code="code"></sample-card>
     <api-table :api="api"></api-table>
   </div>

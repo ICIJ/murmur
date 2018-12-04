@@ -1,5 +1,3 @@
-### Donate form
-
 A form to encourage donations. We usualy put this form inside a modal (here, with Boostrap Vue).
 
 ::: sample-card

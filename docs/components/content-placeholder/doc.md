@@ -1,4 +1,6 @@
-### Content Placeholder
+---
+title: Content Placeholder
+---
 
 A component to fill empty spaces with animated placeholders until content is loaded.
 

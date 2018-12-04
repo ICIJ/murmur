@@ -8,7 +8,7 @@
       <li v-for="route in routes" :key="route.name" class="docs-menu__section__item">
         <router-link :to="route.path" class="docs-menu__link">
           <fa :icon="route.icon || icon" class="docs-menu__link__icon mr-1" />
-          {{ label(route.name) }}
+          {{ routeTitle(route) }}
         </router-link>
       </li>
     </slide-up-down>
@@ -55,14 +55,14 @@
         default: () => (faBook)
       }
     },
-    methods: {
-      label (name) {
-        return startCase(name)
-      }
-    },
     watch: {
       $route () {
         this.showMenu = this.hasActiveRoute
+      }
+    },
+    methods: {
+      routeTitle(route) {
+        return route.meta.title || startCase(route.name)
       }
     },
     computed: {

@@ -37,7 +37,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <button class="btn btn-icij-secondary btn-block font-weight-bold" id="follow-icij">
+            <button class="btn btn-saddle-red btn-block font-weight-bold" id="follow-icij">
               Follow ICIJ
             </button>
             <b-popover container="main-header" target="follow-icij" placement="bottomleft" :show.sync="showSignupPopover">

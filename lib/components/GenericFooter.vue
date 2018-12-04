@@ -18,14 +18,14 @@
           </p>
           <p>
             <strong>
-              <a href="mailto:contact@icij.org" class="text-icij-primary">contact@icij.org</a>
+              <a href="mailto:contact@icij.org" class="text-selective-yellow">contact@icij.org</a>
             </strong>
           </p>
         </div>
         <div class="col-md-7">
           <div class="row justify-content-end">
             <div class="col-md-5">
-              <h5 class="text-icij-primary text-uppercase mb-3">
+              <h5 class="text-selective-yellow text-uppercase mb-3">
                 Investigations
               </h5>
               <!-- @slot List of investigations -->
@@ -55,7 +55,7 @@
               </slot>
             </div>
             <div class="col-md-4">
-              <h5 class="text-icij-primary text-uppercase mb-3">
+              <h5 class="text-selective-yellow text-uppercase mb-3">
                 Follow us
               </h5>
               <ul class="list-unstyled">

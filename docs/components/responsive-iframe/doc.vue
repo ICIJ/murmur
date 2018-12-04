@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>A component to create responsive iframe with Pym.js</h3>
+    <p class="text-muted">A component to create responsive iframe with Pym.js</p>
     <sample-card title="" description="" :component="sample" :code="code"></sample-card>
     <api-table :api="api"></api-table>
   </div>
