@@ -70,7 +70,7 @@
         return this.showMenu
       },
       hasActiveRoute () {
-        return some(this.routes, (r) => r.name === this.$route.name)
+        return some(this.routes, (r) => r.path === this.$route.path)
       },
       headingIcon () {
         return this.showMenu ? faAngleUp : faAngleDown

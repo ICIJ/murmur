@@ -20,7 +20,7 @@
   import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons/faPuzzlePiece'
   import { faRocket } from '@fortawesome/free-solid-svg-icons/faRocket'
 
-  import { componentsRoutes, visualRoutes, utilitiesRoutes, dataVisualisationRoutes } from '../routes'
+  import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
 
@@ -40,20 +40,20 @@
           return [
             {
               name: 'Visual guidelines',
-              routes: visualRoutes
+              routes: filterRoutes({ section: 'visual' })
             },
             {
               name: 'Components',
-              routes: componentsRoutes,
+              routes: filterRoutes({ section: 'components' }),
               icon: faPuzzlePiece
             },
             {
               name: 'Data Visualisation',
-              routes: dataVisualisationRoutes
+              routes: filterRoutes({ section: 'dataVisualisation' })
             },
             {
               name: 'utilities',
-              routes: utilitiesRoutes
+              routes: filterRoutes({ section: 'utilities' })
             }
           ]
         }

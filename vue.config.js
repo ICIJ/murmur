@@ -12,9 +12,7 @@ module.exports = {
     config.resolveLoader.modules.add('./loaders')
     // Add rule to handle markdown file
     config.module.rule('markdown').test(/\.md$/)
-      .use('vue-loader')
-        .loader('vue-loader')
-        .end()
+      .use('vue-loader').loader('vue-loader').end()
       .use('markdown-loader')
         .loader(require.resolve('@vuepress/markdown-loader'))
         .options({
