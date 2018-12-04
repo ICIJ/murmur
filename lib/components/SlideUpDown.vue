@@ -30,7 +30,7 @@ export default {
   },
   data () {
     return {
-      state: 'pre',
+      state: 'active',
       mounted: false,
       scrollHeight: 0
     }
