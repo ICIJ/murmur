@@ -6,3 +6,4 @@ module.exports = markdown()
   // Add internal pluggins to vuepress configuration
   .use(...apiTable('api-table'))
   .use(...sampleCard('sample-card'))
+  .use(require('markdown-it-highlightjs'))

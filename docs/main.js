@@ -14,6 +14,8 @@ import PalettePresenter from './components/PalettePresenter.vue'
 import routes from './routes'
 import './styles/app.scss'
 
+import 'highlight.js/styles/atom-one-dark.css'
+
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)

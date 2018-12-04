@@ -1,6 +1,6 @@
 {
   "name": "icij-vue-collection",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A collection of Vue component from ICIJ team",
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.umd.min.js",
@@ -56,6 +56,7 @@
     "json-loader": "^0.5.7",
     "loader-utils": "^1.1.0",
     "markdown-it-container": "^2.0.0",
+    "markdown-it-highlightjs": "^3.0.0",
     "node-sass": "^4.10.0",
     "ora": "^3.0.0",
     "raw-loader": "^0.5.1",
