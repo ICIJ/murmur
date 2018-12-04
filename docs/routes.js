@@ -7,76 +7,81 @@ const routes = [
   {
     path: '/',
     name: 'home-page',
-    component: () => import(/* webpackChunkName: "home-page" */ './components/HomePage.vue')
+    meta: {
+      section: 'getting-started',
+      // We load metadata from the document using front-matter
+      ...require('!!json-loader!metadata-loader!./components/HomePage.md')
+    },
+    component: () => import(/* webpackChunkName: "home-page" */ './components/HomePage.md')
   },
   {
     path: '/visual/states',
     name: 'states',
-    meta: { section: 'visual' }, 
+    meta: { section: 'visual' },
   },
   {
     path: '/visual/typography',
     name: 'typography',
-    meta: { section: 'visual' }, 
+    meta: { section: 'visual' },
   },
   {
     path: '/visual/iconography',
     name: 'iconography',
-    meta: { section: 'visual' }, 
+    meta: { section: 'visual' },
   },
   {
     path: '/visual/themes',
     name: 'themes',
-    meta: { section: 'visual' }, 
+    meta: { section: 'visual' },
   },
   {
     path: '/structure/grid',
     name: 'grid',
-    meta: { section: 'structure' }, 
+    meta: { section: 'structure' },
   },
   {
     path: '/structure/breakpoints',
     name: `breakpoints`,
-    meta: { section: 'structure' }, 
+    meta: { section: 'structure' },
   },
   {
     path: '/visual/spacing',
     name: 'spacing',
-    meta: { section: 'structure' }, 
+    meta: { section: 'structure' },
   },
   {
     path: '/datavisualisation/columns',
-    meta: { section: 'dataVisualisation' }, 
+    meta: { section: 'dataVisualisation' },
     name: 'columns'
   },
   {
     path: '/datavisualisation/bars',
-    meta: { section: 'dataVisualisation' }, 
+    meta: { section: 'dataVisualisation' },
     name: 'bars'
   },
   {
     path: '/datavisualisation/lines',
-    meta: { section: 'dataVisualisation' }, 
+    meta: { section: 'dataVisualisation' },
     name: 'lines'
   },
   {
     path: '/datavisualisation/stacked',
-    meta: { section: 'dataVisualisation' }, 
+    meta: { section: 'dataVisualisation' },
     name: 'stacked'
   },
   {
     path: '/utilities/config',
-    meta: { section: 'utilities' }, 
+    meta: { section: 'utilities' },
     name: 'config'
   },
   {
     path: '/utilities/iframes',
-    meta: { section: 'utilities' }, 
+    meta: { section: 'utilities' },
     name: 'iframes'
   },
   {
     path: '/utilities/assets',
-    meta: { section: 'utilities' }, 
+    meta: { section: 'utilities' },
     name: 'assets'
   }
 ]

@@ -9,4 +9,7 @@ $docs-menu-bg: $dark;
 $docs-menu-color: #fff;
 $docs-menu-muted: mix($docs-menu-bg, $docs-menu-color, 50);
 
+$docs-header-bg: $light;
+$docs-header-border-color: darken($docs-header-bg, 10);
+
 @import '../../lib/styles/variables.scss';

@@ -9,6 +9,7 @@
       <h1 class="docs-header__container__title">
         {{ title }}
       </h1>
+      <p class="lead m-0">{{ description }}</p>
     </div>
   </div>
 </template>
@@ -29,6 +30,9 @@
       breadcrumb () {
         return get(this, '$route.meta.breadcrumb', [this.section]).map(startCase)
       },
+      description () {
+        return get(this, '$route.meta.description', '')
+      },
       showHeader () {
         return this.title !== ''
       },
@@ -41,9 +45,6 @@
 
 <style lang="scss" scoped>
   @import '../styles/variables.scss';
-
-  $docs-header-bg: $light;
-  $docs-header-border-color: darken($docs-header-bg, 10);
 
   .docs-header {
     background: $docs-header-bg;
