@@ -14,7 +14,7 @@
 
 <script>
   import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons/faPuzzlePiece'
-
+  import { version } from '@package'
   import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
@@ -59,7 +59,7 @@
     },
     data () {
       return {
-        version: require('../../package.json').version
+        version
       }
     }
   }

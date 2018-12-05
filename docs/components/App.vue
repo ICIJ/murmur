@@ -98,15 +98,18 @@ export default {
         overflow: auto;
 
         &--collapse {
-          display: none;
+          visibility: hidden;
         }
       }
     }
 
     &__main {
-      min-height: 100vh;
+      min-height: 100%;
       border: $spacer solid $docs-menu-bg;
-      position: relative;
+
+      @include media-breakpoint-down(sm) {
+        min-height: 100vh;
+      }
 
       &__view {
         max-width: $app-main-max-width;
