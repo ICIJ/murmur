@@ -35,7 +35,7 @@ var routes = [
 ]
 
 ROUTE_SECTIONS.forEach(section => {
-  // Collect doc.vue file paths
+  // Collect doc.vue/md file paths
   const paths = require.context('./', true, /doc\./, 'lazy').keys()
   // Create an arry of routes for the components for the given section
   filter(paths, (p) => p.indexOf(`./${section}`) === 0).forEach(path => {
