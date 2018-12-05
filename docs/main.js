@@ -23,14 +23,11 @@ Vue.use(VueRouter)
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
 Vue.use(VueHighlightJS)
+Vue.use(Collection)
 
 Vue.component('ApiTable', ApiTable)
 Vue.component('SampleCard', SampleCard)
 Vue.component('PalettePresenter', PalettePresenter)
-
-Object.keys(Collection.components).forEach(key => {
-  Vue.component(key, Collection.components[key])
-})
 
 Collection.config.set('project.name', 'Demo Project')
 
