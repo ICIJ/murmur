@@ -14,14 +14,12 @@
 
 <script>
   import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons/faPuzzlePiece'
-  import { faRocket } from '@fortawesome/free-solid-svg-icons/faRocket'
 
   import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
 
   library.add(faPuzzlePiece)
-  library.add(faRocket)
 
   export default {
     name: 'DocsMenu',

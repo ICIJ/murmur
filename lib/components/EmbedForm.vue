@@ -92,36 +92,50 @@
       Fa: require('./Fa').default
     },
     props: {
+      /**
+       * Hide the form title
+       */
       noTitle: {
-        description: 'Hide the form title',
         type: Boolean
       },
+      /**
+       * Hide the preview panel
+       */
       noPreview: {
-        description: 'Hide the preview panel',
         type: Boolean
       },
+      /**
+       * Default width of the iframe code
+       */
       width: {
-        description: 'Default width of the iframe code',
         type: [Number, String],
         default: '100%'
       },
+      /**
+       * Default height of the iframe code
+       */
       height: {
-        description: 'Default height of the iframe code',
         type: Number,
         default: () => (window.innerHeight)
       },
+      /**
+       * Default minimal width of the iframe code (if extract from window\'s size)
+       */
       minWidth: {
-        description: 'Default minimal width of the iframe code (if extract from window\'s size)',
         type: Number,
         default: 0
       },
+      /**
+       * Default minimal height of the iframe code (if extract from window\'s size)
+       */
       minHeight: {
-        description: 'Default minimal height of the iframe code (if extract from window\'s size)',
         type: Number,
         default: 0
       },
+      /**
+       * URL of the iframe code
+       */
       url: {
-        description: 'URL of the iframe code',
         type: String
       }
     },
