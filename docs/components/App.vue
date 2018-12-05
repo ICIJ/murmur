@@ -8,10 +8,10 @@
         <fa icon="bars" />
       </button>
     </div>
+    <div @click="toggleMenu" class="app__overlay" v-if="!collapseMenu"></div>
     <div class="row no-gutters">
       <div class="col app__menu" :class="{ 'app__menu--collapse': collapseMenu }">
         <docs-menu></docs-menu>
-        <div @click="toggleMenu" class="app__menu__overlay"></div>
       </div>
       <div class="col">
         <div class="app__main">
@@ -50,6 +50,7 @@ export default {
   methods: {
     toggleMenu () {
       this.collapseMenu = !this.collapseMenu
+      document.body.style.overflow = this.collapseMenu ? 'visible' : 'hidden'
     }
   }
 }
@@ -66,38 +67,29 @@ export default {
       padding: $spacer;
     }
 
+    &__overlay {
+      z-index: $zindex-modal-backdrop;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(darken($docs-menu-bg, 10), 0.5);
+    }
+
     &__menu {
       max-width: $app-menu-max-width;
       min-width: $app-menu-max-width;
       background: $docs-menu-bg;
 
-      &__overlay {
-        display: none;
-        z-index: -1;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background: rgba($docs-menu-bg, 0.5);
-      }
-      
       @include media-breakpoint-down(sm) {
-        z-index: $zindex-modal-backdrop;
+        z-index: $zindex-modal;
         position: fixed;
         top: 0;
         left: 0;
         bottom: 0;
         width: auto;
         overflow: auto;
-
-        &__overlay {
-          display: block;
-        }
-
-        &--collapse &__overlay {
-          display: none;
-        }
 
         &--collapse {
           display: none;
