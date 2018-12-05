@@ -30,7 +30,7 @@ export default {
   },
   data () {
     return {
-      state: 'active',
+      state: 'post',
       mounted: false,
       scrollHeight: 0
     }
@@ -44,7 +44,6 @@ export default {
     return h(this.tag, { style: this.style, ref: 'container' }, this.$slots.default)
   },
   mounted () {
-    this.triggerSlide()
     this.deferedNextTick(() => {
       this.mounted = true
       this.cleanLayout()
@@ -76,8 +75,7 @@ export default {
       switch (this.state) {
         case 'pre': return this.stylePreTransition
         case 'active': return this.styleActiveTransition
-        case 'post': return this.stylePostTransition
-        default: return {}
+        default: return this.stylePostTransition
       }
     },
     activeHeight () {

@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <div class="app__navbar bg-dark px-3 pt-3 clearfix">
+    <div class="app__navbar d-block d-md-none bg-dark px-3 pt-3 clearfix">
       <router-link to="/">
         <img src="@/assets/images/icij-white.svg" alt="ICIJ" class="border border-primary d-inline-block" height="30px" />
       </router-link>
@@ -71,17 +71,8 @@ export default {
       min-width: $app-menu-max-width;
       background: $docs-menu-bg;
 
-      @include media-breakpoint-down(sm) {
-        z-index: $zindex-modal-backdrop;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: auto;
-        overflow: auto;
-      }
-
       &__overlay {
+        display: none;
         z-index: -1;
         position: fixed;
         top: 0;
@@ -90,13 +81,27 @@ export default {
         right: 0;
         background: rgba($docs-menu-bg, 0.5);
       }
+      
+      @include media-breakpoint-down(sm) {
+        z-index: $zindex-modal-backdrop;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: auto;
+        overflow: auto;
 
-      &--collapse &__overlay {
-        display: none;
-      }
+        &__overlay {
+          display: block;
+        }
 
-      &--collapse {
-        display: none;
+        &--collapse &__overlay {
+          display: none;
+        }
+
+        &--collapse {
+          display: none;
+        }
       }
     }
 
