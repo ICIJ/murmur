@@ -8,6 +8,7 @@
         <div class="app__main">
           <docs-header></docs-header>
           <router-view class="app__main__view py-4"></router-view>
+          <edit-link></edit-link>
         </div>
       </div>
     </div>
@@ -17,12 +18,14 @@
 <script>
 import DocsHeader from './DocsHeader.vue'
 import DocsMenu from './DocsMenu.vue'
+import EditLink from './EditLink.vue'
 
 export default {
   name: 'app',
   components: {
     DocsHeader,
-    DocsMenu
+    DocsMenu,
+    EditLink
   }
 }
 </script>

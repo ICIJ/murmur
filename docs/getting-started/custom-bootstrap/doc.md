@@ -20,9 +20,10 @@ $link-color: #c10448;
 
 ### Variables
 
-Here is a the variables define in lib/styles/variables.scss:
+Here is a the variables defined in <repository-link path="lib/styles/variables.scss">lib/styles/variables.scss</repository-link>:
 
 <pre v-highlightjs><code class="scss">{{ rawVariables }}</code></pre>
+
 
 <script>
   import rawVariables from '!!raw-loader!@/styles/variables.scss'

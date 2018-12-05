@@ -11,6 +11,7 @@ import App from './components/App.vue'
 import ApiTable from './components/ApiTable.vue'
 import SampleCard from './components/SampleCard.vue'
 import PalettePresenter from './components/PalettePresenter.vue'
+import RepositoryLink from './components/RepositoryLink.vue'
 
 import routes from './routes'
 import './styles/app.scss'
@@ -28,6 +29,7 @@ Vue.use(Collection)
 Vue.component('ApiTable', ApiTable)
 Vue.component('SampleCard', SampleCard)
 Vue.component('PalettePresenter', PalettePresenter)
+Vue.component('RepositoryLink', RepositoryLink)
 
 Collection.config.set('project.name', 'Demo Project')
 

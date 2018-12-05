@@ -1,7 +1,7 @@
 const loaderUtils = require('loader-utils')
 const frontmatter = require('front-matter')
 const startCase = require('lodash/startCase')
-const { dirname, extname } = require('path')
+const { dirname, extname, relative } = require('path')
 
 module.exports = function metadataLoader(source) {
   if(this.cacheable) {
@@ -9,7 +9,8 @@ module.exports = function metadataLoader(source) {
   }
 
   const metadata = {
-    title: startCase(dirname(this.resourcePath).split('/').pop())
+    title: startCase(dirname(this.resourcePath).split('/').pop()),
+    resourcePath: relative('./', this.resourcePath)
   }
 
   if (extname(this.resourcePath) === '.md') {
