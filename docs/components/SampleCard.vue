@@ -24,7 +24,7 @@
         </button>
       </div>
       <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark">
-        <pre class="text-light p-2 m-0"><code>{{ unescape(code) }}</code></pre>
+        <pre v-highlightjs class="m-0"><code :class="lang">{{ unescape(code) }}</code></pre>
       </slide-up-down>
     </div>
   </div>
@@ -60,6 +60,10 @@
       },
       code: {
         type: String
+      },
+      lang: {
+        type: String,
+        default: 'html'
       }
     },
     data () {

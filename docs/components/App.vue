@@ -32,6 +32,11 @@ export default {
 
   .app {
 
+    & /deep/ .hljs {
+      background: $dark;
+      padding: $spacer;
+    }
+
     &__menu {
       max-width: 300px;
     }

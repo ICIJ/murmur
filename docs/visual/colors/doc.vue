@@ -1,14 +1,11 @@
----
-title: Colors
----
-
-## Theme
-
-<palette-presenter :colors="themeColors"></palette-presenter>
-
-## Grays
-
-<palette-presenter :colors="graysColors"></palette-presenter>
+<template>
+  <div>
+    <h3>Theme</h3>
+    <palette-presenter :colors="themeColors"></palette-presenter>
+    <h3>Grays</h3>
+    <palette-presenter :colors="graysColors"></palette-presenter>
+  </div>
+</template>
 
 <script>
   import mainVariables from '!!sass-extract-loader?{"includePaths": ["./"]}!../../../lib/styles/variables.scss'
@@ -20,10 +17,7 @@ title: Colors
       },
       graysColors () {
         return mainVariables.global["$grays"].value
-      }
-    },
-    mounted () {
-      console.log(this.$route.meta)
+      },
     }
   }
 </script>

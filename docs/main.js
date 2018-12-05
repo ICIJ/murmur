@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueClipboard from 'vue-clipboard2'
 import BootstrapVue from 'bootstrap-vue'
+import VueHighlightJS from 'vue-highlightjs'
 import Collection from '@/main'
 
 import App from './components/App.vue'
@@ -20,7 +21,8 @@ Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 Vue.use(VueClipboard)
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue)
+Vue.use(VueHighlightJS)
 
 Vue.component('ApiTable', ApiTable)
 Vue.component('SampleCard', SampleCard)

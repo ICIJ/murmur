@@ -1,18 +1,14 @@
 import { dirname } from 'path'
 import filter from 'lodash/filter'
+import get from 'lodash/get'
+import sortBy from 'lodash/sortBy'
 
-export const ROUTE_SECTIONS = ['components', 'visual', 'structure', 'dataVisualisation', 'utilities']
+export const ROUTE_SECTIONS = ['getting-started', 'visual', 'structure', 'components', 'datavisualisation', 'utilities']
 
-const routes = [
+var routes = [
   {
     path: '/',
-    name: 'home-page',
-    meta: {
-      section: 'getting-started',
-      // We load metadata from the document using front-matter
-      ...require('!!json-loader!metadata-loader!./components/HomePage.md')
-    },
-    component: () => import(/* webpackChunkName: "home-page" */ './components/HomePage.md')
+    redirect: '/getting-started/installation-guide'
   },
   {
     path: '/visual/states',
@@ -51,22 +47,22 @@ const routes = [
   },
   {
     path: '/datavisualisation/columns',
-    meta: { section: 'dataVisualisation' },
+    meta: { section: 'datavisualisation' },
     name: 'columns'
   },
   {
     path: '/datavisualisation/bars',
-    meta: { section: 'dataVisualisation' },
+    meta: { section: 'datavisualisation' },
     name: 'bars'
   },
   {
     path: '/datavisualisation/lines',
-    meta: { section: 'dataVisualisation' },
+    meta: { section: 'datavisualisation' },
     name: 'lines'
   },
   {
     path: '/datavisualisation/stacked',
-    meta: { section: 'dataVisualisation' },
+    meta: { section: 'datavisualisation' },
     name: 'stacked'
   },
   {
@@ -107,9 +103,16 @@ ROUTE_SECTIONS.forEach(section => {
   })
 })
 
+export function sortRoutes() {
+  routes = sortBy(routes, (r) => get(r, 'meta.order', 1))
+  return routes
+}
+
 export function pushRouteOnce(route, predicate = { name: route.name }) {
   if (filterRoutes(predicate).length === 0) {
     routes.push(route)
+    // Sort routes again
+    sortRoutes()
   }
 }
 

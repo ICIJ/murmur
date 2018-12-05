@@ -1,5 +1,5 @@
 ---
-title: ICIJ Design System
+title: Installation Guide
 description: A beautiful Design System for Bootstrap 4 and Vue.js
 ---
 

@@ -12,4 +12,6 @@ $docs-menu-muted: mix($docs-menu-bg, $docs-menu-color, 50);
 $docs-header-bg: $light;
 $docs-header-border-color: darken($docs-header-bg, 10);
 
+$pre-color: $light;
+
 @import '../../lib/styles/variables.scss';

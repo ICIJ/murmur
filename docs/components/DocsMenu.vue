@@ -1,17 +1,13 @@
 <template>
   <div class="docs-menu">
     <div class="docs-menu__brand">
-      <router-link class="docs-menu__brand__logo" :to="{ name: 'home-page' }">
+      <router-link class="docs-menu__brand__logo" to="/">
         <img src="@/assets/images/icij-white.svg" alt="ICIJ" />
       </router-link>
       <div class="docs-menu__brand__version">
         <div>{{ version }}</div>
       </div>
     </div>
-    <router-link class="docs-menu__link mb-4" :to="{ name: 'home-page' }">
-      <fa icon="rocket" class="docs-menu__link__icon mr-1" />
-      Getting started
-    </router-link>
     <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
   </div>
 </template>
@@ -39,6 +35,10 @@
         default () {
           return [
             {
+              name: 'Getting started',
+              routes: filterRoutes({ meta: { section: 'getting-started' } })
+            },
+            {
               name: 'Visual guidelines',
               routes: filterRoutes({ meta: { section: 'visual' } })
             },
@@ -49,7 +49,7 @@
             },
             {
               name: 'Data Visualisation',
-              routes: filterRoutes({ meta: { section: 'dataVisualisation' } })
+              routes: filterRoutes({ meta: { section: 'datavisualisation' } })
             },
             {
               name: 'utilities',
