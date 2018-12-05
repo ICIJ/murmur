@@ -36,7 +36,8 @@
   @import '../styles/variables.scss';
 
   .edit-link {
-    max-width: 770px;
+    max-width: $app-main-max-width;
+    padding: 0 $spacer;
     margin: auto;
     opacity: 0.5;
     border-top: 1px solid $card-border-color;

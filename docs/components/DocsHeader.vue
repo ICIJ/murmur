@@ -51,9 +51,9 @@
     border-bottom: 1px solid $docs-header-border-color;
 
     &__container {
-      max-width: 770px;
+      max-width: $app-main-max-width;
       margin: auto;
-      padding: $spacer * 1.5 0;
+      padding: $spacer * 1.5 $spacer;
 
       &__title {
         padding: 0;

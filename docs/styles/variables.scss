@@ -13,5 +13,7 @@ $docs-header-bg: $light;
 $docs-header-border-color: darken($docs-header-bg, 10);
 
 $pre-color: $light;
+$app-menu-max-width: 300px;
+$app-main-max-width: 770px;
 
-@import '../../lib/styles/variables.scss';
+@import '@/styles/variables.scss';

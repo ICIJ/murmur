@@ -1,6 +1,6 @@
 <template>
   <div class="docs-menu">
-    <div class="docs-menu__brand">
+    <div class="docs-menu__brand d-none d-md-flex">
       <router-link class="docs-menu__brand__logo" to="/">
         <img src="@/assets/images/icij-white.svg" alt="ICIJ" />
       </router-link>
@@ -69,7 +69,6 @@
   @import '../styles/variables.scss';
 
   .docs-menu {
-    background: $docs-menu-bg;
     padding:  $spacer * 1.5 $spacer;
     min-height: 100vh;
     height: 100%;
