@@ -35,8 +35,8 @@ Now all components will be globally available in your app.
 
 ### Individual components
 
-An alternative to install all component with a pluggin is to import only a specific
-component.
+An alternative to installing all components with a pluggin is to import only
+a specific component.
 
 ```js
 import { EmbedForm } from 'icij-vue-collection'
