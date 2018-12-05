@@ -5,6 +5,28 @@ import sortBy from 'lodash/sortBy'
 
 export const ROUTE_SECTIONS = ['getting-started', 'visual', 'structure', 'components', 'datavisualisation', 'utilities']
 
+export function loadDoc(section, name) {
+  return () => import(/* webpackChunkName: "[request]" */ `./${section}/${name}/doc`)
+}
+
+export function sortRoutes() {
+  routes = sortBy(routes, (r) => get(r, 'meta.order', 1))
+  return routes
+}
+
+export function pushRouteOnce(route, predicate = { name: route.name }) {
+  if (filterRoutes(predicate).length === 0) {
+    routes.push(route)
+    // Sort routes again
+    sortRoutes()
+  }
+}
+
+export function filterRoutes(predicate = {}) {
+  return filter(routes, predicate)
+}
+
+
 var routes = [
   {
     path: '/',
@@ -13,7 +35,7 @@ var routes = [
   {
     path: '/visual/states',
     name: 'states',
-    meta: { section: 'visual' },
+    meta: { section: 'visual' }
   },
   {
     path: '/visual/typography',
@@ -84,7 +106,7 @@ var routes = [
 
 ROUTE_SECTIONS.forEach(section => {
   // Collect doc.vue file paths
-  const paths = require.context('./', true, /doc\./).keys()
+  const paths = require.context('./', true, /doc\./, 'lazy').keys()
   // Create an arry of routes for the components for the given section
   filter(paths, (p) => p.indexOf(`./${section}`) === 0).forEach(path => {
     const name = dirname(path).split('/').pop()
@@ -92,32 +114,15 @@ ROUTE_SECTIONS.forEach(section => {
     pushRouteOnce({
       name,
       path: `/${section}/${name}`,
-      // Webpack requires to write the file name explicitly in order to create chunks
       meta: {
         section,
         // We load metadata from the document using front-matter
         ...require(`!!json-loader!metadata-loader!./${section}/${name}/doc`)
       },
-      component: () => import(/* webpackChunkName: "[request]" */ `./${section}/${name}/doc`)
+      // Webpack requires to write the file name explicitly in order to create chunks
+      component: loadDoc(section, name)
     })
   })
 })
-
-export function sortRoutes() {
-  routes = sortBy(routes, (r) => get(r, 'meta.order', 1))
-  return routes
-}
-
-export function pushRouteOnce(route, predicate = { name: route.name }) {
-  if (filterRoutes(predicate).length === 0) {
-    routes.push(route)
-    // Sort routes again
-    sortRoutes()
-  }
-}
-
-export function filterRoutes(predicate = {}) {
-  return filter(routes, predicate)
-}
 
 export default routes;
