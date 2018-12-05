@@ -47,10 +47,16 @@ export default {
   beforeCreate () {
     library.add(faBars)
   },
+  watch: {
+    '$route.name': function () {
+      this.collapseMenu = true
+    }
+  },
   methods: {
     toggleMenu () {
       this.collapseMenu = !this.collapseMenu
-      document.body.style.overflow = this.collapseMenu ? 'visible' : 'hidden'
+      // Use bootstrap's class to disable scrolling on the body
+      document.body.classList.toggle('modal-open', !this.collapseMenu)
     }
   }
 }
@@ -74,7 +80,7 @@ export default {
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(darken($docs-menu-bg, 10), 0.5);
+      background: $modal-backdrop-bg;
     }
 
     &__menu {
