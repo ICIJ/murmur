@@ -1,6 +1,6 @@
 ---
 title: About ICIJ
-order: 10
+order: 30
 ---
 
 ICIJ is a [unique organization](https://www.icij.org/about/icijs-story/).

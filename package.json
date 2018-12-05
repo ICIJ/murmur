@@ -1,13 +1,21 @@
 {
   "name": "icij-vue-collection",
   "version": "0.1.7",
-  "description": "A collection of Vue component from ICIJ team",
+  "description": "A beautiful Design System for Bootstrap 4 and Vue.js",
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.umd.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/icij/vue-collection"
+  },
   "files": [
     "lib/**/*",
     "dist/lib/**/*"
   ],
+  "directories": {
+    "lib": "lib",
+    "doc": "docs"
+  },
   "private": false,
   "license": "MIT",
   "scripts": {

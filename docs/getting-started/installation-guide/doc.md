@@ -1,6 +1,7 @@
 ---
 title: Installation Guide
 description: A beautiful Design System for Bootstrap 4 and Vue.js
+order: 10
 ---
 
 The <a href="https://icij.org">International Consortium of Investigative Journalists</a>
@@ -21,19 +22,28 @@ npm i icij-vue-collection
 # or with Yarn:
 yarn add icij-vue-collection
 ```
-Then, register all the components in your app entry point:
+Then, register the collection as a pluggin in your app entry point:
 
 ```js
 import Vue from 'vue'
 import Collection from 'icij-vue-collection'
 
-Object.keys(Collection.components).forEach(key => {
-  Vue.component(key, Collection.components[key])
-})
+Vue.use(Collection)
 ```
+
+Now all components will be globally available in your app.
 
 ### Individual components
 
+An alternative to install all component with a pluggin is to import only a specific
+component.
+
 ```js
 import { EmbedForm } from 'icij-vue-collection'
+
+Vue.component('component-name', {  
+  components: {
+    EmbedForm
+  }
+})
 ```

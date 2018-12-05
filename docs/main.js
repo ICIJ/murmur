@@ -15,7 +15,7 @@ import PalettePresenter from './components/PalettePresenter.vue'
 import routes from './routes'
 import './styles/app.scss'
 
-import 'highlight.js/styles/atom-one-dark.css'
+import 'highlight.js/styles/monokai-sublime.css'
 
 Vue.config.productionTip = false
 
