@@ -15,15 +15,18 @@ available in your application. This documentation, like any application using th
 package, has its own subset of icons:
 
 <ul class="list-inline">
-  <li v-for="icon in fas" class="p-1 border border-primary rounded list-inline-item">
+  <li v-for="icon in fas" class="p-1 border border-primary rounded list-inline-item mb-2">
     <fa :icon="icon" class="fa-fw fa-2x" />
+  </li>  
+  <li v-for="icon in fab" class="p-1 border border-primary rounded list-inline-item mb-2">
+    <fa :icon="['fab', icon]" class="fa-fw fa-2x" />
   </li>
 </ul>
 
-
 This way, your application stays small and doesn't load unecessary icon — especialy
-if it only uses components that require only a few icons. These icons are added
-using the following method:
+if it only uses components that require only a few icons. Because icons are lazy
+loaded, you might see this list grow while visiting other components. These icons
+are added using the following method:
 
 ```js
 // Target the icon you need to add to your library
@@ -47,7 +50,10 @@ You can now use the `bars` icon in you templates using the Fa component:
   export default {
     computed: {
       fas () {
-        return Object.keys(library.definitions.fas)
+        return Object.keys(library.definitions.fas || {})
+      },      
+      fab () {
+        return Object.keys(library.definitions.fab || {})
       }
     }
   }
