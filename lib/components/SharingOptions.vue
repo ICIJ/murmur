@@ -53,6 +53,7 @@
   import IframeResizer from '../utils/iframe-resizer'
 
   import { library } from './Fa'
+  
   /**
    * SharingOptions
    */
