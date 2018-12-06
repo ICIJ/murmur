@@ -17,4 +17,4 @@ $link-color: #c10448;
 @import 'node_modules/bootstrap/scss/bootstrap';
 ```
 
-All variables are defined in <repository-link path="lib/styles/variables.scss">lib/styles/variables.scss</repository-link>:
+All variables are defined in <repository-link path="lib/styles/variables.scss">lib/styles/variables.scss</repository-link>.

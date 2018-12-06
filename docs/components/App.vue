@@ -124,7 +124,7 @@ export default {
       border-left: 0;
 
       @include media-breakpoint-down(sm) {
-        min-height: 100vh;
+        min-height: auto;
         border: 0;
       }
 
