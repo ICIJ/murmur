@@ -1,6 +1,6 @@
 {
   "name": "icij-vue-collection",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "A beautiful Design System for Bootstrap 4 and Vue.js",
   "author": "promera@icij.org",
   "main": "dist/lib/icij-vue-collection.umd.min.js",
