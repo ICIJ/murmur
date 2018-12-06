@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <div class="app__navbar d-block d-md-none bg-dark px-3 pt-3 clearfix">
+    <div class="app__navbar d-block d-md-none bg-dark p-3 clearfix">
       <router-link to="/">
         <img src="@/assets/images/icij-white.svg" alt="ICIJ" class="border border-primary d-inline-block" height="30px" />
       </router-link>
@@ -8,8 +8,10 @@
         <fa icon="bars" />
       </button>
     </div>
-    <div @click="toggleMenu" class="app__overlay" v-if="!collapseMenu"></div>
-    <div class="row no-gutters">
+    <transition name="fade">
+      <div @click="toggleMenu" class="app__overlay" v-if="!collapseMenu"></div>
+    </transition>
+    <div class="row no-gutters flex-nowrap">
       <div class="col app__menu" :class="{ 'app__menu--collapse': collapseMenu }">
         <docs-menu></docs-menu>
       </div>
@@ -27,6 +29,7 @@
 <script>
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 import { library, default as Fa } from '@/components/Fa'
+import { mapState } from 'vuex'
 
 import DocsHeader from './DocsHeader.vue'
 import DocsMenu from './DocsMenu.vue'
@@ -39,24 +42,24 @@ export default {
     DocsMenu,
     EditLink
   },
-  data () {
-    return {
-      collapseMenu: true
-    }
-  },
   beforeCreate () {
     library.add(faBars)
   },
   watch: {
     '$route.name': function () {
-      this.collapseMenu = true
+      this.$store.commit('collapseMenu')
+    },
+    collapseMenu: function () {
+      // Use bootstrap's class to disable scrolling on the body
+      document.body.classList.toggle('modal-open', !this.collapseMenu)
     }
+  },
+  computed: {
+    ...mapState(['collapseMenu'])
   },
   methods: {
     toggleMenu () {
-      this.collapseMenu = !this.collapseMenu
-      // Use bootstrap's class to disable scrolling on the body
-      document.body.classList.toggle('modal-open', !this.collapseMenu)
+      this.$store.commit('toggleMenu')
     }
   }
 }
@@ -73,14 +76,23 @@ export default {
       padding: $spacer;
     }
 
-    &__overlay {
-      z-index: $zindex-modal-backdrop;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: $modal-backdrop-bg;
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity 300ms;
+    }
+    .fade-enter, .fade-leave-to {
+      opacity: 0;
+    }
+
+    @include media-breakpoint-down(sm) {
+      &__overlay {
+        z-index: $zindex-modal-backdrop;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: $modal-backdrop-bg;
+      }
     }
 
     &__menu {
@@ -96,9 +108,12 @@ export default {
         bottom: 0;
         width: auto;
         overflow: auto;
+        transform: translateX(0%);
+        transition: transform 300ms;
 
         &--collapse {
-          visibility: hidden;
+          pointer-events: none;
+          transform: translateX(-100%);
         }
       }
     }
@@ -109,6 +124,7 @@ export default {
 
       @include media-breakpoint-down(sm) {
         min-height: 100vh;
+        border: 0;
       }
 
       &__view {

@@ -4,7 +4,7 @@
 
 <script>
   import { repository } from '@package'
-  import { join } from 'path'
+  import join from 'url-join'
 
   export default {
     name: 'RepositoryLink',

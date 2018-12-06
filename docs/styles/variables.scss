@@ -16,4 +16,6 @@ $pre-color: $light;
 $app-menu-max-width: 300px;
 $app-main-max-width: 770px;
 
+$modal-backdrop-bg: rgba(darken($dark, 10), .5);
+
 @import '@/styles/variables.scss';
