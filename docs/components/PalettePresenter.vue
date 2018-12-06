@@ -9,7 +9,7 @@
           <span class="palette-presenter__list__item__value__hex">
             {{ value.hex }}
           </span>
-          <button class="btn btn-sm btn-link ml-2" @click="$copyText(value.hex)">
+          <button class="btn btn-sm btn-link ml-2" @click="copyText(value.hex)">
             <fa icon="paste" />
           </button>
         </span>
@@ -21,6 +21,7 @@
 <script>
   import chroma from 'chroma-js'
   import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
+  import { copyText } from '@/utils/clipboard'
   import { library, default as Fa } from '@/components/Fa'
   library.add(faPaste)
 
@@ -34,6 +35,7 @@
       }
     },
     methods: {
+      copyText,
       bgStyle(name) {
         return {
           backgroundColor: this.colors[name].value.hex,

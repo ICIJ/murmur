@@ -64,13 +64,11 @@
 
 <script>
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
-  import VueClipboard from 'vue-clipboard2'
   import Vue from 'vue'
 
   import IframeResizer from '@/utils/iframe-resizer'
+  import { copyText } from '@/utils/clipboard'
   import { library } from './Fa'
-
-  Vue.use(VueClipboard)
 
   /**
    * Embed Form
@@ -147,7 +145,7 @@
         return IframeResizer.template(url)
       },
       copyEmbedCode () {
-        return this.$copyText(this.embedCode(), this.$el).then(() => {
+        return copyText(this.embedCode(), this.$el).then(() => {
           this.selectCode()
         })
       },

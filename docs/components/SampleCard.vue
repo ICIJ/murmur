@@ -18,7 +18,7 @@
           <span v-if="collapseCode">Show code</span>
           <span v-if="!collapseCode">Hide code</span>
         </button>
-        <button class="btn btn-sm font-weight-bold btn-primary col" @click="$copyText(code)">
+        <button class="btn btn-sm font-weight-bold btn-primary col" @click="copyText(code)">
           <fa icon="paste" class="mr-1" />
           Copy
         </button>
@@ -35,6 +35,7 @@
   import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
   import unescape from 'lodash/unescape'
 
+  import { copyText } from '@/utils/clipboard'
   import { library, default as Fa } from '@/components/Fa'
   import SlideUpDown from '@/components/SlideUpDown.vue'
 
@@ -72,6 +73,7 @@
       }
     },
     methods: {
+      copyText,
       toggleCode (toggle = !this.collapseCode) {
         this.collapseCode = toggle
       },

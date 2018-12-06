@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueClipboard from 'vue-clipboard2'
 import BootstrapVue from 'bootstrap-vue'
 import VueHighlightJS from 'vue-highlightjs'
 import Collection from '@/main'
@@ -21,7 +20,6 @@ import 'highlight.js/styles/monokai-sublime.css'
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
-Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
 Vue.use(VueHighlightJS)
 Vue.use(Collection)
