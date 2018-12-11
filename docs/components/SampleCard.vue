@@ -24,7 +24,9 @@
         </button>
       </div>
       <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark">
-        <pre v-highlightjs class="m-0"><code :class="lang">{{ unescape(code) }}</code></pre>
+        <slot name="code">
+          <pre><code :class="lang" v-html="code"></code></pre>
+        </slot>
       </slide-up-down>
     </div>
   </div>
@@ -90,6 +92,8 @@
 </script>
 
 <style lang="scss">
+  @import '../styles/variables.scss';
+
   .sample-card {
 
     &__body {
@@ -97,6 +101,12 @@
       &__render {
         overflow: visible;
         max-width: 100%;
+      }
+
+      &__code {
+        pre {
+          margin: $spacer / 2;
+        }
       }
     }
   }

@@ -1,5 +1,6 @@
 const { join } = require('path')
 const resolve = filepath => join(__dirname, filepath)
+const { ContextReplacementPlugin } = require('webpack')
 
 module.exports = {
   // The app use hashbang routes so we can have relative path in BASE_URL
@@ -14,7 +15,7 @@ module.exports = {
     config.module.rule('markdown').test(/\.md$/)
       .use('vue-loader').loader('vue-loader').end()
       .use('markdown-loader')
-        .loader(require.resolve('@vuepress/markdown-loader'))
+        .loader('markdown-loader')
         .options({
           sourceDir: resolve('./docs'),
           // Custom markdown parser
@@ -22,6 +23,13 @@ module.exports = {
         })
     // Markdown files must be resolved too
     config.resolve.extensions.add('.md')
+    // Add a plugin to compile a lightweight of highlight.js
+    config
+      .plugin('highlight.js')
+      .use(ContextReplacementPlugin, [
+        /highlight\.js\/lib\/languages$/,
+        new RegExp('^./(javascript|python|bash|css|scss)$')
+      ])
     // Aliases configuration
     config.resolve.alias
       .set('node_modules', resolve('node_modules'))

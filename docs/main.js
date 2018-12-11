@@ -4,7 +4,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
-import VueHighlightJS from 'vue-highlightjs'
 import Collection from '@/main'
 
 import store from './store'
@@ -22,7 +21,6 @@ import 'highlight.js/styles/monokai-sublime.css'
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
-Vue.use(VueHighlightJS)
 Vue.use(Collection)
 
 Vue.config.productionTip = false

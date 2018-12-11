@@ -13,7 +13,7 @@
 
   import api from '!!vue-docgen-loader!@/components/SlideUpDown.vue'
   import sample from './sample.vue'
-  import code from '!!raw-loader!./sample.vue'
+  import code from '!!highlight-loader?lang=html!./sample.vue'
 
   export default {
     components: {

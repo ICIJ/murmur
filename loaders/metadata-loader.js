@@ -4,9 +4,7 @@ const startCase = require('lodash/startCase')
 const { dirname, extname, relative } = require('path')
 
 module.exports = function metadataLoader(source) {
-  if(this.cacheable) {
-    this.cacheable()
-  }
+  this && this.cacheable && this.cacheable();
 
   const metadata = {
     title: startCase(dirname(this.resourcePath).split('/').pop()),

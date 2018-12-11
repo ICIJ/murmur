@@ -7,7 +7,6 @@ done with the power of CSS".
 
 All available icons [can be found here](https://fontawesome.com/icons?d=gallery&m=free).
 
-
 ### Adding icons to the library
 
 Since all icons are not imported automaticly, you must indicate which icons are
@@ -39,10 +38,10 @@ library.add(faBars)
 ```
 
 You can now use the `bars` icon in you templates using the Fa component:
+
 ```html
 <fa icon="bars" />
 ```
-
 
 <script>
   import { library } from '@/components/Fa'

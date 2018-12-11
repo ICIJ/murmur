@@ -1,21 +1,21 @@
 <template>
-  <main-header no-headroom position="relative">
-    <template slot="navbar">
-      <ul class="navbar-nav mr-auto">
-        <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
-          <template slot="button-content">
-            A long project name
-          </template>
-          <b-dropdown-item v-for="(item, $index) in dropdownItems"  :key="$index" :href="item.href" v-bind="{ active: !!item.active }">
-            {{ item.label }}
-          </b-dropdown-item>
-        </b-nav-dropdown>
-      </ul>
-    </template>
-  </main-header>
+  <div class="full-width">
+    <main-header no-headroom position="relative">
+      <template slot="navbar">
+        <ul class="navbar-nav mr-auto">
+          <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
+            <template slot="button-content">
+              A long project name
+            </template>
+            <b-dropdown-item v-for="(item, $index) in dropdownItems"  :key="$index" :href="item.href" v-bind="{ active: !!item.active }">
+              {{ item.label }}
+            </b-dropdown-item>
+          </b-nav-dropdown>
+        </ul>
+      </template>
+    </main-header>
+  </div>
 </template>
-
-
 
 <script>
   import { MainHeader } from '@/main'
@@ -41,3 +41,13 @@
     }
   }
 </script>
+
+<style lang="scss">
+  .full-width {
+    overflow: auto;
+
+    .main-header {
+      width: 880px;
+    }
+  }
+</style>
