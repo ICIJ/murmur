@@ -105,7 +105,8 @@
 
       &__code {
         pre {
-          margin: $spacer / 2;
+          padding: $spacer / 2;
+          margin: 0;
         }
       }
     }
