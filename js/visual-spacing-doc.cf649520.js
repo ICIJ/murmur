@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["visual-spacing-doc"],{f7b4:function(n,t,e){"use strict";e.r(t);var s=function(){var n=this,t=n.$createElement,e=n._self._c||t;return e("div",{staticClass:"content"})},c=[],i=e("2877"),l={},o=Object(i["a"])(l,s,c,!1,null,null,null);o.options.__file="doc.md";t["default"]=o.exports}}]);
-//# sourceMappingURL=visual-spacing-doc.cf649520.js.map

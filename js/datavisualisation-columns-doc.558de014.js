@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["datavisualisation-columns-doc"],{"300f":function(n,t,s){"use strict";s.r(t);var e=function(){var n=this,t=n.$createElement,s=n._self._c||t;return s("div",{staticClass:"content"})},o=[],a=s("2877"),c={},i=Object(a["a"])(c,e,o,!1,null,null,null);i.options.__file="doc.md";t["default"]=i.exports}}]);
-//# sourceMappingURL=datavisualisation-columns-doc.558de014.js.map
