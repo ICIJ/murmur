@@ -112,7 +112,6 @@
     &__link {
       color: $docs-menu-color;
       position: relative;
-      margin-bottom: $spacer * 0.5;
       padding: $spacer * 0.25 $spacer * 0.75;
       display: inline-block;
 
@@ -147,6 +146,11 @@
         border: 1px solid rgba(white, 0.5);
         background: rgba($docs-menu-muted, 0.2);
       }
+    }
+
+    &__badge {
+      border-radius: $border-radius;
+      opacity: 0.7;
     }
   }
 </style>

@@ -5,11 +5,14 @@
       {{ name }}
     </h4>
     <slide-up-down :active="active" tag="ul" class="list-unstyled mb-0">
-      <li v-for="route in routes" :key="route.name" class="docs-menu__section__item">
+      <li v-for="route in routes" :key="route.name" class="docs-menu__section__item d-flex justify-content-between align-items-center mb-2">
         <router-link :to="route.path" class="docs-menu__link">
           <fa :icon="route.icon || icon" class="docs-menu__link__icon mr-1" />
           {{ routeTitle(route) }}
         </router-link>
+        <span v-if="routeHasBadge(route)" class="badge badge-secondary docs-menu__badge">
+          {{ route.meta.badge }}
+        </span>
       </li>
     </slide-up-down>
   </div>
@@ -63,6 +66,9 @@
     methods: {
       routeTitle(route) {
         return route.meta.title || startCase(route.name)
+      },
+      routeHasBadge(route) {
+        return route.meta && route.meta.badge
       }
     },
     computed: {
