@@ -38,5 +38,8 @@ module.exports = {
       .set('@styles', resolve('lib/styles'))
       .set('@components', resolve('lib/components'))
       .set('@package', resolve('package.json'))
+      .set('$', resolve('docs'))
+      .set('$components', resolve('docs/components'))
+      .set('$pages', resolve('docs/pages'))
   }
 }

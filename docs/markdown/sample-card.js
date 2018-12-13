@@ -1,6 +1,5 @@
 const hljs = require('highlight.js');
 const container = require('markdown-it-container')
-const escape = require('lodash/escape')
 
 module.exports = function (name) {
   return [container, name, {
@@ -10,7 +9,7 @@ module.exports = function (name) {
         const code = hljs.highlight(lang, tokens[idx + 1].content)
         return `<sample-card lang="${lang}">\n` +
           `<template slot="code">\n` +
-            `<pre><code>${code.value}</code></pre>\n` +
+            `<pre><code class="${lang}">${code.value}</code></pre>\n` +
           `</template>\n` +
           `<template>\n` +
             `<div>`;

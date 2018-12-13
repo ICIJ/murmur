@@ -8,8 +8,8 @@
 </template>
 
 <script>
-  import ApiTable from '../ApiTable.vue'
-  import SampleCard from '../SampleCard.vue'
+  import ApiTable from '$components/ApiTable.vue'
+  import SampleCard from '$components/SampleCard.vue'
 
   import api from '!!vue-docgen-loader!@/components/SlideUpDown.vue'
   import sample from './sample.vue'

@@ -35,7 +35,6 @@
 <script>
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
   import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
-  import unescape from 'lodash/unescape'
 
   import { copyText } from '@/utils/clipboard'
   import { library, default as Fa } from '@/components/Fa'
@@ -78,9 +77,6 @@
       copyText,
       toggleCode (toggle = !this.collapseCode) {
         this.collapseCode = toggle
-      },
-      unescape (html) {
-        return unescape(html)
       }
     },
     computed: {

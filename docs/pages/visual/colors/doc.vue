@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import mainVariables from '!!sass-extract-loader?{"includePaths": ["./"]}!../../../lib/styles/variables.scss'
+  import mainVariables from '!!sass-extract-loader?{"includePaths": ["./"]}!@styles/variables.scss'
 
   export default {
     computed: {
