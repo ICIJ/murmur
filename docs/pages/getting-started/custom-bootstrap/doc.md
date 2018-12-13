@@ -17,4 +17,18 @@ $link-color: #c10448;
 @import 'node_modules/bootstrap/scss/bootstrap';
 ```
 
-All variables are defined in <repository-link path="lib/styles/variables.scss">lib/styles/variables.scss</repository-link>.
+Here are all the variables defined in <repository-link path="lib/styles/variables.scss">lib/styles/variables.scss</repository-link>:
+
+<pre class="bg-dark p-3"><code v-html="rawVariables"></code></pre>
+
+<script>
+import rawVariables from '!!highlight-loader?lang=scss!@styles/variables.scss'
+
+export default {
+  data () {
+    return {
+      rawVariables
+    }
+  }
+}
+</script>
