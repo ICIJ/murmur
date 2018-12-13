@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["datavisualisation-bars-doc"],{"1d24":function(n,t,e){"use strict";e.r(t);var a=function(){var n=this,t=n.$createElement,e=n._self._c||t;return e("div")},i=[],o={},s=o,l=e("2877"),c=Object(l["a"])(s,a,i,!1,null,null,null);c.options.__file="doc.md";t["default"]=c.exports}}]);
-//# sourceMappingURL=datavisualisation-bars-doc.567a5220.js.map

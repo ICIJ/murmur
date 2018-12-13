@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["visual-typography-doc"],{f6c1:function(n,e,t){"use strict";t.r(e);var o=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div")},c=[],l={},i=l,s=t("2877"),u=Object(s["a"])(i,o,c,!1,null,null,null);u.options.__file="doc.md";e["default"]=u.exports}}]);
-//# sourceMappingURL=visual-typography-doc.7c0f18fc.js.map
