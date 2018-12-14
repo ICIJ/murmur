@@ -7,7 +7,7 @@
     <div class="embedable-footer__lead small text-truncate" v-html="lead"></div>
     <button class="btn btn-link text-white btn-sm py-0 embedable-footer__share-btn" @click="showShareOptions = !showShareOptions" :class="{ active: showShareOptions }">
       <fa icon="share-alt" />
-      <span class="sr-only">Share</span>
+      <span class="sr-only">{{ $t('embedable-footer.share') }}</span>
     </button>
     <sharing-options :values="sharingOptionsValues" v-if="showShareOptions" direction="column-reverse" :iframe-min-height="iframeMinHeight" :iframe-min-width="iframeMinWidth"></sharing-options>
   </div>

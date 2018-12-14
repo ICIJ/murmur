@@ -1,32 +1,18 @@
 {
   "name": "icij-vue-collection",
   "version": "0.1.14",
+  "private": false,
   "description": "A beautiful Design System for Bootstrap 4 and Vue.js",
   "author": "promera@icij.org",
-  "main": "dist/lib/icij-vue-collection.umd.min.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/icij/vue-collection"
-  },
-  "files": [
-    "lib/**/*",
-    "dist/lib/**/*"
-  ],
-  "directories": {
-    "lib": "lib",
-    "doc": "docs"
-  },
-  "private": false,
-  "license": "MIT",
   "scripts": {
-    "prepublishOnly": "yarn build",
-    "postpublish": "yarn deploy",
     "serve": "vue-cli-service serve",
     "build": "yarn build:docs && yarn build:lib",
+    "lint": "vue-cli-service lint",
+    "deploy": "node deploy.js",
     "build:docs": "vue-cli-service build --dest dist/docs",
     "build:lib": "vue-cli-service build --target lib --dest dist/lib 'lib/main.js'",
-    "deploy": "node deploy.js",
-    "lint": "vue-cli-service lint"
+    "postpublish": "yarn deploy",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
@@ -44,10 +30,12 @@
     "promise-polyfill": "^8.1.0",
     "vue": "^2.5.17",
     "vue-headroom": "^0.9.0",
+    "vue-i18n": "^8.4.0",
     "vue-router": "^3.0.1",
     "vue-social-sharing": "^2.3.3"
   },
   "devDependencies": {
+    "@kazupon/vue-i18n-loader": "^0.3.0",
     "@vue/cli-plugin-babel": "^3.1.1",
     "@vue/cli-plugin-eslint": "^3.1.5",
     "@vue/cli-service": "^3.1.4",
@@ -72,6 +60,7 @@
     "sass-loader": "^7.0.1",
     "toml": "^2.3.3",
     "url-join": "^4.0.0",
+    "vue-cli-plugin-i18n": "^0.5.1",
     "vue-docgen-api": "^2.6.10",
     "vue-template-compiler": "^2.5.17",
     "vuex": "^3.0.1"
@@ -95,13 +84,27 @@
       "autoprefixer": {}
     }
   },
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "directories": {
+    "lib": "lib",
+    "doc": "docs"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "files": [
+    "lib/**/*",
+    "dist/lib/**/*"
+  ],
+  "license": "MIT",
+  "main": "dist/lib/icij-vue-collection.umd.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/icij/vue-collection"
+  }
 }

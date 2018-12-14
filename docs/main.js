@@ -38,4 +38,5 @@ new Vue({
   store,
   render: h => h(App),
   router: new VueRouter({ routes }),
+  i18n: Collection.i18n
 }).$mount('#app')

@@ -11,10 +11,4 @@ A form to encourage donations. We usualy put this form inside a modal (here, wit
 </b-modal>
 :::
 
-You can show it in the page directly.
-
-::: sample-card
-<donate-form introduction="This is a custom message using a component's property" class="bg-white"></donate-form>
-:::
-
 ::: api-table ./lib/components/DonateForm.vue :::

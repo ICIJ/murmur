@@ -5,7 +5,7 @@
     </button>
     <sign-up-form class="p-3"></sign-up-form>
     <div class="px-3 pb-1 text-uppercase text-muted font-weight-bold">
-      Follow us
+      {{ $t('follow-us-popover.heading') }}
     </div>
     <div class="p-3 bg-light container-fluid text-center">
       <div class="row">

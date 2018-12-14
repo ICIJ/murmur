@@ -31,26 +31,26 @@
   <div class="embed-form">
     <div class="container-fluid">
       <h4 class="embed-form__heading" v-if="!noTitle">
-        Embed on your website
+        {{ $t('embed-form.heading') }}
       </h4>
       <div class="row">
         <div class="col">
           <p>
-            Copy the code bellow to embed this on your website.
+            {{ $t('embed-form.introduction') }}
           </p>
           <textarea class="form-control embed-form__code mb-2" readonly @click="selectCode" :value="embedCode()"></textarea>
 
           <label class="custom-control custom-checkbox btn btn-sm float-left">
             <input type="checkbox" class="custom-control-input" v-model="responsiveCheck">
             <span class="custom-control-label font-weight-bold">
-              Responsive iFrame
+              {{ $t('embed-form.responsive-optin') }}
             </span>
           </label>
 
           <div class="text-right">
             <button class="btn btn-link btn-sm text-uppercase font-weight-bold" @click="copyEmbedCode">
               <fa icon="clipboard" />
-              Copy
+              {{ $t('embed-form.copy') }}
             </button>
           </div>
         </div>

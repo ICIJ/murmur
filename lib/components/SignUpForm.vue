@@ -2,13 +2,13 @@
   <form @submit.prevent="subscribe($event)" class="sign-up-form" :class="{ 'sign-up-form--horizontal': horizontal }">
     <fieldset :disabled="frozen">
       <label class="text-uppercase text-muted font-weight-bold" for="input-email" v-if="!noLabel">
-        Stories in your inbox
+        {{ $t("sign-up-form.label") }}
       </label>
       <div class="sign-up-form__fieldset__group" :class="{ 'input-group': horizontal }">
-        <input v-model="email" name="EMAIL" type="text" class="form-control" placeholder="Email address" id="input-email" />
+        <input v-model="email" name="EMAIL" type="text" class="form-control" :placeholder="$t('sign-up-form.placeholder')" id="input-email" />
         <div class="sign-up-form__fieldset__group__addon" :class="{ 'input-group-append': horizontal }">
           <button class="btn btn-primary text-uppercase font-weight-bold" type="submit">
-            Sign up
+            {{ $t("sign-up-form.submit") }}
           </button>
         </div>
       </div>

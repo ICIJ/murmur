@@ -30,6 +30,13 @@ module.exports = {
         /highlight\.js\/lib\/languages$/,
         new RegExp('^./(javascript|python|bash|css|scss)$')
       ])
+    // Add loader for i18n custom blocks
+    config.module
+      .rule("i18n")
+      .resourceQuery(/blockType=i18n/)
+      .type('javascript/auto')
+      .use("i18n")
+        .loader("@kazupon/vue-i18n-loader")
     // Aliases configuration
     config.resolve.alias
       .set('node_modules', resolve('node_modules'))
@@ -41,5 +48,13 @@ module.exports = {
       .set('$', resolve('docs'))
       .set('$components', resolve('docs/components'))
       .set('$pages', resolve('docs/pages'))
+  },
+  pluginOptions: {
+    i18n: {
+      locale: 'en',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
   }
 }

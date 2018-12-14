@@ -28,17 +28,17 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <a href="https://www.icij.org/leak/" target="_blank" class="nav-link">
-              Leak to us
+              {{ $t('main-header.navbar.leak') }}
             </a>
           </li>
           <li class="nav-item mr-lg-3">
             <a @click.prevent="$refs.donateFormModal.show()" href="#" class="nav-link">
-              Support us
+              {{ $t('main-header.navbar.support') }}
             </a>
           </li>
           <li class="nav-item">
             <button class="btn btn-saddle-red btn-block font-weight-bold" id="follow-icij">
-              Follow ICIJ
+              {{ $t('main-header.navbar.follow') }}
             </button>
             <b-popover container="main-header" target="follow-icij" placement="bottomleft" :show.sync="showSignupPopover">
               <follow-us-popover :show.sync="showSignupPopover"></follow-us-popover>
@@ -49,7 +49,7 @@
     </component>
     <b-modal hide-footer lazy ref="donateFormModal" size="lg">
       <span slot="modal-title" class="text-uppercase font-weight-bold text-primary">
-        Support ICIJ
+        {{ $t('main-header.navbar.support') }}
       </span>
       <donate-form no-title></donate-form>
     </b-modal>

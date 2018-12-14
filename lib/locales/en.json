@@ -1,0 +1,86 @@
+{
+  "main-header": {
+    "navbar": {
+      "leak": "Leak to us",
+      "support": "Support us",
+      "follow": "Follow ICIJ"
+    }
+  },
+  "embedable-footer": {
+    "share": "Share"
+  },
+  "embed-form": {
+    "heading": "Embed on your website",
+    "introduction": "Copy the code bellow to embed this on your website.",
+    "responsive-optin": "Responsive iFrame",
+    "copy": "Copy"
+  },
+  "follow-us-popover": {
+    "heading": "Follow us"
+  },
+  "generic-footer": {
+    "investigations": "Investigations",
+    "follow-us": "Follow us",
+    "all-rights": "All rights reserved",
+    "version": "Version %{version}"
+  },
+  "donate-form": {
+    "support": "Support us",
+    "introduction": "ICIJ’s investigations are supported by readers like you. Help keep our databases free and open to the public by joining our <strong><a target=\"_blank\" href=\"https://icij.org/donate\">ICIJ Insiders</a></strong> community.",
+    "join-heading": "Won't you join us today?",
+    "label": "I would like to donate",
+    "frequency": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "onetime": "One time"
+    },
+    "result": {
+      "sentence": "With this donation, you are <strong>changing the %{target}</strong>.",
+      "conversation": "conversation",
+      "rules": "rules",
+      "world": "world"
+    },
+    "submit": "Donate now",
+    "benefits": {
+      "heading": "ICIJ Insiders benefits",
+      "introduction": "Your monthly or annual donation will give you the following benefits.",
+      "more": "More about donations",
+      "impacts": {
+        "conversation": {
+          "heading": "Change the conversation",
+          "highlight": "$3-$14/month (or $35-$179/year)",
+          "list": [
+            "ICIJ Insider Newsletter (quarterly)",
+            "ICIJ’s Weekly Update"
+          ]
+        },
+        "rules": {
+          "heading": "Change the rules",
+          "highlight": "$15-$49/month (or $180-$599/year)",
+          "list": [
+            "Opportunity to submit your question to ICIJ staff. Several questions will be answered in our quarterly ICIJ Insider newsletter",
+            "Sneak previews behind the scenes of ICIJ’s work (monthly)",
+            "ICIJ Insider Newsletter (quarterly)",
+            "ICIJ’s Weekly Update"
+          ]
+        },
+        "world": {
+          "heading": "Change the world",
+          "highlight": "$50/month and above (or $600/year and above)",
+          "list": [
+            "Invitation to exclusive chat with ICIJ staff about our latest major project after publication",
+            "Opportunity to submit your questions to ICIJ staff. Several questions will be answered in our quarterly ICIJ Insider newsletter",
+            "Sneak previews behind the scenes of ICIJ’s work (monthly)",
+            "ICIJ Insider Newsletter (quarterly)",
+            "ICIJ’s Weekly Update"
+          ]
+        }
+      }
+    }
+  },
+  "sign-up-form": {
+    "label": "Stories in your inbox",
+    "placeholder": "Email address",
+    "submit": "Sign up"
+  }
+}

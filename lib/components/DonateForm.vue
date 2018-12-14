@@ -1,19 +1,21 @@
 <template>
   <div class="donate-form container-fluid py-2">
     <h2 class="text-uppercase font-weight-bold text-primary h5" v-if="!noTitle">
-      Support ICIJ
+      {{ $t('donate-form.support') }}
     </h2>
     <!-- @slot Description of the form (bellow the title). -->
     <slot name="introduction">
-      <p v-html="introduction"></p>
+      <p v-html="$t('donate-form.introduction')"></p>
     </slot>
     <div class="donate-form__payment mb-4">
       <form action="//checkout.fundjournalism.org/memberform" method="get" target="_blank" class="donate-form__payment__form bg-light p-4">
           <h3 class="donate-form__payment__title h5 mb-4">
-            <strong>Won't you join us today?</strong>
+            <strong>
+              {{ $t('donate-form.join-heading') }}
+            </strong>
           </h3>
           <div>
-            <span>I would like to donate</span>
+            <span>{{ $t('donate-form.label') }}&nbsp;</span>
             <label class="donate-form__payment__unit input-group input-group-sm d-inline-flex">
               <span class="input-group-prepend">
                 <span class="input-group-text">$</span>
@@ -22,24 +24,22 @@
             </label>
             <span class="donate-form__payment__buttons">
               <button type="button" class="btn btn-sm" :class="{ 'btn-primary': installmentPeriod === 'monthly' }" @click="installmentPeriod = 'monthly'">
-                Monthly
+                {{ $t('donate-form.frequency.monthly') }}
               </button>
               <button type="button" class="btn btn-sm" :class="{ 'btn-primary': installmentPeriod === 'yearly' }" @click="installmentPeriod = 'yearly'">
-                Yearly
+                {{ $t('donate-form.frequency.yearly') }}
               </button>
               <button type="button" class="btn btn-sm" :class="{ 'btn-primary': installmentPeriod === null }" @click="installmentPeriod = null">
-                One time
+                {{ $t('donate-form.frequency.onetime') }}
               </button>
             </span>
           </div>
-          <p v-if="changeThe" class="mt-2">
-            With this donation, you are <strong>changing the {{ changeThe }}</strong>.
-          </p>
+          <p v-if="changeThe" class="mt-2" v-html="$t('donate-form.result.sentence', { target: changeThe })"></p>
           <div class="mt-4">
             <input name="org_id" value="icij" type="hidden">
             <input name="installmentPeriod" v-model="installmentPeriod" type="hidden">
             <button type="submit" class="btn btn-primary rounded-pill text-uppercase font-weight-bold">
-              Donate now
+              {{ $t('donate-form.submit') }}
             </button>
             <a target="_blank" href="https://icij.org/donate" class="donate-form__payment__image"></a>
           </div>
@@ -47,83 +47,59 @@
     </div>
     <div class="donate-form__insider">
       <h2 class="donate-form__insider__title">
-        ICIJ Insiders benefits
+        {{ $t('donate-form.benefits.heading') }}
       </h2>
       <p>
-        Your monthly or annual donation will give you the following benefits.
+        {{ $t('donate-form.benefits.introduction') }}
       </p>
       <div class="donate-form__insider__modal__container row">
           <div class="col">
               <h3 class="donate-form__insider__subtitle text-uppercase font-weight-bold text-primary h5">
-                Change the Conversation
+                {{ $t('donate-form.benefits.impacts.conversation.heading') }}
               </h3>
               <div class="Article">
                   <div>
                       <p class="donate-form__insider__highlight text-icij font-weight-bold">
-                        $3-$14/month (or $35-$179/year)
+                        {{ $t('donate-form.benefits.impacts.conversation.highlight') }}
                       </p>
                       <ul class="donate-form__insider__list">
-                          <li class="donate-form__insider__list-item">
-                            ICIJ Insider Newsletter (quarterly)
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            ICIJ’s Weekly Update
-                          </li>
+                        <li class="donate-form__insider__list-item" v-for="t in $t('donate-form.benefits.impacts.conversation.list')">
+                          {{ t }}
+                        </li>
                       </ul>
                   </div>
               </div>
           </div>
           <div class="col">
               <h3 class="donate-form__insider__subtitle text-uppercase font-weight-bold text-primary h5">
-                Change the Rules
+                {{ $t('donate-form.benefits.impacts.rules.heading') }}
               </h3>
               <div class="Article">
                   <div>
                       <p class="donate-form__insider__highlight text-icij font-weight-bold">
-                        $15-$49/month (or $180-$599/year)
+                        {{ $t('donate-form.benefits.impacts.rules.highlight') }}
                       </p>
                       <ul class="donate-form__insider__list">
-                          <li class="donate-form__insider__list-item">
-                            Opportunity to submit your question to ICIJ staff. Several questions will be answered in our quarterly ICIJ Insider newsletter
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            Sneak previews behind the scenes of ICIJ’s work (monthly)
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            ICIJ Insider Newsletter (quarterly)
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            ICIJ’s Weekly Update
-                          </li>
+                        <li class="donate-form__insider__list-item" v-for="t in $t('donate-form.benefits.impacts.rules.list')">
+                          {{ t }}
+                        </li>
                       </ul>
                   </div>
               </div>
           </div>
           <div class="col">
               <h3 class="donate-form__insider__subtitle text-uppercase font-weight-bold text-primary h5">
-                Change the World
+                {{ $t('donate-form.benefits.impacts.world.heading') }}
               </h3>
               <div class="Article">
                   <div>
                       <p class="donate-form__insider__highlight text-icij font-weight-bold">
-                        $50/month and above (or $600/year and above)
+                        {{ $t('donate-form.benefits.impacts.world.highlight') }}
                       </p>
                       <ul class="donate-form__insider__list">
-                          <li class="donate-form__insider__list-item">
-                            Invitation to exclusive chat with ICIJ staff about our latest major project after publication
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            Opportunity to submit your questions to ICIJ staff. Several questions will be answered in our quarterly ICIJ Insider newsletter
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            Sneak previews behind the scenes of ICIJ’s work (monthly)
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            ICIJ Insider Newsletter (quarterly)
-                          </li>
-                          <li class="donate-form__insider__list-item">
-                            ICIJ’s Weekly Update
-                          </li>
+                        <li class="donate-form__insider__list-item" v-for="t in $t('donate-form.benefits.impacts.world.list')">
+                          {{ t }}
+                        </li>
                       </ul>
                   </div>
               </div>
@@ -132,7 +108,7 @@
       <hr class="donate-form__insider__separator">
       <div class="donate-form__insider__more text-center">
         <a target="_blank" href="https://icij.org/donate" class="btn btn-primary rounded-pill text-uppercase font-weight-bold py-2">
-          More about donations
+          {{ $t('donate-form.benefits.more') }}
         </a>
       </div>
     </div>
@@ -174,14 +150,14 @@
         installmentPeriod: 'monthly',
         labelForChange: {
           'monthly': {
-            3: 'conversation',
-            15: 'rules',
-            50: 'world'
+            3: this.$t('donate-form.result.conversation'),
+            15: this.$t('donate-form.result.rules'),
+            50: this.$t('donate-form.result.world')
           },
           'yearly': {
-            35: 'conversation',
-            180: 'rules',
-            600: 'world'
+            35: this.$t('donate-form.result.conversation'),
+            180: this.$t('donate-form.result.rules'),
+            600: this.$t('donate-form.result.world')
           }
         }
       }

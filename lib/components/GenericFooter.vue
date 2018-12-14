@@ -26,7 +26,7 @@
           <div class="row justify-content-end">
             <div class="col-md-5">
               <h5 class="text-selective-yellow text-uppercase mb-3">
-                Investigations
+                {{ $t('generic-footer.investigations') }}
               </h5>
               <!-- @slot List of investigations -->
               <slot name="investigations">
@@ -56,7 +56,7 @@
             </div>
             <div class="col-md-4">
               <h5 class="text-selective-yellow text-uppercase mb-3">
-                Follow us
+                {{ $t('generic-footer.follow-us') }}
               </h5>
               <ul class="list-unstyled">
                 <li class="list-unstyled-item">
@@ -80,8 +80,12 @@
         </div>
       </div>
       <p class="text-white text-md-right small mt-5">
-        <strong>© {{ year }} — The International Consortium of Investigative Journalists.</strong> All rights reserved<br />
-        <span v-if="version" class="text-muted">Version {{ version }}</span>
+        <strong>© {{ year }} — The International Consortium of Investigative Journalists.</strong>
+        {{ $t('generic-footer.all-rights') }}
+        <br />
+        <span v-if="version" class="text-muted">
+          {{ $t('generic-footer.version', { version }) }}
+        </span>
       </p>
     </div>
   </footer>
@@ -98,8 +102,7 @@ export default {
      * Version of the app to display in the bottom-right corner of the footer
      */
     version: {
-      type: String,
-      default: ''
+      type: String
     }
   },
   computed: {
