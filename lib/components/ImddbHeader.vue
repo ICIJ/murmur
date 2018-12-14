@@ -62,6 +62,7 @@
   import bNavDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown'
   import bPopover from 'bootstrap-vue/es/components/popover/popover'
 
+  import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
   import DonateForm from './DonateForm.vue'
   import FollowUsPopover from './FollowUsPopover.vue'
@@ -71,6 +72,7 @@
    * ImddbHeader
    */
   export default {
+    i18n,
     name: 'ImddbHeader',
     components: {
       bDropdownItem,

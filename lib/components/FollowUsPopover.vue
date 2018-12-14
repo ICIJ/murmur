@@ -38,6 +38,7 @@
   import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
   import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
+  import i18n from '@/i18n'
   import SignUpForm from './SignUpForm.vue'
   import { library } from './Fa'
 
@@ -45,6 +46,7 @@
    * FollowUsPopover
    */
   export default {
+    i18n,
     name: 'FollowUsPopover',
     components: {
       /** Prevent a bug with vue-docgen-api

@@ -24,11 +24,13 @@
 import $ from 'jquery'
 import last from 'lodash/last'
 import config from '../config'
+import i18n from '@/i18n'
 
 /**
  * SignUpForm
  */
 export default {
+  i18n,
   name: "SignUpForm",
   props: {
     /**

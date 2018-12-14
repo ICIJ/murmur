@@ -92,10 +92,13 @@
 </template>
 
 <script>
+import i18n from '@/i18n'
+
 /**
  * GenericFooter
  */
 export default {
+  i18n,
   name: 'GenericFooter',
   props: {
     /**

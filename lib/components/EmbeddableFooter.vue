@@ -16,9 +16,10 @@
 <script>
   import { faShareAlt } from '@fortawesome/free-solid-svg-icons/faShareAlt'
 
-  import IframeResizer from '../utils/iframe-resizer'
+  import i18n from '@/i18n'
+  import IframeResizer from '@/utils/iframe-resizer'
   import SharingOptions from './SharingOptions'
-  import config from '../config'
+  import config from '@/config'
 
   import { library } from './Fa'
 
@@ -26,6 +27,7 @@
    * EmbeddableFooter
    */
   export default {
+    i18n,
     name: 'EmbeddableFooter',
     beforeMount() {
       library.add(faShareAlt)

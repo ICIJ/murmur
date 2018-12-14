@@ -37,6 +37,5 @@ Collection.config.set('project.name', 'Demo Project')
 new Vue({
   store,
   render: h => h(App),
-  router: new VueRouter({ routes }),
-  i18n: Collection.i18n
+  router: new VueRouter({ routes })
 }).$mount('#app')

@@ -66,6 +66,7 @@
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import Vue from 'vue'
 
+  import i18n from '@/i18n'
   import IframeResizer from '@/utils/iframe-resizer'
   import { copyText } from '@/utils/clipboard'
   import { library } from './Fa'
@@ -74,6 +75,7 @@
    * Embed Form
    */
   export default {
+    i18n,
     name: 'EmbedForm',
     data () {
       return {

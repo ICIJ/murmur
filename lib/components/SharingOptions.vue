@@ -42,6 +42,7 @@
   import get from 'lodash/get'
   import reduce from 'lodash/reduce'
 
+  import i18n from '@/i18n'
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
   import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope'
   import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
@@ -53,11 +54,12 @@
   import IframeResizer from '../utils/iframe-resizer'
 
   import { library } from './Fa'
-  
+
   /**
    * SharingOptions
    */
   export default {
+    i18n,
     name: 'SharingOptions',
     components: {
       bModal,
