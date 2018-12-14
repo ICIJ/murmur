@@ -1,6 +1,6 @@
 <template>
   <div class="full-width">
-    <main-header no-headroom position="relative">
+    <imddb-header no-headroom position="relative">
       <template slot="navbar">
         <ul class="navbar-nav mr-auto">
           <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
@@ -13,18 +13,18 @@
           </b-nav-dropdown>
         </ul>
       </template>
-    </main-header>
+    </imddb-header>
   </div>
 </template>
 
 <script>
-  import { MainHeader } from '@/main'
+  import { ImddbHeader } from '@/main'
   import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item'
   import bNavDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown'
 
   export default {
     components: {
-      MainHeader,
+      ImddbHeader,
       bDropdownItem,
       bNavDropdown
     },
@@ -46,7 +46,7 @@
   .full-width {
     overflow: auto;
 
-    .main-header {
+    .imddb-header {
       width: 880px;
     }
   }

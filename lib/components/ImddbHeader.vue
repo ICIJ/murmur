@@ -1,9 +1,9 @@
 <template>
   <div>
-    <component :is="rootElement" id="main-header" data-turbolinks-permanent class="navbar navbar-expand-lg navbar-light main-header" :offset="100" :z-index="1020" :on-unpin="closeFollowUsPopover" :class="{ 'headroom--frozen': !collapseNavbar }" :style="{ position: position }">
+    <component :is="rootElement" id="imddb-header" data-turbolinks-permanent class="navbar navbar-expand-lg navbar-light imddb-header" :offset="100" :z-index="1020" :on-unpin="closeFollowUsPopover" :class="{ 'headroom--frozen': !collapseNavbar }" :style="{ position: position }">
       <!-- @slot Redefines brand -->
       <slot name="brand">
-        <a :href="homeUrl" class="navbar-brand main-header__brand">
+        <a :href="homeUrl" class="navbar-brand imddb-header__brand">
           <img src="../assets/images/icij-black@2x.png" height="25" class="mr-3" />
           {{ project }}
         </a>
@@ -28,19 +28,19 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <a href="https://www.icij.org/leak/" target="_blank" class="nav-link">
-              {{ $t('main-header.navbar.leak') }}
+              {{ $t('imddb-header.navbar.leak') }}
             </a>
           </li>
           <li class="nav-item mr-lg-3">
             <a @click.prevent="$refs.donateFormModal.show()" href="#" class="nav-link">
-              {{ $t('main-header.navbar.support') }}
+              {{ $t('imddb-header.navbar.support') }}
             </a>
           </li>
           <li class="nav-item">
             <button class="btn btn-saddle-red btn-block font-weight-bold" id="follow-icij">
-              {{ $t('main-header.navbar.follow') }}
+              {{ $t('imddb-header.navbar.follow') }}
             </button>
-            <b-popover container="main-header" target="follow-icij" placement="bottomleft" :show.sync="showSignupPopover">
+            <b-popover container="imddb-header" target="follow-icij" placement="bottomleft" :show.sync="showSignupPopover">
               <follow-us-popover :show.sync="showSignupPopover"></follow-us-popover>
             </b-popover>
           </li>
@@ -49,7 +49,7 @@
     </component>
     <b-modal hide-footer lazy ref="donateFormModal" size="lg">
       <span slot="modal-title" class="text-uppercase font-weight-bold text-primary">
-        {{ $t('main-header.navbar.support') }}
+        {{ $t('imddb-header.navbar.support') }}
       </span>
       <donate-form no-title></donate-form>
     </b-modal>
@@ -68,10 +68,10 @@
   import config from '../config'
 
   /**
-   * MainHeader
+   * ImddbHeader
    */
   export default {
-    name: 'MainHeader',
+    name: 'ImddbHeader',
     components: {
       bDropdownItem,
       bModal,
@@ -114,7 +114,7 @@
        */
       dropdownItems: {
         type: Array,
-        default: () => config.get('main-header.dropdown.items')
+        default: () => config.get('imddb-header.dropdown.items')
       },
       /**
        * Target link of the ICIJ logo and project name.
@@ -151,7 +151,7 @@
 <style lang="scss">
   @import '../styles/lib';
 
-  .main-header {
+  .imddb-header {
     background: rgba($mercury, 0.8);
     box-shadow: 0 0 6px 0 rgba(#000, .1);
     position: relative;

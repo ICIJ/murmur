@@ -1,16 +1,18 @@
-<template>
-  <div>
-    <p class="text-muted">A component to create header with generic features.</p>
-    <sample-card title="" description="" :component="sample" :code="code"></sample-card>
-    <api-table :api="api"></api-table>
-  </div>
-</template>
+---
+title: IMDDB Header
+---
+
+A component to create header with generic features.
+
+<sample-card title="" description="" :component="sample" :code="code"></sample-card>
+<api-table :api="api"></api-table>
+
 
 <script>
   import ApiTable from '$components/ApiTable.vue'
   import SampleCard from '$components/SampleCard.vue'
 
-  import api from '!!vue-docgen-loader!@/components/MainHeader.vue'
+  import api from '!!vue-docgen-loader!@/components/ImddbHeader.vue'
   import sample from './sample.vue'
   import code from '!!highlight-loader?lang=html!./sample.vue'
 
