@@ -31,7 +31,7 @@ are added using the following method:
 // Target the icon you need to add to your library
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 // Import the library instance provided by FontAwesome
-import { library } from '@/components/Fa'
+import { library } from '@icij/murmur/Fa'
 
 // And add the bars to the library
 library.add(faBars)

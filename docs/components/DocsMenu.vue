@@ -5,9 +5,9 @@
         <img src="@/assets/images/murmur-white.svg" alt="ICIJ" />
       </router-link>
       <div class="docs-menu__brand__version">
-        <div class="small">
+        <a class="small d-block text-white" href="https://www.npmjs.com/package/@icij/murmur" target="_blank">
           <strong>Murmur</strong> {{ version }}
-        </div>
+        </a>
       </div>
     </div>
     <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
