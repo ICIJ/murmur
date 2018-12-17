@@ -4,7 +4,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
-import Collection from '@/main'
+import Murmur from '@/main'
 
 import store from './store'
 import App from './components/App.vue'
@@ -21,7 +21,7 @@ import 'highlight.js/styles/monokai-sublime.css'
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
-Vue.use(Collection)
+Vue.use(Murmur)
 
 Vue.config.productionTip = false
 
@@ -31,7 +31,7 @@ Vue.component('PalettePresenter', PalettePresenter)
 Vue.component('RepositoryLink', RepositoryLink)
 Vue.component('SampleCard', SampleCard)
 
-Collection.config.set('project.name', 'Demo Project')
+Murmur.config.set('project.name', 'Demo Project')
 
 /* eslint-disable no-new */
 new Vue({

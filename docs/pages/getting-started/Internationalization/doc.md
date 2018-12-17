@@ -16,9 +16,9 @@ translation received a `i18n` attribute.
 This library expose a static method to add new locales:
 
 ```js
-import Collection from '@icij/murmur'
+import Murmur from '@icij/murmur'
 
-Collection.setLocaleMessage('fr', {
+Murmur.setLocaleMessage('fr', {
   "imddb-header": {
     "navbar": {
       "leak": "Contact confidentiel",
@@ -32,7 +32,7 @@ Collection.setLocaleMessage('fr', {
 Then you can switch to a new language easily:
 
 ```js
-Collection.setLocale('fr')
+Murmur.setLocale('fr')
 ```
 
 ### Overiding locales
@@ -40,9 +40,9 @@ Collection.setLocale('fr')
 In the very same fashion, you can modify existing locales:
 
 ```js
-import Collection from '@icij/murmur'
+import Murmur from '@icij/murmur'
 
-Collection.mergeLocaleMessage('en', {
+Murmur.mergeLocaleMessage('en', {
   "imddb-header": {
     "navbar": {
       "leak": "SecureDrop",
@@ -63,9 +63,9 @@ Here are English locales defined in <repository-link path="lib/locales/en.json">
 
 <script>
   import en from '@/locales/en.json'
-  import Collection from '@/main'
+  import Murmur from '@/main'
 
-  Collection.mergeLocaleMessage('en', {
+  Murmur.mergeLocaleMessage('en', {
     "imddb-header": {
       "navbar": {
         "leak": "SecureDrop",

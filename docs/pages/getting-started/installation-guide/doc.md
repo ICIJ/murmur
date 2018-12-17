@@ -22,13 +22,13 @@ npm i @icij/murmur
 # or with Yarn:
 yarn add @icij/murmur
 ```
-Then, register the collection as a pluggin in your app entry point:
+Then, register Murmur as a pluggin in your app entry point:
 
 ```js
 import Vue from 'vue'
-import Collection from '@icij/murmur'
+import Murmur from '@icij/murmur'
 
-Vue.use(Collection)
+Vue.use(Murmur)
 ```
 
 Now all components will be globally available in your app.

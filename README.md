@@ -1,6 +1,6 @@
-# ICIJ Vue Collection
+# Murmur
 
-> A collection of Vue components from ICIJ team
+> Murmur is ICIJ's Design System for Bootstrap 4 and Vue.js
 
 ## Build Setup
 
