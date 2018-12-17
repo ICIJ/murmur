@@ -6,6 +6,30 @@
 Murmur is <a href="https://icij.org">ICIJ</a>'s Design System for Bootstrap 4 and Vue.js
 </p>
 
+## Installation guide
+
+If you are using module bundlers such as Webpack or Rollup, you might need to include the package into your project.
+To get started, use NPM or Yarn to get latest version of **@icij/murmur**.
+
+```bash
+# with NPM:
+npm i @icij/murmur
+
+# or with Yarn:
+yarn add @icij/murmur
+```
+Then, register Murmur as a pluggin in your app entry point:
+
+```js
+import Vue from 'vue'
+import Murmur from '@icij/murmur'
+
+Vue.use(Murmur)
+```
+
+Now all components will be globally available in your app.
+[Read the documentation](https://icij.github.io/murmur/) to know how to use them.
+
 ## Build Setup
 
 ``` bash
