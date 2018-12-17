@@ -1,16 +1,22 @@
 <template>
-  <div class="docs-menu">
-    <div class="docs-menu__brand d-none d-md-flex">
-      <router-link class="docs-menu__brand__logo" to="/">
-        <img src="@/assets/images/murmur-white.svg" alt="ICIJ" />
-      </router-link>
-      <div class="docs-menu__brand__version">
-        <a class="small d-block text-white" href="https://www.npmjs.com/package/@icij/murmur" target="_blank">
-          <strong>Murmur</strong> {{ version }}
-        </a>
+  <div class="docs-menu d-flex flex-column justify-content-between">
+    <div>
+      <div class="docs-menu__brand d-none d-md-flex">
+        <router-link class="docs-menu__brand__logo" to="/">
+          <img src="@/assets/images/murmur-white.svg" alt="ICIJ" />
+        </router-link>
+        <div class="docs-menu__brand__version">
+          <a class="small d-block text-white" href="https://www.npmjs.com/package/@icij/murmur" target="_blank">
+            <strong>Murmur</strong> {{ version }}
+          </a>
+        </div>
       </div>
+      <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
     </div>
-    <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
+    <a class="docs-menu__footer d-flex align-items-center" href="https://icij.org" target="_blank">
+      <img src="@/assets/images/icij-white.svg" alt="ICIJ" class="docs-menu__footer__logo mr-2" />
+      <span>An open source project by ICIJ</span>
+    </a>
   </div>
 </template>
 
@@ -71,7 +77,7 @@
   @import '../styles/variables.scss';
 
   .docs-menu {
-    padding:  $spacer * 1.5 $spacer;
+    padding:  $spacer * 1.5 $spacer $spacer;
     min-height: 100vh;
     height: 100%;
     color: $docs-menu-color;
@@ -100,6 +106,24 @@
           width: 110px;
           text-align: center;
         }
+      }
+    }
+
+    &__footer {
+      padding: $spacer;
+      background: rgba($light, .1);
+      border-radius: $border-radius-sm;
+      color: $light;
+      font-size: 0.9em;
+
+      &__logo {
+        border: 1px solid $light;
+        height: 2em;
+      }
+
+      &:hover {
+        color: inherit;
+        background: rgba($light, .2);
       }
     }
 

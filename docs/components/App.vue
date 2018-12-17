@@ -2,7 +2,7 @@
   <div id="app" class="app">
     <div class="app__navbar d-block d-md-none bg-dark p-3 clearfix">
       <router-link to="/">
-        <img src="@/assets/images/icij-white.svg" alt="ICIJ" class="border border-primary d-inline-block" height="30px" />
+        <img src="@/assets/images/murmur-white.svg" alt="ICIJ" class="border border-primary d-inline-block" height="30px" />
       </router-link>
       <button class="btn btn-link text-white float-right" @click="toggleMenu">
         <fa icon="bars" />
