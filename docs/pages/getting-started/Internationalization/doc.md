@@ -6,14 +6,14 @@ order: 30
 
 ### How it work
 
-This library can be translated using [vue-i18n](https://github.com/kazupon/vue-i18n).
+Murmur can be translated using [vue-i18n](https://github.com/kazupon/vue-i18n).
 By default, we provide a series of locales in English for our components. The
 translation library is installed at a component level. So each component using
 translation received a `i18n` attribute.
 
 ### Adding more locales
 
-This library expose a static method to add new locales:
+Murmur exposes a static method to add new locales:
 
 ```js
 import Murmur from '@icij/murmur'
