@@ -16,7 +16,7 @@ translation received a `i18n` attribute.
 This library expose a static method to add new locales:
 
 ```js
-import Collection from 'icij-vue-collection'
+import Collection from '@icij/murmur'
 
 Collection.setLocaleMessage('fr', {
   "imddb-header": {
@@ -40,7 +40,7 @@ Collection.setLocale('fr')
 In the very same fashion, you can modify existing locales:
 
 ```js
-import Collection from 'icij-vue-collection'
+import Collection from '@icij/murmur'
 
 Collection.mergeLocaleMessage('en', {
   "imddb-header": {
@@ -63,8 +63,7 @@ Here are English locales defined in <repository-link path="lib/locales/en.json">
 
 <script>
   import en from '@/locales/en.json'
-  
-  /* import Collection from '@/main'
+  import Collection from '@/main'
 
   Collection.mergeLocaleMessage('en', {
     "imddb-header": {
@@ -74,7 +73,7 @@ Here are English locales defined in <repository-link path="lib/locales/en.json">
         "follow": "Follow ICIJ"
       }
     }
-  }) */
+  })
 
   export default {
     data () {

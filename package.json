@@ -1,8 +1,8 @@
 {
-  "name": "icij-vue-collection",
-  "version": "0.3.0",
+  "name": "@icij/murmur",
+  "version": "1.0.0",
   "private": false,
-  "description": "A beautiful Design System for Bootstrap 4 and Vue.js",
+  "description": "Murmur is ICIJ's Design System for Bootstrap 4 and Vue.js",
   "author": "promera@icij.org",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -102,7 +102,7 @@
     "dist/lib/**/*"
   ],
   "license": "MIT",
-  "main": "dist/lib/icij-vue-collection.umd.min.js",
+  "main": "dist/lib/@icij/murmur.umd.min.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/icij/vue-collection"

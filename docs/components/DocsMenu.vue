@@ -2,10 +2,12 @@
   <div class="docs-menu">
     <div class="docs-menu__brand d-none d-md-flex">
       <router-link class="docs-menu__brand__logo" to="/">
-        <img src="@/assets/images/icij-white.svg" alt="ICIJ" />
+        <img src="@/assets/images/murmur-white.svg" alt="ICIJ" />
       </router-link>
       <div class="docs-menu__brand__version">
-        <div>{{ version }}</div>
+        <div class="small">
+          <strong>Murmur</strong> {{ version }}
+        </div>
       </div>
     </div>
     <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>

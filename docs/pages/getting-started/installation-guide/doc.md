@@ -1,6 +1,6 @@
 ---
 title: Installation Guide
-description: A beautiful Design System for Bootstrap 4 and Vue.js
+description: Murmur is ICIJ's Design System for Bootstrap 4 and Vue.js
 order: 10
 ---
 
@@ -13,20 +13,20 @@ guidelines.
 ### Install the package
 
 If you are using module bundlers such as Webpack or Rollup, you might need to include the package into your project.
-To get started, use NPM or Yarn to get latest version of **icij-vue-collection**.
+To get started, use NPM or Yarn to get latest version of **@icij/murmur**.
 
 ```bash
 # with NPM:
-npm i icij-vue-collection
+npm i @icij/murmur
 
 # or with Yarn:
-yarn add icij-vue-collection
+yarn add @icij/murmur
 ```
 Then, register the collection as a pluggin in your app entry point:
 
 ```js
 import Vue from 'vue'
-import Collection from 'icij-vue-collection'
+import Collection from '@icij/murmur'
 
 Vue.use(Collection)
 ```
@@ -39,7 +39,7 @@ An alternative to installing all components with a pluggin is to import only
 a specific component.
 
 ```js
-import { EmbedForm } from 'icij-vue-collection'
+import { EmbedForm } from '@icij/murmur'
 
 Vue.component('component-name', {  
   components: {

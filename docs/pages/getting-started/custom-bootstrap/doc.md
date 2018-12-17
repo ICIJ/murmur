@@ -13,7 +13,7 @@ with these variables. Yet some components might have a better display with this 
 $link-color: #c10448;
 
 // Then, simply import the variables before you import Bootstrap sources
-@import 'icij-vue-collection/lib/styles/variables.scss';
+@import '@icij/murmur/lib/styles/variables.scss';
 @import 'node_modules/bootstrap/scss/bootstrap';
 ```
 
