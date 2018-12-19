@@ -63,17 +63,6 @@ Here are English locales defined in <repository-link path="lib/locales/en.json">
 
 <script>
   import en from '@/locales/en.json'
-  import Murmur from '@/main'
-
-  Murmur.mergeLocaleMessage('en', {
-    "imddb-header": {
-      "navbar": {
-        "leak": "SecureDrop",
-        "support": "Buy us a beer 🍺",
-        "follow": "Follow ICIJ"
-      }
-    }
-  })
 
   export default {
     data () {
