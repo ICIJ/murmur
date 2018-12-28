@@ -4,6 +4,8 @@
 </a>
 <br>
 Murmur is <a href="https://icij.org">ICIJ</a>'s Design System for Bootstrap 4 and Vue.js
+<br>
+[![CircleCI](https://circleci.com/gh/ICIJ/murmur.svg?style=svg)](https://circleci.com/gh/ICIJ/murmur)
 </p>
 
 ## Installation guide
