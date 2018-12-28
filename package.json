@@ -12,7 +12,8 @@
     "build:docs": "vue-cli-service build --dest dist/docs",
     "build:lib": "vue-cli-service build --target lib --dest dist/lib 'lib/main.js'",
     "postpublish": "yarn deploy",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
@@ -38,9 +39,13 @@
     "@kazupon/vue-i18n-loader": "^0.3.0",
     "@vue/cli-plugin-babel": "^3.1.1",
     "@vue/cli-plugin-eslint": "^3.1.5",
+    "@vue/cli-plugin-unit-jest": "^3.2.0",
     "@vue/cli-service": "^3.1.4",
+    "@vue/test-utils": "^1.0.0-beta.20",
     "@vuepress/markdown": "^1.0.0-alpha.0",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
     "chalk": "^2.4.1",
     "chroma-js": "^1.4.1",
     "eslint": "^5.8.0",
@@ -79,6 +84,37 @@
       "parser": "babel-eslint"
     }
   },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.vue$": "vue-jest",
+      ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(bootstrap-vue)/)"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/lib/$1"
+    },
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ],
+    "testMatch": [
+      "**/tests/unit/**/*.spec.js"
+    ],
+    "coverageDirectory": "tests/unit/coverage",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "lib/**/*.(js|vue)"
+    ],
+    "testURL": "http://localhost/"
+  },
   "postcss": {
     "plugins": {
       "autoprefixer": {}
@@ -101,9 +137,9 @@
     "lib/**/*",
     "dist/lib/**/*"
   ],
+  "homepage": "https://icij.github.io/murmur/",
   "license": "MIT",
   "main": "dist/lib/@icij/murmur.umd.min.js",
-  "homepage": "https://icij.github.io/murmur/",
   "repository": {
     "type": "git",
     "url": "https://github.com/icij/murmur"
