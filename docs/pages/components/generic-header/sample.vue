@@ -1,6 +1,6 @@
 <template>
-  <div class="full-width">
-    <generic-header no-headroom position="relative" class="card m-4"></generic-header>
+  <div class="full-width card m-4">
+    <generic-header no-headroom position="relative" class=""></generic-header>
   </div>
 </template>
 

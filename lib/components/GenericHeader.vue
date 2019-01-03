@@ -117,7 +117,6 @@
 
   .generic-header {
     background: white;
-    box-shadow: 0 0 6px 0 rgba(#000, .1);
     position: relative;
     top:0;
     width: 100%;
