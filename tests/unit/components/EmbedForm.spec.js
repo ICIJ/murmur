@@ -1,4 +1,4 @@
-import { startsWith } from 'lodash'
+import { startsWith, noop } from 'lodash'
 import { shallowMount } from '@vue/test-utils'
 import EmbedForm from '@/components/EmbedForm.vue'
 
@@ -97,5 +97,13 @@ describe('EmbedForm.vue', () => {
     expect(startsWith(wrapper.vm.embedCode(), '<iframe ')).toBeTruthy()
     wrapper.vm.responsiveCheck = true
     expect(startsWith(wrapper.vm.embedCode(), '<script ')).toBeTruthy()
+  })
+
+  it('selects the textarea after copying the code', async () => {
+    const wrapper = shallowMount(EmbedForm, { propsData })
+    wrapper.vm.selectCode = jest.fn(wrapper.vm.selectCode)
+    expect(wrapper.vm.selectCode.mock.calls.length).toBe(0)
+    await wrapper.vm.copyEmbedCode().catch(noop)
+    expect(wrapper.vm.selectCode.mock.calls.length).toBe(1)
   })
 })

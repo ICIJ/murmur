@@ -62,7 +62,7 @@
   </div>
 </template>
 
-<script>
+<script>  
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import Vue from 'vue'
 
@@ -147,7 +147,7 @@
         return IframeResizer.template(url)
       },
       copyEmbedCode () {
-        return copyText(this.embedCode(), this.$el).then(() => {
+        return copyText(this.embedCode(), this.$el).finally(() => {
           this.selectCode()
         })
       },
