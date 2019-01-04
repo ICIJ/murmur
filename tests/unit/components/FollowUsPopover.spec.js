@@ -13,9 +13,17 @@ describe('FollowUsPopover.vue', () => {
     expect(wrapper.find('sign-up-form-stub').exists()).toBeTruthy()
   })
 
-  it('emits an event when clicking on close button', () => {
+  it('has a close button', () => {
     const wrapper = shallowMount(FollowUsPopover)
     expect(wrapper.find('.follow-us__close').exists()).toBeTruthy()
+  })
+
+  it('emits an event when clicking on close button', () => {
+    const wrapper = shallowMount(FollowUsPopover)
+    const btn = wrapper.find('.follow-us__close')
+    expect(wrapper.emitted()['update:show']).toBeFalsy()
+    btn.trigger('click')
+    expect(wrapper.emitted()['update:show']).toBeTruthy()
   })
 
 })

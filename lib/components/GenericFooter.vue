@@ -80,10 +80,12 @@
         </div>
       </div>
       <p class="text-white text-md-right small mt-5">
-        <strong>© {{ year }} — The International Consortium of Investigative Journalists.</strong>
+        <strong>
+          © <span class="generic-footer__year">{{ year }}</span> — The International Consortium of Investigative Journalists.
+        </strong>
         {{ $t('generic-footer.all-rights') }}
         <br />
-        <span v-if="version" class="text-muted">
+        <span v-if="version" class="text-muted generic-footer__version">
           {{ $t('generic-footer.version', { version }) }}
         </span>
       </p>
