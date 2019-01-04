@@ -27,6 +27,12 @@ describe('iframe-resizer.js', () => {
     expect(startsWith(IframeResizer.template(), '<script ')).toBeTruthy()
   })
 
+  it('should return a script tag as template with a custom id', () => {
+    const template = IframeResizer.template(window.location.href, 'uwu')
+    expect(startsWith(template, '<script ')).toBeTruthy()
+    expect(template.includes('id="uwu"')).toBeTruthy()
+  })
+
   it('should define a `deletePymParams` static method', () => {
     expect(IframeResizer.deletePymParams).toBeDefined()
   })
