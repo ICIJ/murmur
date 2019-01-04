@@ -1,6 +1,5 @@
 import { injectAsset, injectAssets } from '@/utils/assets'
 
-
 describe('assets.js', () => {
 
   it('should define a script form Pym with a specify id', () => {

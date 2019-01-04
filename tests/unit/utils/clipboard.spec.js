@@ -1,10 +1,12 @@
+import Promise from 'promise-polyfill'
+import { noop } from 'lodash'
 import { copyText } from '@/utils/clipboard'
-
 
 describe('clipboard.js', () => {
 
   it('should return a Promise', () => {
-    expect(copyText('uwu')).toBeInstanceOf(Promise)
+    const promise = copyText('uwu').catch(noop)
+    expect(promise).toBeInstanceOf(Promise)
   })
 
   it('should reject the promise', async () => {
