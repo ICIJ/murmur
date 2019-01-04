@@ -1,3 +1,4 @@
+import { mount, createLocalVue } from '@vue/test-utils'
 import Murmur from '@/main'
 
 describe('main.js', () => {
@@ -19,6 +20,13 @@ describe('main.js', () => {
 
   it('exposes a static method called `getLocale`', () => {
     expect(Murmur.getLocale).toBeDefined()
+  })
+
+  it('uses the `install` method to register components', () => {
+    const localVue = createLocalVue()
+    expect(localVue.options.components.ContentPlaceholder).toBeUndefined()
+    localVue.use(Murmur)
+    expect(localVue.options.components.ContentPlaceholder).toBeDefined()
   })
 
   it('has a list of components', () => {
@@ -57,10 +65,9 @@ describe('main.js', () => {
     expect(Murmur.i18n.t('hello')).toBe('もしもし')
   })
 
-
   it('can merge an existing locale with new messages', () => {
     expect(Murmur.getLocale()).toBe('en')
-    Murmur.setLocaleMessage('en', {
+    Murmur.mergeLocaleMessage('en', {
       hello: 'world',
       foo: 'bar'
     })
