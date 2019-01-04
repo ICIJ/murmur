@@ -140,10 +140,10 @@
       }
     },
     methods: {
-      iframeCodeFor (url, width, height) {
+      iframeCodeFor (url = this.currentUrl, width, height) {
         return `<iframe width="${width}" height="${height}" src="${IframeResizer.deletePymParams(url)}" frameborder="0" allowfullscreen></iframe>`
       },
-      pymCodeFor (url) {
+      pymCodeFor (url = this.currentUrl) {
         return IframeResizer.template(url)
       },
       copyEmbedCode () {

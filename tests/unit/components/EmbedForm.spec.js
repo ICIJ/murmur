@@ -1,3 +1,4 @@
+import { startsWith } from 'lodash'
 import { shallowMount } from '@vue/test-utils'
 import EmbedForm from '@/components/EmbedForm.vue'
 
@@ -89,5 +90,13 @@ describe('EmbedForm.vue', () => {
     })
     const width = wrapper.element.querySelector('.embed-form__preview iframe').width
     expect(width).toBe("250")
+  })
+
+
+  it('renders a responsive iframe when `responsiveCheck` is true', () => {
+    const wrapper = shallowMount(EmbedForm, { propsData })
+    expect(startsWith(wrapper.vm.embedCode(), '<iframe ')).toBeTruthy()
+    wrapper.vm.responsiveCheck = true
+    expect(startsWith(wrapper.vm.embedCode(), '<script ')).toBeTruthy()
   })
 })
