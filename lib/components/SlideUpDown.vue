@@ -90,18 +90,20 @@ export default {
       this.state = 'pre'
       this.scrollHeight = this.$container.scrollHeight
       // Defered next tick to let the component render once
-      this.deferedNextTick(() => this.state = 'active')
+      return this.deferedNextTick(() => this.state = 'active')
     },
     cleanLayout (e = null) {
       // This method can be triggered by animated child elements in
       // which case, we should do anything
       if(!e || e.target == this.$container) {
         this.state = 'post'
-        this.deferedNextTick()
+        return this.deferedNextTick()
       }
     },
     deferedNextTick (fn = noop) {
-      setTimeout(() => this.$nextTick(fn), 0)
+      return new Promise(resolve => {
+        return setTimeout(() => this.$nextTick(resolve), 0)
+      }).then(fn)
     },
   }
 }

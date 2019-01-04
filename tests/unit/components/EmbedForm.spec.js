@@ -92,7 +92,6 @@ describe('EmbedForm.vue', () => {
     expect(width).toBe("250")
   })
 
-
   it('renders a responsive iframe when `responsiveCheck` is true', () => {
     const wrapper = shallowMount(EmbedForm, { propsData })
     expect(startsWith(wrapper.vm.embedCode(), '<iframe ')).toBeTruthy()
