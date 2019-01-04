@@ -1,7 +1,7 @@
 import { injectAsset, injectAssets } from '@/utils/assets'
 
 
-describe('main.js', () => {
+describe('assets.js', () => {
 
   it('should define a script form Pym with a specify id', () => {
     expect(window.pym).toBeUndefined()
