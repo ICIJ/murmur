@@ -1,11 +1,11 @@
 <template>
   <div class="donate-form container-fluid py-2">
-    <h2 class="text-uppercase font-weight-bold text-primary h5" v-if="!noTitle">
+    <h2 class="donate-form__title text-uppercase font-weight-bold text-primary h5" v-if="!noTitle">
       {{ $t('donate-form.support') }}
     </h2>
     <!-- @slot Description of the form (bellow the title). -->
     <slot name="introduction">
-      <p v-html="$t('donate-form.introduction')"></p>
+      <p class="donate-form__introduction" v-html="$t('donate-form.introduction')"></p>
     </slot>
     <div class="donate-form__payment mb-4">
       <form action="//checkout.fundjournalism.org/memberform" method="get" target="_blank" class="donate-form__payment__form bg-light p-4">
@@ -135,13 +135,6 @@
        */
       noTitle: {
         type: Boolean
-      },
-      /**
-       * Description of the form (bellow the title).
-       */
-      introduction: {
-        type: String,
-        default: () => config.get('donate-form.introduction')
       }
     },
     data() {
