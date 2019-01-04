@@ -8,12 +8,12 @@ describe('DonateForm.vue', () => {
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
 
-  it('show when props.noTitle isn\'t passed', () => {
+  it('shows title when props.noTitle isn\'t passed', () => {
     const wrapper = shallowMount(DonateForm)
     expect(wrapper.find('.donate-form__title').exists()).toBeTruthy()
   })
 
-  it('hides when props.noTitle is passed', () => {
+  it('hides title when props.noTitle is passed', () => {
     const noTitle = true
     const wrapper = shallowMount(DonateForm, {
       propsData: { noTitle }
