@@ -50,8 +50,7 @@ describe('SlideUpDown', () => {
     const wrapper = mount(SlideUpDown)
     const defered = wrapper.vm.triggerSlide()
     expect(wrapper.vm.state).toBe('pre')
-    return defered.then(() => {
-      expect(wrapper.vm.state).toBe('active')
-    })
+    await defered
+    expect(wrapper.vm.state).toBe('active')
   })
 })

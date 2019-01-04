@@ -1,4 +1,6 @@
 <script>
+import Promise from 'promise-polyfill';
+
 const noop = () => (null)
 
 /**
