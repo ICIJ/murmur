@@ -78,4 +78,11 @@ describe('ImddbHeader.vue', () => {
     wrapper.vm.toggleNavbar()
     expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeTruthy()
   })
+
+  it('should change `showFollowUsPopover` to `true`', () => {
+    const wrapper = shallowMount(ImddbHeader)
+    wrapper.setData({ showFollowUsPopover: true })
+    wrapper.vm.closeFollowUsPopover()
+    expect(wrapper.vm.showFollowUsPopover).toBeFalsy()
+  })
 })

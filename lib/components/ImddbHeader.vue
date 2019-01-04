@@ -40,8 +40,8 @@
             <button class="btn btn-saddle-red btn-block font-weight-bold" id="follow-icij">
               {{ $t('imddb-header.navbar.follow') }}
             </button>
-            <b-popover container="imddb-header" target="follow-icij" placement="bottomleft" :show.sync="showSignupPopover">
-              <follow-us-popover :show.sync="showSignupPopover"></follow-us-popover>
+            <b-popover container="imddb-header" target="follow-icij" placement="bottomleft" :show.sync="showFollowUsPopover">
+              <follow-us-popover :show.sync="showFollowUsPopover"></follow-us-popover>
             </b-popover>
           </li>
         </ul>
@@ -128,13 +128,13 @@
     },
     data () {
       return {
-        showSignupPopover: false,
+        showFollowUsPopover: false,
         collapseNavbar: true
       }
     },
     methods: {
       closeFollowUsPopover ()  {
-        this.showSignupPopover = false
+        this.showFollowUsPopover = false
       },
       toggleNavbar () {
         this.collapseNavbar = !this.collapseNavbar
