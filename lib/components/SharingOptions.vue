@@ -24,7 +24,7 @@
         <span class="sr-only">Share by email</span>
       </network>
     </social-sharing>
-    <div class="sharing-options__link" v-show="!noEmbed">
+    <div class="sharing-options__link sharing-options__link--embed" v-show="!noEmbed">
       <a @click="showEmbedForm">
         <fa icon="code" />
         <span class="sr-only">Embed</span>
@@ -135,7 +135,6 @@
     },
     methods: {
       showEmbedForm () {
-        this.showShareOptions = false
         return this.$refs.embedForm.show()
       },
       valuesFor (network) {
