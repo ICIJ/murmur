@@ -2,6 +2,12 @@ import { shallowMount } from '@vue/test-utils'
 import ContentPlaceholder from '@/components/ContentPlaceholder.vue'
 
 describe('ContentPlaceholder.vue', () => {
+
+  it('is a Vue instance', () => {
+    const wrapper = shallowMount(ContentPlaceholder)
+    expect(wrapper.isVueInstance()).toBeTruthy()
+  })
+
   it('renders props.rows when passed', () => {
     const rows = [
       {

@@ -7,7 +7,7 @@ describe('EmbedForm.vue', () => {
     url: 'https://projects.icij.org/the-implant-files/graphics/'
   }
 
-  test('is a Vue instance', () => {
+  it('is a Vue instance', () => {
     const wrapper = shallowMount(EmbedForm, { propsData })
     expect(wrapper.isVueInstance()).toBeTruthy()
   })

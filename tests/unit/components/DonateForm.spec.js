@@ -3,7 +3,7 @@ import DonateForm from '@/components/DonateForm.vue'
 
 describe('DonateForm.vue', () => {
 
-  test('is a Vue instance', () => {
+  it('is a Vue instance', () => {
     const wrapper = shallowMount(DonateForm)
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
