@@ -52,4 +52,42 @@ describe('EmbedForm.vue', () => {
     const src =wrapper.element.querySelector('.embed-form__preview iframe').src
     expect(src).toBe('https://projects.icij.org/the-implant-files/graphics/')
   })
+
+  it('renders iframe height to 150 according to the passed props.height', () => {
+    const wrapper = shallowMount(EmbedForm, {
+      propsData: { height: 150, ...propsData }
+    })
+    const height = wrapper.element.querySelector('.embed-form__preview iframe').height
+    expect(height).toBe("150")
+  })
+
+  it('renders iframe height to 250 according to the passed props.height', () => {
+    const wrapper = shallowMount(EmbedForm, {
+      propsData: { height: 250, ...propsData }
+    })
+    const height = wrapper.element.querySelector('.embed-form__preview iframe').height
+    expect(height).toBe("250")
+  })
+
+  it('renders iframe width to 100% when no value is passed to props.width', () => {
+    const wrapper = shallowMount(EmbedForm, { propsData })
+    const width = wrapper.element.querySelector('.embed-form__preview iframe').width
+    expect(width).toBe("100%")
+  })
+
+  it('renders iframe width to 150 according to the passed props.width', () => {
+    const wrapper = shallowMount(EmbedForm, {
+      propsData: { width: 150, ...propsData }
+    })
+    const width = wrapper.element.querySelector('.embed-form__preview iframe').width
+    expect(width).toBe("150")
+  })
+
+  it('renders iframe width to 250 according to the passed props.width', () => {
+    const wrapper = shallowMount(EmbedForm, {
+      propsData: { width: 250, ...propsData }
+    })
+    const width = wrapper.element.querySelector('.embed-form__preview iframe').width
+    expect(width).toBe("250")
+  })
 })
