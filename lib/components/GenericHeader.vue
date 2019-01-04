@@ -19,7 +19,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a id="follow-icij" class="nav-link text-uppercase">
+            <a id="follow-us-toggler" class="nav-link text-uppercase">
               {{ $t('imddb-header.navbar.follow') }}
             </a>
           </li>
@@ -29,8 +29,8 @@
             </a>
           </li>
         </ul>
-        <b-popover container="generic-header" target="follow-icij" placement="bottomleft" :show.sync="showSignupPopover">
-          <follow-us-popover :show.sync="showSignupPopover"></follow-us-popover>
+        <b-popover id="follow-us-popover" ref="followUsPopover" container="generic-header" target="follow-us-toggler" placement="bottomleft" :show.sync="showFollowUsPopover">
+          <follow-us-popover :show.sync="showFollowUsPopover"></follow-us-popover>
         </b-popover>
       </div>
     </component>
@@ -90,13 +90,13 @@
     },
     data () {
       return {
-        showSignupPopover: false,
+        showFollowUsPopover: false,
         collapseNavbar: true
       }
     },
     methods: {
       closeFollowUsPopover ()  {
-        this.showSignupPopover = false
+        this.showFollowUsPopover = false
       },
       toggleNavbar () {
         this.collapseNavbar = !this.collapseNavbar
