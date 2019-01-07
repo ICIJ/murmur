@@ -13,21 +13,27 @@
       </div>
       <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
     </div>
-    <a class="docs-menu__footer d-flex align-items-center" href="https://icij.org" target="_blank">
-      <img src="@/assets/images/icij-white.svg" alt="ICIJ" class="docs-menu__footer__logo mr-2" />
-      <span>An open source project by ICIJ</span>
-    </a>
+    <div class="docs-menu__footer d-flex align-items-center justify-content-between">
+      <a href="https://icij.org" target="_blank">
+        <img src="@/assets/images/icij-white.svg" alt="ICIJ" class="docs-menu__footer__logo mr-2" />
+        A project by ICIJ
+      </a>
+      <a :href="repository.url" target="_blank">
+        <fa :icon="['fab', 'github']" size="2x" />
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
   import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons/faPuzzlePiece'
-  import { version } from '@package'
+  import { faGithub } from '@fortawesome/free-brands-svg-icons/faGithub'
+  import { version, repository } from '@package'
   import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
 
-  library.add(faPuzzlePiece)
+  library.add(faPuzzlePiece, faGithub)
 
   export default {
     name: 'DocsMenu',
@@ -67,7 +73,8 @@
     },
     data () {
       return {
-        version
+        version,
+        repository
       }
     }
   }
@@ -116,14 +123,18 @@
       color: $light;
       font-size: 0.9em;
 
+      a {
+        color: inherit;
+
+        &:hover {
+          color: inherit;
+          opacity: 0.7
+        }
+      }
+
       &__logo {
         border: 1px solid $light;
         height: 2em;
-      }
-
-      &:hover {
-        color: inherit;
-        background: rgba($light, .2);
       }
     }
 
