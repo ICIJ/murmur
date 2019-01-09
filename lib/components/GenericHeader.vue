@@ -4,7 +4,7 @@
       <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand generic-header__brand">
-          <img src="../assets/images/icij@2x.png" height="50" class="mr-3" />
+          <brand size="50" no-border color="white" background="#A10207" class="mr-3" />
           International Consortium of Investigative Journalists
         </a>
       </slot>
@@ -50,6 +50,7 @@
   import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
   import DonateForm from './DonateForm.vue'
+  import Brand from './Brand.vue'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
 
@@ -63,6 +64,7 @@
       bModal,
       bPopover,
       headroom,
+      Brand,
       DonateForm,
       FollowUsPopover
     },

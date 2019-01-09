@@ -5,7 +5,7 @@
         <div class="col-md-5">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
             <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo">
-              <img src="../assets/images/icij@2x.png" class="mw-100" />
+              <brand size="54" no-border color="white" background="#A10207" />
             </a>
             <a class="text-nowrap" href="https://icij.org" target="_blank">
               International Consortium of<br />
@@ -95,6 +95,7 @@
 
 <script>
 import i18n from '@/i18n'
+import Brand from './Brand'
 
 /**
  * GenericFooter
@@ -102,6 +103,9 @@ import i18n from '@/i18n'
 export default {
   i18n,
   name: 'GenericFooter',
+  components: {
+    Brand,
+  },
   props: {
     /**
      * Version of the app to display in the bottom-right corner of the footer

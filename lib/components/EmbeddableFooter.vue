@@ -1,7 +1,7 @@
 <template>
   <div class="embeddable-footer p-2 text-nowrap">
     <a :href="homeUrl" target="_blank" class="text-white embeddable-footer__brand">
-      <img src="../assets/images/icij-white@2x.png" height="20" class="mr-2" />
+      <brand :size="40" no-border class="mr-2" color="white" />
       {{ title }}
     </a>
     <div class="embeddable-footer__lead small text-truncate" v-html="lead"></div>
@@ -18,6 +18,7 @@
 
   import i18n from '@/i18n'
   import IframeResizer from '@/utils/iframe-resizer'
+  import Brand from './Brand'
   import SharingOptions from './SharingOptions'
   import config from '@/config'
 
@@ -37,7 +38,8 @@
        * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
        */
       Fa: require('./Fa').default,
-      SharingOptions
+      SharingOptions,
+      Brand
     },
     props: {
       /**
