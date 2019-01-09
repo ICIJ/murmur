@@ -30,6 +30,7 @@ describe('main.js', () => {
   })
 
   it('has a list of components', () => {
+    expect(Murmur.components).toHaveProperty('Brand')
     expect(Murmur.components).toHaveProperty('ContentPlaceholder')
     expect(Murmur.components).toHaveProperty('DonateForm')
     expect(Murmur.components).toHaveProperty('EmbeddableFooter')

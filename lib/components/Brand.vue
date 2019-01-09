@@ -23,8 +23,7 @@ export default {
      */
     color: {
       type: String,
-      default: 'black',
-      required: true
+      default: 'black'
     },
     /**
      * Logo's background color
@@ -53,7 +52,7 @@ export default {
 .brand {
   color: black;
   display: inline-block;
-  
+
   svg {
     border: 1px solid currentColor;
   }
