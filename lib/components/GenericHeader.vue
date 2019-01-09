@@ -4,7 +4,7 @@
       <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand generic-header__brand">
-          <brand size="50" no-border color="white" background="#A10207" class="mr-3" />
+          <brand v-bind="appliedBrandOptions" class="mr-3" />
           International Consortium of Investigative Journalists
         </a>
       </slot>
@@ -88,6 +88,13 @@
       homeUrl: {
         type: String,
         default: () => config.get('app.home')
+      },
+      /**
+       * Default options to pass to the brand component
+       */
+      brandOptions: {
+        type: Object,
+        default: () => ({})
       }
     },
     data () {
@@ -109,6 +116,17 @@
     computed: {
       rootElement () {
         return this.noHeadroom ? 'div' : 'headroom'
+      },
+      appliedBrandOptions () {
+        return Object.assign(this.defaultBrandOptions, this.brandOptions)
+      },
+      defaultBrandOptions () {
+        return  {
+          noBorder: true,
+          size: 50,
+          color: 'white',
+          background: '#A10207'
+        }
       }
     }
   }
