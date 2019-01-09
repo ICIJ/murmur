@@ -15,7 +15,7 @@
     </div>
     <div class="docs-menu__footer d-flex align-items-center justify-content-between">
       <a href="https://icij.org" target="_blank">
-        <img src="@/assets/images/icij-white.svg" alt="ICIJ" class="docs-menu__footer__logo mr-2" />
+        <brand color="white" size="26" class="docs-menu__footer__logo mr-2" />
         A project by ICIJ
       </a>
       <a :href="repository.url" target="_blank">
@@ -133,7 +133,6 @@
       }
 
       &__logo {
-        border: 1px solid $light;
         height: 2em;
       }
     }
