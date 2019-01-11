@@ -21,9 +21,13 @@
               <a href="mailto:contact@icij.org" class="text-selective-yellow">contact@icij.org</a>
             </strong>
           </p>
+          <!-- @slot Additional content on the left side of the footer -->
+          <slot name="left"></slot>
         </div>
         <div class="col-md-7">
-          <div class="row justify-content-end">
+          <div class="row justify-content-end">            
+            <!-- @slot Additional content on the left side of the footer -->
+            <slot name="left"></slot>
             <div class="col-md-5">
               <h5 class="text-selective-yellow text-uppercase mb-3">
                 {{ $t('generic-footer.investigations') }}
