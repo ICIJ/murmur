@@ -18,10 +18,7 @@
           <span v-if="collapseCode">Show code</span>
           <span v-if="!collapseCode">Hide code</span>
         </button>
-        <button class="btn btn-sm font-weight-bold btn-primary col" @click="copyText(code)">
-          <fa icon="paste" class="mr-1" />
-          Copy
-        </button>
+        <haptic-copy class="btn-sm font-weight-bold btn-primary col" :text="code"></haptic-copy>
       </div>
       <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark">
         <slot name="code">
@@ -34,9 +31,7 @@
 
 <script>
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
-  import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
 
-  import { copyText } from '@/utils/clipboard'
   import { library, default as Fa } from '@/components/Fa'
   import SlideUpDown from '@/components/SlideUpDown.vue'
 
@@ -47,7 +42,7 @@
       Fa
     },
     beforeMount () {
-      library.add(faCode, faPaste)
+      library.add(faCode)
     },
     props: {
       title: {
@@ -74,7 +69,6 @@
       }
     },
     methods: {
-      copyText,
       toggleCode (toggle = !this.collapseCode) {
         this.collapseCode = toggle
       }

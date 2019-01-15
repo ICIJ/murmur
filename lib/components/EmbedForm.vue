@@ -48,10 +48,8 @@
           </label>
 
           <div class="text-right">
-            <button class="btn btn-link btn-sm text-uppercase font-weight-bold" @click="copyEmbedCode">
-              <fa icon="clipboard" />
-              {{ $t('embed-form.copy') }}
-            </button>
+            <haptic-copy class="btn-link btn-sm text-uppercase font-weight-bold" :text="embedCode()" @success="selectCode()" :label="$t('embed-form.copy')">
+            </haptic-copy>
           </div>
         </div>
         <div class="col-7 d-none d-lg-block embed-form__preview" v-if="!noPreview">
@@ -62,14 +60,12 @@
   </div>
 </template>
 
-<script>  
-  import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
+<script>
   import Vue from 'vue'
 
   import i18n from '@/i18n'
+  import HapticCopy from './HapticCopy'
   import IframeResizer from '@/utils/iframe-resizer'
-  import { copyText } from '@/utils/clipboard'
-  import { library } from './Fa'
 
   /**
    * Embed Form
@@ -82,10 +78,8 @@
         responsiveCheck: false
       }
     },
-    beforeMount() {
-      library.add(faClipboard)
-    },
     components: {
+      HapticCopy,
       /** Prevent a bug with vue-docgen-api
        * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
        */
@@ -145,11 +139,6 @@
       },
       pymCodeFor (url = this.currentUrl) {
         return IframeResizer.template(url)
-      },
-      copyEmbedCode () {
-        return copyText(this.embedCode(), this.$el).finally(() => {
-          this.selectCode()
-        })
       },
       selectCode () {
         this.$el.querySelector('.embed-form__code').select()

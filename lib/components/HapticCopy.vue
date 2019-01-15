@@ -3,7 +3,7 @@
     <!-- @slot Main content of the button (including the icon) -->
     <slot>
       <fa icon="clipboard" />
-      <span :class="{ 'sr-only': hideLabel }">
+      <span :class="{ 'sr-only': hideLabel }" class="ml-1">
         {{ label || $t('haptic-copy.label') }}
       </span>
     </slot>
