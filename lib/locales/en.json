@@ -82,5 +82,11 @@
     "label": "Stories in your inbox",
     "placeholder": "Email address",
     "submit": "Sign up"
+  },
+  "haptic-copy": {
+    "label": "Copy",
+    "tooltip": {
+      "succeed": "Copied!"
+    }
   }
 }

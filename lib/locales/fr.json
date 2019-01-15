@@ -82,5 +82,11 @@
     "label": "Recevez nos articles par email",
     "placeholder": "Adresse email",
     "submit": "S'abonner"
+  },
+  "haptic-copy": {
+    "label": "Copier",
+    "tooltip": {
+      "succeed": "Copié!"
+    }
   }
 }
