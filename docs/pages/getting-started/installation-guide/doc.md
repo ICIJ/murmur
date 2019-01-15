@@ -31,7 +31,9 @@ import Murmur from '@icij/murmur'
 Vue.use(Murmur)
 ```
 
-Now all components will be globally available in your app.
+Now all components will be globally available in your app. Murmur also expose a
+configuration object to handle common configuration option. To customize the
+default options please refer to the [dedicated page](#/utilities/config).
 
 ### Individual components
 

@@ -1,5 +1,6 @@
 ---
 title: Configure Murmur
+order: 0
 ---
 
 Murmur comes with a built-in configuration system. To access the configuration
