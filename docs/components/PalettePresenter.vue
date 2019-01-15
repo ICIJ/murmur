@@ -9,9 +9,7 @@
           <span class="palette-presenter__list__item__value__hex">
             {{ value.hex }}
           </span>
-          <button class="btn btn-sm btn-link ml-2" @click="copyText(value.hex)">
-            <fa icon="paste" />
-          </button>
+          <haptic-copy class="btn-sm btn-link ml-2" hide-label :text="value.hex" />
         </span>
       </li>
     </ul>
@@ -20,22 +18,14 @@
 
 <script>
   import chroma from 'chroma-js'
-  import { faPaste } from '@fortawesome/free-solid-svg-icons/faPaste'
-  import { copyText } from '@/utils/clipboard'
-  import { library, default as Fa } from '@/components/Fa'
-  library.add(faPaste)
 
   export default {
-    components: {
-      Fa
-    },
     props: {
       colors: {
         type: Object
       }
     },
     methods: {
-      copyText,
       bgStyle(name) {
         return {
           backgroundColor: this.colors[name].value.hex,

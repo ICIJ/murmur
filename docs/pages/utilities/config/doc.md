@@ -27,9 +27,7 @@ Here is the list of default values:
   <table class="table table-sm table-striped text-nowrap m-0">
     <tr v-for="(value, key) in config">
       <td>    
-        <button class="btn btn-sm btn-info" @click="copyText(key)">
-          <fa icon="paste" class="mr-1" />
-        </button>
+        <haptic-copy class="btn-sm btn-info" hide-label :text="key" />
       </td>
       <td class="align-middle">
         <code>{{ key }}</code>
@@ -43,16 +41,12 @@ Here is the list of default values:
 
 <script>
   import config from '@/config.default'
-  import { copyText } from '@/utils/clipboard'  
 
   export default {
     data () {
       return {
         config
       }
-    },
-    methods: {
-      copyText
     }
   }
 </script>
