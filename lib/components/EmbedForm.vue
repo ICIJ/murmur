@@ -48,8 +48,7 @@
           </label>
 
           <div class="text-right">
-            <haptic-copy class="btn-link btn-sm text-uppercase font-weight-bold" :text="embedCode()" @success="selectCode()" :label="$t('embed-form.copy')">
-            </haptic-copy>
+            <haptic-copy class="btn-link btn-sm text-uppercase font-weight-bold" :text="embedCode()" @attempt="selectCode()" :label="$t('embed-form.copy')" />
           </div>
         </div>
         <div class="col-7 d-none d-lg-block embed-form__preview" v-if="!noPreview">

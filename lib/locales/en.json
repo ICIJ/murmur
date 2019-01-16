@@ -86,7 +86,8 @@
   "haptic-copy": {
     "label": "Copy",
     "tooltip": {
-      "succeed": "Copied!"
+      "succeed": "Copied!",
+      "failed": "Unable to copy the text"
     }
   }
 }

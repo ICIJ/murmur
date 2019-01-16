@@ -1,13 +1,13 @@
 <template>
-  <button class="btn" @click="copyText" :id="btnUniqueId">
+  <button class="btn haptic-copy" @click="copyText">
     <!-- @slot Main content of the button (including the icon) -->
     <slot>
-      <fa icon="clipboard" />
-      <span :class="{ 'sr-only': hideLabel }" class="ml-1">
+      <fa icon="clipboard" class="haptic-copy__icon" />
+      <span :class="{ 'sr-only': hideLabel }" class="ml-1 haptic-copy__label">
         {{ label || $t('haptic-copy.label') }}
       </span>
     </slot>
-    <b-tooltip ref="tooltip" :target="btnUniqueId" :triggers="[]">
+    <b-tooltip ref="tooltip" :target="() => $el" :triggers="[]">
       {{ tooltipContent }}
     </b-tooltip>
   </button>
@@ -16,9 +16,10 @@
 <script>
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import { copyText } from '@/utils/clipboard'
-  import uniqueId from 'lodash/uniqueId'
+  import bTooltip from 'bootstrap-vue/es/components/tooltip/tooltip'
   import noop from 'lodash/noop'
   import i18n from '@/i18n'
+  import Promise from 'promise-polyfill'
 
   import { library } from './Fa'
 
@@ -61,45 +62,60 @@
     },
     methods: {
       copyText () {
-        return copyText(this.text, this.$el).finally(() => {
-          return this.$nextTick(() => {
-            this.openTooltip()
-            /**
-             * Success event.
-             *
-             * @event success
-             */
-            this.$emit('success')
+        /**
+         * Emitted when an attempt to copy text is made
+         *
+         * @event attempt
+         */
+        this.$emit('attempt')
+        // Use clipboard.js internally
+        return copyText(this.text, this.$el)
+          .finally(this.$nextTick)
+          .then(() => {
+            this.openTooltip('haptic-copy.tooltip.succeed')
             this.nextTimeout(this.closeTooltip, this.tooltipHideDelay)
+            /**
+            * Emitted when the text has been copied successfully
+            *
+            * @event success
+            */
+            return this.$emit('success')
           })
-        })
+          .catch(() => {
+            this.openTooltip('haptic-copy.tooltip.failed')
+            this.nextTimeout(this.closeTooltip, this.tooltipHideDelay)
+            /**
+            * Emitted when the text couldn't be copied
+            *
+            * @event error
+            */
+            return this.$emit('error')
+          })
       },
-      openTooltip () {
-        this.tooltipContent = this.$t('haptic-copy.tooltip.succeed')
-        this.$nextTick(() => this.$refs.tooltip.$emit('open'))
+      openTooltip (msg = 'haptic-copy.tooltip.succeed') {
+        this.tooltipContent = this.$te(msg) ? this.$t(msg) : msg
+        return this.$nextTick().then(() => this.$refs.tooltip && this.$refs.tooltip.$emit('open'))
       },
       closeTooltip () {
-        this.$refs.tooltip.$emit('close')
+        this.$refs.tooltip && this.$refs.tooltip.$emit('close')
         // Clear the tooltip after a short delay
-        this.nextTimeout(() => this.tooltipContent = '', 1000)
+        return this.$nextTick().then(() => this.tooltipContent = '', 1000)
       },
       nextTimeout (fn = noop, delay = 0) {
         clearTimeout(this.tooltipTimeout)
-        this.tooltipTimeout = setTimeout(() => this.$nextTick(fn), delay)
-      }
-    },
-    computed: {
-      btnUniqueId () {
-        return uniqueId('haptic-copy-btn-')
+        return new Promise(resolve => {
+          this.tooltipTimeout = setTimeout(resolve, delay)
+        }).finally(this.$nextTick).then(fn)
       }
     },
     components: {
+      bTooltip,
       /** Prevent a bug with vue-docgen-api
        * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
        */
       Fa: require('./Fa').default
     },
-    beforeMount() {
+    beforeMount () {
       library.add(faClipboard)
     }
   }
