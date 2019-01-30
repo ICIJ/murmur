@@ -186,6 +186,7 @@
 
       .nav-link {
         color: inherit;
+        cursor: pointer;
       }
     }
   }
