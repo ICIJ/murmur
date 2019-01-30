@@ -37,6 +37,7 @@
           <p v-if="changeThe" class="mt-2" v-html="$t('donate-form.result.sentence', { target: changeThe })"></p>
           <div class="mt-4">
             <input name="org_id" value="icij" type="hidden">
+            <input name="campaign" v-model="campaign" type="hidden">
             <input name="installmentPeriod" v-model="installmentPeriod" type="hidden">
             <button type="submit" class="btn btn-primary rounded-pill text-uppercase font-weight-bold">
               {{ $t('donate-form.submit') }}
@@ -143,6 +144,7 @@
         // True if the amount wasn't changed by the user yet
         amountIsPristine: true,
         installmentPeriod: 'monthly',
+        campaign: config.get('donate-form.tracker'),
         labelForChange: {
           'monthly': {
             3: this.$t('donate-form.result.conversation'),
