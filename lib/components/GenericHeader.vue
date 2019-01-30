@@ -5,7 +5,7 @@
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand generic-header__brand">
           <brand v-bind="appliedBrandOptions" class="mr-3" />
-          International Consortium of Investigative Journalists
+          <span class="d-none d-sm-inline">International Consortium of Investigative Journalists</span>
         </a>
       </slot>
       <button class="navbar-toggler" type="button" aria-label="Toggle navigation" @click="toggleNavbar">
@@ -146,10 +146,6 @@
       width: 100%;
     }
 
-    @include media-breakpoint-down(md) {
-      background: $mercury;
-    }
-
     &.headroom {
       will-change: transform;
       transition: transform 200ms linear;
@@ -175,11 +171,11 @@
     }
 
     .navbar-toggler {
-      background: $mercury;
       position: absolute;
       right: $spacer;
-      top: $spacer / 2;
+      top: $spacer;
       margin: 0;
+      margin-top: 1px;
     }
 
     .nav-item {
