@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="rootElement" id="generic-header" data-turbolinks-permanent class="navbar navbar-expand-lg navbar-light generic-header" :offset="100" :z-index="1020" :on-unpin="closeFollowUsPopover" :class="{ 'headroom--frozen': !collapseNavbar }" :style="{ position: position }">
+    <component :is="rootElement" id="generic-header" data-turbolinks-permanent class="navbar navbar-expand-lg navbar-light generic-header" :offset="100" :z-index="1020" :on-unpin="closeFollowUsPopover" :class="{ 'headroom--frozen': !collapseNavbar, 'generic-header--collapsed': collapseNavbar }" :style="{ position: position }">
       <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand generic-header__brand">
