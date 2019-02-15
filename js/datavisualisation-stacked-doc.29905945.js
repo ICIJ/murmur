@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["datavisualisation-stacked-doc"],{"506e":function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div")},i=[],o={},s=o,c=t("2877"),l=Object(c["a"])(s,a,i,!1,null,null,null);l.options.__file="doc.md";n["default"]=l.exports}}]);
-//# sourceMappingURL=datavisualisation-stacked-doc.29905945.js.map
