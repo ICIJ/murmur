@@ -4,7 +4,7 @@ const { ContextReplacementPlugin } = require('webpack')
 
 module.exports = {
   // The app use hashbang routes so we can have relative path in BASE_URL
-  baseUrl: './',
+  publicPath: './',
   lintOnSave: false,
   chainWebpack: config => {
     config.entry('app').clear().add('./docs/main.js')

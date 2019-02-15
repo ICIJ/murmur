@@ -25,7 +25,7 @@
           <slot name="left"></slot>
         </div>
         <div class="col-md-7">
-          <div class="row justify-content-end">            
+          <div class="row justify-content-end">
             <div class="col-md-5">
               <h5 class="text-selective-yellow text-uppercase mb-3">
                 {{ $t('generic-footer.investigations') }}
@@ -147,7 +147,7 @@ export default {
 
     &__icij {
       display: flex;
-      justify-content: start;
+      justify-content: flex-start;
       align-items: center;
 
       @include media-breakpoint-down(xs) {
