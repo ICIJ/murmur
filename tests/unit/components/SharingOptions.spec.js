@@ -1,5 +1,4 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import SocialSharing from 'vue-social-sharing'
 
 import Fa from '@/components/Fa'
 import SharingOptions from '@/components/SharingOptions'

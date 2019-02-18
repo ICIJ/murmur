@@ -1,29 +1,21 @@
 <template>
   <div class="sharing-options" :style="style">
-    <social-sharing v-bind="valuesFor('twitter')" inline-template>
-      <network network="twitter" class="sharing-options__link">
-        <fa :icon="['fab', 'twitter']" />
-        <span class="sr-only">Share on Twitter</span>
-      </network>
-    </social-sharing>
-    <social-sharing v-bind="valuesFor('facebook')" inline-template>
-      <network network="facebook" class="sharing-options__link">
-        <fa :icon="['fab', 'facebook']" />
-        <span class="sr-only">Share on Facebook</span>
-      </network>
-    </social-sharing>
-    <social-sharing v-bind="valuesFor('linkedin')" inline-template>
-      <network network="linkedin" class="sharing-options__link">
-        <fa :icon="['fab', 'linkedin']" />
-        <span class="sr-only">Share on Linkedin</span>
-      </network>
-    </social-sharing>
-    <social-sharing v-bind="valuesFor('email')" inline-template>
-      <network network="email" class="sharing-options__link">
-        <fa icon="envelope" />
-        <span class="sr-only">Share by email</span>
-      </network>
-    </social-sharing>
+    <sharing-options-link network="facebook" class="sharing-options__link" v-bind="valuesFor('facebook')">
+      <fa :icon="['fab', 'facebook']" />
+      <span class="sr-only">Share on Facebook</span>
+    </sharing-options-link>
+    <sharing-options-link network="twitter" class="sharing-options__link" v-bind="valuesFor('twitter')">
+      <fa :icon="['fab', 'twitter']" />
+      <span class="sr-only">Share on Twitter</span>
+    </sharing-options-link>
+    <sharing-options-link network="linkedin" class="sharing-options__link" v-bind="valuesFor('linkedin')">
+      <fa :icon="['fab', 'linkedin']" />
+      <span class="sr-only">Share on Linkedin</span>
+    </sharing-options-link>
+    <sharing-options-link network="email" class="sharing-options__link" v-bind="valuesFor('email')">
+      <fa icon="envelope" />
+      <span class="sr-only">Share by email</span>
+    </sharing-options-link>
     <div class="sharing-options__link sharing-options__link--embed" v-show="!noEmbed">
       <a @click="showEmbedForm">
         <fa icon="code" />
@@ -38,18 +30,18 @@
 
 <script>
   import bModal from 'bootstrap-vue/es/components/modal/modal'
-  import SocialSharing from 'vue-social-sharing';
   import get from 'lodash/get'
   import reduce from 'lodash/reduce'
 
-  import i18n from '@/i18n'
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
   import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope'
   import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
   import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
   import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
+  import i18n from '@/i18n'
   import EmbedForm from './EmbedForm.vue'
+  import SharingOptionsLink from './SharingOptionsLink.vue'
   import config from '../config'
   import IframeResizer from '../utils/iframe-resizer'
 
@@ -64,7 +56,7 @@
     components: {
       bModal,
       EmbedForm,
-      SocialSharing,
+      SharingOptionsLink,
       /** Prevent a bug with vue-docgen-api
        * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
        */
@@ -72,8 +64,6 @@
     },
     beforeMount () {
       library.add(faCode, faEnvelope, faTwitter, faFacebook, faLinkedin)
-      // Inject Fa components in child component
-      SocialSharing.components.Fa = require('./Fa').default
     },
     props: {
       /**
@@ -105,7 +95,7 @@
        * The list of all the keys to automatlcy inject in each social button.
        */
       valuesKeys: {
-        default: () => ['url', 'title', 'description', 'media', 'twitter-user'],
+        default: () => ['url', 'title', 'description', 'media', 'user'],
         type: Array
       },
       /**
@@ -164,10 +154,9 @@
           'description': this.defaultValueFor('sharing-options.description', 'meta[name="description]'),
           'facebook_title': this.defaultValueFor('sharing-options.facebook_title', 'meta[property="og:title"]'),
           'facebook_description': this.defaultValueFor('sharing-options.description', 'meta[property="og:description"]'),
-          'facebook_media':  this.defaultValueFor('sharing-options.media', 'meta[property="og:image"]'),
-          'facebook_url':  this.defaultValueFor('app.home', 'meta[property="og:url"]'),
-          'twitter_media':  this.defaultValueFor('sharing-options.media', 'meta[name="twitter:image"]'),
-          'twitter_twitter-user': this.defaultValueFor('sharing-options.twitter-user', 'meta[name="twitter:site"]')
+          'facebook_media': this.defaultValueFor('sharing-options.media', 'meta[property="og:image"]'),
+          'twitter_media': this.defaultValueFor('sharing-options.media', 'meta[name="twitter:image"]'),
+          'twitter_user': this.defaultValueFor('sharing-options.twitter-user', 'meta[name="twitter:site"]')
         }
       }
     }
@@ -203,9 +192,19 @@
       }
 
       & > a, & > button {
+        padding: 0;
+        margin: 0;
         width: 100%;
         height: 100%;
         display: block;
+        background: transparent !important;
+        text-decoration: none;
+        opacity: 1;
+
+      }
+
+      .svg-inline--fa {
+        color: white;
       }
     }
   }
