@@ -30,7 +30,10 @@
     facebook: {
       base: 'https://www.facebook.com/sharer.php?',
       args: {
-        u: 'url'
+        u: 'url',
+        title: 'title',
+        description: 'description',
+        hashtag: 'hashtags'
       }
     },
     linkedin: {
