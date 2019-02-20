@@ -1,5 +1,8 @@
 <template>
   <div>
+    <p>
+      A component to create a list of rounded sharing buttons.
+    </p>
     <sample-card :component="sample" :code="code"></sample-card>
     <api-table :api="api"></api-table>
   </div>
