@@ -150,20 +150,17 @@
       homeUrl: {
         type: String,
         default: () => config.get('app.home')
-      },
-      /**
-       * An array of objects defining languages items. Each item defines a <em>label</em> and a <em>href</em>.
-       */
-      languages: {
-        type: Array,
-        default: () => config.get('imddb-header.languages.items', [])
       }
     },
     data () {
       return {
         showFollowUsPopover: false,
-        collapseNavbar: true
+        collapseNavbar: true,
+        languages: []
       }
+    },
+    mounted () {
+      this.setLanguages(this.$config.get('imddb-header.languages.items'))
     },
     methods: {
       closeFollowUsPopover ()  {
@@ -173,6 +170,9 @@
         this.collapseNavbar = !this.collapseNavbar
         this.$root.$emit('bv::hide::popover')
         this.$root.$emit('bv::hide::dropdwon')
+      },
+      setLanguages (languages = []) {
+        this.$set(this, 'languages', languages)
       }
     },
     computed: {
@@ -254,21 +254,24 @@
       margin: 0;
     }
 
-    .dropdown-item {
-      white-space: normal;
-      width: 440px;
-      max-width: 90vw;
+    &__site-switch  {
 
-      @include media-breakpoint-down(sm) {
-        width: 100%;
+      .dropdown-item {
+        white-space: normal;
+        width: 440px;
+        max-width: 90vw;
+
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
       }
-    }
 
-    &__site-switch .dropdown .nav-link {
+      .dropdown .nav-link {
 
-      @include media-breakpoint-up(lg) {
-        font-size: 1.2rem;
-        font-family: $headings-font-family;
+        @include media-breakpoint-up(lg) {
+          font-size: 1.2rem;
+          font-family: $headings-font-family;
+        }
       }
     }
   }

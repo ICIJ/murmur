@@ -1,6 +1,6 @@
 <template>
   <div class="full-width">
-    <imddb-header no-headroom position="relative">
+    <imddb-header no-headroom position="relative" ref="header">
       <template slot="navbar">
         <ul class="navbar-nav mr-auto">
           <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
@@ -38,6 +38,15 @@
           { label: 'Lorem dolor sit amet', href: "https://www.pirhoo.com" },
         ]
       }
+    },
+    mounted () {
+      // Add languages after a first delay (like )
+      setTimeout(() => {
+        this.$refs.header.setLanguages([
+          { label: 'English', href: '/', active: true },
+          { label: 'Français', href: '/' }
+        ])
+      }, 500)
     }
   }
 </script>
@@ -47,7 +56,7 @@
     overflow: auto;
 
     .imddb-header {
-      min-width: 90vw;
+      min-width: 990px;
     }
   }
 </style>
