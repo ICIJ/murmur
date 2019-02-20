@@ -1,21 +1,9 @@
 <template>
   <div class="sharing-options" :style="style">
-    <sharing-options-link network="facebook" class="sharing-options__link" v-bind="valuesFor('facebook')">
-      <fa :icon="['fab', 'facebook']" />
-      <span class="sr-only">Share on Facebook</span>
-    </sharing-options-link>
-    <sharing-options-link network="twitter" class="sharing-options__link" v-bind="valuesFor('twitter')">
-      <fa :icon="['fab', 'twitter']" />
-      <span class="sr-only">Share on Twitter</span>
-    </sharing-options-link>
-    <sharing-options-link network="linkedin" class="sharing-options__link" v-bind="valuesFor('linkedin')">
-      <fa :icon="['fab', 'linkedin']" />
-      <span class="sr-only">Share on Linkedin</span>
-    </sharing-options-link>
-    <sharing-options-link network="email" class="sharing-options__link" v-bind="valuesFor('email')">
-      <fa icon="envelope" />
-      <span class="sr-only">Share by email</span>
-    </sharing-options-link>
+    <sharing-options-link network="facebook" class="sharing-options__link" v-bind="valuesFor('facebook')" />
+    <sharing-options-link network="twitter" class="sharing-options__link" v-bind="valuesFor('twitter')" />
+    <sharing-options-link network="linkedin" class="sharing-options__link" v-bind="valuesFor('linkedin')" />
+    <sharing-options-link network="email" class="sharing-options__link" v-bind="valuesFor('email')" />
     <div class="sharing-options__link sharing-options__link--embed" v-show="!noEmbed">
       <a @click="showEmbedForm">
         <fa icon="code" />

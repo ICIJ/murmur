@@ -4,6 +4,11 @@
   import noop from 'lodash/noop'
   import get from 'lodash/get'
 
+  import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope'
+  import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
+  import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
+  import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
+
   // Popup instance and an interval holder
   export const $popup = {
     instance: null,
@@ -25,6 +30,7 @@
   export const networks = {
     email: {
       base: 'mailto:?',
+      icon: faEnvelope,
       args: {
         subject: 'title',
         body: 'description'
@@ -32,6 +38,7 @@
     },
     facebook: {
       base: 'https://www.facebook.com/sharer.php?',
+      icon: faFacebook,
       args: {
         u: 'url',
         title: 'title',
@@ -41,15 +48,16 @@
     },
     linkedin: {
       base: 'https://www.linkedin.com/shareArticle?mini=true&',
+      icon: faLinkedin,
       args: {
         url: 'url',
         title: 'title',
-        summary: 'description',
-        source: 'provider'
+        summary: 'description'
       }
     },
     twitter: {
       base: 'https://twitter.com/intent/tweet?',
+      icon: faTwitter,
       args: {
         url: 'url',
         text: 'title',
@@ -65,6 +73,16 @@
   export default {
     name: 'SharingOptionsLink',
     props: {
+      /**
+       * Root element type
+       */
+      tag: {
+        type: String,
+        default: 'a'
+      },
+      /**
+       * Social network to use
+       */
       network: {
         type: String,
         required: true,
@@ -72,27 +90,54 @@
           return Object.keys(networks).includes(val)
         }
       },
+      /**
+       * Disable icon
+       */
+      noIcon: {
+        type: Boolean
+      },
+      /**
+       * Shared URL
+       */
       url: {
         type: String
       },
+      /**
+       * Shared text
+       */
       title: {
         type: String
       },
+      /**
+       * Shared description
+       */
       description: {
         type: String
       },
+      /**
+       * Shared image
+       */
       media: {
         type: String
       },
+      /**
+       * Twitter user
+       */
       user: {
         type: String
       },
+      /**
+       * Shared hashtags
+       */
       hashtags: {
         type: String
-      },
-      provider: {
-        type: String
       }
+    },
+    components: {
+      /** Prevent a bug with vue-docgen-api
+       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
+       */
+      Fa: require('./Fa').default
     },
     data () {
       return {
@@ -116,7 +161,10 @@
     render (h) {
       const click = this.hasPopup() ? preventDefault(this.click) : noop
       const href = this.href
-      return h('a', { attrs: { href }, on: { click } }, this.$slots.default)
+      return h(this.tag, { attrs: { href }, on: { click } }, this.$slots.default || [
+        this.renderIcon(h),
+        h('span', { class: 'sr-only' }, this.name)
+      ])
     },
     computed: {
       href () {
@@ -128,6 +176,9 @@
       args () {
         return get(networks, [this.network, 'args'], {})
       },
+      icon () {
+        return  get(networks, [this.network, 'icon'], null)
+      },
       query () {
         return reduce(this.args, (obj, prop, param) => {
           if (this.$props[prop]) {
@@ -135,6 +186,9 @@
           }
           return obj
         }, {})
+      },
+      name () {
+        return get(networks, [this.network, 'name'], this.network)
       },
       popupParams () {
         return querystring.stringify(this.popup).split('&').join(',')
@@ -144,6 +198,11 @@
       click ()  {
         this.cleanExistingPopupInstance ()
         this.openPopup()
+      },
+      renderIcon (h) {
+        if (!this.noIcon) {
+          return h('fa', { props: { icon: this.icon } })
+        }
       },
       openPopup() {
         // Create the popup
