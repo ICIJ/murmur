@@ -30,6 +30,17 @@ describe('SharingOptionsLink', () => {
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
 
+  it('should generate the component with `a` tag', () => {
+    const wrapper = mount(SharingOptionsLink, { propsData })
+    expect(wrapper.is('a')).toBeTruthy()
+  })
+
+  it('should generate the component with `button` tag', () => {
+    const propsData = { network: 'twitter', tag: 'button' }
+    const wrapper = mount(SharingOptionsLink, { propsData })
+    expect(wrapper.is('button')).toBeTruthy()
+  })
+
   it('should raise a console.error for an invalid prop', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => null)
     const wrapper = mount(SharingOptionsLink, { network: 'foo' })
