@@ -2,11 +2,14 @@
   import querystring from 'querystring'
   import reduce from 'lodash/reduce'
   import noop from 'lodash/noop'
+  import get from 'lodash/get'
 
-  const $window = typeof window !== 'undefined' ? window : null
   // Popup instance and an interval holder
-  let $popup = null
-  let $interval = null
+  export const $popup = {
+    instance: null,
+    interval: null,
+    parent: typeof window !== 'undefined' ? window : null
+  }
 
   // Prevent propagation when an event is fired through the given callback
   let preventDefault = callback => {
@@ -19,7 +22,7 @@
   /**
    * @source https://github.com/bradvin/social-share-urls
    */
-  const networks = {
+  export const networks = {
     email: {
       base: 'mailto:?',
       args: {
@@ -63,7 +66,11 @@
     name: 'SharingOptionsLink',
     props: {
       network: {
-        type: String
+        type: String,
+        required: true,
+        validator (val) {
+          return Object.keys(networks).includes(val)
+        }
       },
       url: {
         type: String
@@ -107,7 +114,7 @@
       };
     },
     render (h) {
-      const click = this.hasPopup() ? preventDefault(this.openPopup) : noop
+      const click = this.hasPopup() ? preventDefault(this.click) : noop
       const href = this.href
       return h('a', { attrs: { href }, on: { click } }, this.$slots.default)
     },
@@ -116,10 +123,10 @@
         return this.base + querystring.stringify(this.query)
       },
       base () {
-        return networks[this.network].base
+        return get(networks, [this.network, 'base'], '')
       },
       args () {
-        return networks[this.network].args
+        return get(networks, [this.network, 'args'], {})
       },
       query () {
         return reduce(this.args, (obj, prop, param) => {
@@ -134,23 +141,29 @@
       }
     },
     methods: {
-      openPopup() {
-        this.cleanExistingPopup()
-        // Create the popup
-        $popup = $window.open(this.href, 'sharer', this.popupParams)
-        $popup.focus()
-        // Watch for popup closing
-        $interval = setInterval(() => {
-          if ( $popup && $popup.closed ) {
-            clearInterval($interval)
-            $popup = null
-          }
-        }, 500)
+      click ()  {
+        this.cleanExistingPopupInstance ()
+        this.openPopup()
       },
-      cleanExistingPopup () {
-        if ($popup && $interval) {
-          clearInterval($interval);
-          $popup.close()
+      openPopup() {
+        // Create the popup
+        $popup.instance = $popup.parent.open(this.href, 'sharer', this.popupParams)
+        $popup.instance.focus()
+        // Watch for popup closing
+        $popup.interval = setInterval(this.cleanExistingPopupInterval, 500)
+      },
+      cleanExistingPopupInstance  () {
+        if ($popup.instance && $popup.interval) {
+          clearInterval($popup.interval)
+          $popup.interval = null
+          $popup.instance.close()
+        }
+      },
+      cleanExistingPopupInterval () {
+        if ( $popup.instance && $popup.instance.closed ) {
+          clearInterval($popup.interval)
+          $popup.interval = null
+          $popup.instance = null
         }
       },
       hasPopup () {
