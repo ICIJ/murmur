@@ -160,7 +160,7 @@
       }
     },
     mounted () {
-      this.setLanguages(this.$config.get('imddb-header.languages.items'))
+      this.setLanguages(config.get('imddb-header.languages.items'))
     },
     methods: {
       closeFollowUsPopover ()  {
