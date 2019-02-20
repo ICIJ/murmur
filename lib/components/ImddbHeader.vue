@@ -12,20 +12,33 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse" :class="{ collapse: collapseNavbar }">
-        <!-- @slot Redefines the main navbar block (containing the dropdown) -->
-        <slot name="navbar">
-          <ul class="navbar-nav mr-auto">
+        <div class="imddb-header__site-switch mr-auto">
+          <!-- @slot Redefines the main navbar block (containing the dropdown) -->
+          <slot name="navbar">
+            <ul class="navbar-nav">
+              <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
+                <template slot="button-content">
+                  {{ title }}
+                </template>
+                <b-dropdown-item v-for="(item, $index) in dropdownItems"  :key="$index" :href="item.href" v-bind="{ active: !!item.active }">
+                  {{ item.label }}
+                </b-dropdown-item>
+              </b-nav-dropdown>
+            </ul>
+          </slot>
+        </div>
+        <ul class="navbar-nav">
+          <li class="nav-item" v-if="hasLanguagesDropdown">
             <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
               <template slot="button-content">
-                {{ title }}
+                <fa icon="globe" />
+                {{ currentLanguage }}
               </template>
-              <b-dropdown-item v-for="(item, $index) in dropdownItems"  :key="$index" :href="item.href" v-bind="{ active: !!item.active }">
+              <b-dropdown-item v-for="(item, $index) in languages"  :key="$index" :href="item.href" v-bind="{ active: !!item.active }">
                 {{ item.label }}
               </b-dropdown-item>
             </b-nav-dropdown>
-          </ul>
-        </slot>
-        <ul class="navbar-nav">
+          </li>
           <li class="nav-item">
             <a href="https://www.icij.org/leak/" target="_blank" class="nav-link">
               {{ $t('imddb-header.navbar.leak') }}
@@ -61,10 +74,16 @@
   import bModal from 'bootstrap-vue/es/components/modal/modal'
   import bNavDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown'
   import bPopover from 'bootstrap-vue/es/components/popover/popover'
+  import { headroom } from 'vue-headroom'
+
+  import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe'
+
+  import find from 'lodash/find'
+  import get from 'lodash/get'
 
   import i18n from '@/i18n'
-  import { headroom } from 'vue-headroom'
   import DonateForm from './DonateForm.vue'
+  import { library } from './Fa'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
 
@@ -81,7 +100,14 @@
       bPopover,
       headroom,
       DonateForm,
-      FollowUsPopover
+      FollowUsPopover,
+      /** Prevent a bug with vue-docgen-api
+       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
+       */
+      Fa: require('./Fa').default
+    },
+    beforeMount () {
+      library.add(faGlobe)
     },
     props: {
       /**
@@ -124,6 +150,13 @@
       homeUrl: {
         type: String,
         default: () => config.get('app.home')
+      },
+      /**
+       * An array of objects defining languages items. Each item defines a <em>label</em> and a <em>href</em>.
+       */
+      languages: {
+        type: Array,
+        default: () => config.get('imddb-header.languages.items', [])
       }
     },
     data () {
@@ -145,6 +178,12 @@
     computed: {
       rootElement () {
         return this.noHeadroom ? 'div' : 'headroom'
+      },
+      hasLanguagesDropdown () {
+        return !!this.languages.length
+      },
+      currentLanguage () {
+        return get(find(this.languages, { active: true }), 'label', 'Language')
       }
     }
   }
@@ -225,7 +264,7 @@
       }
     }
 
-    .dropdown .nav-link {
+    &__site-switch .dropdown .nav-link {
 
       @include media-breakpoint-up(lg) {
         font-size: 1.2rem;

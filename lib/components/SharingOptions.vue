@@ -22,10 +22,6 @@
   import reduce from 'lodash/reduce'
 
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
-  import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope'
-  import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
-  import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
-  import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
   import i18n from '@/i18n'
   import EmbedForm from './EmbedForm.vue'
@@ -51,7 +47,7 @@
       Fa: require('./Fa').default
     },
     beforeMount () {
-      library.add(faCode, faEnvelope, faTwitter, faFacebook, faLinkedin)
+      library.add(faCode)
     },
     props: {
       /**

@@ -47,7 +47,7 @@
     overflow: auto;
 
     .imddb-header {
-      width: 880px;
+      min-width: 90vw;
     }
   }
 </style>
