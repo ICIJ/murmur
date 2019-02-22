@@ -9,6 +9,9 @@ Murmur is <a href="https://icij.org">ICIJ</a>'s Design System for Bootstrap 4 an
 <a href="https://circleci.com/gh/ICIJ/murmur">
   <img src="https://circleci.com/gh/ICIJ/murmur.svg?style=svg" alt="CircleCI">
 </a>
+<a href="https://codeclimate.com/github/ICIJ/murmur/maintainability">
+  <img src="https://api.codeclimate.com/v1/badges/e487295b939be72d5f15/maintainability" />
+</a>
 </p>
 
 ## Installation guide
