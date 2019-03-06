@@ -27,4 +27,18 @@ describe('config.js', () => {
     expect(config.values.foo).toBeDefined()
     expect(config.values.bar).toBeDefined()
   })
+
+  it('should merge the given object with the config', () => {
+    config.set('foo', 'erased')
+    config.merge({ 'foo': 'foo', 'bar': 'bar' })
+    expect(config.get('foo')).toBe('foo')
+    expect(config.get('bar')).toBe('bar')
+  })
+
+  it('should merge the given object and its scopes with the config', () => {
+    config.merge({ 'foo.bar': 'foobar' } )
+    expect(config.scope('foo').get('bar')).toBe('foobar')
+    config.merge({ 'bar.foo': 'barfoo' })
+    expect(config.scope('bar').get('foo')).toBe('barfoo')
+  })
 })
