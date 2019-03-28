@@ -66,6 +66,13 @@ export default {
       default: noop
     },
     /**
+     * The cancellation callback
+     */
+    cancelled: {
+      type: Function,
+      default: noop
+    },
+    /**
      * Label for 'Yes' button
      */
     yes: {
@@ -115,6 +122,7 @@ export default {
     },
     cancel () {
       this.$refs.confirmationTooltip.$emit('close')
+      this.cancelled()
     },
     confirm () {
       this.showTooltip = false
