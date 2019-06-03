@@ -6,7 +6,7 @@ A component to create button with a confirmation tooltip
 
 :::sample-card
 <div class="p-2 text-center">
-  <confirm-button class="btn btn-info" no-close-button>
+  <confirm-button class="btn btn-info" :confirmed="confirmed" no-close-button>
     Click to confirm
   </confirm-button>
 </div>
@@ -79,3 +79,13 @@ Finally, you can change the default placement of the tooltip:
 :::
 
 :::api-table lib/components/ConfirmButton.vue
+
+<script>
+export default {
+  methods: {
+    confirmed() {
+      alert('Confirmed !')
+    }
+  }
+}
+</script>

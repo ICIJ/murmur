@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Content Placeholder</h1>
     <p class="text-muted">A component to create a slide up/down animation (with CSS transitions).</p>
     <sample-card :component="sample" :code="code"></sample-card>
     <api-table :api="api"></api-table>
