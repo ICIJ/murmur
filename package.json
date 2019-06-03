@@ -13,7 +13,8 @@
     "build:lib": "vue-cli-service build --target lib --dest dist/lib 'lib/main.js'",
     "postpublish": "yarn deploy",
     "prepublishOnly": "yarn build",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "test:unit:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
