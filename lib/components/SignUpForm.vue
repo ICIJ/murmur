@@ -85,7 +85,7 @@ export default {
       this.resetMessages()
       this.freeze()
       // Send the data, catch the result no matter what and unfreeze the form
-      return this.send().then(this.done, this.done).finally(this.unfreeze)
+      return this.send().then(this.done, this.done)
     },
     send () {
       return new Promise((resolve, reject) => {
@@ -102,6 +102,7 @@ export default {
         // Mailchimp formats errors in list
         this.errorMessage = last((msg || "Something's wrong").split('0 -'))
       }
+      this.unfreeze()
     },
     resetMessages () {
       this.errorMessage = null
