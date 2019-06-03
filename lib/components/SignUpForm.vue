@@ -13,15 +13,14 @@
         </div>
       </div>
     </fieldset>
-    <input type="hidden" name="group[9][1]" value="1" />
-    <input type="hidden" name="SIGNUP" :value="tracker" />
     <p v-if="errorMessage" class="alert alert-danger p-2 m-0 mt-2" v-html="errorMessage"></p>
     <p v-if="successMessage" class="alert alert-success p-2 m-0 mt-2" v-html="successMessage"></p>
   </form>
 </template>
 
 <script>
-import $ from 'jquery'
+import Promise from 'promise-polyfill'
+import jsonp from 'jsonp'
 import last from 'lodash/last'
 import config from '../config'
 import i18n from '@/i18n'
@@ -70,8 +69,15 @@ export default {
     };
   },
   computed: {
-    actionJsonp () {
+    url () {
       return this.action.replace('/post?', '/post-json?').concat('&c=?')
+    },
+    submitUrl () {
+      const url = new URL(this.url)
+      url.searchParams.set('EMAIL', this.email)
+      url.searchParams.set('SIGNUP', this.tracker)
+      url.searchParams.set('group[9][1]', '1')
+      return url.href
     }
   },
   methods: {
@@ -79,23 +85,22 @@ export default {
       this.resetMessages()
       this.freeze()
       // Send the data, catch the result no matter what and unfreeze the form
-      this.send().always(this.done).always(this.unfreeze)
+      return this.send().then(this.done, this.done).finally(this.unfreeze)
     },
     send () {
-      return $.ajax({
-        type: 'POST',
-        url: this.actionJsonp,
-        data: $(this.$el).serialize(),
-        dataType: 'jsonp'
+      return new Promise((resolve, reject) => {
+        jsonp(this.submitUrl, { param: 'c' }, (err, data) => {
+          return err ? reject(err) : resolve(data)
+        })
       })
     },
-    done (res) {
-      if (res.result === 'success') {
+    done ({ result, msg }) {
+      if (result === 'success') {
         this.email = ''
-        this.successMessage = res.msg;
+        this.successMessage = msg
       } else {
         // Mailchimp formats errors in list
-        this.errorMessage = last((res.msg || "Something's wrong").split('0 -'))
+        this.errorMessage = last((msg || "Something's wrong").split('0 -'))
       }
     },
     resetMessages () {
