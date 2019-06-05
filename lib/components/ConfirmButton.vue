@@ -2,7 +2,7 @@
   <component :is="tag" class="confirm-button" @click="toggleConfirmationTooltip">
     <!-- @slot Main content of the button -->
     <slot>-</slot>
-    <b-tooltip ref="confirmationTooltip" :target="() => $el" :triggers="[]" :show.sync="showTooltip" :placement="placement">
+    <b-tooltip ref="confirmationTooltip" :target="() => $el" triggers="blur" :placement="placement">
       <div class="confirm-button__tooltip">
         <button class="confirm-button__tooltip__cancel btn btn-sm btn-link text-muted p-0 float-right" v-if="!noCloseButton" @click="cancel">
           <fa icon="times" />
@@ -111,6 +111,11 @@ export default {
   data () {
     return {
       showTooltip: false
+    }
+  },
+  watch: {
+    showTooltip (value) {
+      this.$refs.confirmationTooltip.$emit(value ? 'open' : 'close')
     }
   },
   methods: {
