@@ -76,7 +76,7 @@
         return `<code>${v}</code>`
       },
       varFormatter (v = '—') {
-        if (v.indexOf('function() {') === 0) {
+        if (v && v.indexOf('function() {') === 0) {
           return 'computed'
         }
         return `<var>${v}</var>`
