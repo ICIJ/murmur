@@ -1,8 +1,8 @@
 <template>
-  <component :is="tag" class="confirm-button" @click="toggleConfirmationTooltip">
+  <component :is="tag" class="confirm-button" @click="toggleConfirmationTooltip" :id="uniqComponentId">
     <!-- @slot Main content of the button -->
     <slot>-</slot>
-    <b-tooltip ref="confirmationTooltip" :target="() => $el" triggers="blur" :placement="placement">
+    <b-tooltip ref="confirmationTooltip" :target="uniqComponentId" triggers="blur" :placement="placement" v-once>
       <div class="confirm-button__tooltip">
         <button class="confirm-button__tooltip__cancel btn btn-sm btn-link text-muted p-0 float-right" v-if="!noCloseButton" @click="cancel">
           <fa icon="times" />
@@ -28,6 +28,7 @@
 
 <script>
 import noop from 'lodash/noop'
+import uniqueId from 'lodash/uniqueId'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import bTooltip from 'bootstrap-vue/es/components/tooltip/tooltip'
 
@@ -110,7 +111,8 @@ export default {
   },
   data () {
     return {
-      showTooltip: false
+      showTooltip: false,
+      uniqComponentId: uniqueId('murmur-confirm-button-')
     }
   },
   watch: {
