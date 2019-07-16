@@ -34,13 +34,18 @@
               <slot name="investigations">
                 <ul class="list-unstyled">
                   <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/implant-files/" target="_blank">
+                      The Implant Files
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
                     <a href="https://www.icij.org/investigations/paradise-papers/" target="_blank">
-                      Paradise Papers
+                      The Paradise Papers
                     </a>
                   </li>
                   <li class="list-unstyled-item">
                     <a href="https://www.icij.org/investigations/panama-papers/" target="_blank">
-                      Panama Papers
+                      The Panama Papers
                     </a>
                   </li>
                   <li class="list-unstyled-item">
@@ -74,6 +79,16 @@
                 <li class="list-unstyled-item">
                   <a href="https://twitter.com/icijorg" target="_blank">
                     Twitter
+                  </a>
+                </li>
+                <li class="list-unstyled-item">
+                  <a href="https://instagram.com/icijorg" target="_blank">
+                    Instagram
+                  </a>
+                </li>
+                <li class="list-unstyled-item">
+                  <a href="https://www.icij.org/signup/" target="_blank">
+                    Sign-up
                   </a>
                 </li>
               </ul>
