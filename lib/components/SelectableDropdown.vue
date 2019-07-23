@@ -220,7 +220,7 @@
       },
       keydown (event) {
         // The dropdown must be active
-        if (this.deactivateKeys) return
+        if (this.deactivateKeys && this.hide) return
         // Should we stop the event propagation?
         if (!this.propagate && this.isKnownKey(event.which)) {
           event.stopPropagation()
