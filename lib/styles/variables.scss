@@ -42,12 +42,12 @@ $theme-colors: map-merge((
 
 $body-bg: #fff !default;
 $jumbotron-bg: $mercury !default;
-$component-active-bg: $copper !default;
+$component-active-bg: $secondary !default;
+$component-active-color: white;
 
 $input-focus-border-color: darken($component-active-bg, 20) !default;
 $input-box-shadow: none !default;
 $btn-box-shadow: none !default;
-
 
 $table-dark-bg: darken($cuttysark, 20%) !default;
 $table-dark-border-color: lighten($table-dark-bg, 7.5) !default;
@@ -77,7 +77,6 @@ $popover-body-padding-x: 0 !default;
 $popover-max-width: 300px !default;
 
 $popover-box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15) !default;
-$dropdown-link-active-bg: $punch !default;
 $dropdown-box-shadow: $popover-box-shadow !default;
 $dropdown-min-width: 14rem;
 
