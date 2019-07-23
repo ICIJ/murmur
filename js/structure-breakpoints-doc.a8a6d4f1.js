@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["structure-breakpoints-doc"],{"04eb":function(e,n,t){"use strict";t.r(n);var r=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div")},u=[],c={},s=c,l=t("2877"),o=Object(l["a"])(s,r,u,!1,null,null,null);n["default"]=o.exports}}]);
-//# sourceMappingURL=structure-breakpoints-doc.a8a6d4f1.js.map
