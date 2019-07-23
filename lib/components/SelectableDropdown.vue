@@ -2,9 +2,9 @@
   <div class="selectable-dropdown show" v-if="!hide" :class="{ 'selectable-dropdown--multiple': multiple, [listClass]: true }">
     <span v-for="(item, index) in items"
           :key="index"
-          @click.exact="selectItem(item)"
-          @click.ctrl="addItem(item)"
-          @click.shift="selectRangeToItem(item)"
+          @click.exact="clickToSelectItem(item)"
+          @click.ctrl="clickToAddItem(item)"
+          @click.shift="clickToSelectRangeToItem(item)"
           :class="{ active: itemActivated(item), [itemClass]: true }"
           class="selectable-dropdown__item px-3 d-flex">
       <!-- @slot Item content -->
@@ -37,10 +37,6 @@
   const KEY_ESC_CODE = 27
   const KEY_UP_CODE = 38
   const KEY_DOWN_CODE = 40
-
-  // This variable contains the last active component.
-  // A component is activated when it's activeItemIndexes change.
-  let activeComponent = null
 
   export default {
     name: 'SelectableDropdown',
@@ -97,6 +93,12 @@
       itemClass: {
         type: String,
         default: 'dropdown-item'
+      },
+      /**
+       * Set to true to deactivate action when arrow keys are pressed
+       */
+      deactivateKeys: {
+        type: Boolean
       }
     },
     data () {
@@ -116,7 +118,6 @@
         this.toggleKeys()
       },
       activeItemIndexes () {
-        this.activateComponent()
         const items = this.activeItemIndexes.map(index => this.items[index])
         /**
          * Fired when the selected value change. It will pass a canonical value
@@ -131,27 +132,50 @@
         const items = castArray(itemOrItems)
         if (!isEqual(this.activeItems, items)) {
           this.activateItemOrItems(items)
-          this.activateComponent()
         }
       }
     },
     methods: {
-      activateComponent () {
-        activeComponent = this
-        /**
-         * Fired when the component is activated, meaning it can handle key
-         * events.
-         *
-         * @event input
-         */
-        this.$emit('activate')
-      },
       indexIcon (item) {
         return this.itemActivated(item) ? faCheckSquare : faSquare
       },
       itemActivated (item) {
         const index = this.items.indexOf(item)
         return this.activeItemIndexes.indexOf(index) > -1
+      },
+      clickToSelectItem (item) {
+        /**
+         * Fired when user click on an item
+         *
+         * @event click
+         * @type {String, Object, Array, Number}
+         */
+         this.$emit('click', item)
+         this.selectItem(item)
+      },
+      clickToAddItem (item) {
+        /**
+         * Fired when user click on an item
+         *
+         * @event click
+         * @type {String, Object, Array, Number}
+         */
+         this.$emit('click', item)
+         this.addItem(item)
+
+      },
+      clickToSelectRangeToItem (item) {
+        /**
+         * Fired when user click on an item
+         *
+         * @event click
+         * @type {String, Object, Array, Number}
+         */
+         this.$emit('click', item)
+         this.selectRangeToItem(item)
+      },
+      emitEventOnItem (name, item) {
+        this.$emit(name, item)
       },
       selectItem (item) {
         if (this.itemActivated(item) && this.activeItemIndexes.length === 1) {
@@ -164,13 +188,13 @@
         if (!this.itemActivated(item) && this.multiple) {
           this.activeItemIndexes.push(this.items.indexOf(item))
         } else {
-          this.selectItem(item)
+          this.selectItem(item, true)
         }
       },
       selectRangeToItem (item) {
         // No activated items
         if (!this.activeItemIndexes.length || !this.multiple) {
-          this.selectItem(item)
+          this.selectItem(item, emitClick)
         } else {
           const index = this.items.indexOf(item)
 
@@ -196,7 +220,8 @@
       },
       keydown (event) {
         // The dropdown must be active
-        if (!this.isActive()) return
+        if (this.deactivateKeys) return
+        // Should we stop the event propagation?
         if (!this.propagate && this.isKnownKey(event.which)) {
           event.stopPropagation()
           event.preventDefault()
@@ -218,14 +243,9 @@
       },
       unbindKeys () {
         window.removeEventListener("keydown", this.keydown)
-        // The component might need to be dactivated
-        if (activeComponent === this) {
-          activeComponent = null
-        }
       },
       bindKeys () {
         window.addEventListener("keydown", this.keydown)
-        activeComponent = this
       },
       toggleKeys () {
         if (this.hide) {
@@ -233,9 +253,6 @@
         } else {
           this.bindKeys()
         }
-      },
-      isActive () {
-        return activeComponent === this
       }
     },
     computed: {
@@ -254,6 +271,7 @@
 
 <style lang="scss">
   .selectable-dropdown {
+    user-select: none;
 
     &.dropdown-menu {
       position: relative;
@@ -261,7 +279,5 @@
       left: 0;
       float: none;
     }
-    
-    user-select: none;
   }
 </style>

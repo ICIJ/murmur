@@ -16,7 +16,7 @@ With a serializer:
 
 :::sample-card
 <div class="p-2 text-center">
-  <selectable-dropdown :serializer="item => item.toUpperCase()" :items="[ 'France', 'United State of America', 'Spain', 'Peru' ]"></selectable-dropdown>
+  <selectable-dropdown deactivate-keys :serializer="item => item.toUpperCase()" :items="[ 'France', 'United State of America', 'Spain', 'Peru' ]"></selectable-dropdown>
 </div>
 :::
 
@@ -24,7 +24,7 @@ With multiple values:
 
 :::sample-card
 <div class="p-2 text-center">
-  <selectable-dropdown v-model="countries" multiple :items="[ 'France', 'United State of America', 'Spain', 'Peru' ]"></selectable-dropdown>
+  <selectable-dropdown deactivate-keys v-model="countries" multiple :items="[ 'France', 'United State of America', 'Spain', 'Peru' ]"></selectable-dropdown>
   <button class="btn btn-outline-secondary mt-2 mx-2" @click="countries = ['Peru', 'France']">Choose Peru and France</button>
 </div>
 :::
@@ -36,7 +36,8 @@ With multiple values:
     data () {
       return {
         country: 'Peru',
-        countries: []
+        countries: [],
+        a: 2
       }
     },
     watch: {
