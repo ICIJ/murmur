@@ -225,6 +225,7 @@
       },
       bindKeys () {
         window.addEventListener("keydown", this.keydown)
+        activeComponent = this
       },
       toggleKeys () {
         if (this.hide) {
@@ -253,10 +254,14 @@
 
 <style lang="scss">
   .selectable-dropdown {
-    position: relative;
-    top: 0;
-    left: 0;
-    float: none;
+
+    &.dropdown-menu {
+      position: relative;
+      top: 0;
+      left: 0;
+      float: none;
+    }
+    
     user-select: none;
   }
 </style>
