@@ -8,13 +8,13 @@
           :class="{ active: itemActivated(item), [itemClass]: true }"
           class="selectable-dropdown__item px-3 d-flex">
       <!-- @slot Item content -->
-      <slot name="item">
+      <slot name="item" v-bind:item="item">
         <div class="selectable-dropdown__item__check" v-if="multiple">
           <fa :icon="indexIcon(item)" class="mr-2" />
         </div>
         <div class="flex-grow-1 text-truncate selectable-dropdown__item__label">
           <!-- @slot Item's label content -->
-          <slot name="item-label">
+          <slot name="item-label" v-bind:item="item">
             {{ serializer(item) }}
           </slot>
         </div>
