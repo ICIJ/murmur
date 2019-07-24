@@ -225,15 +225,16 @@
          this.$emit('deactivate')
       },
       keyDown (event) {
+        const keyCode = event.keyCode || event.which
         // The dropdown must be active
-        if (this.deactivateKeys || this.hide || !this.isKnownKey(event.which)) return
+        if (this.deactivateKeys || this.hide || !this.isKnownKey(keyCode)) return
         // Should we stop the event propagation?
-        if (!this.propagate) {
+        if (!this.propagate && event.stopPropagation) {
           event.stopPropagation()
           event.preventDefault()
         }
         // Then call the right method
-        this.keysMap[event.which].call(this)
+        this.keysMap[keyCode].call(this)
       },
       isKnownKey (keycode) {
         return Object.keys(this.keysMap).map(Number).indexOf(keycode) > -1
