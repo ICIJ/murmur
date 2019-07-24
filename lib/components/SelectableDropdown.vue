@@ -217,6 +217,12 @@
       },
       deactivateItems () {
         this.activeItemIndexes = []
+        /**
+         * Fired when items selection is deactivated
+         *
+         * @event deactivate
+         */
+         this.$emit('deactivate')
       },
       keyDown (event) {
         // The dropdown must be active
