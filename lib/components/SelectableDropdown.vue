@@ -218,34 +218,25 @@
       deactivateItems () {
         this.activeItemIndexes = []
       },
-      keydown (event) {
+      keyDown (event) {
         // The dropdown must be active
-        if (this.deactivateKeys && this.hide) return
+        if (this.deactivateKeys || this.hide || !this.isKnownKey(event.which)) return
         // Should we stop the event propagation?
-        if (!this.propagate && this.isKnownKey(event.which)) {
+        if (!this.propagate) {
           event.stopPropagation()
           event.preventDefault()
         }
-        switch(event.which) {
-          case KEY_UP_CODE:
-            this.activatePreviousItem()
-            break
-          case KEY_DOWN_CODE:
-            this.activateNextItem()
-            break
-          case KEY_ESC_CODE:
-            this.deactivateItems()
-            break
-        }
+        // Then call the right method
+        this.keysMap[event.which].call(this)
       },
       isKnownKey (keycode) {
-        return [KEY_UP_CODE, KEY_DOWN_CODE, KEY_ESC_CODE].indexOf(keycode) > -1
+        return Object.keys(this.keysMap).map(Number).indexOf(keycode) > -1
       },
       unbindKeys () {
-        window.removeEventListener("keydown", this.keydown)
+        window.removeEventListener("keydown", this.keyDown)
       },
       bindKeys () {
-        window.addEventListener("keydown", this.keydown)
+        window.addEventListener("keydown", this.keyDown)
       },
       toggleKeys () {
         if (this.hide) {
@@ -264,6 +255,14 @@
       },
       activeItems () {
         return this.activeItemIndexes.map(index => this.items[index])
+
+      },
+      keysMap () {
+        return {
+          [KEY_UP_CODE]: this.activatePreviousItem,
+          [KEY_DOWN_CODE]: this.activateNextItem,
+          [KEY_ESC_CODE]: this.deactivateItems
+        }
       }
     }
   }
