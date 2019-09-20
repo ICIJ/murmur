@@ -35,6 +35,15 @@ describe('config.js', () => {
     expect(config.get('bar')).toBe('bar')
   })
 
+  it('should merge all the boolean values', () => {
+    config.merge({ 'foo': true, 'bar': false })
+    expect(config.get('foo')).toBe(true)
+    expect(config.get('bar')).toBe(false)
+    config.merge({ 'foo': false, 'bar': true })
+    expect(config.get('foo')).toBe(false)
+    expect(config.get('bar')).toBe(true)
+  })
+
   it('should merge the given object and its scopes with the config', () => {
     config.merge({ 'foo.bar': 'foobar' } )
     expect(config.scope('foo').get('bar')).toBe('foobar')
