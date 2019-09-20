@@ -41,4 +41,47 @@ describe('config.js', () => {
     config.merge({ 'bar.foo': 'barfoo' })
     expect(config.scope('bar').get('foo')).toBe('barfoo')
   })
+
+  it('should merge the given object with the config with a new key', () => {
+    expect(config.get('help')).toBeUndefined()
+    config.merge({ 'help': 'link' })
+    expect(config.get('help')).toBe('link')
+  })
+
+  it('should give the value of a given key as true', () => {
+    config.set('activated', 1)
+    expect(config.is('activated')).toBeTruthy()
+    config.set('activated', '1')
+    expect(config.is('activated')).toBeTruthy()
+    config.set('activated', 'true')
+    expect(config.is('activated')).toBeTruthy()
+    config.set('activated', true)
+    expect(config.is('activated')).toBeTruthy()
+    config.set('activated', 'foo')
+    expect(config.is('activated')).toBeTruthy()
+    config.set('activated', 'bar')
+    expect(config.is('activated')).toBeTruthy()
+  })
+
+  it('should give the value of a given key as false', () => {
+    config.set('activated', 0)
+    expect(config.is('activated')).toBeFalsy()
+    config.set('activated', '0')
+    expect(config.is('activated')).toBeFalsy()
+    config.set('activated', 'false')
+    expect(config.is('activated')).toBeFalsy()
+    config.set('activated', false)
+    expect(config.is('activated')).toBeFalsy()
+  })
+
+  it('should give the value of a given key as false (when it\'s true)', () => {
+    config.set('activated', 0)
+    expect(config.isnt('activated')).toBeTruthy()
+    config.set('activated', '0')
+    expect(config.isnt('activated')).toBeTruthy()
+    config.set('activated', 'false')
+    expect(config.isnt('activated')).toBeTruthy()
+    config.set('activated', false)
+    expect(config.isnt('activated')).toBeTruthy()
+  })
 })
