@@ -7,21 +7,44 @@
     <slot name="introduction">
       <p class="donate-form__introduction" v-html="$t('donate-form.introduction')"></p>
     </slot>
-    <div class="donate-form__payment mb-4">
+
+    <div class="donate-form__payment mb-4 text-center">
       <form action="//checkout.fundjournalism.org/memberform" method="get" target="_blank" class="donate-form__payment__form bg-light p-4">
-          <h3 class="donate-form__payment__title h5 mb-4">
-            <strong>
-              {{ $t('donate-form.join-heading') }}
-            </strong>
-          </h3>
-          <div>
-            <span>{{ $t('donate-form.label') }}&nbsp;</span>
-            <label class="donate-form__payment__unit input-group input-group-sm d-inline-flex">
-              <span class="input-group-prepend">
-                <span class="input-group-text">$</span>
-              </span>
-              <input class="donate-form__payment__input form-control" name="amount" v-model="amount" @change="amountIsPristine = false" type="number" min="0">
-            </label>
+        <div class="donate-form__payment__levels row">
+          <div @click="selectLevel('conversation')" class="col donate-form__payment__level" :class="{ active: level == 'conversation' }">
+              <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
+                {{ $t('donate-form.benefits.impacts.conversation.heading') }}
+              </h3>
+              <div class="Article">
+                  <div>
+                    <p class="donate-form__payment__highlight text-icij font-weight-bold" v-html="$t('donate-form.benefits.impacts.conversation.highlight')"></p>
+                  </div>
+              </div>
+          </div>
+          <div @click="selectLevel('rules')" class="col donate-form__payment__level" :class="{ active: level == 'rules' }">
+              <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
+                {{ $t('donate-form.benefits.impacts.rules.heading') }}
+              </h3>
+              <div class="Article">
+                  <div>
+                      <p class="donate-form__payment__highlight text-icij font-weight-bold" v-html="$t('donate-form.benefits.impacts.rules.highlight')"></p>
+                  </div>
+              </div>
+          </div>
+          <div @click="selectLevel('world')" class="col donate-form__payment__level" :class="{ active: level == 'world' }">
+              <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
+                {{ $t('donate-form.benefits.impacts.world.heading') }}
+              </h3>
+              <div class="Article">
+                  <div>
+                      <p class="donate-form__payment__highlight text-icij font-weight-bold" v-html="$t('donate-form.benefits.impacts.world.highlight')"></p>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="mt-5">
             <span class="donate-form__payment__buttons">
               <button type="button" class="btn btn-sm" :class="{ 'btn-primary': installmentPeriod === 'monthly' }" @click="installmentPeriod = 'monthly'">
                 {{ $t('donate-form.frequency.monthly') }}
@@ -34,7 +57,15 @@
               </button>
             </span>
           </div>
-          <p v-if="changeThe" class="mt-2" v-html="$t('donate-form.result.sentence', { target: changeThe })"></p>
+          <div class="mt-4">
+            <span>{{ $t('donate-form.label') }}&nbsp;</span>
+            <label class="donate-form__payment__unit input-group input-group-sm d-inline-flex">
+              <span class="input-group-prepend">
+                <span class="input-group-text">$</span>
+              </span>
+              <input class="donate-form__payment__input form-control" name="amount" v-model="amount" @change="amountIsPristine = false" type="number" min="0">
+            </label>
+          </div>
           <div class="mt-4">
             <input name="org_id" value="icij" type="hidden">
             <input name="campaign" v-model="campaign" type="hidden">
@@ -44,8 +75,10 @@
             </button>
             <a target="_blank" href="https://icij.org/donate" class="donate-form__payment__image"></a>
           </div>
+        </div>
       </form>
     </div>
+
     <div class="donate-form__insider">
       <h2 class="donate-form__insider__title">
         {{ $t('donate-form.benefits.heading') }}
@@ -53,64 +86,18 @@
       <p>
         {{ $t('donate-form.benefits.introduction') }}
       </p>
-      <div class="donate-form__insider__modal__container row">
-          <div class="col">
-              <h3 class="donate-form__insider__subtitle text-uppercase font-weight-bold text-primary h5">
-                {{ $t('donate-form.benefits.impacts.conversation.heading') }}
-              </h3>
-              <div class="Article">
-                  <div>
-                      <p class="donate-form__insider__highlight text-icij font-weight-bold">
-                        {{ $t('donate-form.benefits.impacts.conversation.highlight') }}
-                      </p>
-                      <ul class="donate-form__insider__list">
-                        <li class="donate-form__insider__list-item" v-for="t in $t('donate-form.benefits.impacts.conversation.list')">
-                          {{ t }}
-                        </li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
-          <div class="col">
-              <h3 class="donate-form__insider__subtitle text-uppercase font-weight-bold text-primary h5">
-                {{ $t('donate-form.benefits.impacts.rules.heading') }}
-              </h3>
-              <div class="Article">
-                  <div>
-                      <p class="donate-form__insider__highlight text-icij font-weight-bold">
-                        {{ $t('donate-form.benefits.impacts.rules.highlight') }}
-                      </p>
-                      <ul class="donate-form__insider__list">
-                        <li class="donate-form__insider__list-item" v-for="t in $t('donate-form.benefits.impacts.rules.list')">
-                          {{ t }}
-                        </li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
-          <div class="col">
-              <h3 class="donate-form__insider__subtitle text-uppercase font-weight-bold text-primary h5">
-                {{ $t('donate-form.benefits.impacts.world.heading') }}
-              </h3>
-              <div class="Article">
-                  <div>
-                      <p class="donate-form__insider__highlight text-icij font-weight-bold">
-                        {{ $t('donate-form.benefits.impacts.world.highlight') }}
-                      </p>
-                      <ul class="donate-form__insider__list">
-                        <li class="donate-form__insider__list-item" v-for="t in $t('donate-form.benefits.impacts.world.list')">
-                          {{ t }}
-                        </li>
-                      </ul>
-                  </div>
-              </div>
-          </div>
+      <div>
+        <ul class="donate-form__insider__list">
+          <li class="donate-form__insider__list-item" v-for="benefit in $t('donate-form.benefits.list')" v-html="benefit"></li>
+        </ul>
       </div>
-      <hr class="donate-form__insider__separator">
-      <div class="donate-form__insider__more text-center">
-        <a target="_blank" href="https://icij.org/donate" class="btn btn-primary rounded-pill text-uppercase font-weight-bold py-2">
-          {{ $t('donate-form.benefits.more') }}
-        </a>
+      <div>
+        <hr class="donate-form__insider__separator">
+        <div class="donate-form__insider__more text-center">
+          <a target="_blank" href="https://icij.org/donate" class="btn btn-primary rounded-pill text-uppercase font-weight-bold py-2">
+            {{ $t('donate-form.benefits.more') }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -140,10 +127,11 @@
     },
     data() {
       return {
-        amount: 15,
+        amount: 10,
         // True if the amount wasn't changed by the user yet
         amountIsPristine: true,
         installmentPeriod: 'monthly',
+        level: 'conversation',
         campaign: config.get('donate-form.tracker'),
         labelForChange: {
           'monthly': {
@@ -156,7 +144,8 @@
             180: this.$t('donate-form.result.rules'),
             600: this.$t('donate-form.result.world')
           }
-        }
+        },
+        suggestedAmount: this.$t('donate-form.suggesteddonation')
       }
     },
     watch: {
@@ -164,22 +153,33 @@
         if (!this.amountIsPristine) {
           return
         }
-        if (installmentPeriod === 'monthly') {
-          this.$set(this, 'amount', 15)
-        } else {
-          this.$set(this, 'amount', 100)
-        }
-      }
-    },
-    computed: {
-      changeThe () {
+        //Set suggested amount
+        this.$set(this, 'amount', this.getSuggestedAmount());
+      },
+      amount(v,o) {
         const ranges = this.labelForChange[this.installmentPeriod || 'yearly'];
-        // Final label
-        let label = null;
+        // Set level base on amount
         forEach(sortBy(map(keys(ranges), Number)), amount => {
-          label = this.amount >= amount ? ranges[amount] : label;
+          this.level = this.amount >= amount ? ranges[amount] : this.level;
         });
-        return label;
+
+        //Set manual amount
+        return this.amount = v;
+      },
+    },
+    methods: {
+      getSuggestedAmount () {
+        //Return suggested amount
+        this.$t('donate-form.result.conversation')
+        return this.suggestedAmount[this.level][this.installmentPeriod];
+      },
+      selectLevel (level) {
+
+        //Set chose level
+        this.$set(this, 'level', level);
+
+        //Set suggested amount
+        this.$set(this, 'amount', this.getSuggestedAmount());
       }
     }
   }
@@ -202,6 +202,32 @@
           flex: 0 0 100%;
         }
       }
+
+      &__buttons {
+        button {
+          margin: 0 5px;
+          border: solid 1px $border-level-selected;
+        }
+      }
+
+      &__level {
+        border-bottom: solid 3px $light;
+        cursor: pointer;
+
+        &.active {
+          border-bottom: solid 3px $border-level-selected;
+        }
+      }
+
+      &__highlight {
+        font-size: 17px;
+
+        .monthly {
+          display: block;
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
     }
 
     &__insider  {
@@ -212,6 +238,7 @@
         &-item {
           position: relative;
           margin: 3px 0;
+          font-size: 15px;
           list-style: none;
 
           &:before {
