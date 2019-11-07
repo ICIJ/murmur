@@ -49,7 +49,7 @@
       "rules": {
         "monthly": 25,
         "yearly": 180,
-        "onetime": 180
+        "onetime": 200
       },
       "world": {
         "monthly": 100,
