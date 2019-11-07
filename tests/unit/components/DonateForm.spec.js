@@ -70,22 +70,59 @@ describe('DonateForm.vue', () => {
     expect(wrapper.vm.changeThe).toBe(wrapper.vm.$t('donate-form.result.world'))
   })
 
-  it('changes the amount when changing the period', () => {
+  it('changes the amount for conversation level when changing the period', () => {
     const wrapper = shallowMount(DonateForm)
+    wrapper.setData({ level: 'conversation' })
     wrapper.setData({ installmentPeriod: 'onetime' })
-    expect(wrapper.vm.amount).toBe(100)
+    expect(wrapper.vm.amount).toBe(50)
+
+    wrapper.setData({ level: 'conversation' })
     wrapper.setData({ installmentPeriod: 'monthly' })
-    expect(wrapper.vm.amount).toBe(15)
+    expect(wrapper.vm.amount).toBe(10)
+
+    wrapper.setData({ level: 'conversation' })
     wrapper.setData({ installmentPeriod: 'yearly' })
+    expect(wrapper.vm.amount).toBe(25)
+  })
+
+  it('changes the amount for rules level when changing the period', () => {
+    const wrapper = shallowMount(DonateForm)
+
+    wrapper.setData({ level: 'rules' })
+    wrapper.setData({ installmentPeriod: 'onetime' })
+    expect(wrapper.vm.amount).toBe(200)
+
+    wrapper.setData({ level: 'rules' })
+    wrapper.setData({ installmentPeriod: 'monthly' })
+    expect(wrapper.vm.amount).toBe(25)
+
+    wrapper.setData({ level: 'rules' })
+    wrapper.setData({ installmentPeriod: 'yearly' })
+    expect(wrapper.vm.amount).toBe(180)
+  })
+
+  it('changes the amount for world level when changing the period', () => {
+    const wrapper = shallowMount(DonateForm)
+    wrapper.setData({ level: 'world' })
+    wrapper.setData({ installmentPeriod: 'onetime' })
+    expect(wrapper.vm.amount).toBe(600)
+
+    wrapper.setData({ level: 'world' })
+    wrapper.setData({ installmentPeriod: 'monthly' })
     expect(wrapper.vm.amount).toBe(100)
+
+    wrapper.setData({ level: 'world' })
+    wrapper.setData({ installmentPeriod: 'yearly' })
+    expect(wrapper.vm.amount).toBe(600)
   })
 
   it('doesn\'t change the amount when changing the period if the form isn\'t pristine', () => {
     const wrapper = shallowMount(DonateForm)
     wrapper.setData({ installmentPeriod: 'yearly' })
-    expect(wrapper.vm.amount).toBe(100)
+    expect(wrapper.vm.amount).toBe(25)
+
     wrapper.setData({ amountIsPristine: false })
     wrapper.setData({ installmentPeriod: 'monthly' })
-    expect(wrapper.vm.amount).toBe(100)
+    expect(wrapper.vm.amount).toBe(25)
   })
 })
