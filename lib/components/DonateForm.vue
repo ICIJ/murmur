@@ -154,15 +154,15 @@
           return
         }
 
-        //Set suggested amount
-        this.$set(this, 'amount', this.getSuggestedAmount());
+        // Set suggested amount
+        this.$set(this, 'amount', this.getSuggestedAmount())
       },
       amount(v,o) {
 
         this.level = this.changeThe
 
-        //Set manual amount 
-        return this.amount = v;
+        // Set manual amount
+        return this.amount = v
       },
     },
     methods: {
@@ -170,29 +170,27 @@
         if (!this.amountIsPristine) {
           return
         }
-        console.log(this.level, this.installmentPeriod)
-        //Return suggested amount
-        return this.suggestedAmount[this.level][this.installmentPeriod];
+        // Return suggested amount
+        return this.suggestedAmount[this.level][this.installmentPeriod]
       },
       selectLevel (level) {
 
-        //Set chose level
-        this.$set(this, 'level', level);
+        // Set chose level
+        this.$set(this, 'level', level)
 
-        //Set suggested amount
-        this.$set(this, 'amount', this.getSuggestedAmount());
+        // Set suggested amount
+        this.$set(this, 'amount', this.getSuggestedAmount())
       }
     },
     computed: {
       changeThe () {
-        const ranges = this.labelForChange[this.installmentPeriod || 'yearly'];
+        const ranges = this.labelForChange[this.installmentPeriod || 'yearly']
         // Final label
-        let label = null;
+        let label = null
         forEach(sortBy(map(keys(ranges), Number)), amount => {
-          label = this.amount >= amount ? ranges[amount] : label;
-        });
-
-        return label;
+          label = this.amount >= amount ? ranges[amount] : label
+        })
+        return label
       }
     }
   }
