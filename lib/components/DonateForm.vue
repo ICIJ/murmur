@@ -135,12 +135,12 @@
         campaign: config.get('donate-form.tracker'),
         labelForChange: {
           'monthly': {
-            3: this.$t('donate-form.result.conversation'),
+            1: this.$t('donate-form.result.conversation'),
             15: this.$t('donate-form.result.rules'),
             50: this.$t('donate-form.result.world')
           },
           'yearly': {
-            35: this.$t('donate-form.result.conversation'),
+            1: this.$t('donate-form.result.conversation'),
             180: this.$t('donate-form.result.rules'),
             600: this.$t('donate-form.result.world')
           }
@@ -153,24 +153,25 @@
         if (!this.amountIsPristine) {
           return
         }
+
         //Set suggested amount
         this.$set(this, 'amount', this.getSuggestedAmount());
       },
       amount(v,o) {
-        const ranges = this.labelForChange[this.installmentPeriod || 'yearly'];
-        // Set level base on amount
-        forEach(sortBy(map(keys(ranges), Number)), amount => {
-          this.level = this.amount >= amount ? ranges[amount] : this.level;
-        });
 
-        //Set manual amount
+        this.level = this.changeThe
+
+        //Set manual amount 
         return this.amount = v;
       },
     },
     methods: {
       getSuggestedAmount () {
+        if (!this.amountIsPristine) {
+          return
+        }
+        console.log(this.level, this.installmentPeriod)
         //Return suggested amount
-        this.$t('donate-form.result.conversation')
         return this.suggestedAmount[this.level][this.installmentPeriod];
       },
       selectLevel (level) {
@@ -180,6 +181,18 @@
 
         //Set suggested amount
         this.$set(this, 'amount', this.getSuggestedAmount());
+      }
+    },
+    computed: {
+      changeThe () {
+        const ranges = this.labelForChange[this.installmentPeriod || 'yearly'];
+        // Final label
+        let label = null;
+        forEach(sortBy(map(keys(ranges), Number)), amount => {
+          label = this.amount >= amount ? ranges[amount] : label;
+        });
+
+        return label;
       }
     }
   }
