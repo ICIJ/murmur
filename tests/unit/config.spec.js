@@ -93,4 +93,8 @@ describe('config.js', () => {
     config.set('activated', false)
     expect(config.isnt('activated')).toBeTruthy()
   })
+
+  it('should create an observable object', () => {
+
+  })
 })
