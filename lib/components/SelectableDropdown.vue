@@ -24,10 +24,9 @@
 </template>
 
 <script>
-  import identity from 'lodash/identity'
   import castArray from 'lodash/castArray'
   import findIndex from 'lodash/findIndex'
-  import isArray from 'lodash/isArray'
+  import identity from 'lodash/identity'
   import isEqual from 'lodash/isEqual'
   import isString from 'lodash/isString'
   import last from 'lodash/last'
@@ -188,7 +187,7 @@
         if (this.itemActivated(item) && this.activeItemIndexes.length === 1) {
           this.activeItemIndexes = without(this.activeItemIndexes, this.items.indexOf(item))
         } else {
-          this.activeItemIndexes = [ this.items.indexOf(item) ]
+          this.activeItemIndexes = [ this.items.indexOf(item) ]
         }
       },
       addItem (item) {
@@ -204,7 +203,6 @@
           this.selectItem(item, emitClick)
         } else {
           const index = this.items.indexOf(item)
-
           if (index > this.firstActiveItemIndex) {
             this.activeItemIndexes = range(this.firstActiveItemIndex, index + 1)
           } else {
@@ -213,7 +211,7 @@
         }
       },
       activateItemOrItems (itemOrItems = this.value) {
-        const items = isArray(itemOrItems) ? itemOrItems : [ itemOrItems ]
+        const items = castArray(itemOrItems)
         this.activeItemIndexes = items.map(item => {
           if (isString(item)) {
             return findIndex(this.items, o => o === item)
