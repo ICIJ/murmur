@@ -103,4 +103,22 @@ describe('SelectableDropdown.vue', () => {
     wrapper.vm.clickToSelectItem('Lesotho')
     expect(wrapper.emitted().click[2]).toContain('Lesotho')
   })
+
+  describe('itemActivated', () => {
+    it('set item as activated for multiple and items is an array of string', () => {
+      const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'], value: ['Lesotho'], multiple: true }
+      const wrapper = mount(SelectableDropdown, { propsData })
+
+      expect(wrapper.vm.itemActivated('Lesotho')).toBeTruthy()
+      expect(wrapper.vm.itemActivated('Senegal')).toBeFalsy()
+    })
+
+    it('set item as activated for multiple and items is an array of objects', () => {
+      const propsData = { items: [{ label: 'Lesotho' }, { label: 'Senegal' }, { label: 'Djibouti' }], value: [{ label: 'Lesotho' }], multiple: true }
+      const wrapper = mount(SelectableDropdown, { propsData })
+
+      expect(wrapper.vm.itemActivated({ label: 'Lesotho' })).toBeTruthy()
+      expect(wrapper.vm.itemActivated({ label: 'Senegal' })).toBeFalsy()
+    })
+  })
 })

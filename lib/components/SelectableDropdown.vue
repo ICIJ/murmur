@@ -26,8 +26,10 @@
 <script>
   import identity from 'lodash/identity'
   import castArray from 'lodash/castArray'
+  import findIndex from 'lodash/findIndex'
   import isArray from 'lodash/isArray'
   import isEqual from 'lodash/isEqual'
+  import isString from 'lodash/isString'
   import last from 'lodash/last'
   import range from 'lodash/range'
   import without from 'lodash/without'
@@ -140,7 +142,12 @@
         return this.itemActivated(item) ? faCheckSquare : faSquare
       },
       itemActivated (item) {
-        const index = this.items.indexOf(item)
+        let index = null
+        if (isString(item)) {
+          index = findIndex(this.items, o => o === item)
+        } else {
+          index = findIndex(this.items, item)
+        }
         return this.activeItemIndexes.indexOf(index) > -1
       },
       clickToSelectItem (item) {
@@ -205,9 +212,15 @@
           }
         }
       },
-      activateItemOrItems (itemOrItems  = this.value) {
+      activateItemOrItems (itemOrItems = this.value) {
         const items = isArray(itemOrItems) ? itemOrItems : [ itemOrItems ]
-        this.activeItemIndexes = items.map(item => this.items.indexOf(item))
+        this.activeItemIndexes = items.map(item => {
+          if (isString(item)) {
+            return findIndex(this.items, o => o === item)
+          } else {
+            return findIndex(this.items, item)
+          }
+        })
       },
       activatePreviousItem () {
         this.activeItemIndexes = [ Math.max(this.firstActiveItemIndex - 1, -1) ]
