@@ -9967,9 +9967,9 @@ vue-i18n@^8.0.0:
   version "8.11.2"
   resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.11.2.tgz#92827fc42449f4602d2a0ddb437dfc4e3370d9d7"
 
-vue-i18n@^8.12.0:
-  version "8.12.0"
-  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.12.0.tgz#25b56e9fab7e78a0ff58b8b4fba336ad328cce11"
+vue-i18n@^8.16.0:
+  version "8.16.0"
+  resolved "https://registry.yarnpkg.com/vue-i18n/-/vue-i18n-8.16.0.tgz#f84188a36a4cc3c876427b869c7c5a82d6696080"
 
 vue-jest@^3.0.5:
   version "3.0.5"
@@ -10007,16 +10007,9 @@ vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.0.0:
+vue-template-compiler@^2.0.0, vue-template-compiler@^2.5.11:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.11.tgz#c04704ef8f498b153130018993e56309d4698080"
-  dependencies:
-    de-indent "^1.0.2"
-    he "^1.1.0"
-
-vue-template-compiler@^2.5.x:
-  version "2.6.10"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.10.tgz#323b4f3495f04faa3503337a82f5d6507799c9cc"
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -10025,7 +10018,11 @@ vue-template-es2015-compiler@^1.6.0, vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
 
-vue@^2.5.16, vue@^2.5.x:
+vue@^2.5.11:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
+
+vue@^2.5.16:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
 
