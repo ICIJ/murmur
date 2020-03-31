@@ -102,6 +102,12 @@
         type: Boolean
       }
     },
+    components: {
+      /** Prevent a bug with vue-docgen-api
+       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
+       */
+      Fa: require('./Fa').default
+    },
     data () {
       return {
         activeItemIndexes: []
