@@ -44,8 +44,8 @@
 </template>
 
 <script>
-  import bModal from 'bootstrap-vue/es/components/modal/modal'
-  import bPopover from 'bootstrap-vue/es/components/popover/popover'
+  import { BModal } from 'bootstrap-vue/esm/components/modal/modal'
+  import { BPopover } from 'bootstrap-vue/esm/components/popover/popover'
 
   import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
@@ -61,8 +61,8 @@
     i18n,
     name: 'ImddbHeader',
     components: {
-      bModal,
-      bPopover,
+      BModal,
+      BPopover,
       headroom,
       Brand,
       DonateForm,

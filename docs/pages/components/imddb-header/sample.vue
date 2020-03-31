@@ -3,14 +3,14 @@
     <imddb-header no-headroom position="relative" ref="header">
       <template slot="navbar">
         <ul class="navbar-nav mr-auto">
-          <b-nav-dropdown @show="$root.$emit('bv::hide::popover')">
+          <b-nav-item-dropdown @show="$root.$emit('bv::hide::popover')">
             <template slot="button-content">
               A long project name
             </template>
             <b-dropdown-item v-for="(item, $index) in dropdownItems"  :key="$index" :href="item.href" v-bind="{ active: !!item.active }">
               {{ item.label }}
             </b-dropdown-item>
-          </b-nav-dropdown>
+          </b-nav-item-dropdown>
         </ul>
       </template>
     </imddb-header>
@@ -19,14 +19,14 @@
 
 <script>
   import { ImddbHeader } from '@/main'
-  import bDropdownItem from 'bootstrap-vue/es/components/dropdown/dropdown-item'
-  import bNavDropdown from 'bootstrap-vue/es/components/nav/nav-item-dropdown'
+  import { BDropdownItem } from 'bootstrap-vue/esm/components/dropdown/dropdown-item'
+  import { BNavItemDropdown } from 'bootstrap-vue/esm/components/nav/nav-item-dropdown'
 
   export default {
     components: {
       ImddbHeader,
-      bDropdownItem,
-      bNavDropdown
+      BDropdownItem,
+      BNavItemDropdown
     },
     data () {
       return {

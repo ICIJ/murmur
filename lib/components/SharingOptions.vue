@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import bModal from 'bootstrap-vue/es/components/modal/modal'
+  import { BModal } from 'bootstrap-vue/esm/components/modal/modal'
   import get from 'lodash/get'
   import reduce from 'lodash/reduce'
 
@@ -38,7 +38,7 @@
     i18n,
     name: 'SharingOptions',
     components: {
-      bModal,
+      BModal,
       EmbedForm,
       SharingOptionsLink,
       /** Prevent a bug with vue-docgen-api

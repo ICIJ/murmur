@@ -30,7 +30,7 @@
 import noop from 'lodash/noop'
 import uniqueId from 'lodash/uniqueId'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
-import bTooltip from 'bootstrap-vue/es/components/tooltip/tooltip'
+import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
 
 import { library } from './Fa'
 
@@ -103,7 +103,7 @@ export default {
     }
   },
   components: {
-    bTooltip,
+    BTooltip,
     /** Prevent a bug with vue-docgen-api
      * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
      */

@@ -46,15 +46,15 @@
   import keys from 'lodash/keys'
   import isObject from 'lodash/isObject'
 
-  import bTabs from 'bootstrap-vue/es/components/tabs/tabs'
-  import bTab from 'bootstrap-vue/es/components/tabs/tab'
-  import bTable from 'bootstrap-vue/es/components/table/table'
+  import { BTabs } from 'bootstrap-vue/esm/components/tabs/tabs'
+  import { BTab } from 'bootstrap-vue/esm/components/tabs/tab'
+  import { BTable } from 'bootstrap-vue/esm/components/table/table'
 
   export default {
     components: {
-      bTabs,
-      bTab,
-      bTable,
+      BTabs,
+      BTab,
+      BTable,
     },
     props: {
       api: {

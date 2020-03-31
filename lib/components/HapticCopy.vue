@@ -16,7 +16,7 @@
 <script>
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import { copyText } from '@/utils/clipboard'
-  import bTooltip from 'bootstrap-vue/es/components/tooltip/tooltip'
+  import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
   import noop from 'lodash/noop'
   import i18n from '@/i18n'
   import Promise from 'promise-polyfill'
@@ -109,7 +109,7 @@
       }
     },
     components: {
-      bTooltip,
+      BTooltip,
       /** Prevent a bug with vue-docgen-api
        * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
        */
