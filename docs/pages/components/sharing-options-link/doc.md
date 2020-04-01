@@ -33,4 +33,4 @@ With a custom tag and a custom slot:
 </div>
 :::
 
-::: api-table ./lib/components/SharingOptionsLink.vue :::
+::: api-table components/SharingOptionsLink.vue :::

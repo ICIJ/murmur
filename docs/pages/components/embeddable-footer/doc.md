@@ -4,4 +4,4 @@
 </div>
 :::
 
-::: api-table ./lib/components/EmbeddableFooter.vue :::
+::: api-table components/EmbeddableFooter.vue :::

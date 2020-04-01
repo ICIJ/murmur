@@ -29,7 +29,7 @@ With multiple values:
 </div>
 :::
 
-::: api-table ./lib/components/SelectableDropdown.vue :::
+::: api-table components/SelectableDropdown.vue :::
 
 <script>
   export default {

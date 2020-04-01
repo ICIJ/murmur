@@ -16,4 +16,4 @@ A button to copy text with an haptic feedback:
 </div>
 :::
 
-::: api-table ./lib/components/HapticCopy.vue :::
+::: api-table components/HapticCopy.vue :::

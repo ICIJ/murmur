@@ -1,5 +1,5 @@
 <template>
-  <button class="btn haptic-copy" @click="copyText">
+  <button class="btn haptic-copy" @click="copy">
     <!-- @slot Main content of the button (including the icon) -->
     <slot>
       <fa icon="clipboard" class="haptic-copy__icon" />
@@ -15,7 +15,7 @@
 
 <script>
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
-  import { copyText } from '@/utils/clipboard'
+  import { copyText, copyHtml } from '@/utils/clipboard'
   import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
   import noop from 'lodash/noop'
   import i18n from '@/i18n'
@@ -31,6 +31,12 @@
        * Text to copy to the clipboard
        */
       text: {
+        type: String
+      },
+      /**
+       * Plain text to use as an alternative text for HTML copy (uses `text` by default)
+       */
+      plain: {
         type: String
       },
       /**
@@ -50,7 +56,13 @@
        */
       tooltipHideDelay: {
         type: Number,
-        default: 2000
+        default: 2000 * 10
+      },
+      /**
+       * Copy HTML content
+       */
+      html: {
+        type: Boolean
       }
     },
     data () {
@@ -61,36 +73,44 @@
       }
     },
     methods: {
+      copyTextOrHtml () {
+        return this.html ? this.copyHtml() : this.copyText()
+      },
       copyText () {
-        /**
-         * Emitted when an attempt to copy text is made
-         *
-         * @event attempt
-         */
-        this.$emit('attempt')
-        // Use clipboard.js internally
         return copyText(this.text, this.$el)
-          .finally(this.$nextTick)
-          .then(() => {
-            this.openTooltip('haptic-copy.tooltip.succeed')
-            this.nextTimeout(this.closeTooltip, this.tooltipHideDelay)
-            /**
-            * Emitted when the text has been copied successfully
-            *
-            * @event success
-            */
-            return this.$emit('success')
-          })
-          .catch(() => {
-            this.openTooltip('haptic-copy.tooltip.failed')
-            this.nextTimeout(this.closeTooltip, this.tooltipHideDelay)
-            /**
-            * Emitted when the text couldn't be copied
-            *
-            * @event error
-            */
-            return this.$emit('error')
-          })
+      },
+      copyHtml () {
+        return copyHtml(this.text, this.plain || this.text)
+      },
+      async copy () {
+        try {
+          /**
+           * Emitted when an attempt to copy text is made
+           *
+           * @event attempt
+           */
+          this.$emit('attempt')
+          // Use clipboard.js internally
+          await this.copyTextOrHtml()
+          // Then option the tooltip in case of success
+          await this.openTooltip('haptic-copy.tooltip.succeed')
+          /**
+          * Emitted when the text has been copied successfully
+          *
+          * @event success
+          */
+          this.$emit('success')
+        } catch (error) {
+          await this.openTooltip('haptic-copy.tooltip.failed')
+          /**
+          * Emitted when the text couldn't be copied
+          *
+          * @event error
+          */
+          this.$emit('error', error)
+        }
+        // And close the tooltip after a short delay
+        this.nextTimeout(this.closeTooltip, this.tooltipHideDelay)
       },
       openTooltip (msg = 'haptic-copy.tooltip.succeed') {
         this.tooltipContent = this.$te(msg) ? this.$t(msg) : msg

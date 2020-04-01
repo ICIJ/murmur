@@ -13,4 +13,4 @@ A component to fill empty spaces with animated placeholders until content is loa
 </div>
 :::
 
-:::api-table lib/components/ContentPlaceholder.vue
+::: api-table components/ContentPlaceholder.vue :::

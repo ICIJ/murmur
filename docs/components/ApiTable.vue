@@ -7,7 +7,7 @@
       <b-tabs class="api-table__component__tabs">
         <b-tab v-if="hasItems(docgen.props)" title="Properties" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.props)" :fields="propsFields" small class="m-0 small">
-            <template v-for="{ key } in propsFields" :slot="key" slot-scope="{ value }">
+            <template v-for="{ key } in propsFields" v-slot:[`cell(${key})`]="{ value }">
               <span v-html="value"></span>
             </template>
           </b-table>
@@ -15,7 +15,7 @@
 
         <b-tab v-if="hasItems(docgen.slots)" title="Slots" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.slots)" :fields="slotsFields" small class="m-0 small">
-            <template v-for="{ key } in slotsFields" :slot="key" slot-scope="{ value }">
+            <template v-for="{ key } in slotsFields" v-slot:[`cell(${key})`]="{ value }">
               <span v-html="value"></span>
             </template>
           </b-table>
@@ -23,7 +23,7 @@
 
         <b-tab v-if="hasItems(docgen.events)" title="Events" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.events)" :fields="eventsFields" small class="m-0 small">
-            <template v-for="{ key } in eventsFields" :slot="key" slot-scope="{ value }">
+            <template v-for="{ key } in eventsFields" v-slot:[`cell(${key})`]="{ value }">
               <span v-html="value"></span>
             </template>
           </b-table>
@@ -31,7 +31,7 @@
 
         <b-tab v-if="hasItems(docgen.methods)" title="Methods" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.methods)" :fields="methodsFields" small class="m-0 small">
-            <template v-for="{ key } in methodsFields" :slot="key" slot-scope="{ value }">
+            <template v-for="{ key } in methodsFields" v-slot:[`cell(${key})`]="{ value }">
               <span v-html="value"></span>
             </template>
           </b-table>
@@ -60,6 +60,10 @@
       api: {
         type: [Object, String],
         default: () => {}
+      },
+      path: {
+        type: String,
+        default: null
       }
     },
     methods: {
@@ -82,13 +86,17 @@
         return `<var>${v}</var>`
       }
     },
-    computed: {
-      docgen () {
-        return isObject(this.api) ? this.api : JSON.parse(this.api)
+    async mounted () {
+      if (this.path) {
+        const path = this.path.replace(/\.vue$/i, '')
+        this.docgen = (await import(`!!vue-docgen-loader!@/${path}.vue`)).default
+      } else if (this.api) {
+        this.docgen = isObject(this.api) ? this.api : JSON.parse(this.api)
       }
     },
-    data() {
+    data () {
       return {
+        docgen: {},
         propsFields: [
           { label: 'Name', key: 'name', formatter: this.codeFormatter },
           { label: 'Description', key: 'description', class: 'description' },
@@ -96,16 +104,16 @@
           { label: 'Default', key: 'defaultValue.value', formatter: this.varFormatter }
         ],
         slotsFields: [
-          { label: 'Slot name', key: 'name', formatter: this.codeFormatter },
+          { label: 'Slot name', key: 'name', slot: 'cell(name)', formatter: this.codeFormatter },
           { label: 'Description', key: 'description', class: 'description' }
         ],
         eventsFields: [
-          { label: 'Name', key: 'name', formatter: this.codeFormatter },
+          { label: 'Name', key: 'name', slot: 'cell(name)', formatter: this.codeFormatter },
           { label: 'Description', key: 'description' , class: 'description'},
           { label: 'Parameters', key: 'type.names', formatter: this.varFormatter }
         ],
         methodsFields: [
-          { label: 'Name', key: 'name', formatter: this.codeFormatter },
+          { label: 'Name', key: 'name', slot: 'cell(name)', formatter: this.codeFormatter },
           { label: 'Description', key: 'description', class: 'description' },
           { label: 'Return', key: 'return', formatter: this.varFormatter }
         ]

@@ -11,4 +11,4 @@ A form to encourage donations. We usualy put this form inside a modal (here, wit
 </b-modal>
 :::
 
-::: api-table ./lib/components/DonateForm.vue :::
+::: api-table components/DonateForm.vue :::

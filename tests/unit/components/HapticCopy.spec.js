@@ -49,19 +49,19 @@ describe('Ha.vue', () => {
 
   it('should emit an `error` event after copying text', async () => {
     const wrapper = mount(HapticCopy, { propsData })
-    await wrapper.vm.copyText()
+    await wrapper.vm.copy()
     expect(wrapper.emitted().error).toBeTruthy()
   })
 
-  it('should emit an `attempt` event before copying text', () => {
+  it('should emit an `attempt` event before copying text', async () => {
     const wrapper = mount(HapticCopy, { propsData })
-    wrapper.vm.copyText()
+    await wrapper.vm.copy()
     expect(wrapper.emitted().attempt).toBeTruthy()
   })
 
   it('should fill the tooltip content with an error', async () => {
     const wrapper = mount(HapticCopy, { propsData })
-    await wrapper.vm.copyText()
+    await wrapper.vm.copy()
     expect(wrapper.vm.tooltipContent).toBe('Unable to copy the text')
   })
 
@@ -83,9 +83,9 @@ describe('Ha.vue', () => {
     expect(promise.then).toBeDefined()
   })
 
-  it('should have a method `copyText` which returns a promise', () => {
+  it('should have a method `copy` which returns a promise', () => {
     const wrapper = mount(HapticCopy, { propsData })
-    const promise = wrapper.vm.copyText()
+    const promise = wrapper.vm.copy()
     expect(promise.then).toBeDefined()
   })
 

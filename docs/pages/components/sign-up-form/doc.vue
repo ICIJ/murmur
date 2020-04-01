@@ -1,7 +1,7 @@
 <template>
   <div>
     <sample-card :component="sample" :code="code"></sample-card>
-    <api-table :api="api"></api-table>
+    <api-table path="components/SignUpForm.vue"></api-table>
   </div>
 </template>
 
@@ -9,7 +9,6 @@
   import ApiTable from '$components/ApiTable.vue'
   import SampleCard from '$components/SampleCard.vue'
 
-  import api from '!!vue-docgen-loader!@/components/SignUpForm.vue'
   import sample from './sample.vue'
   import code from '!!highlight-loader?lang=html!./sample.vue'
 
@@ -19,7 +18,7 @@
       ApiTable
     },
     data () {
-      return { sample, code, api }
+      return { sample, code }
     }
   }
 </script>

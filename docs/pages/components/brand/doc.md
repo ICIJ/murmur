@@ -1,8 +1,7 @@
 ---
 title: Brand
+description: A component to create variations of ICIJ logo.
 ---
-
-A component to create variations of ICIJ logo
 
 :::sample-card
 <div class="text-center p-4">
@@ -18,4 +17,4 @@ A component to create variations of ICIJ logo
 </div>
 :::
 
-:::api-table lib/components/Brand.vue
+::: api-table components/Brand.vue :::

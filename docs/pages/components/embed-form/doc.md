@@ -15,4 +15,4 @@ We usualy put this form inside a modal (here, with Boostrap Vue).
 </b-modal>
 :::
 
-::: api-table ./lib/components/EmbedForm.vue :::
+::: api-table components/EmbedForm.vue :::

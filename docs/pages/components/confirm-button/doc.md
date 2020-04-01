@@ -78,7 +78,7 @@ Finally, you can change the default placement of the tooltip:
 </div>
 :::
 
-:::api-table lib/components/ConfirmButton.vue
+::: api-table components/ConfirmButton.vue :::
 
 <script>
 export default {
