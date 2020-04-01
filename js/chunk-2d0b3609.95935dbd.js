@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0b3609"],{"27b0":function(e,o){e.exports={displayName:"FollowUsPopover",description:"FollowUsPopover",tags:{},exportName:"default",events:[{name:"update:show",description:"Fired when user click on the `close` button",type:{names:["boolean"]}}]}}}]);
+//# sourceMappingURL=chunk-2d0b3609.95935dbd.js.map
