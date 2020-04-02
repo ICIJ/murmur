@@ -15,6 +15,8 @@ $link-color: #c10448;
 // Then, simply import the variables before you import Bootstrap sources
 @import '@icij/murmur/lib/styles/variables.scss';
 @import 'node_modules/bootstrap/scss/bootstrap';
+// Optional but recommended: Bootstrap Vue CSS additions
+@import 'node_modules/bootstrap-vue/dist/bootstrap-vue.css';
 ```
 
 Here are all the variables defined in <repository-link path="lib/styles/variables.scss">lib/styles/variables.scss</repository-link>:
