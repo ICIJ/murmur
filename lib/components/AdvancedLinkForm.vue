@@ -1,5 +1,7 @@
 <script>
-  import { BTabs, BTab, BInputGroup, BFormInput } from 'bootstrap-vue'
+  import { BTabs, BTab, BInputGroup, BInputGroupAppend, BFormInput } from 'bootstrap-vue'
+  import HapticCopy from './HapticCopy.vue'
+
   /**
    * A form with tabs to offer several copy formats to users.
    */
@@ -9,7 +11,9 @@
       BTabs,
       BTab,
       BInputGroup,
-      BFormInput
+      BInputGroupAppend,
+      BFormInput,
+      HapticCopy
     },
     props: {
       /**
@@ -84,6 +88,13 @@
       },
       linkAsHtml () {
         return `<a href="${this.link}" target="_blank">${this.titleOrLink}</a>`
+      },
+      formClasses () {
+        const props = ['card', 'pills', 'small', 'vertical']
+        return props.reduce((classes, prop) => {
+          classes[`advanced-link-form--${prop}`] = this[prop]
+          return classes
+        }, {})
       }
     },
     methods: {
@@ -124,7 +135,7 @@
 </script>
 
 <template>
-  <b-tabs class="advanced-link-form" :content-class="card ? 'advanced-link-form--card' : 'mt-3'"
+  <b-tabs class="advanced-link-form" :content-class="card ? 'mt-0' : 'mt-3'"
     :card="card"
     :pills="pills"
     :value="value"
@@ -132,19 +143,20 @@
     :vertical="vertical"
     :active-nav-item-class="activeNavItemClass"
     :no-fade="noFade"
+    :class="formClasses"
     @input="$emit('input', $event)">
-    <b-tab title="Text" v-if="showForm('raw')">
-      <b-card-text class="advanced-link-form__raw" :class="{ small }">
+    <b-tab :title="$t('advanced-link-form.raw.tab')" v-if="showForm('raw')">
+      <div class="advanced-link-form__raw" :class="{ small }">
         <b-input-group :size="small ? 'sm' : 'md'">
           <b-form-input readonly :value="link" class="advanced-link-form__raw__input" @click="selectRaw()" />
           <b-input-group-append>
               <haptic-copy class="btn-secondary" :text="link" @attempt="selectRaw()" />
           </b-input-group-append>
         </b-input-group>
-      </b-card-text>
+      </div>
     </b-tab>
-    <b-tab title="Formatted Text" v-if="showForm('rich')">
-      <b-card-text class="advanced-link-form__rich" :class="{ small }">
+    <b-tab :title="$t('advanced-link-form.rich.tab')" v-if="showForm('rich')">
+      <div class="advanced-link-form__rich" :class="{ small }">
         <b-input-group :size="small ? 'sm' : 'md'">
           <a :href="link" class="form-control advanced-link-form__rich__input" @click.prevent="selectRich()" v-html="titleOrLink"></a>
           <b-input-group-append>
@@ -152,12 +164,12 @@
           </b-input-group-append>
         </b-input-group>
         <p class="text-muted mt-2 mb-0">
-          Copy this link in Libre Office, Word, Google Document, etc.
+          {{ $t('advanced-link-form.rich.description') }}
         </p>
-      </b-card-text>
+      </div>
     </b-tab>
-    <b-tab title="Markdown" v-if="showForm('markdown')">
-      <b-card-text class="advanced-link-form__markdown" :class="{ small }">
+    <b-tab :title="$t('advanced-link-form.markdown.tab')" v-if="showForm('markdown')">
+      <div class="advanced-link-form__markdown" :class="{ small }">
         <b-input-group :size="small ? 'sm' : 'md'">
           <b-form-input readonly :value="linkAsMarkdown" class="advanced-link-form__markdown__input" @click="selectMarkdown()" />
           <b-input-group-append>
@@ -165,12 +177,12 @@
           </b-input-group-append>
         </b-input-group>
         <p class="text-muted mt-2 mb-0">
-          Copy this link for online platforms supporting Markdown.
+          {{ $t('advanced-link-form.markdown.description') }}
         </p>
-      </b-card-text>
+      </div>
     </b-tab>
-    <b-tab title="HTML" v-if="showForm('html')">
-      <b-card-text class="advanced-link-form__html" :class="{ small }">
+    <b-tab :title="$t('advanced-link-form.html.tab')" v-if="showForm('html')">
+      <div class="advanced-link-form__html" :class="{ small }">
         <b-input-group :size="small ? 'sm' : 'md'">
           <b-form-input readonly :value="linkAsHtml" class="advanced-link-form__html__input" @click="selectHtml()" />
           <b-input-group-append>
@@ -178,9 +190,9 @@
           </b-input-group-append>
         </b-input-group>
         <p class="text-muted mt-2 mb-0">
-          Copy this link to your website.
+          {{ $t('advanced-link-form.html.description') }}
         </p>
-      </b-card-text>
+      </div>
     </b-tab>
   </b-tabs>
 </template>

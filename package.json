@@ -109,7 +109,7 @@
       "**/tests/unit/**/*.spec.js"
     ],
     "coverageDirectory": "tests/unit/coverage",
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "lib/**/*.(js|vue)"
     ],

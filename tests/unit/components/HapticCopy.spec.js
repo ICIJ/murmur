@@ -6,6 +6,15 @@ describe('Ha.vue', () => {
 
   const propsData = { text: 'Lorem ipsum' }
 
+  beforeAll(() => {
+    // Prevent multiple Bootstrap Vue warnings in tests
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
+  })
+
+  afterAll(() => {
+   console.warn.mockClear()
+  })
+
   it('is a Vue instance', () => {
     const wrapper = mount(HapticCopy, { propsData })
     expect(wrapper.isVueInstance()).toBeTruthy()

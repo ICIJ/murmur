@@ -1,4 +1,21 @@
 {
+  "advanced-form-link": {
+    "raw": {
+      "tab": "Text"
+    },
+    "rich": {
+      "tab": "Formatted Text",
+      "description": "Copy this link in Libre Office, Word, Google Document, etc."
+    },
+    "markdown": {
+      "tab": "Markdown",
+      "description": "Copy this link for online platforms supporting Markdown."
+    },
+    "html": {
+      "tab": "HTML",
+      "description": "Copy this link to your website."
+    }
+  },
   "imddb-header": {
     "navbar": {
       "leak": "Leak to us",
