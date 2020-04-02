@@ -139,7 +139,8 @@
   ],
   "homepage": "https://icij.github.io/murmur/",
   "license": "MIT",
-  "main": "dist/lib/@icij/murmur.umd.min.js",
+  "main": "dist/lib/murmur.umd.min.js",
+  "style": "dist/lib/murmur.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/icij/murmur"
