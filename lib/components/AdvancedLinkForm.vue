@@ -1,4 +1,5 @@
 <script>
+  import i18n from '@/i18n'
   import { BTabs, BTab, BInputGroup, BInputGroupAppend, BFormInput } from 'bootstrap-vue'
   import HapticCopy from './HapticCopy.vue'
 
@@ -7,6 +8,7 @@
    */
   export default {
     name: 'AdvancedLinkForm',
+    i18n,
     components: {
       BTabs,
       BTab,

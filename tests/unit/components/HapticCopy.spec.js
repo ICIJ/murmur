@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils'
 import HapticCopy from '@/components/HapticCopy.vue'
 import { noop } from 'lodash'
 
-describe('Ha.vue', () => {
+describe('HapticCopy.vue', () => {
 
   const propsData = { text: 'Lorem ipsum' }
 
