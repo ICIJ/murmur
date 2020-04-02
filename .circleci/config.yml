@@ -3,10 +3,10 @@ workflows:
   version: 2
   test:
     jobs:
-      - build
-      
+      - main
+
 jobs:
-  build:
+  main:
     branches:
       ignore:
       - gh-pages
