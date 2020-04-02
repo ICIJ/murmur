@@ -13,12 +13,12 @@
         </slot>
       </slide-up-down>
       <div class="sample-card__body__actions border-top row no-gutters">
-        <button class="btn btn-sm font-weight-bold btn-primary col" @click="toggleCode()" :class="{ active: !collapseCode }">
+        <button class="btn btn-sm font-weight-bold btn col" @click="toggleCode()" :class="{ active: !collapseCode }">
           <fa icon="code" class="mr-1" />
           <span v-if="collapseCode">Show code</span>
           <span v-if="!collapseCode">Hide code</span>
         </button>
-        <haptic-copy class="btn-sm font-weight-bold btn-primary col" :text="code"></haptic-copy>
+        <haptic-copy class="btn-sm font-weight-bold btn col" :text="code"></haptic-copy>
       </div>
       <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark">
         <slot name="code">
@@ -91,6 +91,13 @@
       &__render {
         overflow: visible;
         max-width: 100%;
+      }
+
+      &__actions .btn {
+        background: darken($light, 5%);
+        &:not(:last-of-type) {
+          border-right: $border-width solid $border-color;
+        }
       }
 
       &__code {
