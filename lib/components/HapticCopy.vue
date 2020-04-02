@@ -1,5 +1,5 @@
 <template>
-  <button class="btn haptic-copy" @click="copy">
+  <button class="btn haptic-copy" @click.stop="copy">
     <!-- @slot Main content of the button (including the icon) -->
     <slot>
       <fa icon="clipboard" class="haptic-copy__icon" />
@@ -56,7 +56,7 @@
        */
       tooltipHideDelay: {
         type: Number,
-        default: 2000 * 10
+        default: 2000
       },
       /**
        * Copy HTML content
