@@ -4,7 +4,7 @@ import { noop } from 'lodash'
 
 describe('HapticCopy.vue', () => {
 
-  const propsData = { text: 'Lorem ipsum' }
+  const propsData = { text: 'Lorem ipsum', noTooltip: true }
 
   beforeAll(() => {
     // Prevent multiple Bootstrap Vue warnings in tests
