@@ -24,7 +24,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "bootstrap": "^4.3.1",
-    "bootstrap-vue": "2.6.0",
+    "bootstrap-vue": "2.10.0",
     "clipboard": "^2.0.6",
     "jsonp": "^0.2.1",
     "lodash": "4.17.15",
