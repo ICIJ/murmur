@@ -1,12 +1,6 @@
 version: 2
-workflows:
-  version: 2
-  test:
-    jobs:
-      - main
-
 jobs:
-  main:
+  build:
     branches:
       ignore:
       - gh-pages
