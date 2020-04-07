@@ -191,9 +191,6 @@
               <haptic-copy class="btn-secondary" :text="linkAsHtml" @attempt="selectHtml()" />
           </b-input-group-append>
         </b-input-group>
-        <p class="text-muted mt-2 mb-0">
-          {{ $t('advanced-link-form.html.description') }}
-        </p>
       </div>
     </b-tab>
   </b-tabs>
