@@ -4,11 +4,19 @@
       <brand :size="40" no-border class="mr-2" color="white" />
       {{ title }}
     </a>
-    <div class="embeddable-footer__lead small text-truncate" v-html="lead"></div>
-    <button class="btn btn-link text-white btn-sm py-0 embeddable-footer__share-btn" @click="showShareOptions = !showShareOptions" :class="{ active: showShareOptions }">
-      <fa icon="share-alt" />
-      <span class="sr-only">{{ $t('embeddable-footer.share') }}</span>
-    </button>
+    <div class="embeddable-footer__lead small text-truncate">
+      <!-- @slot Main slot to redefine lead text display -->
+      <slot v-bind:lead="lead">
+        <span v-html="lead"></span>
+      </slot>
+    </div>
+    <!-- @slot Overide the sharing button -->
+    <slot name="sharing-button" v-bind="{ sharingOptionsValues }">
+      <button class="btn btn-link text-white btn-sm py-0 embeddable-footer__share-btn" @click="showShareOptions = !showShareOptions" :class="{ active: showShareOptions }">
+        <fa icon="share-alt" />
+        <span class="sr-only">{{ $t('embeddable-footer.share') }}</span>
+      </button>
+    </slot>
     <sharing-options :values="sharingOptionsValues" v-if="showShareOptions" direction="column-reverse" :iframe-min-height="iframeMinHeight" :iframe-min-width="iframeMinWidth"></sharing-options>
   </div>
 </template>
