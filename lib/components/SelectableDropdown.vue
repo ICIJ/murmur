@@ -25,13 +25,14 @@
 
 <script>
   import castArray from 'lodash/castArray'
+  import eq from 'lodash/eq'
   import findIndex from 'lodash/findIndex'
+  import filter from 'lodash/filter'
   import identity from 'lodash/identity'
   import isEqual from 'lodash/isEqual'
   import isString from 'lodash/isString'
   import last from 'lodash/last'
   import range from 'lodash/range'
-  import without from 'lodash/without'
 
   import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons'
 
@@ -100,6 +101,13 @@
        */
       deactivateKeys: {
         type: Boolean
+      },
+      /**
+       * Comparaison function to verify equality between selected items.
+       */
+      eq: {
+        type: Function,
+        default: eq
       }
     },
     components: {
@@ -146,13 +154,7 @@
         return this.itemActivated(item) ? faCheckSquare : faSquare
       },
       itemActivated (item) {
-        let index = null
-        if (isString(item)) {
-          index = findIndex(this.activeItems, o => o === item)
-        } else {
-          index = findIndex(this.activeItems, item)
-        }
-        return index > -1
+        return findIndex(this.activeItems, i => this.eq(item, i)) > -1
       },
       clickToSelectItem (item) {
         /**
@@ -194,14 +196,14 @@
       },
       selectItem (item) {
         if (this.itemActivated(item) && this.activeItems.length === 1) {
-          this.activeItems = without(this.activeItems, item)
+          this.activeItems = filter(this.activeItems, i => !this.eq(item, i))
         } else {
           this.activeItems = [ item ]
         }
       },
       addItem (item) {
         if (this.itemActivated(item)) {
-          this.activeItems = without(this.activeItems, item)
+          this.activeItems = filter(this.activeItems, i => !this.eq(item, i))
         } else {
           this.activeItems.push(item)
         }

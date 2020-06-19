@@ -43,7 +43,9 @@ With a dynamic list:
 </div>
 :::
 
-Or a colleciton of objects:
+## Collection
+
+You can also use this component to build a list based from a collection of object:
 
 :::sample-card
 <div class="p-2 text-center">
@@ -52,6 +54,31 @@ Or a colleciton of objects:
       <span v-html="item.label"></span>
     </template>
   </selectable-dropdown>
+</div>
+:::
+
+Some lists are not trivial and comparisons are not easy. For instance a games with similar name:
+
+```js
+const streetFigthers = [
+  { label: 'Street Fighter', episode: 'I',   uid: 'sf1' },
+  { label: 'Street Fighter', episode: 'II',  uid: 'sf2' },
+  { label: 'Street Fighter', episode: 'III', uid: 'sf3' },
+  { label: 'Street Fighter', episode: 'IV',  uid: 'sf4' },
+  { label: 'Street Fighter', episode: 'V',   uid: 'sf5' },
+]
+```
+
+You might want to display a list and prove uniqueness using the `uid`:
+
+:::sample-card
+<div class="p-2 text-center">
+  <selectable-dropdown deactivate-keys multiple :items="streetFigthers" v-model="selectedGames" :eq="(item, other) => item.uid === other.uid">
+    <template #item-label="{ item }">
+      <span v-html="item.label"></span> (<span v-html="item.episode"></span>)
+    </template>
+  </selectable-dropdown>
+  Selected games: <span v-html="selectedGames.map(g => g.uid).join(', ')"></span>
 </div>
 :::
 
@@ -71,6 +98,14 @@ Or a colleciton of objects:
           { label: 'Spain' },
           { label: 'Peru' },
           { label: 'France' }
+        ],
+        selectedGames: [],
+        streetFigthers: [
+          { label: 'Street Fighter', episode: 'I',   uid: 'sf1' },
+          { label: 'Street Fighter', episode: 'II',  uid: 'sf2' },
+          { label: 'Street Fighter', episode: 'III', uid: 'sf3' },
+          { label: 'Street Fighter', episode: 'IV',  uid: 'sf4' },
+          { label: 'Street Fighter', episode: 'V',   uid: 'sf5' },
         ]
       }
     },
