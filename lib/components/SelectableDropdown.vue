@@ -1,7 +1,7 @@
 <template>
   <div class="selectable-dropdown show" v-if="!hide" :class="{ 'selectable-dropdown--multiple': multiple, [listClass]: true }">
     <span v-for="(item, index) in items"
-          :key="item"
+          :key="index"
           @click.exact="clickToSelectItem(item)"
           @click.ctrl="clickToAddItem(item)"
           @click.shift="clickToSelectRangeToItem(item)"
@@ -162,7 +162,11 @@
          * @type {String, Object, Array, Number}
          */
          this.$emit('click', item)
-         this.selectItem(item)
+         if (this.multiple) {
+           this.addItem(item)
+         } else {
+           this.selectItem(item)
+         }
       },
       clickToAddItem (item) {
         /**
@@ -196,10 +200,10 @@
         }
       },
       addItem (item) {
-        if (!this.itemActivated(item) && this.multiple) {
-          this.activeItems.push(item)
+        if (this.itemActivated(item)) {
+          this.activeItems = without(this.activeItems, item)
         } else {
-          this.selectItem(item, true)
+          this.activeItems.push(item)
         }
       },
       selectRangeToItem (item) {
