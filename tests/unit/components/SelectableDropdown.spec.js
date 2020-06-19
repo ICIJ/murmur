@@ -113,7 +113,8 @@ describe('SelectableDropdown.vue', () => {
     })
 
     it('set item as activated for multiple and items is an array of objects', () => {
-      const propsData = { items: [{ label: 'Lesotho' }, { label: 'Senegal' }, { label: 'Djibouti' }], value: [{ label: 'Lesotho' }], multiple: true }
+      const eq = (item, other) => item.label === other.label
+      const propsData = { items: [{ label: 'Lesotho' }, { label: 'Senegal' }, { label: 'Djibouti' }], value: [{ label: 'Lesotho' }], multiple: true, eq }
       const wrapper = mount(SelectableDropdown, { propsData })
 
       expect(wrapper.vm.itemActivated({ label: 'Lesotho' })).toBeTruthy()
