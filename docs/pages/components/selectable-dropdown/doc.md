@@ -43,6 +43,18 @@ With a dynamic list:
 </div>
 :::
 
+Or a colleciton of objects:
+
+:::sample-card
+<div class="p-2 text-center">
+  <selectable-dropdown deactivate-keys multiple :items="countryCollection">
+    <template #item-label="{ item }">
+      <span v-html="item.label"></span>
+    </template>
+  </selectable-dropdown>
+</div>
+:::
+
 ::: api-table components/SelectableDropdown.vue :::
 
 <script>
@@ -54,7 +66,12 @@ With a dynamic list:
         filteredCountries: ['Spain', 'Peru', 'France'],
         twoCountries: ['Spain', 'France'],
         treeCountries: ['Spain', 'Peru', 'France'],
-        allCountries: ['France', 'United State of America', 'Spain', 'Peru']
+        allCountries: ['France', 'United State of America', 'Spain', 'Peru'],
+        countryCollection: [
+          { label: 'Spain' },
+          { label: 'Peru' },
+          { label: 'France' }
+        ]
       }
     },
     watch: {
