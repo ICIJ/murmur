@@ -1,7 +1,7 @@
 <template>
   <div class="selectable-dropdown show" v-if="!hide" :class="{ 'selectable-dropdown--multiple': multiple, [listClass]: true }">
     <span v-for="(item, index) in items"
-          :key="index"
+          :key="item"
           @click.exact="clickToSelectItem(item)"
           @click.ctrl="clickToAddItem(item)"
           @click.shift="clickToSelectRangeToItem(item)"
@@ -110,7 +110,7 @@
     },
     data () {
       return {
-        activeItemIndexes: []
+        activeItems: []
       }
     },
     mounted () {
@@ -124,8 +124,7 @@
       hide () {
         this.toggleKeys()
       },
-      activeItemIndexes () {
-        const items = this.activeItemIndexes.map(index => this.items[index])
+      activeItems () {
         /**
          * Fired when the selected value change. It will pass a canonical value
          * or an array of values if the property `multiple` is set to true.
@@ -133,7 +132,7 @@
          * @event input
          * @type {String, Object, Array, Number}
          */
-        this.$emit('input', this.multiple ? items : items[0])
+        this.$emit('input', this.multiple ? this.activeItems : this.activeItems[0])
       },
       value (itemOrItems) {
         const items = castArray(itemOrItems)
@@ -149,11 +148,11 @@
       itemActivated (item) {
         let index = null
         if (isString(item)) {
-          index = findIndex(this.items, o => o === item)
+          index = findIndex(this.activeItems, o => o === item)
         } else {
-          index = findIndex(this.items, item)
+          index = findIndex(this.activeItems, item)
         }
-        return this.activeItemIndexes.indexOf(index) > -1
+        return index > -1
       },
       clickToSelectItem (item) {
         /**
@@ -190,50 +189,44 @@
         this.$emit(name, item)
       },
       selectItem (item) {
-        if (this.itemActivated(item) && this.activeItemIndexes.length === 1) {
-          this.activeItemIndexes = without(this.activeItemIndexes, this.items.indexOf(item))
+        if (this.itemActivated(item) && this.activeItems.length === 1) {
+          this.activeItems = without(this.activeItems, item)
         } else {
-          this.activeItemIndexes = [ this.items.indexOf(item) ]
+          this.activeItems = [ item ]
         }
       },
       addItem (item) {
         if (!this.itemActivated(item) && this.multiple) {
-          this.activeItemIndexes.push(this.items.indexOf(item))
+          this.activeItems.push(item)
         } else {
           this.selectItem(item, true)
         }
       },
       selectRangeToItem (item) {
         // No activated items
-        if (!this.activeItemIndexes.length || !this.multiple) {
-          this.selectItem(item, emitClick)
+        if (!this.activeItems.length || !this.multiple) {
+          this.selectItem(item)
         } else {
           const index = this.items.indexOf(item)
           if (index > this.firstActiveItemIndex) {
-            this.activeItemIndexes = range(this.firstActiveItemIndex, index + 1)
+            this.activeItems = this.items.slice(this.firstActiveItemIndex, index + 1)
           } else {
-            this.activeItemIndexes = range(index, this.firstActiveItemIndex + 1)
+            this.activeItems = this.items.slice(index, this.firstActiveItemIndex + 1)
           }
         }
       },
       activateItemOrItems (itemOrItems = this.value) {
         const items = castArray(itemOrItems)
-        this.activeItemIndexes = items.map(item => {
-          if (isString(item)) {
-            return findIndex(this.items, o => o === item)
-          } else {
-            return findIndex(this.items, item)
-          }
-        })
+        this.activeItems = [...items]
       },
       activatePreviousItem () {
-        this.activeItemIndexes = [ Math.max(this.firstActiveItemIndex - 1, -1) ]
+        this.activeItems = [ this.items[ Math.max(this.firstActiveItemIndex - 1, -1) ] ]
       },
       activateNextItem () {
-        this.activeItemIndexes = [ Math.min(this.firstActiveItemIndex + 1, this.items.length - 1) ]
+        this.activeItems = [ this.items[ Math.min(this.firstActiveItemIndex + 1, this.items.length - 1) ] ]
       },
       deactivateItems () {
-        this.activeItemIndexes = []
+        this.activeItems = []
         /**
          * Fired when items selection is deactivated
          *
@@ -272,14 +265,10 @@
     },
     computed: {
       firstActiveItemIndex () {
-        return this.activeItemIndexes.length ? this.activeItemIndexes[0] : -1
+        return this.activeItems.length ? this.items.indexOf(this.activeItems[0]) : -1
       },
       lastActiveItemIndex () {
-        return this.activeItemIndexes.length ? this.activeItemIndexes.slice(-1) : -1
-      },
-      activeItems () {
-        return this.activeItemIndexes.map(index => this.items[index])
-
+        return this.activeItems.length ? this.items.indexOf(this.activeItems.slice(-1)) : -1
       },
       keysMap () {
         return {
