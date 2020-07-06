@@ -5,7 +5,7 @@ describe('EmbeddableFooter.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = shallowMount(EmbeddableFooter)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
 })

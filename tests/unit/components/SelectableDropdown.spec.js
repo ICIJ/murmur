@@ -14,7 +14,7 @@ describe('SelectableDropdown.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = mount(SelectableDropdown)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('has a list of items', () => {
@@ -67,15 +67,17 @@ describe('SelectableDropdown.vue', () => {
     expect(wrapper.vm.activeItems).toContain('Lesotho')
   })
 
-  it('emits a `input` event when a value is selected', () => {
+  it('emits a `input` event when a value is selected', async () => {
     const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'], value: 'Djibouti' }
     const wrapper = mount(SelectableDropdown, { propsData })
-
-
+    await wrapper.vm.$nextTick()
+    
     expect(wrapper.emitted().input[0]).toContain('Djibouti')
     wrapper.vm.selectItem('Lesotho')
+    await wrapper.vm.$nextTick()
     expect(wrapper.emitted().input[1]).toContain('Lesotho')
     wrapper.vm.selectItem('Senegal')
+    await wrapper.vm.$nextTick()
     expect(wrapper.emitted().input[2]).toContain('Senegal')
   })
 

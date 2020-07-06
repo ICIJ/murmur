@@ -9,7 +9,7 @@ describe('ResponsiveIframe', () => {
 
   it('is a Vue instance', () => {
     const wrapper = shallowMount(ResponsiveIframe, { propsData })
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('creates a root div with a unique id', () => {

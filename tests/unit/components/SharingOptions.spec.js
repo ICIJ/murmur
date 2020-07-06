@@ -1,7 +1,9 @@
 import { mount } from '@vue/test-utils'
+import { toBeVisible } from '@testing-library/jest-dom/matchers'
 
-import Fa from '@/components/Fa'
 import SharingOptions from '@/components/SharingOptions'
+
+expect.extend({ toBeVisible})
 
 describe('SharingOptions', () => {
 
@@ -16,7 +18,7 @@ describe('SharingOptions', () => {
 
   it('is a Vue instance', () => {
     const wrapper = mount(SharingOptions, { propsData })
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('renders props.direction on the root element with the default value', () => {
@@ -27,7 +29,7 @@ describe('SharingOptions', () => {
   it('renders props.direction on the root element with `row`', () => {
     const direction = 'row'
     const wrapper = mount(SharingOptions, {
-      propsData: { direction, ...propsData }
+      propsData: { direction, ...propsData }
     })
     expect(wrapper.element.style['flex-direction']).toBe(direction)
   })
@@ -35,7 +37,7 @@ describe('SharingOptions', () => {
   it('renders props.direction on the root element with `row-reverse`', () => {
     const direction = 'row-reverse'
     const wrapper = mount(SharingOptions, {
-      propsData: { direction, ...propsData }
+      propsData: { direction, ...propsData }
     })
     expect(wrapper.element.style['flex-direction']).toBe(direction)
   })
@@ -43,7 +45,7 @@ describe('SharingOptions', () => {
   it('renders props.direction on the root element with `column`', () => {
     const direction = 'column'
     const wrapper = mount(SharingOptions, {
-      propsData: { direction, ...propsData }
+      propsData: { direction, ...propsData }
     })
     expect(wrapper.element.style['flex-direction']).toBe(direction)
   })
@@ -51,30 +53,30 @@ describe('SharingOptions', () => {
   it('renders props.direction on the root element with `column-reverse`', () => {
     const direction = 'column-reverse'
     const wrapper = mount(SharingOptions, {
-      propsData: { direction, ...propsData }
+      propsData: { direction, ...propsData }
     })
     expect(wrapper.element.style['flex-direction']).toBe(direction)
   })
 
   it('renders the embed button by default', () => {
     const wrapper = mount(SharingOptions, { propsData })
-    expect(wrapper.find('.sharing-options__link--embed').isVisible()).toBeTruthy()
+    expect(wrapper.find('.sharing-options__link--embed').element).toBeVisible()
   })
 
   it('hides the embed button when props.noEmbed is passed', () => {
     const noEmbed = true
     const wrapper = mount(SharingOptions, {
-      propsData: { noEmbed, ...propsData }
+      propsData: { noEmbed, ...propsData }
     })
-    expect(wrapper.find('.sharing-options__link--embed').isVisible()).toBeFalsy()
+    expect(wrapper.find('.sharing-options__link--embed').element).not.toBeVisible()
   })
 
   it('hides the embed button when props.noEmbed is passed', () => {
     const noEmbed = true
     const wrapper = mount(SharingOptions, {
-      propsData: { noEmbed, ...propsData }
+      propsData: { noEmbed, ...propsData }
     })
-    expect(wrapper.find('.sharing-options__link--embed').isVisible()).toBeFalsy()
+    expect(wrapper.find('.sharing-options__link--embed').element).not.toBeVisible()
   })
 
   it('uses a generic title', () => {

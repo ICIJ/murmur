@@ -5,7 +5,7 @@ describe('SlideUpDown', () => {
 
   it('is a Vue instance', () => {
     const wrapper = mount(SlideUpDown)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('renders the component as a `div` by default', () => {
@@ -26,12 +26,13 @@ describe('SlideUpDown', () => {
     expect(wrapper.element.style.height).toBe('auto')
   })
 
-  it('isn\t visible if props.active is passed as `false`', () => {
+  it('isn\'t visible if props.active is passed as `false`', async () => {
     const active = false
     const wrapper = mount(SlideUpDown, {
       propsData: { active }
     })
     wrapper.vm.mounted = true
+    await wrapper.vm.$nextTick()
     expect(wrapper.element.style.height).toBe('0px')
   })
 

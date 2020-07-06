@@ -17,7 +17,7 @@ describe('HapticCopy.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = mount(HapticCopy, { propsData })
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('should generate a button', () => {

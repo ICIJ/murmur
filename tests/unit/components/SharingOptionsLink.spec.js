@@ -27,23 +27,23 @@ describe('SharingOptionsLink', () => {
 
   it('should be a Vue instance', () => {
     const wrapper = mount(SharingOptionsLink, { propsData })
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('should generate the component with `a` tag', () => {
     const wrapper = mount(SharingOptionsLink, { propsData })
-    expect(wrapper.is('a')).toBeTruthy()
+    expect(wrapper.element.tagName).toBe('A')
   })
 
   it('should generate the component with `button` tag', () => {
     const propsData = { network: 'twitter', tag: 'button' }
     const wrapper = mount(SharingOptionsLink, { propsData })
-    expect(wrapper.is('button')).toBeTruthy()
+    expect(wrapper.element.tagName).toBe('BUTTON')
   })
 
   it('should raise a console.error for an invalid prop', () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => null)
-    const wrapper = mount(SharingOptionsLink, { network: 'foo' })
+    mount(SharingOptionsLink, { network: 'foo' })
     expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Missing required prop: "network"'))
   })
 

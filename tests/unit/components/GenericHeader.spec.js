@@ -1,17 +1,16 @@
 import { shallowMount } from '@vue/test-utils'
 import GenericHeader from '@/components/GenericHeader.vue'
-import Murmur from '@/main'
 
 describe('GenericHeader.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = shallowMount(GenericHeader)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('renders the header as a `headroom` component', () => {
     const wrapper = shallowMount(GenericHeader)
-    expect(wrapper.find('#generic-header').name()).toBe('vueHeadroom')
+    expect(wrapper.find('#generic-header').vm.$options.name).toBe('vueHeadroom')
   })
 
   it('renders the header as a div', () => {
@@ -19,7 +18,7 @@ describe('GenericHeader.vue', () => {
     const wrapper = shallowMount(GenericHeader, {
       propsData: { noHeadroom }
     })
-    expect(wrapper.find('#generic-header').name()).toBe('div')
+    expect(wrapper.find('#generic-header').element.tagName).toBe('DIV')
   })
 
   it('sets the header position to `fixed` by default', () => {
@@ -67,16 +66,19 @@ describe('GenericHeader.vue', () => {
 
   it('renders the navbar as `collapse` by default', () => {
     const wrapper = shallowMount(GenericHeader)
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeTruthy()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
   })
 
-  it('toggles the navbar', () => {
+  it('toggles the navbar', async () => {
     const wrapper = shallowMount(GenericHeader)
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeTruthy()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
     wrapper.vm.toggleNavbar()
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeFalsy()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeFalsy()
     wrapper.vm.toggleNavbar()
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeTruthy()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
   })
 
   it('should change `showFollowUsPopover` to `true`', () => {

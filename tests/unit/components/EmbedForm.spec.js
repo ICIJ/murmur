@@ -10,7 +10,7 @@ describe('EmbedForm.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = shallowMount(EmbedForm, { propsData })
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('shows title when props.noTitle isn\'t passed', () => {

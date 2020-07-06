@@ -6,7 +6,7 @@ describe('SignUpForm', () => {
 
   it('is a Vue instance', () => {
     const wrapper = mount(SignUpForm)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('renders the label by default', () => {
@@ -24,7 +24,7 @@ describe('SignUpForm', () => {
 
   it('doesn\'t render the form horizontally by default', () => {
     const wrapper = mount(SignUpForm)
-    expect(wrapper.is('.sign-up-form--horizontal')).toBeFalsy()
+    expect(wrapper.classes('sign-up-form--horizontal')).toBeFalsy()
   })
 
   it('renders the form horizontally when props.horizontal is passed', () => {
@@ -32,7 +32,7 @@ describe('SignUpForm', () => {
     const wrapper = mount(SignUpForm, {
        propsData: { horizontal }
     })
-    expect(wrapper.is('.sign-up-form--horizontal')).toBeTruthy()
+    expect(wrapper.classes('sign-up-form--horizontal')).toBeTruthy()
   })
 
   it('uses a default tracker when none is given', () => {

@@ -5,7 +5,7 @@ describe('FollowUsPopover.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = mount(FollowUsPopover)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('has a sign-up form', () => {

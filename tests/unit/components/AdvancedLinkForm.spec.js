@@ -17,39 +17,46 @@ describe('AdvancedLinkForm.vue', () => {
 
   it('should be a Vue instance', () => {
     const wrapper = mount(AdvancedLinkForm, { mocks })
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
-  it('should create 4 nav items (tabs) by default', () => {
+  it('should create 4 nav items (tabs) by default', async () => {
     const wrapper = mount(AdvancedLinkForm, { mocks })
+    await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.nav-item').length).toBe(4)
   })
 
-  it('should create 4 pans by default, only one active', () => {
+  it('should create 4 pans by default, only one active', async () => {
     const wrapper = mount(AdvancedLinkForm, { mocks })
+    await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.tab-pane').length).toBe(4)
     expect(wrapper.findAll('.tab-pane.active').length).toBe(1)
   })
 
-  it('should create a raw link input, active by default', () => {
-    const propsData = { link: 'https://www.icij.org', title: 'A Great Website' }
+  it('should create a raw link input, active by default', async () => {
+    const propsData = { link: 'https://www.icij.org', title: 'A Great Website' }
     const wrapper = mount(AdvancedLinkForm, { propsData, mocks })
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('.tab-pane.active .advanced-link-form__raw__input').exists()).toBeTruthy()
     expect(wrapper.find('.advanced-link-form__raw__input').element.value).toBe(propsData.link)
   })
 
-  it('should create switch between form using `value` property', () => {
+  it('should create switch between form using `value` property', async () => {
     const wrapper = mount(AdvancedLinkForm, { mocks })
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('.tab-pane.active .advanced-link-form__raw').exists()).toBeTruthy()
     wrapper.setProps({ value: 1})
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('.tab-pane.active .advanced-link-form__rich').exists()).toBeTruthy()
     wrapper.setProps({ value: 2})
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('.tab-pane.active .advanced-link-form__markdown').exists()).toBeTruthy()
   })
 
-  it('should create only 3 forms, markdown active by default ', () => {
-    const propsData = { forms: ['raw', 'markdown', 'html'], value: 1 }
+  it('should create only 3 forms, markdown active by default ', async () => {
+    const propsData = { forms: ['raw', 'markdown', 'html'], value: 1 }
     const wrapper = mount(AdvancedLinkForm, { propsData, mocks })
+    await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.tab-pane').length).toBe(3)
     expect(wrapper.find('.tab-pane.active .advanced-link-form__markdown').exists()).toBeTruthy()
   })
@@ -105,14 +112,14 @@ describe('AdvancedLinkForm.vue', () => {
   })
 
   it('should use the title in markdwon input', () => {
-    const propsData = { link: 'https://www.icij.org', title: 'A Great Website' }
+    const propsData = { link: 'https://www.icij.org', title: 'A Great Website' }
     const markdown = `[${propsData.title}](${propsData.link})`
     const wrapper = mount(AdvancedLinkForm, { propsData, mocks })
     expect(wrapper.find('.advanced-link-form__markdown__input').element.value).toBe(markdown)
   })
 
   it('should use the title in rich input', () => {
-    const propsData = { link: 'https://www.icij.org', title: 'A Great Website' }
+    const propsData = { link: 'https://www.icij.org', title: 'A Great Website' }
     const wrapper = mount(AdvancedLinkForm, { propsData, mocks })
     expect(wrapper.find('.advanced-link-form__rich__input').text()).toBe(propsData.title)
     expect(wrapper.find('.advanced-link-form__rich__input').attributes('href')).toBe(propsData.link)

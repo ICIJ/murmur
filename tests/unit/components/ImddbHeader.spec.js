@@ -1,17 +1,16 @@
 import { shallowMount } from '@vue/test-utils'
 import ImddbHeader from '@/components/ImddbHeader.vue'
-import Murmur from '@/main'
 
 describe('ImddbHeader.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = shallowMount(ImddbHeader)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('renders the header as a `headroom` component', () => {
     const wrapper = shallowMount(ImddbHeader)
-    expect(wrapper.find('#imddb-header').name()).toBe('vueHeadroom')
+    expect(wrapper.find('#imddb-header').vm.$options.name).toBe('vueHeadroom')
   })
 
   it('renders the header as a div', () => {
@@ -19,7 +18,7 @@ describe('ImddbHeader.vue', () => {
     const wrapper = shallowMount(ImddbHeader, {
       propsData: { noHeadroom }
     })
-    expect(wrapper.find('#imddb-header').name()).toBe('div')
+    expect(wrapper.find('#imddb-header').element.tagName).toBe('DIV')
   })
 
   it('sets the header position to `fixed` by default', () => {
@@ -67,16 +66,19 @@ describe('ImddbHeader.vue', () => {
 
   it('renders the navbar as `collapse` by default', () => {
     const wrapper = shallowMount(ImddbHeader)
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeTruthy()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
   })
 
-  it('toggles the navbar', () => {
+  it('toggles the navbar', async () => {
     const wrapper = shallowMount(ImddbHeader)
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeTruthy()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
     wrapper.vm.toggleNavbar()
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeFalsy()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeFalsy()
     wrapper.vm.toggleNavbar()
-    expect(wrapper.find('.navbar-collapse').is('.collapse')).toBeTruthy()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
   })
 
   it('should change `showFollowUsPopover` to `true`', () => {

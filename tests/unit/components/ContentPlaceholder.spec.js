@@ -5,7 +5,7 @@ describe('ContentPlaceholder.vue', () => {
 
   it('is a Vue instance', () => {
     const wrapper = shallowMount(ContentPlaceholder)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('renders props.rows when passed', () => {

@@ -5,7 +5,7 @@ describe('Brand.vue', () => {
 
   it('should be a Vue instance', () => {
     const wrapper = shallowMount(Brand)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('should generate a SVG', () => {
