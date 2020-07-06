@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d225684"],{e3ee:function(o,e){o.exports={displayName:"DonateForm",description:"A form to encourage donations. We usualy put this form inside a modal",tags:{},exportName:"default",props:[{name:"noTitle",description:"Title of the form.",type:{name:"boolean"}}],slots:[{name:"introduction",description:"Description of the form (bellow the title)."}]}}}]);
+//# sourceMappingURL=chunk-2d225684.e0bb1e99.js.map
