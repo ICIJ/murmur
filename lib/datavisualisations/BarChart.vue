@@ -1,5 +1,5 @@
 <template>
-  <div class="bar-chart">
+  <div class="bar-chart" :style="{ '--bar-color': barColor, '--bar-highlight-color': barHighlightColor }" :class="{ 'bar-chart--has-highlights': hasHighlights }">
     <svg :width="width" :height="height">
       <g :style="{ transform: `translate(0, ${margin.top}px)` }" class="bar-chart__labels">
         <text v-for="(label, i) in labels" :key="i" :x="label.x" :y="label.y" text-anchor="end" class="bar-chart__labels__item">
@@ -7,9 +7,9 @@
         </text>
       </g>
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }" class="bar-chart__bars">
-        <g class="bar-chart__bars__item"  v-for="(bar, i) in bars" :key="i">
-          <rect :fill="barColor ? barColor : '#cccccc'" :width="bar.width" :height="bar.height" :x="bar.x" :y="bar.y"></rect>
-          <text class="bar-chart__bars__item__value text-muted" :x="bar.width + valueGap" :y="bar.y + bar.height / 2" text-anchor="start" dominant-baseline="middle">
+        <g class="bar-chart__bars__item"  v-for="(bar, i) in bars" :key="i" :class="{ 'bar-chart__bars__item--highlight': bar.highlight }">
+          <rect :width="bar.width" :height="bar.height" :x="bar.x" :y="bar.y"></rect>
+          <text class="bar-chart__bars__item__value" :x="bar.width + valueGap" :y="bar.y + bar.height / 2" text-anchor="start" dominant-baseline="middle">
             {{ bar.value }}
           </text>
         </g>
@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import * as d3 from 'd3';
-import { max, uniqueId } from 'lodash';
+import * as d3 from 'd3'
+import { some, max } from 'lodash'
 import chart from '../mixins/chart'
 
 export default {
@@ -31,10 +31,6 @@ export default {
       type: Array,
       default: () => ([])
     },
-    options: {
-      type: Object,
-      default: () => ({})
-    },
     barHeight: {
       type: Number,
       default: 30
@@ -44,15 +40,13 @@ export default {
       default: 15
     },
     barColor: {
-      type: String,
-      default: '#000'
+      type: String
+    },
+    barHighlightColor: {
+      type: String
     },
     fixedLabelWidth: {
       type: Number
-    },
-    name: {
-      type: String,
-      default: uniqueId('bar-chart--')
     },
     labelGap: {
       type: Number,
@@ -70,6 +64,9 @@ export default {
     }
   },
   computed: {
+    hasHighlights () {
+      return some(this.data, d => d.highlight)
+    },
     labelWidth () {
       if (!this.mounted || this.fixedLabelWidth) {
         return this.fixedLabelWidth || 100
@@ -87,10 +84,10 @@ export default {
       return max(widths) + this.valueGap
     },
     margin() {
-      const left = this.labelWidth + this.labelGap;
-      const right = 0;
-      const top = 0;
-      const bottom = 0;
+      const left = this.labelWidth + this.labelGap
+      const right = 0
+      const top = 0
+      const bottom = 0
       return { left, right, top, bottom }
     },
     padded() {
@@ -101,19 +98,21 @@ export default {
     scale() {
       const x = d3.scaleLinear()
         .domain([0, d3.max(this.data, d => d.value)])
-        .range([0, this.padded.width - this.valueWidth]);
-      return {x};
+        .range([0, this.padded.width - this.valueWidth])
+      return {x}
     },
     bars() {
       return this.data.map((d, i) => {
+        console.log(d)
         return {
           width: Math.abs(this.scale.x(d.value)),
           height: Math.abs(this.barHeight),
           value: d.value,
+          highlight: d.highlight,
           x: 0,
           y: (this.barHeight + this.barGap) * i
         }
-      });
+      })
     },
     labels() {
       return this.data.map((d, i) => {
@@ -122,33 +121,67 @@ export default {
           x: this.labelWidth,
           y: 4 + (this.barHeight / 2) + (this.barHeight + this.barGap) * i
         }
-      });
+      })
     }
   },
   mounted() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize)
   },
   watch: {
-    width: function widthChanged() {
-      this.initialize();
-      this.update();
+    width () {
+      this.initialize()
     }
   },
   methods: {
     onResize() {
-      this.width = this.$el.offsetWidth;
+      this.width = this.$el.offsetWidth
     },
     initialize() {
-      d3.axisBottom().scale(this.scale.x);
-    },
-    update() {
-      xAxis.selectAll(".tick line").attr("y2", this.padded.height);
-      xAxis.selectAll(".tick text").attr("transform", "translate(0, " + this.padded.height + ")")
+      d3.axisBottom().scale(this.scale.x)
     }
   }
 }
 </script>
+
+
+<style lang="scss">
+  @import '../styles/lib';
+
+  .bar-chart {
+
+    text {
+      font-family: $font-family-base;
+      font-size: $font-size-base;
+      fill: currentColor;
+    }
+
+    &--has-highlights &__bars__item:not(&__bars__item--highlight):not(:hover) {
+      opacity: 0.7;
+      filter: grayscale(30%);
+    }
+
+    &__bars {
+
+      &__item {
+
+        rect {
+          fill: var(--bar-color, var(--dark, $dark));
+        }
+
+        &--highlight {
+
+          rect {
+            fill: var(--bar-highlight-color, var(--primary, $primary));
+          }
+
+        }
+      }
+    }
+
+
+  }
+</style>
