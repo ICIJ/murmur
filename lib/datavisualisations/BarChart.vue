@@ -1,5 +1,5 @@
 <template>
-  <div class="bar-chart" :style="{ '--bar-color': barColor, '--bar-highlight-color': barHighlightColor }" :class="{ 'bar-chart--has-highlights': hasHighlights }">
+  <div class="bar-chart" :style="{ '--bar-color': barColor, '--bar-highlight-color': barHighlightColor }" :class="{ 'bar-chart--has-highlights': dataHasHighlights }">
     <svg :width="width" :height="height">
       <g :style="{ transform: `translate(0, ${margin.top}px)` }" class="bar-chart__labels">
         <text v-for="(label, i) in labels" :key="i" :x="label.x" :y="label.y" text-anchor="end" class="bar-chart__labels__item">
@@ -64,24 +64,18 @@ export default {
     }
   },
   computed: {
-    hasHighlights () {
-      return some(this.data, d => d.highlight)
-    },
     labelWidth () {
-      if (!this.mounted || this.fixedLabelWidth) {
-        return this.fixedLabelWidth || 100
+      if (this.fixedLabelWidth) {
+        return this.fixedLabelWidth
       }
-      const labels = this.$el.querySelectorAll('.bar-chart__labels__item')
-      const widths = [...labels].map(l => l.getComputedTextLength())
-      return this.fixedLabelWidth || max(widths)
+      const selector = '.bar-chart__labels__item'
+      const defaultWidth = 100
+      return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     valueWidth () {
-      if (!this.mounted) {
-        return 0
-      }
-      const values = this.$el.querySelectorAll('.bar-chart__bars__item__value')
-      const widths = [...values].map(l => l.getComputedTextLength())
-      return max(widths) + this.valueGap
+      const selector = '.bar-chart__bars__item__value'
+      const defaultWidth = 0
+      return this.elementsMaxBBox({ selector, defaultWidth }).width + this.valueGap
     },
     margin() {
       const left = this.labelWidth + this.labelGap
@@ -103,7 +97,6 @@ export default {
     },
     bars() {
       return this.data.map((d, i) => {
-        console.log(d)
         return {
           width: Math.abs(this.scale.x(d.value)),
           height: Math.abs(this.barHeight),
@@ -172,12 +165,8 @@ export default {
           fill: var(--bar-color, var(--dark, $dark));
         }
 
-        &--highlight {
-
-          rect {
-            fill: var(--bar-highlight-color, var(--primary, $primary));
-          }
-
+        &--highlight rect {
+          fill: var(--bar-highlight-color, var(--primary, $primary));
         }
       }
     }

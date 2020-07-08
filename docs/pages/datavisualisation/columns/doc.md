@@ -59,11 +59,13 @@ With the following data structure:
   },
   {
     "date": 2017,
-    "value": 4642
+    "value": 4642,
+    "highlight": true
   },
   {
     "date": 2018,
-    "value": 8345
+    "value": 8345,
+    "highlight": true
   }
 ]
 ```
@@ -113,11 +115,13 @@ With the following data structure:
           },
           {
             "date": 2017,
-            "value": 4642
+            "value": 4642,
+            "highlight": true
           },
           {
             "date": 2018,
-            "value": 8345
+            "value": 8345,
+            "highlight": true
           }
         ]
       }

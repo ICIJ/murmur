@@ -1,10 +1,19 @@
 <template>
-  <div class="column-chart">
+  <div class="column-chart" :style="{ '--column-color': columnColor, '--column-highlight-color': columnHighlightColor }" :class="{ 'column-chart--has-highlights': dataHasHighlights }">
     <svg :width="width" :height="height">
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
         <g class="column-chart__axis column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }"></g>
         <g class="column-chart__axis column-chart__axis--y" :style="{ transform: `translate(${padded.left}px, 0)` }"></g>
-        <rect v-for="(bar, i) in bars" :key="i" :fill="barColor" :width="bar.width" :height="bar.height" :x="bar.x" :y="bar.y"></rect>
+      </g>
+      <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }" class="column-chart__columns">
+        <rect v-for="(bar, i) in bars"
+            :key="i"
+            :class="{ 'column-chart__columns__item--highlight': bar.highlight }"
+            class="column-chart__columns__item"
+            :width="bar.width"
+            :height="bar.height"
+            :x="bar.x"
+            :y="bar.y"></rect>
       </g>
     </svg>
   </div>
@@ -26,9 +35,11 @@ export default {
     data: {
       type: Array
     },
-    barColor: {
-      type: String,
-      default: '#000'
+    columnColor: {
+      type: String
+    },
+    columnHighlightColor: {
+      type: String
     },
     fixedLabelWidth: {
       type: Number
@@ -58,20 +69,17 @@ export default {
   },
   computed: {
     labelWidth () {
-      if (!this.mounted || this.fixedLabelWidth) {
-        return this.fixedLabelWidth || 100
+      if (this.fixedLabelWidth) {
+        return this.fixedLabelWidth
       }
-      const labels = this.$el.querySelectorAll('.column-chart__axis--y .tick text')
-      const widths = [...labels].map(l => l.getBBox().width)
-      return this.fixedLabelWidth || max(widths)
+      const selector = '.column-chart__axis--y .tick text'
+      const defaultWidth = 100
+      return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     bucketHeight () {
-      if (!this.mounted) {
-        return 0
-      }
-      const buckets = this.$el.querySelectorAll('.column-chart__axis--x .tick text')
-      const heights = [...buckets].map(l => l.getBBox().height)
-      return max(heights)
+      const selector = '.column-chart__axis--x .tick text'
+      const defaultWidth = 0
+      return this.elementsMaxBBox({ selector, defaultWidth }).height
     },
     margin () {
       return {
@@ -103,6 +111,7 @@ export default {
         return {
           width: Math.abs(this.scale.x.bandwidth()),
           height: Math.abs(this.padded.height - this.scale.y(d[this.seriesName])),
+          highlight: d.highlight,
           x: this.scale.x(d.date),
           y: this.scale.y(d[this.seriesName])
         }
@@ -133,24 +142,24 @@ export default {
       this.update()
     },
     onResize() {
-      this.width = this.$el.offsetWidth;
-      this.height = this.$el.offsetWidth * this.baseHeightRatio;
+      this.width = this.$el.offsetWidth
+      this.height = this.$el.offsetWidth * this.baseHeightRatio
     },
     initialize() {
-      d3.axisLeft().scale(this.scale.y);
-      d3.axisBottom().scale(this.scale.x);
+      d3.axisLeft().scale(this.scale.y)
+      d3.axisBottom().scale(this.scale.x)
     },
     update() {
       d3.select(this.$el).select(".column-chart__axis--x")
         .call(d3.axisBottom(this.scale.x)
           .tickFormat(d => castCall(this.xAxisTickFormat, d))
-        ).select(".domain").remove();
+        ).select(".domain").remove()
 
       d3.select(this.$el).select(".column-chart__axis--y")
         .call(d3.axisLeft(this.scale.y)
           .tickFormat(d => castCall(this.yAxisTickFormat, d))
           .ticks(this.yAxisTicks)
-        ).selectAll(".tick line").attr("x2", this.padded.width);
+        ).selectAll(".tick line").attr("x2", this.padded.width)
     }
   }
 }
@@ -161,12 +170,24 @@ export default {
 
   .column-chart {
 
+    &--has-highlights &__columns__item:not(&__columns__item--highlight):not(:hover) {
+      opacity: 0.7;
+      filter: grayscale(30%);
+    }
+
     text {
       font-family: $font-family-base;
       font-size: $font-size-sm;
       fill: currentColor;
     }
 
+    &__columns__item {
+      fill: var(--column-color, var(--dark, $dark));
+
+      &--highlight {
+        fill: var(--column-highlight-color, var(--primary, $primary));
+      }
+    }
 
     &__axis {
 

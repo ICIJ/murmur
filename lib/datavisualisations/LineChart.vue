@@ -1,10 +1,10 @@
 <template>
-  <div class="line-chart">
+  <div class="line-chart" :style="{ '--line-color': lineColor }">
     <svg :width="width" :height="height">
       <g class="line-chart__axis line-chart__axis--x"></g>
       <g class="line-chart__axis line-chart__axis--y"></g>
       <g :style="{transform: `translate(${margin.left}px, ${margin.top}px)`}">
-        <path class="line-chart__line" :d="line" :stroke="lineColor" />
+        <path class="line-chart__line" :d="line" />
       </g>
     </svg>
   </div>
@@ -27,8 +27,7 @@ export default {
       type: Array
     },
     lineColor: {
-      type: String,
-      default: '#000'
+      type: String
     },
     fixedLabelWidth: {
       type: Number
@@ -61,28 +60,22 @@ export default {
   },
   computed: {
     labelWidth () {
-      if (!this.mounted || this.fixedLabelWidth) {
-        return this.fixedLabelWidth || 100
+      if (this.fixedLabelWidth) {
+        return this.fixedLabelWidth
       }
-      const labels = this.$el.querySelectorAll('.line-chart__axis--y .tick text')
-      const widths = [...labels].map(l => l.getBBox().width)
-      return this.fixedLabelWidth || max(widths)
+      const selector = '.line-chart__axis--y .tick text'
+      const defaultWidth = 100
+      return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     bucketHeight () {
-      if (!this.mounted) {
-        return 0
-      }
-      const buckets = this.$el.querySelectorAll('.line-chart__axis--x .tick text')
-      const heights = [...buckets].map(l => l.getBBox().height)
-      return max(heights)
+      const selector = '.line-chart__axis--x .tick text'
+      const defaultWidth = 0
+      return this.elementsMaxBBox({ selector, defaultWidth }).height
     },
     bucketWidth () {
-      if (!this.mounted) {
-        return 0
-      }
-      const buckets = this.$el.querySelectorAll('.line-chart__axis--x .tick text')
-      const widths = [...buckets].map(l => l.getBBox().width)
-      return max(widths)
+      const selector = '.line-chart__axis--x .tick text'
+      const defaultWidth = 0
+      return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     margin() {
       const left = this.labelWidth + 10
@@ -92,26 +85,26 @@ export default {
       return { left, right, top, bottom }
     },
     padded() {
-      const width = this.width - this.margin.left - this.margin.right;
-      const height = this.height - this.margin.top - this.margin.bottom;
-      return { width, height };
+      const width = this.width - this.margin.left - this.margin.right
+      const height = this.height - this.margin.top - this.margin.bottom
+      return { width, height }
     },
     formattedData() {
-      let formattedData = cloneDeep(this.data);
+      let formattedData = cloneDeep(this.data)
       formattedData.forEach(d => {
-        d.date = this.parseTime(d.date);
-        d[this.seriesName] = +d[this.seriesName];
-      });
+        d.date = this.parseTime(d.date)
+        d[this.seriesName] = +d[this.seriesName]
+      })
 
-      return formattedData;
+      return formattedData
     }
   },
   mounted() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize)
   },
   watch: {
     width () {
@@ -125,7 +118,7 @@ export default {
   },
   methods: {
     onResize() {
-      this.width = this.$el.offsetWidth;
+      this.width = this.$el.offsetWidth
       this.height = this.$el.offsetWidth / 2;
     },
     createLine: d3.line().x(d => d.x).y(d => d.y),
@@ -194,6 +187,7 @@ export default {
 
     &__line {
       fill: none;
+      stroke: var(--line-color, var(--dark, $dark));
       stroke-width: 3px;
     }
   }
