@@ -23,23 +23,41 @@ export default {
   name: 'LineChart',
   mixins: [chart],
   props: {
+    /**
+     * A data collection for the chart.
+     */
     data: {
       type: Array
     },
+    /**
+     * Color of the line (uses the CSS variable --line-color by default)
+     */
     lineColor: {
       type: String
     },
+    /**
+     * Enforce a width for each column's label
+     */
     fixedLabelWidth: {
       type: Number
     },
+    /**
+     * Name of the series (to get the value from in the data collection objects)
+     */
     seriesName: {
       type: String,
       default: 'value'
     },
+    /**
+     * Function to apply to format y axis ticks
+     */
     yAxisTickFormat: {
       type: Function,
       default: identity
     },
+    /**
+     * Number of y axis ticks
+     */
     yAxisTicks: {
       type: Number,
       default: 5

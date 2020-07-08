@@ -32,30 +32,54 @@ export default {
   name: 'ColumnChart',
   mixins: [chart],
   props: {
+    /**
+     * A data collection for the chart.
+     */
     data: {
       type: Array
     },
+    /**
+     * Color of each column (uses the CSS variable --column-color by default)
+     */
     columnColor: {
       type: String
     },
+    /**
+     * Color of each highlighted column (uses the CSS variable --column-color by default)
+     */
     columnHighlightColor: {
       type: String
     },
+    /**
+     * Enforce a width for each column's label
+     */
     fixedLabelWidth: {
       type: Number
     },
+    /**
+     * Name of the series (to get the value from in the data collection objects)
+     */
     seriesName: {
       type: String,
       default: 'value'
     },
+    /**
+     * Function to apply to format x axis ticks
+     */
     xAxisTickFormat: {
       type: Function,
       default: identity
     },
+    /**
+     * Function to apply to format y axis ticks
+     */
     yAxisTickFormat: {
       type: Function,
       default: identity
     },
+    /**
+     * Number of y axis ticks
+     */
     yAxisTicks: {
       type: Number,
       default: 5

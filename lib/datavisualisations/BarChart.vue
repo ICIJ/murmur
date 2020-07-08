@@ -27,31 +27,55 @@ export default {
   name: 'BarChart',
   mixins: [chart],
   props: {
+    /**
+     * A data collection for the chart.
+     */
     data: {
       type: Array,
       default: () => ([])
     },
+    /**
+     * Height of each bar
+     */
     barHeight: {
       type: Number,
       default: 30
     },
+    /**
+     * Distance between each bar
+     */
     barGap: {
       type: Number,
       default: 15
     },
+    /**
+     * Color of each bar (uses the CSS variable --bar-color by default)
+     */
     barColor: {
       type: String
     },
+    /**
+     * Color of each highlighted bar (uses the CSS variable --bar-highlight-color by default)
+     */
     barHighlightColor: {
       type: String
     },
+    /**
+     * Enforce a width for each bar's label
+     */
     fixedLabelWidth: {
       type: Number
     },
+    /**
+     * Distance between a bar and its label
+     */
     labelGap: {
       type: Number,
       default: 10
     },
+    /**
+     * Distande between a bar and its value
+     */
     valueGap: {
       type: Number,
       default: 5
