@@ -3,7 +3,7 @@
     <div>
       <div class="docs-menu__brand d-none d-md-flex">
         <router-link class="docs-menu__brand__logo" to="/">
-          <img src="@/assets/images/murmur-white.svg" alt="ICIJ" />
+          <img src="@/assets/images/murmur-white.svg" alt="" height="110px" />
         </router-link>
         <div class="docs-menu__brand__version">
           <a class="small d-block text-white" href="https://www.npmjs.com/package/@icij/murmur" target="_blank">
