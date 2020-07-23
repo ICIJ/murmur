@@ -17,8 +17,7 @@ Component do draw dead simple column charts.
 </div>
 :::
 
-With the following data structure:
-
+<collapsible-block label="Show the data structure">
 ```json
 [
   {
@@ -69,6 +68,7 @@ With the following data structure:
   }
 ]
 ```
+</collapsible-block>
 
 ::: api-table datavisualisations/ColumnChart.vue :::
 

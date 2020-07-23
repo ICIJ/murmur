@@ -14,8 +14,7 @@ Component do draw dead simple bar charts.
 </div>
 :::
 
-With the following data structure:
-
+<collapsible-block label="Show the data structure">
 ```json
 [
   {
@@ -36,6 +35,7 @@ With the following data structure:
   }
 ]
 ```
+</collapsible-block>
 
 It's also possible to highlight a value:
 
@@ -49,6 +49,7 @@ It's also possible to highlight a value:
 </div>
 :::
 
+<collapsible-block label="Show the data structure">
 ```json
 [
   {
@@ -70,6 +71,7 @@ It's also possible to highlight a value:
   }
 ]
 ```
+</collapsible-block>
 
 
 ::: api-table datavisualisations/BarChart.vue :::

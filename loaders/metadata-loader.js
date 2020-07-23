@@ -1,4 +1,3 @@
-const loaderUtils = require('loader-utils')
 const frontmatter = require('front-matter')
 const startCase = require('lodash/startCase')
 const { dirname, extname, relative } = require('path')

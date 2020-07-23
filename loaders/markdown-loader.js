@@ -19,7 +19,6 @@ const cache = LRU({ max: 1000 })
 
 module.exports = function (src) {
   const isProd = process.env.NODE_ENV === 'production'
-  const isServer = this.target === 'node'
   const options = getOptions(this)
   const { sourceDir } = options
   let { markdown } = options

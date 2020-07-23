@@ -1,7 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
 import Murmur from '@/main'
@@ -9,6 +8,7 @@ import Murmur from '@/main'
 import store from './store'
 import App from './components/App.vue'
 import ApiTable from './components/ApiTable.vue'
+import CollapsibleBlock from './components/CollapsibleBlock.vue'
 import OutboundLink from './components/OutboundLink.vue'
 import PalettePresenter from './components/PalettePresenter.vue'
 import RepositoryLink from './components/RepositoryLink.vue'
@@ -26,6 +26,7 @@ Vue.use(Murmur)
 Vue.config.productionTip = false
 
 Vue.component('ApiTable', ApiTable)
+Vue.component('CollapsibleBlock', CollapsibleBlock)
 Vue.component('OutboundLink', OutboundLink)
 Vue.component('PalettePresenter', PalettePresenter)
 Vue.component('RepositoryLink', RepositoryLink)

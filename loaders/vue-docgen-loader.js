@@ -1,7 +1,6 @@
-const { endWith } = require('lodash')
 const vueDocs = require('vue-docgen-api')
 
-module.exports = async function vueDocgenLoader(source) {
+module.exports = async function vueDocgenLoader() {
   const callback = this.async()
   const emptyApi = { "props": {}, "slots": {}, "events": {}, "methods": {} }
   try {
