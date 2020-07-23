@@ -1,5 +1,5 @@
 ---
-badge: WIP
+badge: unstable
 ---
 
 Component do draw dead simple bar charts.
