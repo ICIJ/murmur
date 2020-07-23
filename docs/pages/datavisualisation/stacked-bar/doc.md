@@ -76,6 +76,8 @@ Component do draw dead simple stacked bar charts.
 ```
 </collapsible-block>
 
+::: api-table datavisualisations/StackedBarChart.vue :::
+
 <script>
   export default {
     data () {
