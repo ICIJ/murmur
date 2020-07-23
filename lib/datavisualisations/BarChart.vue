@@ -1,5 +1,5 @@
 <template>
-  <div class="bar-chart" :style="{ '--bar-color': barColor, '--bar-highlight-color': barHighlightColor }" :class="{ 'bar-chart--has-highlights': dataHasHighlights }">
+  <div class="bar-chart" :style="{ '--bar-color': barColor, '--bar-highlight-color': barHighlightColor }" :class="{ 'bar-chart--has-highlights': dataHasHighlights, 'bar-chart--social-mode': socialMode }">
     <svg :width="width" :height="height">
       <g :style="{ transform: `translate(0, ${margin.top}px)` }" class="bar-chart__labels">
         <text v-for="(label, i) in labels" :key="i" :x="label.x" :y="label.y" text-anchor="end" class="bar-chart__labels__item">

@@ -1,5 +1,5 @@
 <template>
-  <div class="line-chart" :style="{ '--line-color': lineColor }">
+  <div class="line-chart" :style="{ '--line-color': lineColor }" :class="{ 'line-chart--social-mode': socialMode }">
     <svg :width="width" :height="height">
       <g class="line-chart__axis line-chart__axis--x"></g>
       <g class="line-chart__axis line-chart__axis--y"></g>
