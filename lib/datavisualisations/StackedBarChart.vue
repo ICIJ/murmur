@@ -1,7 +1,7 @@
 <template>
   <div class="stacked-bar-chart" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode }">
     <ul class="stacked-bar-chart__legend list-inline">
-      <li v-for="key in discoveredKeys" :key="key" class="stacked-bar-chart__legend__item list-inline-item">
+      <li v-for="key in discoveredKeys" :key="key" class="stacked-bar-chart__legend__item list-inline-item d-inline-flex">
         <span class="stacked-bar-chart__legend__item__box" :style="{ 'background-color': colorScale(key) }"></span>
         {{ groupName(key) }}
       </li>
