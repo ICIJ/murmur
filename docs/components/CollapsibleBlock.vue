@@ -2,7 +2,7 @@
   <component :is="tag" class="collapsible-block card mb-5" :class="{ 'collapsible-block--visible': visible }">
     <div class="d-flex">
       <a class="py-3 px-4 d-block collapsible-block__caret" @click="toggle">
-        <fa icon="caret-right" :rotation="show ? 90 : 0" />
+        <fa icon="caret-right" :rotation="show ? 90 : null" />
       </a>
       <div class="flex-grow-1">
         <slot name="label" v-bind:label="label">

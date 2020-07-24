@@ -1,34 +1,32 @@
 <template>
-  <div class="stacked-bar-chart" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode }">
-    <ul class="stacked-bar-chart__legend list-inline">
+  <div class="stacked-column-chart">
+    <ul class="stacked-column-chart__legend list-inline">
       <li v-for="key in discoveredKeys" :key="key" class="stacked-bar-chart__legend__item list-inline-item">
         <span class="stacked-bar-chart__legend__item__box" :style="{ 'background-color': colorScale(key) }"></span>
         {{ groupName(key) }}
       </li>
     </ul>
     <svg :width="width" :height="height">
-      <g :style="{ transform: `translate(0, ${margin.top}px)` }" class="stacked-bar-chart__labels">
-        <text v-for="({ label, x, y }, i) in labels" :key="i" :x="x" :y="y" text-anchor="end" class="stacked-bar-chart__labels__item">
-          {{ label }}
-        </text>
-      </g>
-      <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }" class="stacked-bar-chart__groups">
-        <g class="stacked-bar-chart__axis stacked-bar-chart__axis--x"></g>
-        <g v-for="(barGroup, i) in barGroups"
-            :key="barGroup.key"
-            :class="{ 
-              [`stacked-bar-chart__groups__item--${barGroup.key}`]: true,
-              [`stacked-bar-chart__groups__item--${i}n`]: true
-            }"
-            class="stacked-bar-chart__groups__item">
-          <rect v-for="(bar, j) in barGroup"
-                class="stacked-bar-chart__groups__item__bar"
-                :key="j"
-                :fill="colorScale(barGroup.key)"
-                :height="barHeight"
-                :width="scale.x(bar[1] - bar[0])"
-                :x="scale.x(bar[0])"
-                :y="(barHeight / 2) + (barHeight + barGap) * j - 15"></rect>
+      <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
+        <g class="stacked-column-chart__axis stacked-column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }"></g>
+        <g class="stacked-column-chart__axis stacked-column-chart__axis--y" :style="{ transform: `translate(${padded.left}px, 0)` }"></g>
+        <g v-for="(group, i) in barGroups"
+          :key="i"
+          class="stacked-column-chart__group"
+          :class="{ 
+            [`stacked-column-chart__group--${discoveredKeys[i]}`]: true,
+            [`stacked-column-chart__group--${i}n`]: true
+          }"
+          :title="discoveredKeys[i]">
+          <rect v-for="(bar, j) in group"
+            :title="bar"
+            :key="j"
+            :width="scale.x.bandwidth()"
+            :height="scale.y(bar[0]) -  scale.y(bar[1])"
+            :x="scale.x(bar.data.date)"
+            :y="scale.y(bar[1])"
+            :fill="colorScale(group.key)"
+            class="stacked-column-chart__group__item"></rect>
         </g>
       </g>
     </svg>
@@ -36,14 +34,14 @@
 </template>
 
 <script>
-import { identity, isFunction, keys, merge, pick, sum, without, values } from 'lodash'
-import * as d3 from 'd3'
+import { keys, reduce, identity, without } from 'lodash'
+import * as d3 from 'd3';
 
 import chart from '../mixins/chart'
 
 export default {
-  name: 'StackedBarChart',
-  mixins: [ chart ],
+  name: 'StackedColumnChart',
+  mixins: [chart],
   props: {
     /**
      * A data collection for the chart
@@ -74,13 +72,6 @@ export default {
       default: 30
     },
     /**
-     * Distance between each bar
-     */
-    barGap: {
-      type: Number,
-      default: 15
-    },
-    /**
      * Colors of each bar group
      */
     barColors: {
@@ -108,20 +99,28 @@ export default {
       default: 5
     },
     /**
-     * Enforce a height for x axis label
+     * Function to apply to format y axis ticks
      */
-    fixedXAxisLabelHeight: {
-      type: Number
+    yAxisTickFormat: {
+      type: Function,
+      default: identity
     },
     /**
-     * Field containing the label for each row
+     * Number of y axis ticks
+     */
+    yAxisTicks: {
+      type: Number,
+      default: 5
+    },
+    /**
+     * Field containing the label for each column
      */
      labelField: {
        type: String,
-       default: 'label'
+       default: 'date'
      }
   },
-  data() {
+  data () {
     return {
       width: 0,
       height: 0,
@@ -132,29 +131,32 @@ export default {
       if (this.fixedLabelWidth) {
         return this.fixedLabelWidth
       }
-      const selector = '.stacked-bar-chart__labels__item'
+      const selector = '.stacked-column-chart__axis--y .tick text'
       const defaultWidth = 100
       return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
-    xAxisLabelHeight () {
-        if (this.fixedXAxisLabelHeight) {
-          return this.fixedXAxisLabelHeight
-        }
-        const selector = '.stacked-bar-chart__axis--x .tick text'
-        const defaultHeight = 16
-        return this.elementsMaxBBox({ selector, defaultHeight }).height
+    labelHeight () {
+      const selector = '.stacked-column-chart__axis--y .tick text'
+      const defaultHeight = 15
+      return this.elementsMaxBBox({ selector, defaultHeight }).height
+    },
+    yearsHeight () {
+      const selector = '.stacked-column-chart__axis--x .tick text'
+      const defaultWidth = 50
+      return this.elementsMaxBBox({ selector, defaultWidth }).height
     },
     margin () {
       return {
-        left: this.labelWidth + this.barGap,
+        left: this.labelWidth + 10,
         right: 0,
-        top: 0,
-        bottom: this.xAxisLabelHeight + this.barGap
+        top: this.labelHeight / 2,
+        bottom: this.yearsHeight + 10
       }
     },
     padded () {
       const width = this.width - this.margin.left - this.margin.right
       const height = this.height - this.margin.top - this.margin.bottom
+
       return { width, height }
     },
     discoveredKeys () {
@@ -163,42 +165,44 @@ export default {
       }
       return without(keys(this.data[0]), this.labelField)
     },
-    scale() {
+    scale () {
       const totals = this.data.map(d => {
-        return sum(values(pick(d, this.discoveredKeys)))
+        return reduce(this.discoveredKeys, (res, key) => {
+          res += d[key]
+          return res
+        }, 0)
       })
-      const x = d3.scaleLinear()
-              .domain([0, d3.max(totals)])
-              .range([0, this.padded.width])
-      return { x }
+
+      const x = d3.scaleBand()
+        .domain(this.data.map(d => d.date))
+        .range([0, this.padded.width])
+        .padding(.35)
+
+      const y = d3.scaleLinear()
+        .domain([0, d3.max(totals)])
+        .range([this.padded.height, 0])
+
+      return { x, y }
     },
-    colorScale() {
+    colorScale () {
       return d3.scaleOrdinal()
-        .domain(this.keys)
+        .domain(this.discoveredKeys)
         .range(this.barColors)
     },
-    labels() {
-      return this.data.map((d, i) => {
-        return {
-          label: d.label,
-          x: this.labelWidth,
-          y: 4 + (this.barHeight / 2) + (this.barHeight + this.barGap) * i
-        }
-      });
-    },
-    barGroups() {
+    barGroups () {
       const stack = d3.stack()
         .keys(this.discoveredKeys)
-        .order(d3.stackOrderNone)
+        .order(d3.stackOrderReverse)
         .offset(d3.stackOffsetNone)
+
       return stack(this.data)
     },
   },
-  mounted() {
+  mounted () {
     window.addEventListener('resize', this.onResize)
     this.onResize()
   },
-  beforeDestroy() {
+  beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
   },
   watch: {
@@ -208,7 +212,10 @@ export default {
     data () {
       this.setup()
     },
-    xAxisLabelHeight () {
+    labelWidth () {
+      this.setup()
+    },
+    labelHeight () {
       this.setup()
     }
   },
@@ -217,25 +224,29 @@ export default {
       this.initialize()
       this.update()
     },
-    onResize() {
-      this.width = this.$el.offsetWidth
-      this.height = (this.barHeight + this.barGap) * this.data.length + this.xAxisLabelHeight
-    },
-    initialize() {
-      d3.axisBottom().scale(this.scale.x);
+    onResize () {
+      this.width = this.$el.offsetWidth;
+      this.height = this.$el.offsetWidth * this.baseHeightRatio
     },
     groupName (key) {
       const index = this.discoveredKeys.indexOf(key)
       return this.groups[index] || key
     },
-    update() {
-      const xAxis = d3.select(this.$el).select(".stacked-bar-chart__axis--x")
+    initialize () {
+      d3.axisLeft().scale(this.scale.y)
+      d3.axisBottom().scale(this.scale.x)
+    },
+    update () {
+      d3.select(this.$el).select(".stacked-column-chart__axis--x")
         .call(d3.axisBottom(this.scale.x)
-          .ticks(this.xAxisTicks)
-          .tickFormat(this.xAxisTickFormat))
+          .tickFormat(this.xAxisTickFormat)
+        ).select(".domain").remove()
 
-      xAxis.selectAll(".tick line").attr("y2", this.padded.height)
-      xAxis.selectAll(".tick text").attr("transform", "translate(0, " + this.padded.height + ")")
+      d3.select(this.$el).select(".stacked-column-chart__axis--y")
+        .call(d3.axisLeft(this.scale.y)
+          .tickFormat(this.yAxisTickFormat)
+          .ticks(this.yAxisTicks)
+        ).selectAll(".tick line").attr("x2", this.padded.width)
     }
   }
 }
@@ -244,7 +255,7 @@ export default {
 <style lang="scss">
   @import '../styles/lib';
 
-  .stacked-bar-chart {
+  .stacked-column-chart {
     $colors: $primary, $info, $warning;
     $quantile: 2;
 
@@ -288,18 +299,14 @@ export default {
       }
     }
 
-    &__groups {
+    &__group {
 
-      &__item {
-
-        @for $i from 0 through ($quantile * length($colors)) {
-          &--#{$i}n &__bar:not([fill]) {
-            fill: var(--group-color-#{$i}n);
-          }
+      @for $i from 0 through ($quantile * length($colors)) {
+        &--#{$i}n &__item:not([fill]) {
+          fill: var(--group-color-#{$i}n);
         }
       }
     }
-
 
     &__axis {
 
@@ -311,7 +318,7 @@ export default {
         stroke: $border-color;
       }
 
-      &--y .tick line {
+      &--x .tick line {
         display: none;
       }
     }
