@@ -5,11 +5,7 @@
         <div class="col-md-5">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
             <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo">
-              <brand size="54" no-border color="white" background="#A10207" />
-            </a>
-            <a class="text-nowrap" href="https://icij.org" target="_blank">
-              International Consortium of<br />
-              Investigative Journalists
+              <img src="@/assets/images/icij-full-white.svg" alt="International Consortium of Investigative Journalists" />
             </a>
           </h5>
           <p class="">
@@ -112,7 +108,6 @@
 
 <script>
 import i18n from '@/i18n'
-import Brand from './Brand'
 
 /**
  * GenericFooter
@@ -120,9 +115,6 @@ import Brand from './Brand'
 export default {
   i18n,
   name: 'GenericFooter',
-  components: {
-    Brand,
-  },
   props: {
     /**
      * Version of the app to display in the bottom-right corner of the footer
@@ -171,9 +163,10 @@ export default {
 
       &__logo {
         display: block;
-        width: 54px;
-        flex: 0 0 54px;
-        margin-right: 8px;
+
+        img {
+          height: 54px;
+        }
 
         @include media-breakpoint-down(xs) {
           margin-bottom: $spacer;

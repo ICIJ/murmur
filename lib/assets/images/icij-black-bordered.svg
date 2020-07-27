@@ -9,10 +9,10 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="Layer_1"
    data-name="Layer 1"
-   viewBox="0 0 500.00001 499.99999"
+   viewBox="0 0 499.99998 499.99999"
    version="1.1"
-   sodipodi:docname="icij-black.svg"
-   width="500"
+   sodipodi:docname="icij-black-bordered.svg"
+   width="499.99997"
    height="500"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
   <metadata
@@ -44,14 +44,13 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:zoom="0.33882163"
-     inkscape:cx="-155.0511"
-     inkscape:cy="49.034442"
+     inkscape:zoom="0.47916614"
+     inkscape:cx="290.98165"
+     inkscape:cy="513.33474"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="Layer_3"
-     showborder="true" />
+     inkscape:current-layer="Layer_3" />
   <defs
      id="defs4">
     <style
@@ -60,11 +59,11 @@
   <g
      id="Layer_3"
      data-name="Layer 3"
-     transform="translate(-97.150001,-374.12002)">
+     transform="translate(-87.384004,-383.88604)">
     <g
        id="ICIJ"
-       transform="matrix(0.63890413,0,0,0.63890413,35.080464,315.64113)"
-       style="fill:#000000">
+       style="fill:#000000"
+       transform="matrix(0.62334657,0,0,0.62334656,32.913488,332.91873)">
       <path
          class="cls-2"
          d="m 443.53,540.1 h 69.21 a 20.92,20.92 0 0 1 0.39,2.84 c 0,17.71 0.67,35.46 -0.38,53.11 -1.9,32 -13.44,59.52 -40.8,78.47 -12.64,8.75 -26.86,13.62 -42,15.68 -20.79,2.83 -41.42,2 -61.44,-4.62 -36,-11.94 -56.26,-37.69 -63.14,-74.35 a 149.72,149.72 0 0 1 -2.3,-27 q -0.27,-102.54 -0.1,-205.08 c 0,-18.59 2.6,-36.7 10.67,-53.62 14.35,-30.07 39.06,-46.2 71.24,-51.71 17.87,-3.06 35.83,-3.23 53.53,1.19 38.38,9.57 60.7,35.15 70.21,72.5 2.71,10.66 3.59,21.89 4.31,32.93 0.72,11.04 0.16,21.9 0.16,33.15 h -69.57 c 0,-1.64 0,-3.22 0,-4.8 -0.24,-12.89 -0.25,-25.79 -0.88,-38.67 a 50.12,50.12 0 0 0 -3.05,-13.57 c -6.35,-18.42 -20,-26.33 -39.13,-23 -15.84,2.74 -24.29,11.69 -26.54,28.57 a 127.78,127.78 0 0 0 -1.05,16.82 c -0.07,68.5 -0.16,137 0.1,205.5 a 109,109 0 0 0 3.25,25.56 c 2.61,10.6 10.21,17.42 21,19.06 a 78.08,78.08 0 0 0 22.84,0.28 c 13.2,-2 21.68,-12.17 22.51,-27.62 1,-18.62 0.71,-37.3 1,-56 0,-1.77 0,-3.52 0,-5.62"
@@ -94,5 +93,12 @@
          id="rect14"
          style="fill:#000000" />
     </g>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:12.46693134;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect237"
+       width="487.53305"
+       height="487.53308"
+       x="93.61747"
+       y="390.11951" />
   </g>
 </svg>

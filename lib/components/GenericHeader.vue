@@ -4,8 +4,9 @@
       <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand generic-header__brand">
-          <brand v-bind="appliedBrandOptions" class="mr-3" />
-          <span class="d-none d-sm-inline">International Consortium of Investigative Journalists</span>
+          <img src="@/assets/images/icij-red.svg" alt="" class="d-inline-block d-sm-none"/>
+          <img src="@/assets/images/icij-full.svg" alt="" class="d-none d-sm-inline-block"/>
+          <span class="sr-only">International Consortium of Investigative Journalists</span>
         </a>
       </slot>
       <button class="navbar-toggler" type="button" aria-label="Toggle navigation" @click="toggleNavbar">
@@ -50,7 +51,6 @@
   import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
   import DonateForm from './DonateForm.vue'
-  import Brand from './Brand.vue'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
 
@@ -64,7 +64,6 @@
       BModal,
       BPopover,
       headroom,
-      Brand,
       DonateForm,
       FollowUsPopover
     },
@@ -168,6 +167,10 @@
       font-weight: bolder;
       padding-right: $spacer;
       font-size: 1rem;
+
+      img {
+        height: 45px;
+      }
     }
 
     .navbar-toggler {
