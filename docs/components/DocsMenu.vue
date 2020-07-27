@@ -14,7 +14,7 @@
       <docs-menu-section v-for="section in sections" :key="section.name" v-bind="section"></docs-menu-section>
     </div>
     <div class="docs-menu__footer d-flex align-items-center justify-content-between">
-      <a href="https://icij.org" target="_blank">
+      <a href="https://icij.org" target="_blank" class="d-flex align-items-center ">
         <brand color="white" size="26" class="docs-menu__footer__logo mr-2" />
         A project by ICIJ
       </a>
@@ -118,10 +118,13 @@
 
     &__footer {
       padding: $spacer;
-      background: rgba($light, .1);
+      background:  mix($light, $dark, 10%);
+      box-shadow: 0 0 0 $spacer $dark;
       border-radius: $border-radius-sm;
       color: $light;
       font-size: 0.9em;
+      position: sticky;
+      bottom: $spacer;
 
       a {
         color: inherit;
