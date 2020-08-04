@@ -5,7 +5,7 @@
         {{ $t("sign-up-form.label") }}
       </label>
       <div class="sign-up-form__fieldset__group" :class="{ 'input-group': horizontal }">
-        <input v-model="email" name="EMAIL" type="text" class="form-control" :placeholder="$t('sign-up-form.placeholder')" id="input-email" />
+        <input v-model="email" name="EMAIL" type="email" class="form-control" :placeholder="$t('sign-up-form.placeholder')" id="input-email" />
         <div class="sign-up-form__fieldset__group__addon" :class="{ 'input-group-append': horizontal }">
           <button class="btn btn-primary text-uppercase font-weight-bold" type="submit">
             {{ $t("sign-up-form.submit") }}

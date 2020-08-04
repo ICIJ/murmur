@@ -106,7 +106,7 @@
   },
   "sign-up-form": {
     "label": "Stories in your inbox",
-    "placeholder": "Email address",
+    "placeholder": "Enter your email",
     "submit": "Sign up"
   },
   "haptic-copy": {
