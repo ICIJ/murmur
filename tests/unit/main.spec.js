@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from '@vue/test-utils'
+import { createLocalVue } from '@vue/test-utils'
 import Murmur from '@/main'
 
 describe('main.js', () => {
