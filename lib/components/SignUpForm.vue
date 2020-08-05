@@ -57,6 +57,13 @@ export default {
     tracker: {
       type: String,
       default: () => config.get('signup-form.tracker')
+    },
+    /**
+     * Referrer URL cant be passed explicitely
+     */
+    referrer: {
+      type: String,
+      default: null
     }
   },
   data () {
@@ -72,10 +79,17 @@ export default {
     url () {
       return this.action.replace('/post?', '/post-json?').concat('&c=?')
     },
+    parentReferrer () {
+      if (this.referrer) {
+        return this.referrer
+      }
+      return window.location != window.parent.location ? document.referrer : document.location.href
+    },
     submitUrl () {
       const url = new URL(this.url)
       url.searchParams.set('EMAIL', this.email)
       url.searchParams.set('SIGNUP', this.tracker)
+      url.searchParams.set('MMERGE24', this.parentReferrer)
       url.searchParams.set('group[9][1]', '1')
       return url.href
     }
