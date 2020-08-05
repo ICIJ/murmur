@@ -30,30 +30,30 @@ describe('config.js', () => {
 
   it('should merge the given object with the config', () => {
     config.set('foo', 'erased')
-    config.merge({ 'foo': 'foo', 'bar': 'bar' })
+    config.merge({ 'foo': 'foo', 'bar': 'bar' })
     expect(config.get('foo')).toBe('foo')
     expect(config.get('bar')).toBe('bar')
   })
 
   it('should merge all the boolean values', () => {
-    config.merge({ 'foo': true, 'bar': false })
+    config.merge({ 'foo': true, 'bar': false })
     expect(config.get('foo')).toBe(true)
     expect(config.get('bar')).toBe(false)
-    config.merge({ 'foo': false, 'bar': true })
+    config.merge({ 'foo': false, 'bar': true })
     expect(config.get('foo')).toBe(false)
     expect(config.get('bar')).toBe(true)
   })
 
   it('should merge the given object and its scopes with the config', () => {
-    config.merge({ 'foo.bar': 'foobar' } )
+    config.merge({ 'foo.bar': 'foobar' })
     expect(config.scope('foo').get('bar')).toBe('foobar')
-    config.merge({ 'bar.foo': 'barfoo' })
+    config.merge({ 'bar.foo': 'barfoo' })
     expect(config.scope('bar').get('foo')).toBe('barfoo')
   })
 
   it('should merge the given object with the config with a new key', () => {
     expect(config.get('help')).toBeUndefined()
-    config.merge({ 'help': 'link' })
+    config.merge({ 'help': 'link' })
     expect(config.get('help')).toBe('link')
   })
 
