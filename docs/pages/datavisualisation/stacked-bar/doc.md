@@ -83,7 +83,7 @@ Or a more advanced example:
   <h4>
     How high-budget movies score in the box office?
   </h4>
-  <stacked-bar-chart :data="movies" label-field="movie" class="my-4" :sort-by="sortKey" :groups="['Budget', 'Box Office']" :relative="isRelative">  
+  <stacked-bar-chart :data="moviesUrl" label-field="movie" class="my-4" :sort-by="sortKey" :groups="['Budget', 'Box Office']" :relative="isRelative">  
     <template #header-right>    
       <div class="ml-auto d-flex border align-items-center p-0">
         <div class="border-right">
@@ -159,6 +159,7 @@ Or a more advanced example:
               "death":268
            }
          ],
+         moviesUrl: "https://gist.githubusercontent.com/pirhoo/20ce1b795555210c926967a291f8a7ad/raw/13d972b7d2b98b174c33fff38aac2b7d69c85fa7/stacked-bars-movies.json",
          movies: [
            {
              "movie": "Avatar",

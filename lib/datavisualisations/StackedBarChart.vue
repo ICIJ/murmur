@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { find, identity, keys, without, sortBy } from 'lodash'
+import { find, identity, keys, without, sortBy } from 'lodash'
 import * as d3 from 'd3'
 
 import chart from '../mixins/chart'
@@ -57,13 +57,6 @@ export default {
   name: 'StackedBarChart',
   mixins: [ chart ],
   props: {
-    /**
-     * A data collection for the chart
-     */
-    data: {
-      type: Array,
-      default: () => ([])
-    },
     /**
      * Field of each object containing data (for each group)
      */
@@ -144,19 +137,25 @@ export default {
   },
   computed: {
     sortedData () {
-      return !this.sortBy ? this.data : sortBy(this.data, this.sortBy)
+      if (!this.loadedData) {
+        return []
+      }
+      return !this.sortBy ? this.loadedData : sortBy(this.loadedData, this.sortBy)
     },
     discoveredKeys () {
       if (this.keys.length) {
         return this.keys
       }
-      return without(keys(this.data[0]), this.labelField)
+      if (!this.loadedData) {
+        return []
+      }
+      return without(keys(this.loadedData[0]), this.labelField)
     },
     colorScale () {
       return d3.scaleOrdinal().domain(this.keys).range(this.barColors)
     },
     maxValue () {
-      return d3.max(this.data, (datum, i) => {
+      return d3.max(this.loadedData || [], (datum, i) => {
         return this.totalRowValue(i)
       })
     },

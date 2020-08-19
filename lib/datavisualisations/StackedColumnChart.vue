@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { keys, reduce, identity, without } from 'lodash'
+import { keys, reduce, identity, sortBy, without } from 'lodash'
 import * as d3 from 'd3';
 
 import chart from '../mixins/chart'
@@ -43,13 +43,6 @@ export default {
   name: 'StackedColumnChart',
   mixins: [chart],
   props: {
-    /**
-     * A data collection for the chart
-     */
-    data: {
-      type: Array,
-      default: () => ([])
-    },
     /**
      * Field of each object containing data (for each group)
      */
@@ -118,6 +111,13 @@ export default {
      labelField: {
        type: String,
        default: 'date'
+     },
+     /**
+      * Sort groups by one or several keys.
+      */
+     sortBy: {
+       type: [Array, String],
+       default: null
      }
   },
   data () {
@@ -127,6 +127,12 @@ export default {
     }
   },
   computed: {
+    sortedData () {
+      if (!this.loadedData) {
+        return []
+      }
+      return !this.sortBy ? this.loadedData : sortBy(this.loadedData, this.sortBy)
+    },
     labelWidth () {
       if (this.fixedLabelWidth) {
         return this.fixedLabelWidth
@@ -163,10 +169,10 @@ export default {
       if (this.keys.length) {
         return this.keys
       }
-      return without(keys(this.data[0]), this.labelField)
+      return without(keys(this.sortedData[0] || {}), this.labelField)
     },
     scale () {
-      const totals = this.data.map(d => {
+      const totals = this.sortedData.map(d => {
         return reduce(this.discoveredKeys, (res, key) => {
           res += d[key]
           return res
@@ -174,7 +180,7 @@ export default {
       })
 
       const x = d3.scaleBand()
-        .domain(this.data.map(d => d.date))
+        .domain(this.sortedData.map(d => d.date))
         .range([0, this.padded.width])
         .padding(.35)
 
@@ -195,7 +201,7 @@ export default {
         .order(d3.stackOrderReverse)
         .offset(d3.stackOffsetNone)
 
-      return stack(this.data)
+      return stack(this.sortedData)
     },
   },
   mounted () {
@@ -209,7 +215,7 @@ export default {
     width () {
       this.setup()
     },
-    data () {
+    loadedData () {
       this.setup()
     },
     labelWidth () {

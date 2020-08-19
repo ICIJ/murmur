@@ -20,20 +20,13 @@
 
 <script>
 import * as d3 from 'd3'
-import { some, max } from 'lodash'
+import { some, max, sortBy } from 'lodash'
 import chart from '../mixins/chart'
 
 export default {
   name: 'BarChart',
   mixins: [chart],
   props: {
-    /**
-     * A data collection for the chart.
-     */
-    data: {
-      type: Array,
-      default: () => ([])
-    },
     /**
      * Height of each bar
      */
@@ -79,15 +72,27 @@ export default {
     valueGap: {
       type: Number,
       default: 5
+    },
+    /**
+     * Sort bars by one or several keys.
+     */
+    sortBy: {
+      type: [Array, String],
+      default: null
     }
   },
   data() {
     return {
-      width: 0,
-      height: (this.barHeight + this.barGap) * this.data.length
+      width: 0
     }
   },
   computed: {
+    sortedData () {
+      if (!this.loadedData) {
+        return []
+      }
+      return !this.sortBy ? this.loadedData : sortBy(this.sortedData, this.sortBy)
+    },
     labelWidth () {
       if (this.fixedLabelWidth) {
         return this.fixedLabelWidth
@@ -111,16 +116,16 @@ export default {
     padded() {
       const width = this.width - this.margin.left - this.margin.right
       const height = this.height - this.margin.top - this.margin.bottom
-      return {width, height}
+      return { width, height }
     },
     scale() {
       const x = d3.scaleLinear()
-        .domain([0, d3.max(this.data, d => d.value)])
+        .domain([0, d3.max(this.sortedData, d => d.value)])
         .range([0, this.padded.width - this.valueWidth])
       return {x}
     },
     bars() {
-      return this.data.map((d, i) => {
+      return this.sortedData.map((d, i) => {
         return {
           width: Math.abs(this.scale.x(d.value)),
           height: Math.abs(this.barHeight),
@@ -132,13 +137,16 @@ export default {
       })
     },
     labels() {
-      return this.data.map((d, i) => {
+      return this.sortedData.map((d, i) => {
         return {
           label: d.label,
           x: this.labelWidth,
           y: 4 + (this.barHeight / 2) + (this.barHeight + this.barGap) * i
         }
       })
+    },
+    height () {
+      return (this.barHeight + this.barGap) * this.sortedData.length
     }
   },
   mounted() {

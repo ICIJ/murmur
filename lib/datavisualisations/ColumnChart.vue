@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { identity, isFunction, max } from 'lodash'
+import { identity, isFunction, max, sortBy } from 'lodash'
 
 import * as d3 from 'd3';
 import chart from '../mixins/chart'
@@ -32,12 +32,6 @@ export default {
   name: 'ColumnChart',
   mixins: [chart],
   props: {
-    /**
-     * A data collection for the chart.
-     */
-    data: {
-      type: Array
-    },
     /**
      * Color of each column (uses the CSS variable --column-color by default)
      */
@@ -83,6 +77,13 @@ export default {
     yAxisTicks: {
       type: Number,
       default: 5
+    },
+    /**
+     * Sort columns by one or several keys.
+     */
+    sortBy: {
+      type: [Array, String],
+      default: null
     }
   },
   data() {
@@ -92,6 +93,12 @@ export default {
     }
   },
   computed: {
+    sortedData () {
+      if (!this.loadedData) {
+        return []
+      }
+      return !this.sortBy ? this.loadedData : sortBy(this.sortedData, this.sortBy)
+    },
     labelWidth () {
       if (this.fixedLabelWidth) {
         return this.fixedLabelWidth
@@ -120,18 +127,18 @@ export default {
     },
     scale () {
       const x = d3.scaleBand()
-        .domain(this.data.map(d => d.date))
+        .domain(this.sortedData.map(d => d.date))
         .range([0, this.padded.width])
         .padding(.35)
 
       const y = d3.scaleLinear()
-        .domain([0, d3.max(this.data, d => d[this.seriesName])])
+        .domain([0, d3.max(this.sortedData, d => d[this.seriesName])])
         .range([this.padded.height, 0])
 
       return { x, y }
     },
     bars () {
-      return this.data.map(d => {
+      return this.sortedData.map(d => {
         return {
           width: Math.abs(this.scale.x.bandwidth()),
           height: Math.abs(this.padded.height - this.scale.y(d[this.seriesName])),
@@ -153,7 +160,7 @@ export default {
     width () {
       this.setup()
     },
-    data () {
+    loadedData () {
       this.setup()
     },
     mounted () {

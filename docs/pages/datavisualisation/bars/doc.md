@@ -10,7 +10,7 @@ Component do draw dead simple bar charts.
   <p class="text-muted">
     More than 300 people around the world who responded to an ICIJ survey said they were not aware of the dangers of breast implants prior to their surgeries.
   </p>
-  <bar-chart :data="data" class="mt-4" />
+  <bar-chart :data="dataUrl" class="mt-4" />
 </div>
 :::
 
@@ -80,24 +80,7 @@ It's also possible to highlight a value:
   export default {
     data () {
       return {
-        data: [
-          {
-            "label": "Warned about local complications",
-            "value": 52
-          },
-          {
-            "label": "Not warned",
-            "value": 42
-          },
-          {
-            "label": "Warned thoroughly",
-            "value": 1
-          },
-          {
-            "label": "Other",
-            "value": 6
-          }
-        ],
+        dataUrl: "https://gist.githubusercontent.com/pirhoo/2308336d5f067ef7d84fec348fd63e29/raw/c0135f11e54e757187163dd0722b149a456c64b1/bars-icij-survey.json",
         dataWithHighlight: [
           {
             "label": "Warned about local complications",
