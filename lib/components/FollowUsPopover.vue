@@ -8,9 +8,9 @@
       {{ $t('follow-us-popover.heading') }}
     </div>
     <div class="p-3 bg-light container-fluid text-center">
-      <div class="row">
+      <div class="row w-100">
         <div class="col">
-          <a href="https://twitter.com/icij" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Twitter">
+          <a href="https://twitter.com/ICIJorg" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Twitter">
             <fa :icon="['fab', 'twitter']" size="lg" />
             <span class="sr-only">Twitter</span>
           </a>
