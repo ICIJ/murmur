@@ -22,7 +22,7 @@
 <script>
 import { identity, isFunction, max, sortBy } from 'lodash'
 
-import * as d3 from 'd3';
+import * as d3 from 'd3'
 import chart from '../mixins/chart'
 
 // Call the first argument if it's a function, or return it
@@ -109,8 +109,8 @@ export default {
     },
     bucketHeight () {
       const selector = '.column-chart__axis--x .tick text'
-      const defaultWidth = 0
-      return this.elementsMaxBBox({ selector, defaultWidth }).height
+      const defaultHeight = 10
+      return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
     margin () {
       return {
