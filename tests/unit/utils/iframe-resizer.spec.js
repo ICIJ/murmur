@@ -1,4 +1,4 @@
-import { startsWith } from 'lodash'
+import startsWith from 'lodash/startsWith'
 import Promise from 'promise-polyfill'
 import IframeResizer from '@/utils/iframe-resizer'
 

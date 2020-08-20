@@ -48,8 +48,12 @@
 </template>
 
 <script>
-import { find, identity, keys, without, sortBy } from 'lodash'
 import * as d3 from 'd3'
+import find from 'lodash/find'
+import identity from 'lodash/identity'
+import keys from 'lodash/keys'
+import without from 'lodash/without'
+import sortBy from 'lodash/sortBy'
 
 import chart from '../mixins/chart'
 

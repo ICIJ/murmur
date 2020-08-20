@@ -20,9 +20,11 @@
 </template>
 
 <script>
-import { identity, isFunction, max, sortBy } from 'lodash'
-
 import * as d3 from 'd3'
+import identity from 'lodash/identity'
+import isFunction from 'lodash/isFunction'
+import max from 'lodash/max'
+import sortBy from 'lodash/sortBy'
 import chart from '../mixins/chart'
 
 // Call the first argument if it's a function, or return it

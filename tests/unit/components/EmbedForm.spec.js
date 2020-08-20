@@ -1,4 +1,4 @@
-import { startsWith, noop } from 'lodash'
+import startsWith from 'lodash/startsWith'
 import { shallowMount } from '@vue/test-utils'
 import EmbedForm from '@/components/EmbedForm.vue'
 

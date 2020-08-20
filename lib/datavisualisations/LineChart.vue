@@ -11,8 +11,11 @@
 </template>
 
 <script>
-import { cloneDeep, isFunction, identity, max } from 'lodash'
-import * as d3 from 'd3';
+import * as d3 from 'd3'
+import cloneDeep from 'lodash/cloneDeep'
+import isFunction from 'lodash/isFunction'
+import identity from 'lodash/identity'
+import max from 'lodash/max'
 
 import chart from '../mixins/chart'
 

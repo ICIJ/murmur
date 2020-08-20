@@ -20,7 +20,10 @@
 
 <script>
 import * as d3 from 'd3'
-import { some, max, sortBy } from 'lodash'
+import max from 'lodash/max'
+import some from 'lodash/some'
+import sortBy from 'lodash/sortBy'
+
 import chart from '../mixins/chart'
 
 export default {

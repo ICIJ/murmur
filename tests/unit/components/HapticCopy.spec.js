@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import HapticCopy from '@/components/HapticCopy.vue'
-import { noop } from 'lodash'
+import noop from 'lodash/noop'
 
 describe('HapticCopy.vue', () => {
 
