@@ -152,11 +152,11 @@ export default {
     },
   },
   mounted () {
-    window.addEventListener('resize', this.onResize)
-    this.onResize()
+    window.addEventListener('resize', this.setSizes)
+    this.setSizes()
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.onResize)
+    window.removeEventListener('resize', this.setSizes)
   },
   watch: {
     width () {
@@ -174,7 +174,7 @@ export default {
       this.initialize()
       this.update()
     },
-    onResize() {
+    setSizes() {
       this.width = this.$el.offsetWidth
       this.height = this.$el.offsetWidth * this.baseHeightRatio
     },

@@ -46,6 +46,14 @@ export default {
       default: 'value'
     },
     /**
+     * Argument for x-axis ticks
+     * @see https://github.com/d3/d3-axis#axis_ticks
+     */
+    xAxisTicks: {
+      type: [Object, Number, Function],
+      default: null
+    },
+    /**
      * Function to apply to format y axis ticks
      */
     yAxisTickFormat: {
@@ -53,10 +61,11 @@ export default {
       default: identity
     },
     /**
-     * Number of y axis ticks
+     * Argument for y-axis ticks
+     * @see https://github.com/d3/d3-axis#axis_ticks
      */
     yAxisTicks: {
-      type: Number,
+      type: [Object, Number, Function],
       default: 5
     }
   },
@@ -64,8 +73,7 @@ export default {
     return {
       width: 0,
       height: 0,
-      line: null,
-      points: []
+      line: null
     }
   },
   computed: {
@@ -150,17 +158,18 @@ export default {
       this.scale.x.domain(d3.extent(this.formattedData, d => d.date))
       this.scale.y.domain([0, d3.max(this.formattedData, d => d[this.seriesName])])
 
-      this.points = this.formattedData.map(d => {
+      const points = this.formattedData.map(d => {
         return {
           x: this.scale.x(d.date),
           y: this.scale.y(d[this.seriesName]),
         }
       })
 
-      this.line = this.createLine(this.points)
+      this.line = this.createLine(points)
 
       d3.select(this.$el).select(".line-chart__axis--x")
         .call(d3.axisBottom(this.scale.x)
+          .ticks(this.xAxisTicks)
           .tickFormat(d => castCall(this.xAxisYearFormat, d.getFullYear())))
 
       d3.select(this.$el).select(".line-chart__axis--y")

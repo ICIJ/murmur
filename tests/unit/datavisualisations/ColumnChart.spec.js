@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import { mount } from '@vue/test-utils'
-import ColumChart from '@/datavisualisations/ColumnChart.vue'
+import ColumnChart from '@/datavisualisations/ColumnChart.vue'
 
 jest.mock('d3', () => {
   return {
@@ -39,9 +39,9 @@ describe('ColumnChart.vue', () => {
         ]
       }
 
-      wrapper = mount(ColumChart, { propsData })
+      wrapper = mount(ColumnChart, { propsData })
       wrapper.vm.$el.style.width = '500px'
-      wrapper.vm.onResize()
+      wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
     })
 
@@ -107,9 +107,9 @@ describe('ColumnChart.vue', () => {
 
     beforeEach(async () => {
       const propsData = { data: 'http://localhost/data.json' }
-      wrapper = mount(ColumChart, { propsData })
+      wrapper = mount(ColumnChart, { propsData })
       wrapper.vm.$el.style.width = '500px'
-      wrapper.vm.onResize()
+      wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
     })
 
@@ -156,24 +156,28 @@ describe('ColumnChart.vue', () => {
 
     beforeAll(async () => {
       d3.csv = jest.fn().mockReturnValue([
-        { date: 2000, value: 0, highlight: false },
-        { date: 2001, value: 10, highlight: false },
-        { date: 2002, value: 20, highlight: false },
-        { date: 2003, value: 30, highlight: false },
-        { date: 2004, value: 40, highlight: false },
-        { date: 2005, value: 50, highlight: true },
-        { date: 2006, value: 60, highlight: false },
-        { date: 2007, value: 70, highlight: true },
-        { date: 2008, value: 80, highlight: false },
-        { date: 2009, value: 90, highlight: false }
+        { date: 2000, indicator: 0, highlight: false },
+        { date: 2001, indicator: 10, highlight: false },
+        { date: 2002, indicator: 20, highlight: false },
+        { date: 2003, indicator: 30, highlight: false },
+        { date: 2004, indicator: 40, highlight: false },
+        { date: 2005, indicator: 50, highlight: true },
+        { date: 2006, indicator: 60, highlight: false },
+        { date: 2007, indicator: 70, highlight: true },
+        { date: 2008, indicator: 80, highlight: false },
+        { date: 2009, indicator: 90, highlight: false }
       ])
     })
 
     beforeEach(async () => {
-      const propsData = { data: 'http://localhost/data.csv', dataUrlType: 'csv' }
-      wrapper = mount(ColumChart, { propsData })
+      const propsData = {
+        data: 'http://localhost/data.csv',
+        dataUrlType: 'csv',
+        seriesName: 'indicator'
+      }
+      wrapper = mount(ColumnChart, { propsData })
       wrapper.vm.$el.style.width = '500px'
-      wrapper.vm.onResize()
+      wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
     })
 
