@@ -35,6 +35,7 @@
     "vue-i18n": "^8.18.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@kazupon/vue-i18n-loader": "^0.5.0",
     "@testing-library/jest-dom": "^5.11.3",
     "@vue/cli-plugin-babel": "^4.5.4",
