@@ -59,6 +59,9 @@ yarn build:docs
 # deploy the doc on Github Pages
 yarn deploy
 
-# publish a vestion of the package on NPM registry
+# publish a version of the package on NPM registry
 yarn publish
+
+# run unit tests
+yarn test:unit
 ```
