@@ -73,7 +73,7 @@
                   </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a href="https://twitter.com/icij" target="_blank">
+                  <a href="https://twitter.com/ICIJorg" target="_blank">
                     Twitter
                   </a>
                 </li>
