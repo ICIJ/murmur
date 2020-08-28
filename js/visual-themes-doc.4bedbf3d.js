@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["visual-themes-doc"],{9570:function(e,n,t){"use strict";t.r(n);var l=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div")},s=[],u={},c=u,a=t("2877"),i=Object(a["a"])(c,l,s,!1,null,null,null);n["default"]=i.exports}}]);
-//# sourceMappingURL=visual-themes-doc.4bedbf3d.js.map
