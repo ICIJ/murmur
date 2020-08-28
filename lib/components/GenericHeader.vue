@@ -4,8 +4,8 @@
       <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand generic-header__brand">
-          <img src="@/assets/images/icij-red.svg" alt="" class="d-inline-block d-sm-none"/>
-          <img src="@/assets/images/icij-full.svg" alt="" class="d-none d-sm-inline-block"/>
+          <img :src="require('!!!url-loader!@/assets/images/icij-red.svg')" alt="" class="d-inline-block d-sm-none"/>
+          <img :src="require('!!!url-loader!@/assets/images/icij-full.svg')" alt="" class="d-none d-sm-inline-block"/>
           <span class="sr-only">International Consortium of Investigative Journalists</span>
         </a>
       </slot>
