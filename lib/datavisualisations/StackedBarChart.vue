@@ -2,7 +2,7 @@
   <div class="stacked-bar-chart" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights }">
     <div class="d-flex align-items-center mb-2">
       <slot name="header-left">
-        <ul class="stacked-bar-chart__legend list-inline m-0">
+        <ul class="stacked-bar-chart__legend list-inline m-0" v-if="!hideLegend">
           <li v-for="key in discoveredKeys"
             :key="key"
             class="stacked-bar-chart__legend__item list-inline-item d-inline-flex"
@@ -123,6 +123,26 @@ export default {
     sortBy: {
       type: [Array, String],
       default: null
+    },
+    /**
+     * Hide the legend.
+     */
+    hideLegend: {
+      type: Boolean
+    },
+    /**
+     * Delay to apply when set the first highlight
+     */
+    highlightDelay: {
+      type: Number,
+      default: 400
+    },
+    /**
+     * Delay to apply when restoring hightlights to initial state
+     */
+    restoreHighlightDelay: {
+      type: Number,
+      default: 50
     }
   },
   data() {
@@ -137,6 +157,9 @@ export default {
     },
     sortBy () {
       this.$nextTick(this.$forceUpdate)
+    },
+    highlights () {
+      this.highlightedKeys = this.highlights
     }
   },
   computed: {
@@ -156,7 +179,7 @@ export default {
       return without(keys(this.loadedData[0]), this.labelField)
     },
     colorScale () {
-      return d3.scaleOrdinal().domain(this.keys).range(this.barColors)
+      return d3.scaleOrdinal().domain(this.discoveredKeys).range(this.barColors)
     },
     maxValue () {
       return d3.max(this.loadedData || [], (datum, i) => {
@@ -182,14 +205,14 @@ export default {
     },
     restoreHighlights () {
       clearTimeout(this.highlightTimeout)
-      const delay = 50
+      const delay = this.restoreHighlightDelay
       // Delay the restoration so it can be cancelled by a new highlight
       this.highlightTimeout = setTimeout(() => this.highlightedKeys = this.highlights, delay)
     },
     delayHighlight (key) {
       clearTimeout(this.highlightTimeout)
       // Reduce the delay to zero if there is already an highlighted key
-      const delay = this.hasHighlights ? 0 : 400
+      const delay = this.hasHighlights ? 0 : this.highlightDelay
       this.highlightTimeout = setTimeout(() => this.highlight(key), delay)
     },
     isHighlighted (key) {

@@ -1,7 +1,3 @@
----
-badge: unstable
----
-
 Component do draw dead simple stacked bar charts.
 
 :::sample-card
