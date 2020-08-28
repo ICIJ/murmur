@@ -10,7 +10,7 @@
         <g class="bar-chart__bars__item"  v-for="(bar, i) in bars" :key="i" :class="{ 'bar-chart__bars__item--highlight': bar.highlight }">
           <rect :width="bar.width" :height="bar.height" :x="bar.x" :y="bar.y"></rect>
           <text class="bar-chart__bars__item__value" :x="bar.width + valueGap" :y="bar.y + bar.height / 2" text-anchor="start" dominant-baseline="middle">
-            {{ bar.value }}
+            {{ bar.value | d3Formatter(xAxisTickFormat) }}
           </text>
         </g>
       </g>
@@ -20,6 +20,7 @@
 
 <script>
 import * as d3 from 'd3'
+import identity from 'lodash/identity'
 import max from 'lodash/max'
 import some from 'lodash/some'
 import sortBy from 'lodash/sortBy'
@@ -82,6 +83,14 @@ export default {
     sortBy: {
       type: [Array, String],
       default: null
+    },
+    /**
+     * Function to apply to format x axis ticks (bar value). It can be a
+     * function returning the formatted value or a d3's formatter string.
+     */
+    xAxisTickFormat: {
+      type: [Function, String],
+      default: identity
     }
   },
   data() {

@@ -38,7 +38,7 @@
                   'stacked-bar-chart__groups__item__bars__item--value-hidden': hasValueHidden(i, key)
                 }">
             <div class="stacked-bar-chart__groups__item__bars__item__value p-1">
-              {{ xAxisTickFormat(datum[key]) }}
+              {{ datum[key] | d3Formatter(xAxisTickFormat) }}
             </div>
           </div>
         </div>
@@ -90,10 +90,11 @@ export default {
       default: () => ([])
     },
     /**
-     * Function to apply to format x axis ticks
+     * Function to apply to format x axis ticks (bar value). It can be a
+     * function returning the formatted value or a d3's formatter string.
      */
     xAxisTickFormat: {
-      type: Function,
+      type: [Function, String],
       default: identity
     },
     /**

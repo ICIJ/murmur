@@ -200,5 +200,21 @@ describe('StackedBarChart.vue', () => {
       expect(legendItems.at(0).text()).toBe("Budget")
       expect(legendItems.at(1).text()).toBe("Box Office")
     })
+
+    it('creates bar direct labeling without formatting', async () => {
+      const firstGroup = wrapper.findAll('.stacked-bar-chart__groups__item').at(0)
+      const values = firstGroup.findAll('.stacked-bar-chart__groups__item__bars__item__value')
+      expect(values.at(0).text()).toBe('237')
+      expect(values.at(1).text()).toBe('2784')
+    })
+
+    it('creates bar direct labeling without with currency formatting', async () => {
+      wrapper.setProps({ xAxisTickFormat: '$,' })
+      await wrapper.vm.$nextTick()
+      const firstGroup = wrapper.findAll('.stacked-bar-chart__groups__item').at(0)
+      const values = firstGroup.findAll('.stacked-bar-chart__groups__item__bars__item__value')
+      expect(values.at(0).text()).toBe('$237')
+      expect(values.at(1).text()).toBe('$2,784')
+    })
   })
 })
