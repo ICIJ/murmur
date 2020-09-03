@@ -39,6 +39,13 @@ export default {
       type: Number
     },
     /**
+     * Enforce the height of the chart (regardless of the width or the social mode)
+     */
+    fixedHeight: {
+      type: Number,
+      default: null
+    },
+    /**
      * Name of the series (to get the value from in the data collection objects)
      */
     seriesName: {
@@ -137,7 +144,13 @@ export default {
     window.removeEventListener('resize', this.setSizes)
   },
   watch: {
+    socialMode () {
+      this.setSizes()
+    },
     width () {
+      this.update()
+    },
+    height () {
       this.update()
     },
     loadedData () {
@@ -152,7 +165,7 @@ export default {
     parseTime: d3.timeParse("%Y"),
     setSizes () {
       this.width = this.$el.offsetWidth
-      this.height = this.$el.offsetWidth / 2
+      this.height = this.fixedHeight !== null ? this.fixedHeight : this.$el.offsetWidth * this.baseHeightRatio
     },
     update() {
       this.scale.x.domain(d3.extent(this.formattedData, d => d.date))

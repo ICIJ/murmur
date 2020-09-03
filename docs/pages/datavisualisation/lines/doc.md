@@ -1,14 +1,19 @@
 Component do draw dead simple line charts.
 
 :::sample-card
-<div class="m-4">
-  <h4>
-    High-risk devices are being approved faster in the US
-  </h4>
+<div class="p-4">
+  <div class="d-flex align-items-baseline">
+    <h4>
+      High-risk devices are being approved faster in the US    
+    </h4>
+    <b-form-checkbox class="text-nowrap ml-4" switch v-model="socialMode">
+      Social mode
+    </b-form-checkbox>
+  </div>
   <p class="text-muted">
     The average time that it takes the Food and Drug Administration to review and approve a device through its pre-market approval process has dropped by more than 200 days since 1996.
   </p>
-  <line-chart :data="dataUrl" class="my-4" />
+  <line-chart :data="dataUrl" class="my-4" :social-mode="socialMode" />
   <p class="text-muted small">
     Note: This chart shows the time, in days, between an application being received by the FDA and the device being approved. Source: U.S. Food and Drug Administration, ICIJ and AP analysis
   </p>
@@ -124,7 +129,8 @@ Component do draw dead simple line charts.
   export default {
     data () {
       return {
-        dataUrl: "https://gist.githubusercontent.com/pirhoo/a2cdb6de5e3e816c0e9d80226806a688/raw/da3fdf3488d6bd68c6cfd9b89943b750ac65fd33/line-approvals.json"
+        dataUrl: "https://gist.githubusercontent.com/pirhoo/a2cdb6de5e3e816c0e9d80226806a688/raw/da3fdf3488d6bd68c6cfd9b89943b750ac65fd33/line-approvals.json",
+        socialMode: false
       }
     }
   }

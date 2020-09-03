@@ -30,6 +30,7 @@ describe('LineChart.vue', () => {
     beforeEach(async () => {
 
       const propsData = {
+        fixedHeight: 300,
         xAxisTicks: d3.timeYear.every(1),
         data: [
             { date: 2000, value: 0 },
@@ -48,6 +49,13 @@ describe('LineChart.vue', () => {
 
     it('is a Vue instance', () => {
       expect(wrapper.vm).toBeTruthy()
+    })
+
+    it('is a fixed height chart, regardeless of the mode', async () => {
+      expect(wrapper.vm.height).toBe(300)
+      wrapper.setProps({ socialMode: true })
+      await wrapper.vm.$nextTick()
+      expect(wrapper.vm.height).toBe(300)
     })
 
     it('creates five x-axis ticks', async () => {
