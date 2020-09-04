@@ -37,6 +37,9 @@ module.exports = {
       .type('javascript/auto')
       .use("i18n")
         .loader("@kazupon/vue-i18n-loader")
+    // Uses url-loader for SVG
+    config.module.rule('svg').uses.clear()
+    config.module.rule('svg').use('url-loader').loader('url-loader')
     // Aliases configuration
     config.resolve.alias
       .set('node_modules', resolve('node_modules'))
