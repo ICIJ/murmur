@@ -209,7 +209,7 @@ export default {
       if (this.fixedHeight !== null) {
         return `${this.fixedHeight}px`
       }
-      return  this.socialMode ? `${this.$el.offsetWidth * this.baseHeightRatio}px` : 'auto'
+      return this.socialMode && this.mounted ? `${this.$el.offsetWidth * this.baseHeightRatio}px` : 'auto'
     }
   },
   methods: {
