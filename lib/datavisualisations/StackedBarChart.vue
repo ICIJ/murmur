@@ -1,5 +1,5 @@
 <template>
-  <div class="stacked-bar-chart d-flex flex-column" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights }">
+  <div class="stacked-bar-chart d-flex flex-column" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights }" :style="{ height }">
     <div class="d-flex align-items-center mb-2">
       <slot name="header-left">
         <ul class="stacked-bar-chart__legend list-inline m-0" v-if="!hideLegend">
@@ -18,17 +18,17 @@
       </slot>
       <slot name="header-right" />
     </div>
-    <div class="stacked-bar-chart__groups d-flex flex-column justify-content-center">
-      <div class="stacked-bar-chart__groups__item align-items-center border-bottom" :class="{ 'd-flex': !labelAbove }" v-for="(datum, i) in sortedData">
-        <div class="stacked-bar-chart__groups__item__label pr-1 small">
+    <div class="stacked-bar-chart__groups d-flex flex-column flex-grow-1">
+      <div class="stacked-bar-chart__groups__item border-bottom flex-fill d-flex" :class="{ 'flex-column': labelAbove }" v-for="(datum, i) in sortedData">
+        <div class="stacked-bar-chart__groups__item__label mr-1 small align-self-center" :class="{ 'w-100': labelAbove }">
           {{ datum[labelField] }}
         </div>
-        <div class="stacked-bar-chart__groups__item__bars py-1 d-flex flex-grow-1 align-items-start">
+        <div class="stacked-bar-chart__groups__item__bars my-1 d-flex flex-fill align-items-center">
           <div v-for="(key, j) in discoveredKeys"
                 @mouseover="delayHighlight(key)"
                 @mouseleave="restoreHighlights()"
                 :style="barStyle(i, key)"
-                class="stacked-bar-chart__groups__item__bars__item"
+                class="stacked-bar-chart__groups__item__bars__item d-flex flex-row align-items-center"
                 :class="{
                   [`stacked-bar-chart__groups__item__bars__item--${key}`]: true,
                   [`stacked-bar-chart__groups__item__bars__item--${j}n`]: true,
@@ -88,6 +88,13 @@ export default {
     barColors: {
       type: Array,
       default: () => ([])
+    },
+    /**
+     * Enforce the height of the chart (regardless of the width or number of row)
+     */
+    fixedHeight: {
+      type: Number,
+      default: null
     },
     /**
      * Function to apply to format x axis ticks (bar value). It can be a
@@ -156,6 +163,9 @@ export default {
     relative () {
       this.$nextTick(this.$forceUpdate)
     },
+    height () {
+      this.$nextTick(this.$forceUpdate)
+    },
     sortBy () {
       this.$nextTick(this.$forceUpdate)
     },
@@ -164,6 +174,11 @@ export default {
     }
   },
   computed: {
+    barHeight () {
+      const selector = '.stacked-bar-chart__groups__item__bars'
+      const defaultHeight = 10
+      return this.elementsMinBoundingClientRect({ selector, defaultHeight }).height
+    },
     sortedData () {
       if (!this.loadedData) {
         return []
@@ -189,6 +204,12 @@ export default {
     },
     hasHighlights () {
       return !!this.highlightedKeys.length
+    },
+    height () {
+      if (this.fixedHeight !== null) {
+        return `${this.fixedHeight}px`
+      }
+      return  this.socialMode ? `${this.$el.offsetWidth * this.baseHeightRatio}px` : 'auto'
     }
   },
   methods: {
@@ -224,7 +245,9 @@ export default {
       const totalWith = this.relative ? this.totalRowValue(i) : this.maxValue
       const width = `${100 * (value / totalWith)}%`
       const backgroundColor = this.colorScale(key)
-      return { width, backgroundColor }
+      const maxHeight = `${this.barHeight}px`
+      const minHeight = maxHeight
+      return { width, backgroundColor, maxHeight, minHeight }
     },
     stackBarAndValue (i) {
       if (!this.mounted) {
@@ -339,7 +362,7 @@ export default {
 
         &__label {
           width: 20%;
-          padding: $spacer * .25 0;
+          padding: $spacer * .5 0;
 
           .stacked-bar-chart--label-above & {
             width: 100%;
@@ -352,12 +375,15 @@ export default {
         }
 
         &__bars {
+          min-height: 1.5em;
 
           &__item {
             text-align: right;
             direction: rtl;
             transition: $muted-group-transition;
             min-width: 1px;
+            min-height: 10px;
+            height: 100%;
 
             @for $i from 0 through ($quantile * length($colors)) {
               &--#{$i}n {
@@ -398,6 +424,7 @@ export default {
               color: white;
               pointer-events: none;
               display: inline-block;
+              position: absolute;
             }
           }
         }
