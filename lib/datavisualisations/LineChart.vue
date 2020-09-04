@@ -74,6 +74,13 @@ export default {
     yAxisTicks: {
       type: [Object, Number, Function],
       default: 5
+    },
+    /**
+     * Key to use for timeseries
+     */
+    timeseriesKey: {
+      type: String,
+      default: 'date'
     }
   },
   data() {
@@ -130,7 +137,7 @@ export default {
         return []
       }
       return this.loadedData.map(d => {
-        d.date = this.parseTime(d.date)
+        d[this.timeseriesKey] = this.parseTime(d[this.timeseriesKey])
         d[this.seriesName] = +d[this.seriesName]
         return d
       })
@@ -168,12 +175,12 @@ export default {
       this.height = this.fixedHeight !== null ? this.fixedHeight : this.$el.offsetWidth * this.baseHeightRatio
     },
     update() {
-      this.scale.x.domain(d3.extent(this.formattedData, d => d.date))
+      this.scale.x.domain(d3.extent(this.formattedData, d => d[this.timeseriesKey]))
       this.scale.y.domain([0, d3.max(this.formattedData, d => d[this.seriesName])])
 
       const points = this.formattedData.map(d => {
         return {
-          x: this.scale.x(d.date),
+          x: this.scale.x(d[this.timeseriesKey]),
           y: this.scale.y(d[this.seriesName]),
         }
       })

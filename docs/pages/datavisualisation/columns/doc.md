@@ -66,13 +66,57 @@ Component do draw dead simple column charts.
 ```
 </collapsible-block>
 
+Or with discrete series:
+
+:::sample-card
+<div class="m-4">
+  <h4>Leaks size</h4>
+  <p class="text-muted">
+    Size of each leaks in TB.
+  </p>
+  <column-chart :data="discreteData" series-name="size" timeseries-key="leak" :y-axis-tick-format="humanReadableGb" :y-axis-ticks="3" class="my-4"></column-chart>
+  <p class="text-muted small">
+    Source: ICIJ
+  </p>
+</div>
+:::
+
+
+<collapsible-block label="Show the data structure">
+```json
+[
+  { "leak": "Paradise Papers", "size": 1400 },
+  { "leak": "Panama Papers", "size": 2600 },
+  { "leak": "Swiss Leaks", "size": 3.3 },
+  { "leak": "LuxLeaks", "size": 4 },
+  { "leak": "Offshore Leaks", "size": 260 }
+]
+```
+</collapsible-block>
+
 ::: api-table datavisualisations/ColumnChart.vue :::
 
 <script>
   export default {
     data () {
       return {
-        dataUrl: "https://gist.githubusercontent.com/pirhoo/259a1a5159db4a665d0c043fac71beef/raw/e74087b06cd12be2b2d3a8ca995730e38719cd4b/colums-incidents.json"
+        dataUrl: "https://gist.githubusercontent.com/pirhoo/259a1a5159db4a665d0c043fac71beef/raw/e74087b06cd12be2b2d3a8ca995730e38719cd4b/colums-incidents.json",
+        discreteData: [
+          { leak: 'Paradise Papers', size: 1.4 * 1e3 },
+          { leak: 'Panama Papers', size: 2.6 * 1e3 },
+          { leak: 'Swiss Leaks', size: 3.3 },
+          { leak: 'LuxLeaks', size: 4 },
+          { leak: 'Offshore Leaks', size: 260 }
+        ]
+      }
+    },
+    methods: {
+      humanReadableGb (size) {
+        if (size >= 1e3) {
+          return `${size/1e3}TB`          
+        } else {          
+          return `${size}GB`
+        }
       }
     }
   }

@@ -22,13 +22,8 @@
 <script>
 import * as d3 from 'd3'
 import identity from 'lodash/identity'
-import isFunction from 'lodash/isFunction'
-import max from 'lodash/max'
 import sortBy from 'lodash/sortBy'
 import chart from '../mixins/chart'
-
-// Call the first argument if it's a function, or return it
-const castCall = (fnOrValue = identity, ...rest) => isFunction(fnOrValue) ? fnOrValue(...rest) : fnOrValue
 
 export default {
   name: 'ColumnChart',
@@ -47,6 +42,13 @@ export default {
       type: String
     },
     /**
+     * Enforce the height of the chart (regardless of the width or the social mode)
+     */
+    fixedHeight: {
+      type: Number,
+      default: null
+    },
+    /**
      * Enforce a width for each column's label
      */
     fixedLabelWidth: {
@@ -63,14 +65,14 @@ export default {
      * Function to apply to format x axis ticks
      */
     xAxisTickFormat: {
-      type: Function,
+      type: [Function, String],
       default: identity
     },
     /**
      * Function to apply to format y axis ticks
      */
     yAxisTickFormat: {
-      type: Function,
+      type: [Function, String],
       default: identity
     },
     /**
@@ -86,6 +88,13 @@ export default {
     sortBy: {
       type: [Array, String],
       default: null
+    },
+    /**
+     * Key to use for timeseries
+     */
+    timeseriesKey: {
+      type: String,
+      default: 'date'
     }
   },
   data() {
@@ -129,7 +138,7 @@ export default {
     },
     scale () {
       const x = d3.scaleBand()
-        .domain(this.sortedData.map(d => d.date))
+        .domain(this.sortedData.map(d => d[[this.timeseriesKey]]))
         .range([0, this.padded.width])
         .padding(.35)
 
@@ -145,11 +154,17 @@ export default {
           width: Math.abs(this.scale.x.bandwidth()),
           height: Math.abs(this.padded.height - this.scale.y(d[this.seriesName])),
           highlight: d.highlight,
-          x: this.scale.x(d.date),
+          x: this.scale.x(d[this.timeseriesKey]),
           y: this.scale.y(d[this.seriesName])
         }
       });
     },
+    discreteKeys () {
+      if (!this.loadedData) {
+        return []
+      }
+      return without(keys(this.loadedData[0]), this.timeseriesKey)
+    }
   },
   mounted () {
     window.addEventListener('resize', this.setSizes)
@@ -160,6 +175,9 @@ export default {
   },
   watch: {
     width () {
+      this.setup()
+    },
+    socialMode () {
       this.setup()
     },
     loadedData () {
@@ -176,7 +194,7 @@ export default {
     },
     setSizes() {
       this.width = this.$el.offsetWidth
-      this.height = this.$el.offsetWidth * this.baseHeightRatio
+      this.height = this.fixedHeight !== null ? this.fixedHeight : this.$el.offsetWidth * this.baseHeightRatio
     },
     initialize() {
       d3.axisLeft().scale(this.scale.y)
@@ -185,12 +203,12 @@ export default {
     update() {
       d3.select(this.$el).select(".column-chart__axis--x")
         .call(d3.axisBottom(this.scale.x)
-          .tickFormat(d => castCall(this.xAxisTickFormat, d))
+          .tickFormat(d => this.$options.filters.d3Formatter(d, this.xAxisTickFormat))
         ).select(".domain").remove()
 
       d3.select(this.$el).select(".column-chart__axis--y")
         .call(d3.axisLeft(this.scale.y)
-          .tickFormat(d => castCall(this.yAxisTickFormat, d))
+          .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
           .ticks(this.yAxisTicks)
         ).selectAll(".tick line").attr("x2", this.padded.width)
     }

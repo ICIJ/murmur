@@ -1,5 +1,5 @@
 <template>
-  <div class="stacked-bar-chart" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights }">
+  <div class="stacked-bar-chart d-flex flex-column" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights }">
     <div class="d-flex align-items-center mb-2">
       <slot name="header-left">
         <ul class="stacked-bar-chart__legend list-inline m-0" v-if="!hideLegend">
