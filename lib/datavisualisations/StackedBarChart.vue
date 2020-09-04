@@ -1,5 +1,5 @@
 <template>
-  <div class="stacked-bar-chart d-flex flex-column" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights }" :style="{ height }">
+  <div class="stacked-bar-chart d-flex flex-column" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights, 'stacked-bar-chart--has-constraint-height': hasConstraintHeight }" :style="{ height }">
     <div class="d-flex align-items-center mb-2">
       <slot name="header-left">
         <ul class="stacked-bar-chart__legend list-inline m-0" v-if="!hideLegend">
@@ -18,12 +18,12 @@
       </slot>
       <slot name="header-right" />
     </div>
-    <div class="stacked-bar-chart__groups d-flex flex-column flex-grow-1">
-      <div class="stacked-bar-chart__groups__item border-bottom flex-fill d-flex" :class="{ 'flex-column': labelAbove }" v-for="(datum, i) in sortedData">
-        <div class="stacked-bar-chart__groups__item__label mr-1 small align-self-center" :class="{ 'w-100': labelAbove }">
+    <div class="stacked-bar-chart__groups ">
+      <div class="stacked-bar-chart__groups__item border-bottom flex-fill d-flex align-items-center" :class="{ 'flex-column': labelAbove }" v-for="(datum, i) in sortedData">
+        <div class="stacked-bar-chart__groups__item__label mr-1 small" :class="{ 'w-100': labelAbove }">
           {{ datum[labelField] }}
         </div>
-        <div class="stacked-bar-chart__groups__item__bars my-1 d-flex flex-fill align-items-center">
+        <div class="stacked-bar-chart__groups__item__bars my-1 d-flex flex-grow-1 align-items-center">
           <div v-for="(key, j) in discoveredKeys"
                 @mouseover="delayHighlight(key)"
                 @mouseleave="restoreHighlights()"
@@ -151,6 +151,14 @@ export default {
     restoreHighlightDelay: {
       type: Number,
       default: 50
+    },
+    minBarHeight: {
+      type: Number,
+      default: 16
+    },
+    maxBarHeight: {
+      type: Number,
+      default: 60
     }
   },
   data() {
@@ -174,10 +182,8 @@ export default {
     }
   },
   computed: {
-    barHeight () {
-      const selector = '.stacked-bar-chart__groups__item__bars'
-      const defaultHeight = 10
-      return this.elementsMinBoundingClientRect({ selector, defaultHeight }).height
+    hasConstraintHeight () {
+      return this.fixedHeight !== null || this.socialMode
     },
     sortedData () {
       if (!this.loadedData) {
@@ -245,9 +251,10 @@ export default {
       const totalWith = this.relative ? this.totalRowValue(i) : this.maxValue
       const width = `${100 * (value / totalWith)}%`
       const backgroundColor = this.colorScale(key)
-      const maxHeight = `${this.barHeight}px`
-      const minHeight = maxHeight
-      return { width, backgroundColor, maxHeight, minHeight }
+      return { width, backgroundColor }
+    },
+    barHeightBounds (height) {
+      return Math.min(Math.max(height, this.minBarHeight), this.maxBarHeight)
     },
     stackBarAndValue (i) {
       if (!this.mounted) {
@@ -358,6 +365,12 @@ export default {
 
     &__groups {
 
+      .stacked-bar-chart--has-constraint-height & {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
       &__item {
 
         &__label {
@@ -375,7 +388,13 @@ export default {
         }
 
         &__bars {
-          min-height: 1.5em;
+          min-height: 100%;
+          width: 100%;
+
+          .stacked-bar-chart--has-constraint-height & {
+            height: calc(100% - 1.5rem);
+            min-height: calc(100% - 1.5rem);
+          }
 
           &__item {
             text-align: right;
@@ -424,7 +443,10 @@ export default {
               color: white;
               pointer-events: none;
               display: inline-block;
-              position: absolute;
+
+              .stacked-bar-chart--has-constraint-height & {
+                possible: absolute;
+              }
             }
           }
         }

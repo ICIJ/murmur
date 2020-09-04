@@ -10,7 +10,7 @@ Component do draw dead simple stacked bar charts.
   </p>
   <stacked-bar-chart :data="incidentReports" class="my-4" label-above />  
   <p class="text-muted small">
-    Note: The companies shown here are 10 of the biggest participants in the medical device industry. Numbers for Becton, Dickinson and Company include adverse events reported by C. R. Bard, which was acquired in 2017. Source: U.S. Food and Drug Administration, ICIJ analysis
+    Note: The companies shown here are 10 of the biggest participants in the medical device industry. Numbers for Becton, Dickinson and Company include adverse events reported by C. R. Bard, which was acquired in 2017. Source: U.S. Food and Drug Administration, ICIJ analysis.
   </p>
 </div>
 :::
@@ -94,6 +94,21 @@ Or a more advanced example:
       </div>
     </template>
   </stacked-bar-chart>
+</div>
+:::
+
+Or with a fixed height:
+
+:::sample-card
+<div class="m-4">
+  <h4>Leaks size</h4>
+  <p class="text-muted">
+    Size of each leak in GB.
+  </p>
+  <stacked-bar-chart :data="leakSizes" class="my-4" hide-legend :fixed-height="300" :x-axis-tick-format="humanReadableGb"></stacked-bar-chart>
+  <p class="text-muted small">
+    Source: ICIJ
+  </p>
 </div>
 :::
 
@@ -285,7 +300,23 @@ Or a more advanced example:
          ],
          isRelative: true,
          sortKeys: ['movie', 'budget', 'box_office'],
-         sortKey: ['movie']
+         sortKey: ['movie'],
+         leakSizes: [
+           { label: 'Paradise Papers', value: 1.4 * 1e3 },
+           { label: 'Panama Papers', value: 2.6 * 1e3 },
+           { label: 'Swiss Leaks', value: 3.3 },
+           { label: 'LuxLeaks', value: 4 },
+           { label: 'Offshore Leaks', value: 260 }
+         ]
+      }
+    },
+    methods: {
+      humanReadableGb (size) {
+        if (size >= 1e3) {
+          return `${size/1e3}TB`          
+        } else {          
+          return `${size}GB`
+        }
       }
     }
   }

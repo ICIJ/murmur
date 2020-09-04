@@ -72,7 +72,7 @@ Or with discrete series:
 <div class="m-4">
   <h4>Leaks size</h4>
   <p class="text-muted">
-    Size of each leaks in TB.
+    Size of each ICIJ's leak.
   </p>
   <column-chart :data="discreteData" series-name="size" timeseries-key="leak" :y-axis-tick-format="humanReadableGb" :y-axis-ticks="3" class="my-4"></column-chart>
   <p class="text-muted small">
