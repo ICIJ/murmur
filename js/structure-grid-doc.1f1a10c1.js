@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["structure-grid-doc"],{d014:function(e,n,t){"use strict";t.r(n);var r=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div")},u=[],c={},l=c,s=t("2877"),i=Object(s["a"])(l,r,u,!1,null,null,null);n["default"]=i.exports}}]);
-//# sourceMappingURL=structure-grid-doc.1f1a10c1.js.map
