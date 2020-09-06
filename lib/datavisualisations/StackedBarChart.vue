@@ -1,8 +1,16 @@
 <template>
-  <div class="stacked-bar-chart d-flex flex-column" :class="{ 'stacked-bar-chart--has-highlights': dataHasHighlights, 'stacked-bar-chart--social-mode': socialMode, 'stacked-bar-chart--label-above': labelAbove, 'stacked-bar-chart--has-highlights': hasHighlights, 'stacked-bar-chart--has-constraint-height': hasConstraintHeight }" :style="{ height }">
-    <div class="d-flex align-items-center mb-2">
+  <div class="stacked-bar-chart d-flex flex-column"
+      :class="{
+        'stacked-bar-chart--has-highlights': dataHasHighlights,
+        'stacked-bar-chart--social-mode': socialMode,
+        'stacked-bar-chart--label-above': labelAbove,
+        'stacked-bar-chart--has-highlights': hasHighlights,
+        'stacked-bar-chart--has-constraint-height': hasConstraintHeight,
+        'stacked-bar-chart--has-label-above': labelAbove,
+      }" :style="{ height }">
+    <div class="d-flex align-items-center">
       <slot name="header-left">
-        <ul class="stacked-bar-chart__legend list-inline m-0" v-if="!hideLegend">
+        <ul class="stacked-bar-chart__legend list-inline mx-0 mt-0 mb-2" v-if="!hideLegend">
           <li v-for="key in discoveredKeys"
             :key="key"
             class="stacked-bar-chart__legend__item list-inline-item d-inline-flex"
@@ -396,6 +404,12 @@ export default {
             min-height: calc(100% - 1.5rem);
           }
 
+
+          .stacked-bar-chart--has-constraint-height.stacked-bar-chart--label-above & {
+            height: auto;
+            min-height: auto;
+          }
+
           &__item {
             text-align: right;
             direction: rtl;
@@ -403,6 +417,11 @@ export default {
             min-width: 1px;
             min-height: 10px;
             height: 100%;
+
+            .stacked-bar-chart--has-constraint-height & {
+              height: auto;
+              align-self: stretch;
+            }
 
             @for $i from 0 through ($quantile * length($colors)) {
               &--#{$i}n {

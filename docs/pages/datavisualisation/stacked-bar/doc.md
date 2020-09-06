@@ -105,7 +105,7 @@ Or with a fixed height:
   <p class="text-muted">
     Size of each leak in GB.
   </p>
-  <stacked-bar-chart :data="leakSizes" class="my-4" hide-legend :fixed-height="300" :x-axis-tick-format="humanReadableGb"></stacked-bar-chart>
+  <stacked-bar-chart :data="leakSizes" class="mb-4" hide-legend :fixed-height="400" :x-axis-tick-format="humanReadableGb"></stacked-bar-chart>
   <p class="text-muted small">
     Source: ICIJ
   </p>
