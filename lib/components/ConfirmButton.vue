@@ -2,7 +2,7 @@
   <component :is="tag" class="confirm-button" @click="toggleConfirmationTooltip" :id="uniqComponentId">
     <!-- @slot Main content of the button -->
     <slot>-</slot>
-    <b-tooltip ref="confirmationTooltip" :target="uniqComponentId" triggers="blur" :placement="placement" v-once>
+    <b-tooltip ref="confirmationTooltip" :target="uniqComponentId" triggers="blur" :placement="placement">
       <div class="confirm-button__tooltip">
         <button class="confirm-button__tooltip__cancel btn btn-sm btn-link text-muted p-0 float-right" v-if="!noCloseButton" @click="cancel">
           <fa icon="times" />

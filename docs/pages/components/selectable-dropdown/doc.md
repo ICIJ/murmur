@@ -60,7 +60,7 @@ You can also use this component to build a list based from a collection of objec
 Some lists are not trivial and comparisons are not easy. For instance a games with similar name:
 
 ```js
-const streetFigthers = [
+const streetFighters = [
   { label: 'Street Fighter', episode: 'I',   uid: 'sf1' },
   { label: 'Street Fighter', episode: 'II',  uid: 'sf2' },
   { label: 'Street Fighter', episode: 'III', uid: 'sf3' },
@@ -73,7 +73,7 @@ You might want to display a list and prove uniqueness using the `uid`:
 
 :::sample-card
 <div class="p-2 text-center">
-  <selectable-dropdown deactivate-keys multiple :items="streetFigthers" v-model="selectedGames" :eq="(item, other) => item.uid === other.uid">
+  <selectable-dropdown deactivate-keys multiple :items="streetFighters" v-model="selectedGames" :eq="(item, other) => item.uid === other.uid">
     <template #item-label="{ item }">
       <span v-html="item.label"></span> (<span v-html="item.episode"></span>)
     </template>
@@ -93,14 +93,14 @@ You might want to display a list and prove uniqueness using the `uid`:
         filteredCountries: ['Spain', 'Peru', 'France'],
         twoCountries: ['Spain', 'France'],
         treeCountries: ['Spain', 'Peru', 'France'],
-        allCountries: ['France', 'United State of America', 'Spain', 'Peru'],
+        allCountries: ['France', 'United States of America', 'Spain', 'Peru'],
         countryCollection: [
           { label: 'Spain' },
           { label: 'Peru' },
           { label: 'France' }
         ],
         selectedGames: [],
-        streetFigthers: [
+        streetFighters: [
           { label: 'Street Fighter', episode: 'I',   uid: 'sf1' },
           { label: 'Street Fighter', episode: 'II',  uid: 'sf2' },
           { label: 'Street Fighter', episode: 'III', uid: 'sf3' },
