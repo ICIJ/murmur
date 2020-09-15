@@ -1,12 +1,12 @@
 import { mount } from '@vue/test-utils'
 
 import SharingOptionsLink from '@/components/SharingOptionsLink'
-import { $popup, $interval } from '@/components/SharingOptionsLink'
+import { $popup } from '@/components/SharingOptionsLink'
 
 function mockPopupParent () {
   return {
     open: jest.fn().mockImplementation(() => {
-      return { 
+      return {
         focus: jest.fn(),
         close: jest.fn()
       }
@@ -62,7 +62,7 @@ describe('SharingOptionsLink', () => {
   it('should give a different `base` for Linkedin', () => {
     const propsData = { network: 'linkedin' }
     const wrapper = mount(SharingOptionsLink, { propsData })
-    expect(wrapper.vm.base).toBe('https://www.linkedin.com/shareArticle?mini=true&')
+    expect(wrapper.vm.base).toBe('https://www.linkedin.com/sharing/share-offsite/?')
   })
 
   it('should have a popup', () => {

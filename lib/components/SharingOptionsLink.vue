@@ -47,7 +47,7 @@
       }
     },
     linkedin: {
-      base: 'https://www.linkedin.com/shareArticle?mini=true&',
+      base: 'https://www.linkedin.com/sharing/share-offsite/?',
       icon: faLinkedin,
       args: {
         url: 'url',
