@@ -68,7 +68,7 @@
         }
       },
       /**
-       * Sharing contents wich can be genereic (<em>title</em>, <em>description</em>, etc)
+       * Sharing contents which can be generic (<em>title</em>, <em>description</em>, etc)
        * or specific to a network (<em>twitter_title</em>, <em>facebook_description</em>, etc).
        */
       values: {
@@ -76,7 +76,7 @@
         default: () => ({})
       },
       /**
-       * The list of all the keys to automatlcy inject in each social button.
+       * The list of all the keys to automatically inject in each social button.
        */
       valuesKeys: {
         default: () => ['url', 'title', 'description', 'media', 'user'],
