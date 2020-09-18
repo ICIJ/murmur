@@ -213,6 +213,9 @@ export default {
     width () {
       this.setup()
     },
+    socialMode () {
+      this.setup()
+    },
     loadedData () {
       this.setup()
     },
