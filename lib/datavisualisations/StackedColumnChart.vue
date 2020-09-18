@@ -85,21 +85,15 @@ export default {
      * Function to apply to format x axis ticks
      */
     xAxisTickFormat: {
-      type: Function,
+      type: [Function, String],
       default: identity
     },
     /**
-     * Number of x axis ticks
-     */
-    xAxisTicks: {
-      type: Number,
-      default: 5
-    },
-    /**
-     * Function to apply to format y axis ticks
+     * Function to apply to format y axis ticks (bars value). It can be a
+     * function returning the formatted value or a d3's formatter string.
      */
     yAxisTickFormat: {
-      type: Function,
+      type: [Function, String],
       default: identity
     },
     /**
@@ -249,12 +243,12 @@ export default {
     update () {
       d3.select(this.$el).select(".stacked-column-chart__axis--x")
         .call(d3.axisBottom(this.scale.x)
-          .tickFormat(this.xAxisTickFormat)
+          .tickFormat(d => this.$options.filters.d3Formatter(d, this.xAxisTickFormat))
         ).select(".domain").remove()
 
       d3.select(this.$el).select(".stacked-column-chart__axis--y")
         .call(d3.axisLeft(this.scale.y)
-          .tickFormat(this.yAxisTickFormat)
+          .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
           .ticks(this.yAxisTicks)
         ).selectAll(".tick line").attr("x2", this.padded.width)
     }
