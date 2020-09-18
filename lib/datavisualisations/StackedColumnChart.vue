@@ -203,11 +203,11 @@ export default {
     },
   },
   mounted () {
-    window.addEventListener('resize', this.onResize)
-    this.onResize()
+    window.addEventListener('resize', this.setSizes)
+    this.setSizes()
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.onResize)
+    window.removeEventListener('resize', this.setSizes)
   },
   watch: {
     width () {
@@ -225,12 +225,13 @@ export default {
   },
   methods: {
     setup () {
+      this.setSizes()
       this.initialize()
       this.update()
     },
-    onResize () {
-      this.width = this.$el.offsetWidth;
-      this.height = this.$el.offsetWidth * this.baseHeightRatio
+    setSizes () {
+      this.width = this.$el.offsetWidth
+      this.height = this.fixedHeight ? this.fixedHeight : this.width * this.baseHeightRatio
     },
     groupName (key) {
       const index = this.discoveredKeys.indexOf(key)
