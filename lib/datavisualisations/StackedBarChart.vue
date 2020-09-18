@@ -84,13 +84,6 @@ export default {
       default: () => ([])
     },
     /**
-     * A list of highlighted groups
-     */
-    highlights: {
-      type: Array,
-      default: () => ([])
-    },
-    /**
      * Colors of each bar group
      */
     barColors: {
@@ -127,7 +120,7 @@ export default {
       default: false
     },
     /**
-     * Bar with is relative to each group's total
+     * Bar width is relative to each group's total
      */
     relative: {
       type: Boolean,
@@ -145,6 +138,13 @@ export default {
      */
     hideLegend: {
       type: Boolean
+    },
+    /**
+     * A list of highlighted groups
+     */
+    highlights: {
+      type: Array,
+      default: () => ([])
     },
     /**
      * Delay to apply when set the first highlight
@@ -403,7 +403,6 @@ export default {
             height: calc(100% - 1.5rem);
             min-height: calc(100% - 1.5rem);
           }
-
 
           .stacked-bar-chart--has-constraint-height.stacked-bar-chart--label-above & {
             height: auto;

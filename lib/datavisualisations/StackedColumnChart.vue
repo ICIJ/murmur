@@ -1,41 +1,62 @@
 <template>
-  <div class="stacked-column-chart">
-    <ul class="stacked-column-chart__legend list-inline">
-      <li v-for="key in discoveredKeys" :key="key" class="stacked-bar-chart__legend__item list-inline-item d-inline-flex">
-        <span class="stacked-bar-chart__legend__item__box" :style="{ 'background-color': colorScale(key) }"></span>
+  <div :style="{ height: `${height}px` }"
+        class="stacked-column-chart d-flex flex-column"
+       :class="{
+         'stacked-column-chart--social-mode': socialMode,
+         'stacked-column-chart--has-highlights': hasHighlights,
+         'stacked-column-chart--no-direct-labeling': noDirectLabeling,
+        }">
+    <ul class="stacked-column-chart__legend list-inline" v-if="!hideLegend">
+      <li v-for="key in discoveredKeys"
+          :key="key"
+          class="stacked-column-chart__legend__item list-inline-item d-inline-flex"
+          :class="{
+            'stacked-column-chart__legend__item--highlighted': isHighlighted(key)
+          }"
+          @mouseover="delayHighlight(key)"
+          @mouseleave="restoreHighlights()">
+        <span class="stacked-column-chart__legend__item__box" :style="{ 'background-color': colorScale(key) }"></span>
         {{ groupName(key) }}
       </li>
     </ul>
-    <svg :width="width" :height="height">
-      <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
-        <g class="stacked-column-chart__axis stacked-column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }"></g>
-        <g class="stacked-column-chart__axis stacked-column-chart__axis--y" :style="{ transform: `translate(${padded.left}px, 0)` }"></g>
-        <g v-for="(group, i) in barGroups"
-          :key="i"
-          class="stacked-column-chart__group"
-          :class="{ 
-            [`stacked-column-chart__group--${discoveredKeys[i]}`]: true,
-            [`stacked-column-chart__group--${i}n`]: true
-          }"
-          :title="discoveredKeys[i]">
-          <rect v-for="(bar, j) in group"
-            :title="bar"
-            :key="j"
-            :width="scale.x.bandwidth()"
-            :height="scale.y(bar[0]) -  scale.y(bar[1])"
-            :x="scale.x(bar.data.date)"
-            :y="scale.y(bar[1])"
-            :fill="colorScale(group.key)"
-            class="stacked-column-chart__group__item"></rect>
-        </g>
-      </g>
-    </svg>
+    <div class="d-flex flex-grow-1 position-relative overflow-hidden">
+      <svg :width="width + 'px'" class="stacked-column-chart__left-axis" :height="height" v-show="noDirectLabeling">
+        <g class="stacked-column-chart__left-axis__canvas" :transform="`translate(${width}, 0)`"></g>
+      </svg>
+      <div class="stacked-column-chart__groups d-flex flex-grow-1" :style="paddedStyle">
+        <div class="stacked-column-chart__groups__item flex-grow-1 d-flex flex-column text-center" v-for="(datum, i) in sortedData">
+          <div class="stacked-column-chart__groups__item__bars flex-grow-1 d-flex flex-column-reverse px-1 justify-content-start">
+            <div v-for="(key, j) in discoveredKeys"
+                @mouseover="delayHighlight(key)"
+                @mouseleave="restoreHighlights()"
+                :style="barStyle(i, key)"
+                 class="stacked-column-chart__groups__item__bars__item"
+                :class="{
+                  [`stacked-column-chart__groups__item__bars__item--${key}`]: true,
+                  [`stacked-column-chart__groups__item__bars__item--${j}n`]: true,
+                  'stacked-column-chart__groups__item__bars__item--highlighted': isHighlighted(key),
+                  'stacked-column-chart__groups__item__bars__item--value-overflow': hasValueOverflow(i, key),
+                  'stacked-column-chart__groups__item__bars__item--value-pushed': hasValuePushed(i, key),
+                  'stacked-column-chart__groups__item__bars__item--value-hidden': hasValueHidden(i, key)
+                }">
+              <div class="stacked-column-chart__groups__item__bars__item__value" v-show="!noDirectLabeling">
+                {{ datum[key] | d3Formatter(yAxisTickFormat) }}
+              </div>
+            </div>
+          </div>
+          <div class="stacked-column-chart__groups__item__label small py-2">
+            {{ datum[labelField] | d3Formatter(xAxisTickFormat) }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import * as d3 from 'd3';
 import keys from 'lodash/keys'
+import find from 'lodash/find'
 import reduce from 'lodash/reduce'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
@@ -76,10 +97,10 @@ export default {
       default: () => ([])
     },
     /**
-     * Enforce a width for each bar's label
+     * Hide the legend.
      */
-    fixedLabelWidth: {
-      type: Number
+    hideLegend: {
+      type: Boolean
     },
     /**
      * Function to apply to format x axis ticks
@@ -97,11 +118,11 @@ export default {
       default: identity
     },
     /**
-     * Number of y axis ticks
+     * Padding on y axis ticks
      */
-    yAxisTicks: {
+    yAxisTickPadding: {
       type: Number,
-      default: 5
+      default: 10
     },
     /**
      * Field containing the label for each column
@@ -116,91 +137,49 @@ export default {
      sortBy: {
        type: [Array, String],
        default: null
+     },
+     /**
+      * Column height is relative to each group's total
+      */
+     relative: {
+       type: Boolean,
+       default: false
+     },
+     /**
+      * A list of highlighted groups
+      */
+     highlights: {
+       type: Array,
+       default: () => ([])
+     },
+     /**
+      * Delay to apply when set the first highlight
+      */
+     highlightDelay: {
+       type: Number,
+       default: 400
+     },
+     /**
+      * Delay to apply when restoring hightlights to initial state
+      */
+     restoreHighlightDelay: {
+       type: Number,
+       default: 50
+     },
+     /**
+      * Deactivate direct labeling on bars
+      */
+     noDirectLabeling: {
+       type: Boolean
      }
   },
   data () {
     return {
       width: 0,
       height: 0,
+      highlightedKeys: this.highlights,
+      highlightTimeout: null
     }
-  },
-  computed: {
-    sortedData () {
-      if (!this.loadedData) {
-        return []
-      }
-      return !this.sortBy ? this.loadedData : sortBy(this.loadedData, this.sortBy)
-    },
-    labelWidth () {
-      if (this.fixedLabelWidth) {
-        return this.fixedLabelWidth
-      }
-      const selector = '.stacked-column-chart__axis--y .tick text'
-      const defaultWidth = 100
-      return this.elementsMaxBBox({ selector, defaultWidth }).width
-    },
-    labelHeight () {
-      const selector = '.stacked-column-chart__axis--y .tick text'
-      const defaultHeight = 15
-      return this.elementsMaxBBox({ selector, defaultHeight }).height
-    },
-    yearsHeight () {
-      const selector = '.stacked-column-chart__axis--x .tick text'
-      const defaultWidth = 50
-      return this.elementsMaxBBox({ selector, defaultWidth }).height
-    },
-    margin () {
-      return {
-        left: this.labelWidth + 10,
-        right: 0,
-        top: this.labelHeight / 2,
-        bottom: this.yearsHeight + 10
-      }
-    },
-    padded () {
-      const width = this.width - this.margin.left - this.margin.right
-      const height = this.height - this.margin.top - this.margin.bottom
-
-      return { width, height }
-    },
-    discoveredKeys () {
-      if (this.keys.length) {
-        return this.keys
-      }
-      return without(keys(this.sortedData[0] || {}), this.labelField)
-    },
-    scale () {
-      const totals = this.sortedData.map(d => {
-        return reduce(this.discoveredKeys, (res, key) => {
-          res += d[key]
-          return res
-        }, 0)
-      })
-
-      const x = d3.scaleBand()
-        .domain(this.sortedData.map(d => d.date))
-        .range([0, this.padded.width])
-        .padding(.35)
-
-      const y = d3.scaleLinear()
-        .domain([0, d3.max(totals)])
-        .range([this.padded.height, 0])
-
-      return { x, y }
-    },
-    colorScale () {
-      return d3.scaleOrdinal()
-        .domain(this.discoveredKeys)
-        .range(this.barColors)
-    },
-    barGroups () {
-      const stack = d3.stack()
-        .keys(this.discoveredKeys)
-        .order(d3.stackOrderReverse)
-        .offset(d3.stackOffsetNone)
-
-      return stack(this.sortedData)
-    },
   },
   mounted () {
     window.addEventListener('resize', this.setSizes)
@@ -219,18 +198,70 @@ export default {
     loadedData () {
       this.setup()
     },
-    labelWidth () {
+    leftAxisHeight () {
       this.setup()
     },
-    labelHeight () {
+    leftAxisLabelsWidth () {
       this.setup()
+    },
+    highlights () {
+      this.highlightedKeys = this.highlights
+    }
+  },
+  computed: {
+    sortedData () {
+      if (!this.loadedData) {
+        return []
+      }
+      return !this.sortBy ? this.loadedData : sortBy(this.loadedData, this.sortBy)
+    },
+    discoveredKeys () {
+      if (this.keys.length) {
+        return this.keys
+      }
+      return without(keys(this.sortedData[0] || {}), this.labelField)
+    },
+    colorScale () {
+      return d3.scaleOrdinal().domain(this.discoveredKeys).range(this.barColors)
+    },
+    maxValue () {
+      return d3.max(this.loadedData || [], (datum, i) => {
+        return this.totalRowValue(i)
+      })
+    },
+    hasHighlights () {
+      return !!this.highlightedKeys.length
+    },
+    leftScale () {
+      return d3.scaleLinear().domain([0, this.maxValue]).range([this.leftAxisHeight, 0])
+    },
+    leftAxis () {
+      return d3.axisLeft(this.leftScale)
+        .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
+        .tickSize(this.width - this.leftAxisLabelsWidth)
+        .tickPadding(this.yAxisTickPadding)
+    },
+    leftAxisLabelsWidth () {
+      const selector = '.stacked-column-chart__left-axis__canvas .tick text'
+      const defaultWidth = 0
+      return this.elementsMaxBBox({ selector, defaultWidth }).width + this.yAxisTickPadding
+    },
+    leftAxisHeight () {
+      if (!this.mounted) {
+        return 0
+      }
+      return this.$el.querySelector('.stacked-column-chart__groups__item__bars').offsetHeight
+    },
+    paddedStyle () {
+      return {
+        marginLeft: this.noDirectLabeling ? `${this.leftAxisLabelsWidth + this.yAxisTickPadding}px` : 0
+      }
     }
   },
   methods: {
     setup () {
       this.setSizes()
-      this.initialize()
-      this.update()
+      d3.select(this.$el).select(".stacked-column-chart__left-axis__canvas").call(this.leftAxis)
     },
     setSizes () {
       this.width = this.$el.offsetWidth
@@ -240,21 +271,88 @@ export default {
       const index = this.discoveredKeys.indexOf(key)
       return this.groups[index] || key
     },
-    initialize () {
-      d3.axisLeft().scale(this.scale.y)
-      d3.axisBottom().scale(this.scale.x)
+    highlight (key) {
+      this.highlightedKeys = [key]
     },
-    update () {
-      d3.select(this.$el).select(".stacked-column-chart__axis--x")
-        .call(d3.axisBottom(this.scale.x)
-          .tickFormat(d => this.$options.filters.d3Formatter(d, this.xAxisTickFormat))
-        ).select(".domain").remove()
-
-      d3.select(this.$el).select(".stacked-column-chart__axis--y")
-        .call(d3.axisLeft(this.scale.y)
-          .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
-          .ticks(this.yAxisTicks)
-        ).selectAll(".tick line").attr("x2", this.padded.width)
+    restoreHighlights () {
+      clearTimeout(this.highlightTimeout)
+      const delay = this.restoreHighlightDelay
+      // Delay the restoration so it can be cancelled by a new highlight
+      this.highlightTimeout = setTimeout(() => this.highlightedKeys = this.highlights, delay)
+    },
+    delayHighlight (key) {
+      clearTimeout(this.highlightTimeout)
+      // Reduce the delay to zero if there is already an highlighted key
+      const delay = this.hasHighlights ? 0 : this.highlightDelay
+      this.highlightTimeout = setTimeout(() => this.highlight(key), delay)
+    },
+    isHighlighted (key) {
+      return this.highlightedKeys.indexOf(key) > -1
+    },
+    totalRowValue (i) {
+      return d3.sum(this.discoveredKeys, key => {
+        return this.sortedData[i][key]
+      })
+    },
+    barStyle (i, key) {
+      const value = this.sortedData[i][key]
+      const totalWith = this.relative ? this.totalRowValue(i) : this.maxValue
+      const height = `${100 * (value / totalWith)}%`
+      const backgroundColor = this.colorScale(key)
+      return { height, backgroundColor }
+    },
+    stackBarAndValue (i) {
+      if (!this.mounted) {
+        return []
+      }
+      // Collect sizes first
+      const stack = this.discoveredKeys.map(key => {
+        const { bar, row, value } = this.queryBarAndValue(i, key)
+        const barEdge = bar.getBoundingClientRect().top + bar.offsetHeight
+        const barHeight = bar.offsetHeight
+        const rowEdge = row.getBoundingClientRect().top + row.offsetHeight
+        const valueHeight = value.offsetHeight
+        return { key, barEdge, barHeight, rowEdge, valueHeight }
+      })
+      // Infer value's display
+      return stack.map((desc, index) => {
+        desc.overflow = desc.valueHeight >= desc.barHeight
+        if (index > 0) {
+          const prevDesc = stack[index - 1]
+          const bothValuesHeight = desc.valueHeight + prevDesc.valueHeight
+          desc.overflow = desc.overflow || prevDesc.overflow && desc.barHeight < bothValuesHeight
+        }
+        desc.pushed = desc.barEdge + desc.valueHeight > desc.rowEdge && desc.overflow
+        return desc
+      })
+    },
+    queryBarAndValue (i, key) {
+      if (!this.mounted) {
+        return { }
+      }
+      const rowSelector = '.stacked-column-chart__groups__item'
+      const row = this.$el.querySelectorAll(rowSelector)[i]
+      const barSelector = `.stacked-column-chart__groups__item__bars__item--${key}`
+      const bar = row.querySelector(barSelector)
+      const valueSelector = '.stacked-column-chart__groups__item__bars__item__value'
+      const value = bar.querySelector(valueSelector)
+      return { bar, row, value }
+    },
+    hasValueOverflow (i, key) {
+      const stack = this.stackBarAndValue(i)
+      return find(stack, { key })?.overflow
+    },
+    hasValuePushed (i, key) {
+      const stack = this.stackBarAndValue(i)
+      return find(stack, { key })?.pushed
+    },
+    hasValueHidden (i, key) {
+      const keyIndex = this.discoveredKeys.indexOf(key)
+      const nextKey = this.discoveredKeys[keyIndex + 1]
+      if (!nextKey) {
+        return false
+      }
+      return this.hasValueOverflow(i, key) && this.hasValueOverflow(i, nextKey)
     }
   }
 }
@@ -264,6 +362,9 @@ export default {
   @import '../styles/lib';
 
   .stacked-column-chart {
+    $muted-group-opacity: .2;
+    $muted-group-filter: grayscale(30%) brightness(10%);
+    $muted-group-transition: opacity .3s, filter .3s;
     $colors: $primary, $info, $warning;
     $quantile: 2;
 
@@ -275,12 +376,6 @@ export default {
         $amount: ($j % $quantile) * (100% / $quantile);
         --group-color-#{$j}n: #{mix($end-color, $start-color, $amount)};
       }
-    }
-
-    text {
-      font-family: $font-family-base;
-      font-size: $font-size-base;
-      fill: currentColor;
     }
 
     &__legend {
@@ -297,6 +392,11 @@ export default {
           }
         }
 
+        .stacked-column-chart--has-highlights &:not(&--highlighted) {
+          opacity: $muted-group-opacity;
+          filter: $muted-group-filter;
+        }
+
         &__box {
           height: 1em;
           width: 1em;
@@ -307,27 +407,85 @@ export default {
       }
     }
 
-    &__group {
+    &__left-axis {
+      position: absolute;
+      top: 0;
+      left: 0;
 
-      @for $i from 0 through ($quantile * length($colors)) {
-        &--#{$i}n &__item:not([fill]) {
-          fill: var(--group-color-#{$i}n);
+      path {
+        display: none;
+      }
+
+      .tick {
+
+        line {
+          stroke: $border-color;
+        }
+
+        text {
+          font-family: $font-family-base;
+          font-size: $font-size-sm;
+          fill: currentColor;
         }
       }
     }
 
-    &__axis {
+    &__groups {
 
-      .domain {
-        display: none;
-      }
+      &__item {
 
-      .tick line {
-        stroke: $border-color;
-      }
+        &__bars {
 
-      &--x .tick line {
-        display: none;
+          &__item {
+            position: relative;
+            min-height: 1px;
+
+            @for $i from 0 through ($quantile * length($colors)) {
+              &--#{$i}n {
+                background: var(--group-color-#{$i}n);
+              }
+            }
+
+            &__value {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              text-align: center;
+              white-space: nowrap;
+              color: #fff;
+            }
+
+            .stacked-column-chart--has-highlights &:not(&--highlighted) {
+              opacity: $muted-group-opacity;
+              filter: $muted-group-filter;
+            }
+
+            .stacked-column-chart--has-highlights &:not(&--highlighted) &__value {
+              visibility: hidden;
+            }
+
+            .stacked-column-chart:not(.stacked-column-chart--has-highlights) &--value-hidden &__value,
+            .stacked-column-chart:not(.stacked-column-chart--has-highlights) &--value-pushed &__value {
+              visibility: hidden;
+            }
+
+            &--value-overflow &__value {
+              color: $body-color;
+              transform: translateY(-100%);
+            }
+
+            &--value-pushed {
+              direction: ltr;
+            }
+
+            &--value-pushed &__value {
+              color: $body-color;
+              transform: translateY(100%);
+            }
+
+          }
+        }
       }
     }
   }

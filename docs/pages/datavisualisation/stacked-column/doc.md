@@ -19,6 +19,23 @@ Component do draw dead simple stacked column charts.
 </div>
 :::
 
+Or without direct-labeling:
+
+:::sample-card
+<div class="m-4">
+  <h4>
+    Breast implant companies buried evidence of injuries for years
+  </h4>
+  <p class="text-muted">
+    Incidents were reported as routine events that did not require public disclosure. After the FDA tightened enforcement of its reporting rules in 2017, reports of injuries soared.
+  </p>
+  <stacked-column-chart no-direct-labeling :data="incidentReportsUrl" y-axis-tick-format=",.0f" class="my-4" />  
+  <p class="text-muted small">
+    Source: U.S. Food and Drug Administration, ICIJ analysis
+  </p>
+</div>
+:::
+
 <collapsible-block label="Show the data structure">
 ```json
 [
