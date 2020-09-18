@@ -61,10 +61,11 @@ export default {
       default: null
     },
     /**
-     * Function to apply to format y axis ticks
+     * Function to apply to format x axis ticks (bar value). It can be a
+     * function returning the formatted value or a d3's formatter string.
      */
     yAxisTickFormat: {
-      type: Function,
+      type: [Function, String],
       default: identity
     },
     /**
@@ -194,7 +195,7 @@ export default {
 
       d3.select(this.$el).select(".line-chart__axis--y")
         .call(d3.axisLeft(this.scale.y)
-        .tickFormat(d => this.yAxisTickFormat(d))
+        .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
         .ticks(this.yAxisTicks))
         .selectAll(".tick line").attr("x2", this.padded.width)
     }
