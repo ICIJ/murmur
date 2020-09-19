@@ -20,7 +20,7 @@
       </li>
     </ul>
     <div class="d-flex flex-grow-1 position-relative overflow-hidden">
-      <svg :width="width + 'px'" class="stacked-column-chart__left-axis" :height="height" v-show="noDirectLabeling">
+      <svg :width="width + 'px'"  :height="height + 'px'" class="stacked-column-chart__left-axis" v-show="noDirectLabeling">
         <g class="stacked-column-chart__left-axis__canvas" :transform="`translate(${width}, 0)`"></g>
       </svg>
       <div class="stacked-column-chart__groups d-flex flex-grow-1" :style="paddedStyle">
@@ -84,13 +84,6 @@ export default {
       default: () => ([])
     },
     /**
-     * Height of each bar
-     */
-    barHeight: {
-      type: Number,
-      default: 30
-    },
-    /**
      * Colors of each bar group
      */
     barColors: {
@@ -102,6 +95,13 @@ export default {
      */
     hideLegend: {
       type: Boolean
+    },
+    /**
+     * Enforce the height of the chart (regardless of the width or number of row)
+     */
+    fixedHeight: {
+      type: Number,
+      default: null
     },
     /**
      * Function to apply to format x axis ticks
@@ -200,6 +200,9 @@ export default {
     leftAxisHeight () {
       this.setup()
     },
+    fixedHeight () {
+      this.setup()
+    },
     highlights () {
       this.highlightedKeys = this.highlights
     }
@@ -260,7 +263,7 @@ export default {
   methods: {
     setSizes () {
       this.width = this.$el.offsetWidth
-      this.height = this.fixedHeight ? this.fixedHeight : this.width * this.baseHeightRatio
+      this.height = this.fixedHeight !== null ? this.fixedHeight : this.width * this.baseHeightRatio
     },
     async setup () {
       this.setSizes()

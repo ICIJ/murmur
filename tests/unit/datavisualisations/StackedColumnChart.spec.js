@@ -14,7 +14,7 @@ Object.defineProperties(window.HTMLElement.prototype, {
 
 describe('StackedColumnChart.vue', () => {
 
-  describe('a stacked-colmuns chart with two columns in four groups', () => {
+  describe('a stacked-colmuns chart with two columns in four groups and direct labeling', () => {
 
     let wrapper
 
@@ -215,6 +215,107 @@ describe('StackedColumnChart.vue', () => {
       const values = firstGroup.findAll('.stacked-column-chart__groups__item__bars__item__value')
       expect(values.at(0).text()).toBe('$90')
       expect(values.at(1).text()).toBe('$10')
+    })
+
+    it('creates an invisible left axis', async () => {
+      await wrapper.vm.$nextTick()
+      const leftAxis = wrapper.find('.stacked-column-chart__left-axis')
+      expect(leftAxis.attributes('style')).toBe('display: none;')
+    })
+  })
+
+  describe('a stacked-colmuns chart with 3 columns in 2 groups and no direct labeling', () => {
+
+    let wrapper
+
+    beforeEach(async () => {
+
+      const propsData = {
+        labelField: 'label',
+        noDirectLabeling:  true,
+        fixedHeight: 500,
+        data: [
+          { label: 'today', foo: 90, bar: 5, baz: 5 },
+          { label: 'tomorrow', foo: 40, bar: 10, baz: 0 }
+        ]
+      }
+
+      const attrs = {
+        style: 'width: 600px'
+      }
+
+      wrapper = mount(StackedColumnChart, { propsData, attrs })
+    })
+
+    it('is a Vue instance', () => {
+      expect(wrapper.vm).toBeTruthy()
+    })
+
+    it('creates 2 columns', async () => {
+      expect(wrapper.findAll('.stacked-column-chart__groups__item')).toHaveLength(2)
+    })
+
+    it('creates the first group of columns with maximum height', () => {
+      const firstGroup = wrapper.findAll('.stacked-column-chart__groups__item').at(0)
+      const fooColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--foo')
+      const barColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--bar')
+      const bazColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--baz')
+      const totalHeight = fooColumn.element.offsetHeight + barColumn.element.offsetHeight + bazColumn.element.offsetHeight
+      expect(totalHeight).toBe(100)
+    })
+
+    it('creates the second group of columns with ~50% height', () => {
+      const secondGroup = wrapper.findAll('.stacked-column-chart__groups__item').at(1)
+      const fooColumn = secondGroup.find('.stacked-column-chart__groups__item__bars__item--foo')
+      const barColumn = secondGroup.find('.stacked-column-chart__groups__item__bars__item--bar')
+      const bazColumn = secondGroup.find('.stacked-column-chart__groups__item__bars__item--baz')
+      const totalHeight = fooColumn.element.offsetHeight + barColumn.element.offsetHeight + bazColumn.element.offsetHeight
+      expect(totalHeight).toBe(50)
+    })
+
+    it('creates the first group of columns with right height for each', () => {
+      const firstGroup = wrapper.findAll('.stacked-column-chart__groups__item').at(0)
+      const fooColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--foo')
+      const barColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--bar')
+      const bazColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--baz')
+      expect(fooColumn.element.offsetHeight).toBe(90)
+      expect(barColumn.element.offsetHeight).toBe(5)
+      expect(bazColumn.element.offsetHeight).toBe(5)
+    })
+
+    it('creates the first group of columns with right height for each', () => {
+      const secondGroup = wrapper.findAll('.stacked-column-chart__groups__item').at(1)
+      const fooColumn = secondGroup.find('.stacked-column-chart__groups__item__bars__item--foo')
+      const barColumn = secondGroup.find('.stacked-column-chart__groups__item__bars__item--bar')
+      const bazColumn = secondGroup.find('.stacked-column-chart__groups__item__bars__item--baz')
+      expect(fooColumn.element.offsetHeight).toBe(40)
+      expect(barColumn.element.offsetHeight).toBe(10)
+      expect(bazColumn.element.offsetHeight).toBe(0)
+    })
+
+    it('creates a visible left axis', async () => {
+      await wrapper.vm.$nextTick()
+      const leftAxis = wrapper.find('.stacked-column-chart__left-axis')
+      expect(leftAxis.attributes('style')).not.toBe('display: none;')
+    })
+
+    it('creates a left axis with the same sizes than the component', async () => {
+      await wrapper.vm.$nextTick()
+      const leftAxis = wrapper.find('.stacked-column-chart__left-axis')
+      expect(leftAxis.attributes('width')).toBe('600px')
+      expect(leftAxis.attributes('height')).toBe('500px')
+    })
+
+    it('creates a left axis with 0 as minimum value', async () => {
+      await wrapper.vm.$nextTick()
+      const firstTick = wrapper.find('.stacked-column-chart__left-axis .tick:first-of-type text')
+      expect(firstTick.text()).toBe('0')
+    })
+
+    it('creates a left axis with 100 as minimum value', async () => {
+      await wrapper.vm.$nextTick()
+      const lastTick = wrapper.find('.stacked-column-chart__left-axis .tick:last-of-type text')
+      expect(lastTick.text()).toBe('100')
     })
   })
 })
