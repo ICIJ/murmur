@@ -61,6 +61,7 @@ import reduce from 'lodash/reduce'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
 import without from 'lodash/without'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import chart from '../mixins/chart'
 

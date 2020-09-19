@@ -36,7 +36,7 @@ describe('StackedBarChart.vue', () => {
       expect(wrapper.vm).toBeTruthy()
     })
 
-    it('creates five bars', async () => {
+    it('creates four bars', async () => {
       expect(wrapper.findAll('.stacked-bar-chart__groups__item')).toHaveLength(4)
     })
 
