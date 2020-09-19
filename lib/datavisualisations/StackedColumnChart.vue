@@ -177,31 +177,26 @@ export default {
     return {
       width: 0,
       height: 0,
+      leftAxisHeight: 0,
       highlightedKeys: this.highlights,
       highlightTimeout: null
     }
   },
   mounted () {
-    window.addEventListener('resize', this.setSizes)
-    this.setSizes()
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.setSizes)
+    const resizeObserver = new ResizeObserver(this.setup)
+    this.$nextTick(() => resizeObserver.observe(this.$el))
   },
   watch: {
-    width () {
-      this.setup()
-    },
     socialMode () {
       this.setup()
     },
     loadedData () {
       this.setup()
     },
-    leftAxisHeight () {
+    leftAxisLabelsWidth () {
       this.setup()
     },
-    leftAxisLabelsWidth () {
+    leftAxisHeight () {
       this.setup()
     },
     highlights () {
@@ -235,22 +230,25 @@ export default {
     leftScale () {
       return d3.scaleLinear().domain([0, this.maxValue]).range([this.leftAxisHeight, 0])
     },
-    leftAxis () {
-      return d3.axisLeft(this.leftScale)
-        .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
-        .tickSize(this.width - this.leftAxisLabelsWidth)
-        .tickPadding(this.yAxisTickPadding)
-    },
-    leftAxisLabelsWidth () {
-      const selector = '.stacked-column-chart__left-axis__canvas .tick text'
-      const defaultWidth = 0
-      return this.elementsMaxBBox({ selector, defaultWidth }).width + this.yAxisTickPadding
-    },
-    leftAxisHeight () {
-      if (!this.mounted) {
-        return 0
+    leftAxis: {
+      cache: false,
+      get () {
+        return d3.axisLeft(this.leftScale)
+          .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
+          .tickSize(this.width - this.leftAxisLabelsWidth)
+          .tickPadding(this.yAxisTickPadding)
       }
-      return this.$el.querySelector('.stacked-column-chart__groups__item__bars').offsetHeight
+    },
+    leftAxisLabelsWidth: {
+      cache: false,
+      get () {
+        const selector = '.stacked-column-chart__left-axis__canvas .tick text'
+        const defaultWidth = 0
+        return this.elementsMaxBBox({ selector, defaultWidth }).width + this.yAxisTickPadding
+      }
+    },
+    leftAxisCanvas () {
+      return d3.select(this.$el).select(".stacked-column-chart__left-axis__canvas")
     },
     paddedStyle () {
       return {
@@ -259,13 +257,16 @@ export default {
     }
   },
   methods: {
-    setup () {
-      this.setSizes()
-      d3.select(this.$el).select(".stacked-column-chart__left-axis__canvas").call(this.leftAxis)
-    },
     setSizes () {
       this.width = this.$el.offsetWidth
       this.height = this.fixedHeight ? this.fixedHeight : this.width * this.baseHeightRatio
+    },
+    async setup () {
+      this.setSizes()
+      await this.$nextTick()
+      // This must be set after the column have been rendered
+      this.leftAxisHeight = this.$el.querySelector('.stacked-column-chart__groups__item__bars').offsetHeight
+      this.leftAxisCanvas.call(this.leftAxis)
     },
     groupName (key) {
       const index = this.discoveredKeys.indexOf(key)

@@ -23,13 +23,18 @@ Or without direct-labeling:
 
 :::sample-card
 <div class="m-4">
-  <h4>
-    Breast implant companies buried evidence of injuries for years
-  </h4>
+  <div class="d-flex align-items-baseline">
+    <h4>
+      Breast implant companies buried evidence of injuries for years
+    </h4>
+    <b-form-checkbox class="text-nowrap ml-4" switch v-model="socialMode">
+      Social mode
+    </b-form-checkbox>
+  </div>
   <p class="text-muted">
     Incidents were reported as routine events that did not require public disclosure. After the FDA tightened enforcement of its reporting rules in 2017, reports of injuries soared.
   </p>
-  <stacked-column-chart no-direct-labeling :data="incidentReportsUrl" y-axis-tick-format=",.0f" class="my-4" />  
+  <stacked-column-chart :social-mode="socialMode" no-direct-labeling :data="incidentReportsUrl" y-axis-tick-format=",.0f" class="my-4" />  
   <p class="text-muted small">
     Source: U.S. Food and Drug Administration, ICIJ analysis
   </p>
@@ -115,6 +120,7 @@ Or without direct-labeling:
   export default {
     data () {
       return {
+        socialMode: false,
         incidentReportsUrl: 'https://gist.githubusercontent.com/pirhoo/4055e8d1ee3016805eaf1d2feabdd895/raw/a3d2ba8e9d19fcd9fc659dab50ec075248178238/stacked-colums-incidents.json'
       }
     }
