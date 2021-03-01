@@ -115,13 +115,28 @@
       },
       startTrackingTextLivePosition () {
         this.textLivePostionRequestAnimationFrame.start(this.trackTextLivePosition)
+        /**
+         * Emitted when the animation on the text starts.
+         * @event start
+         */
+        this.$emit('start')
       },
       endTrackingTextLivePosition () {
         this.textLivePostionRequestAnimationFrame.stop()
+        /**
+         * Emitted when the animation on the text reaches the end.
+         * @event end
+         */
+        this.$emit('end')
       },
       resetTextLivePosition () {
         this.textLivePostionRequestAnimationFrame.stop()
         this.textLivePosition = 0
+        /**
+         * Emitted when the animation on the text is cancelled.
+         * @event cancel
+         */
+        this.$emit('cancel')
       }
     }
   }
