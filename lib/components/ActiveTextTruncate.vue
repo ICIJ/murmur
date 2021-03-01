@@ -219,17 +219,17 @@
         mask-composite: intersect;
       }
 
-      .active-text-truncate--rtl &:hover &__text,
-      .active-text-truncate--ltr &:hover &__text {
+      .active-text-truncate--rtl.active-text-truncate--fading &:hover &__text,
+      .active-text-truncate--ltr.active-text-truncate--fading &:hover &__text {
         transition:linear left var(--text-offset-transition-duration);
         transition-delay: var(--text-offset-transition-delay);
       }
 
-      .active-text-truncate--ltr &:hover &__text {
+      .active-text-truncate--ltr.active-text-truncate--fading &:hover &__text {
         left: var(--text-final-offset);
       }
 
-      .active-text-truncate--rtl &:hover &__text {
+      .active-text-truncate--rtl.active-text-truncate--fading &:hover &__text {
         left: 0;
       }
 
