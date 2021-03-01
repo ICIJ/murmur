@@ -197,7 +197,7 @@
         mask-composite: intersect;
       }
 
-      &:hover &__text {
+      .active-text-truncate--fading-right &:hover &__text {
         left: var(--text-final-offset);
         transition:linear left var(--text-offset-transition-duration);
         transition-delay: var(--text-offset-transition-delay);
