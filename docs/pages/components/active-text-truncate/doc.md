@@ -25,6 +25,16 @@ This can be combined, for instance, with the haptic copy button for a subtle eff
 </div>
 :::
 
+Finally, this component can be used to truncate string from the start:
+
+:::sample-card
+<div class="p-4">
+  <active-text-truncate class="p-2 bg-white text-monospace" direction="rtl">
+    /secret-location/encrypted-disk/icij-investigations/leaks/luxleaks/v1/2001 and before/H4201030M.pdf
+  </active-text-truncate>
+</div>
+:::
+
 ::: api-table components/ActiveTextTruncate.vue :::
 
 <style>

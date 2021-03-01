@@ -36,6 +36,14 @@
       delay: {
         type: Number,
         default: 1000
+      },
+      /**
+       * Direction of the truncate
+       */
+      direction: {
+        type: String,
+        default: 'ltr',
+        validator: value => ['ltr', 'rtl'].indexOf(value) > -1
       }
     },
     data () {
@@ -73,14 +81,26 @@
         const duration = offset / this.ppms
         return `${duration}ms`
       },
+      textInitialOffset () {
+        return 0
+      },
       textFinalOffset () {
         const offset = this.wrapperElementWidth - this.textElementWidth
         return `${offset}px`
       },
+      textOffsetValues () {
+        if (this.direction === 'ltr') {
+          return [this.textInitialOffset, this.textFinalOffset]
+        }
+        return [this.textFinalOffset, this.textInitialOffset]
+      },
       isFadingLeft () {
-        return false
+        return this.direction === 'rtl' && this.isFading
       },
       isFadingRight () {
+        return this.direction === 'ltr' && this.isFading
+      },
+      isFading () {
         return this.wrapperElementWidth < this.textElementWidth
       },
       fadingLeftWidth () {
@@ -100,6 +120,7 @@
     methods: {
       setup () {
         this.resizeObserverKey = uniqueId()
+        this.textLivePosition = parseInt(this.textOffsetValues[0])
         // Track transitions to update the text position in live using Request Animation Frame
         this.listenOnTextElement('transitionstart', this.startTrackingTextLivePosition)
         this.listenOnTextElement('transitionend', this.endTrackingTextLivePosition)
@@ -131,7 +152,7 @@
       },
       resetTextLivePosition () {
         this.textLivePostionRequestAnimationFrame.stop()
-        this.textLivePosition = 0
+        this.textLivePosition = parseInt(this.textOffsetValues[0])
         /**
          * Emitted when the animation on the text is cancelled.
          * @event cancel
@@ -145,7 +166,8 @@
 <template>
   <span class="active-text-truncate"
         :class="{
-          'active-text-truncate--fading-right': isFadingRight
+          'active-text-truncate--fading': isFading,
+          [`active-text-truncate--${direction}`]: true
         }"
         :style="{
           '--fading-left-width': fadingLeftWidth,
@@ -192,21 +214,33 @@
       width: 100%;
       display: inline-block;
 
-      .active-text-truncate--fading-right & {
+      .active-text-truncate--fading & {
         mask: var(--fading-right-gradient), var(--fading-left-gradient);
         mask-composite: intersect;
       }
 
-      .active-text-truncate--fading-right &:hover &__text {
-        left: var(--text-final-offset);
+      .active-text-truncate--rtl &:hover &__text,
+      .active-text-truncate--ltr &:hover &__text {
         transition:linear left var(--text-offset-transition-duration);
         transition-delay: var(--text-offset-transition-delay);
+      }
+
+      .active-text-truncate--ltr &:hover &__text {
+        left: var(--text-final-offset);
+      }
+
+      .active-text-truncate--rtl &:hover &__text {
+        left: 0;
       }
 
       &__text {
         white-space: nowrap;
         position: relative;
         left: 0;
+
+        .active-text-truncate--rtl & {
+          left: var(--text-final-offset);
+        }
       }
     }
   }
