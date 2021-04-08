@@ -5,7 +5,7 @@ description: A BootstrapVue-based pagination component with the option to jump a
 
 :::sample-card
 <div class="p-2 text-center">
-  <custom-pagination :current-page.sync="currentPage" :link-gen.sync="linkGen" :number-of-pages="numberOfPages"></custom-pagination>
+  <custom-pagination v-model="currentPage" :per-page="10" :total-rows="200" />
 </div>
 :::
 
@@ -15,15 +15,13 @@ description: A BootstrapVue-based pagination component with the option to jump a
   export default {
     data () {
       return {
-        numberOfPages: 10,
         currentPage: 1
       }
     },
-    methods: {
-      linkGen(pageNum) {
-        return pageNum === 1 ? '?' : `?page=${pageNum}`
+    watch: {
+      currentPage (page) {
+        this.$router.push({ query: { page } })
       }
     }
-
   }
 </script>

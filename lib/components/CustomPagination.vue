@@ -1,72 +1,76 @@
 <template>
   <div class="custom-pagination">
 
-      <b-pagination-nav
+      <b-pagination
         id="custom-pagination-pills"
-       :link-gen="linkGen"
-       :number-of-pages="numberOfPages"
-       v-model="currentPage"
+       :total-rows="totalRows"
+       :per-page="perPage"
+       :value="value"
+       :pills="pills"
+       @input="value => $emit('input', value)"
        first-text="First"
        prev-text="Prev"
        next-text="Next"
-       last-text="Last"
-       use-router
-       >
-     </b-pagination-nav>
+       last-text="Last">
+     </b-pagination>
 
-       Total {{numberOfPages}} pages
+     Total {{ numberOfPages }} pages
 
-     <div class="input-group mb-3">
-      <input v-model="currentPageInput" type="text" class="form-control" placeholder="Enter page number" aria-label="Enter page number" aria-describedby="basic-addon2">
+     <form class="input-group mb-3" @submit.prevent="applyJumpFormPage">
+      <input v-model="currentPageInput" type="number" class="form-control" placeholder="Enter page number" aria-label="Enter page number" aria-describedby="basic-addon2">
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" @click="emitPageClick" type="button" >Button</button>
+        <button class="btn btn-outline-secondary" type="submit" >Button</button>
       </div>
-     </div>
+    </form>
   </div>
 </template>
 
 <script>
-  import { BPaginationNav } from 'bootstrap-vue'
-  import { BInputGroup } from 'bootstrap-vue'
+  import { BPagination } from 'bootstrap-vue'
+  import { BInputGroup, BLink } from 'bootstrap-vue'
+  import { computeHref } from 'bootstrap-vue/src/utils/router'
 
   export default {
     name: 'CustomPagination',
     components: {
-      BPaginationNav,
+      BPagination,
       BInputGroup
     },
+    model: {
+      prop: 'value',
+      event: 'input'
+    },
     props: {
-      numberOfPages: {
-        type: Number
+      totalRows: {
+        type: Number,
+        default: 0
       },
-      linkGen: {
-        type: Function
+      perPage: {
+        type: Number,
+        default: 20
+      },
+      value: {
+        type: Number,
+        default: 1
+      },
+      pills: {
+        type: Boolean
       }
     },
     data() {
       return {
-        currentPage: 1,
         currentPageInput: null
       }
     },
-    watch: {
-      currentPageInput: function (newCurrentPageInput, oldCurrentPageInput) {
-        if (newCurrentPageInput) {
-          this.currentPage = newCurrentPageInput
-        }
+    methods: {
+      applyJumpFormPage (event) {
+        this.$emit('input', parseInt(this.currentPageInput))
       }
     },
-    methods: {
-      emitPageClick () {
-        // this.currentPage = value
-        // console.log('emit');
-        const selector = '.active'
-        const el = this.$el.querySelector(selector)
-
-        // el.click()
-        // this.$emit('page-click', this.currentPage)
-
-     }
+    computed: {
+      numberOfPages () {
+        return Math.ceil(this.totalRows / this.perPage)
+      }
     }
   }
 </script>
