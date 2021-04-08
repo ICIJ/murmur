@@ -27,14 +27,11 @@
 
 <script>
   import { BPagination } from 'bootstrap-vue'
-  import { BInputGroup, BLink } from 'bootstrap-vue'
-  import { computeHref } from 'bootstrap-vue/src/utils/router'
 
   export default {
     name: 'CustomPagination',
     components: {
-      BPagination,
-      BInputGroup
+      BPagination
     },
     model: {
       prop: 'value',
