@@ -1,37 +1,59 @@
 <template>
-  <div class="custom-pagination">
-
-      <b-pagination
-        id="custom-pagination-pills"
-       :total-rows="totalRows"
-       :per-page="perPage"
-       :value="value"
-       :pills="pills"
-       @input="value => $emit('input', value)"
-       first-text="First"
-       prev-text="Prev"
-       next-text="Next"
-       last-text="Last">
-     </b-pagination>
-
-     Total {{ numberOfPages }} pages
-
-     <form class="input-group mb-3" @submit.prevent="applyJumpFormPage">
-      <input v-model="currentPageInput" type="number" class="form-control" placeholder="Enter page number" aria-label="Enter page number" aria-describedby="basic-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="submit" >Button</button>
+  <div class="custom-pagination container-fluid">
+    <div class="row mr-2">
+      <div class="col m-1 border-right ml-n1">
+        <b-pagination
+          class="mt-2"
+         :total-rows="totalRows"
+         :per-page="perPage"
+         :value="value"
+         :pills="pills"
+         @input="value => $emit('input', value)"
+         first-number
+         last-number>
+       </b-pagination>
       </div>
-    </form>
+
+      <div class="col my-1 float-right">
+        <div class="mt-2">
+          <form class="input-group" @submit.prevent="applyJumpFormPage">
+            <input v-model="currentPageInput" type="number" class="form-control" placeholder="Jump to page" aria-label="Jump to page" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-secondary btn-sm" type="submit">
+                <span class="px-1 py-3">
+                  <fa icon="exchange-alt" />
+                </span>
+              </button>
+            </div>
+         </form>
+         <small class="float-left mt-1 ml-1 text-danger" id="invalid-number-error" v-if="errors.length">
+           {{ errors[0] }}
+         </small>
+         <small class="float-left mt-1 ml-1 text-muted" v-else>
+           {{numberOfPages}} pages total
+         </small>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import { BPagination } from 'bootstrap-vue'
+  import { BCol } from 'bootstrap-vue'
+  import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons/faExchangeAlt'
+
+  import { library } from './Fa'
 
   export default {
     name: 'CustomPagination',
+    beforeMount() {
+      library.add(faExchangeAlt)
+    },
     components: {
-      BPagination
+      Fa: require('./Fa').default,
+      BPagination,
+      BCol
     },
     model: {
       prop: 'value',
@@ -56,12 +78,21 @@
     },
     data() {
       return {
-        currentPageInput: null
+        currentPageInput: null,
+        invalidNumberError: "Invalid page number",
+        errors: []
       }
     },
     methods: {
       applyJumpFormPage (event) {
-        this.$emit('input', parseInt(this.currentPageInput))
+        const number = parseInt(this.currentPageInput)
+        this.errors = []
+        if (number > this.numberOfPages || number < 1 ) {
+          this.errors.push(this.invalidNumberError)
+        }
+        if (this.errors.length == 0) {
+          this.$emit('input', parseInt(this.currentPageInput))
+        }
       }
     },
     computed: {
@@ -73,4 +104,15 @@
 </script>
 
 <style lang="scss" scoped>
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 </style>

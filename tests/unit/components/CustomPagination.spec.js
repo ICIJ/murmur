@@ -7,31 +7,64 @@ describe('CustomPagination.vue', () => {
     expect(wrapper.vm).toBeTruthy()
   })
 
-  it('expects numberOfPages as a prop', () => {
-    const propsData = { numberOfPages: 10 }
-    const wrapper = mount(CustomPagination, { propsData })
-    expect(wrapper.vm.numberOfPages).toBe(10)
-  })
-
   it('renders the pagination component', () => {
-    const propsData = { numberOfPages: 10 }
-    const wrapper = mount(CustomPagination, { propsData })
-    expect(wrapper.find('#custom-pagination').exists()).toEqual(true)
-    expect(wrapper.findAll('.page-item').length).toEqual(9)
+    const wrapper = mount(CustomPagination)
+    expect(wrapper.find('.custom-pagination').exists()).toEqual(true)
   })
 
-  it('emits an `update:current-page` event when a page value is selected', async () => {
-    const propsData = { numberOfPages: 10 }
+  it('expects totalRows, perPage, value as props', () => {
+    const propsData = { totalRows: 200, perPage: 20, value: 2 }
     const wrapper = mount(CustomPagination, { propsData })
+    expect(wrapper.vm.totalRows).toBe(200)
+    expect(wrapper.vm.perPage).toBe(20)
+    expect(wrapper.vm.value).toBe(2)
+  })
 
-    wrapper.vm.emitPageValue(3)
+  it('accepts pills as a prop to change pagination styling', () => {
+    const propsData = { pills: true }
+    const wrapper = mount(CustomPagination, { propsData })
+    expect(wrapper.vm.pills).toBeTruthy()
+  })
 
+  it('calculates numberOfPages based on the totalRows and perPage prop values', () => {
+    const propsData = { totalRows: 200, perPage: 20 }
+    const wrapper = mount(CustomPagination, { propsData })
+  })
+
+  it('emits an event on form submit with the currentPageInput', async () => {
+    const propsData = { totalRows: 200, perPage: 20, }
+    const wrapper = mount(CustomPagination, { propsData })
+    await wrapper.setData({ currentPageInput: 3 })
+    await wrapper.vm.applyJumpFormPage()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted().input[0]).toContain(3)
+  })
+
+  it('does not emit an event if the currentPageInput is invalid', async () => {
+    const propsData = { totalRows: 200, perPage: 20, }
+    const wrapper = mount(CustomPagination, { propsData })
+    await wrapper.setData({ currentPageInput: 50 })
+    await wrapper.vm.applyJumpFormPage()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.emitted()).toBeFalsy
+  })
+
+  it('sets errors if the currentPageInput is invalid', async () => {
+    const propsData = { totalRows: 200, perPage: 20, }
+    const wrapper = mount(CustomPagination, { propsData })
+    await wrapper.setData({ currentPageInput: 50 })
+    await wrapper.vm.applyJumpFormPage()
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.errors.length).toBe(1)
+  })
+
+  it('renders an element containing the errors if the currentPageInput is invalid', async () => {
+    const propsData = { totalRows: 200, perPage: 20, }
+    const wrapper = mount(CustomPagination, { propsData })
+    await wrapper.setData({ currentPageInput: 50 })
+    await wrapper.vm.applyJumpFormPage()
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.emitted('update:current-page')).toBeTruthy()
-    expect(wrapper.emitted('update:current-page').length).toBe(2)
-    expect(wrapper.emitted('update:current-page')[0]).toEqual([3])
+    expect(wrapper.find('#invalid-number-error').exists()).toEqual(true)
   })
-
-
 })
