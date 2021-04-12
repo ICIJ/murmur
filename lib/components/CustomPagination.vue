@@ -3,7 +3,8 @@
     <div class="row mr-2">
       <div class="col m-1 border-right ml-n1">
         <b-pagination :size="small ? 'sm' : 'md'"
-         :class="paginationClasses"
+         class='mt-2'
+         :class="paginationClassList"
          :total-rows="totalRows"
          :per-page="perPage"
          :value="value"
@@ -33,7 +34,7 @@
            {{ errors[0] }}
          </small>
          <small class="float-left mt-1 ml-1 text-muted" v-else>
-           {{numberOfPages}} {{ $t('custom-pagination.total-pages') }}
+           {{ $tc('custom-pagination.total-pages', numberOfPages, { count: numberOfPages }) }}
          </small>
         </div>
       </div>
@@ -121,10 +122,10 @@
       numberOfPages () {
         return Math.ceil(this.totalRows / this.perPage)
       },
-      paginationClasses () {
-        let base = "mt-2"
-
-        return this.small ? base + " float-right mr-1" : base
+      paginationClassList () {
+        if (this.small) {
+          return ['float-right', 'mr-1']
+        }
       }
     }
   }
