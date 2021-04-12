@@ -115,5 +115,10 @@
       "succeed": "Copied!",
       "failed": "Unable to copy the text"
     }
+  },
+  "custom-pagination": {
+    "placeholder": "Jump to page",
+    "total-pages": "pages total",
+    "invalid-number-error": "Invalid page number"
   }
 }

@@ -11,11 +11,27 @@ Default styling:
 </div>
 :::
 
+Default styling for the pagination element, while using a `small` layout:
+
+:::sample-card
+<div class="p-2 text-center">
+  <custom-pagination v-model="currentPage" :per-page="10" :total-rows="200" small />
+</div>
+:::
+
 With pills:
 
 :::sample-card
 <div class="p-2 text-center">
   <custom-pagination v-model="currentPage" :per-page="10" pills :total-rows="200" />
+</div>
+:::
+
+With pills, using a `small` layout:
+
+:::sample-card
+<div class="p-2 text-center">
+  <custom-pagination v-model="currentPage" :per-page="10" pills :total-rows="200" small />
 </div>
 :::
 
