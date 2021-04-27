@@ -172,6 +172,13 @@ export default {
       */
      noDirectLabeling: {
        type: Boolean
+     },
+     /**
+      * Set max value instead of extracting it from the data.
+      */
+     maxValue: {
+       type: Number,
+       default: null
      }
   },
   data () {
@@ -223,8 +230,8 @@ export default {
     colorScale () {
       return d3.scaleOrdinal().domain(this.discoveredKeys).range(this.barColors)
     },
-    maxValue () {
-      return d3.max(this.loadedData || [], (datum, i) => {
+    maxRowValue () {
+      return this.maxValue || d3.max(this.loadedData || [], (datum, i) => {
         return this.totalRowValue(i)
       })
     },
@@ -232,7 +239,7 @@ export default {
       return !!this.highlightedKeys.length
     },
     leftScale () {
-      return d3.scaleLinear().domain([0, this.maxValue]).range([this.leftAxisHeight, 0])
+      return d3.scaleLinear().domain([0, this.maxRowValue]).range([this.leftAxisHeight, 0])
     },
     leftAxis: {
       cache: false,
@@ -301,7 +308,7 @@ export default {
     },
     barStyle (i, key) {
       const value = this.sortedData[i][key]
-      const totalWith = this.relative ? this.totalRowValue(i) : this.maxValue
+      const totalWith = this.relative ? this.totalRowValue(i) : this.maxRowValue
       const height = `${100 * (value / totalWith)}%`
       const backgroundColor = this.colorScale(key)
       return { height, backgroundColor }
