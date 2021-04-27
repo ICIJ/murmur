@@ -49,11 +49,11 @@ describe('ColumnChart.vue', () => {
       expect(wrapper.vm).toBeTruthy()
     })
 
-    it('creates five x-axis ticks', async () => {
+    it('creates five x-axis ticks', () => {
       expect(wrapper.findAll('.column-chart__axis--x .tick')).toHaveLength(5)
     })
 
-    it('creates x-axis ticks with the right years ', async () => {
+    it('creates x-axis ticks with the right years ', () => {
       const ticks = wrapper.findAll('.column-chart__axis--x .tick')
       expect(ticks.at(0).text()).toBe('2000')
       expect(ticks.at(1).text()).toBe('2001')
@@ -62,29 +62,29 @@ describe('ColumnChart.vue', () => {
       expect(ticks.at(4).text()).toBe('2004')
     })
 
-    it('creates five columns', async () => {
+    it('creates five columns', () => {
       expect(wrapper.findAll('.column-chart__columns__item')).toHaveLength(5)
     })
 
-    it('creates the first column with minimum height', async () => {
+    it('creates the first column with minimum height', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(0)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(0)
     })
 
-    it('creates the third column with medium height', async () => {
+    it('creates the third column with medium height', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(2)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height / 2)
     })
 
-    it('creates the last column with maximum height', async () => {
+    it('creates the last column with maximum height', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(4)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height)
     })
 
-    it('should highlight only the fourth column', async () => {
+    it('should highlight only the fourth column', () => {
       const columns = wrapper.findAll('.column-chart__columns__item')
       expect(columns.at(0).classes('column-chart__columns__item--highlight')).toBeFalsy()
       expect(columns.at(1).classes('column-chart__columns__item--highlight')).toBeFalsy()
@@ -117,33 +117,33 @@ describe('ColumnChart.vue', () => {
       expect(wrapper.vm).toBeTruthy()
     })
 
-    it('creates two x-axis ticks', async () => {
+    it('creates two x-axis ticks', () => {
       expect(wrapper.findAll('.column-chart__axis--x .tick')).toHaveLength(2)
     })
 
-    it('creates x-axis ticks with the right years ', async () => {
+    it('creates x-axis ticks with the right years ', () => {
       const ticks = wrapper.findAll('.column-chart__axis--x .tick')
       expect(ticks.at(0).text()).toBe('2019')
       expect(ticks.at(1).text()).toBe('2020')
     })
 
-    it('creates two columns', async () => {
+    it('creates two columns', () => {
       expect(wrapper.findAll('.column-chart__columns__item')).toHaveLength(2)
     })
 
-    it('creates the first column with medium height', async () => {
+    it('creates the first column with medium height', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(0)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height / 2)
     })
 
-    it('creates the second column with maximum height', async () => {
+    it('creates the second column with maximum height', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(1)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height)
     })
 
-    it('should have no highlighted column', async () => {
+    it('should have no highlighted column', () => {
       const columns = wrapper.findAll('.column-chart__columns__item')
       expect(columns.at(0).classes('column-chart__columns__item--highlight')).toBeFalsy()
       expect(columns.at(1).classes('column-chart__columns__item--highlight')).toBeFalsy()
@@ -154,7 +154,7 @@ describe('ColumnChart.vue', () => {
 
     let wrapper
 
-    beforeAll(async () => {
+    beforeAll(() => {
       d3.csv = jest.fn().mockReturnValue([
         { date: 2000, indicator: 0, highlight: false },
         { date: 2001, indicator: 10, highlight: false },
@@ -185,11 +185,11 @@ describe('ColumnChart.vue', () => {
       expect(wrapper.vm).toBeTruthy()
     })
 
-    it('creates ten x-axis ticks', async () => {
+    it('creates ten x-axis ticks', () => {
       expect(wrapper.findAll('.column-chart__axis--x .tick')).toHaveLength(10)
     })
 
-    it('creates x-axis ticks with the right years ', async () => {
+    it('creates x-axis ticks with the right years ', () => {
       const ticks = wrapper.findAll('.column-chart__axis--x .tick')
       expect(ticks.at(0).text()).toBe('2000')
       expect(ticks.at(1).text()).toBe('2001')
@@ -203,23 +203,23 @@ describe('ColumnChart.vue', () => {
       expect(ticks.at(9).text()).toBe('2009')
     })
 
-    it('creates ten columns', async () => {
+    it('creates ten columns', () => {
       expect(wrapper.findAll('.column-chart__columns__item')).toHaveLength(10)
     })
 
-    it('creates the first column with medium height', async () => {
+    it('creates the first column with medium height', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(0)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(0)
     })
 
-    it('creates the last column with maximum height', async () => {
+    it('creates the last column with maximum height', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(9)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height)
     })
 
-    it('should have two highlighted columns', async () => {
+    it('should have two highlighted columns', () => {
       const columns = wrapper.findAll('.column-chart__columns__item')
       expect(columns.at(0).classes('column-chart__columns__item--highlight')).toBeFalsy()
       expect(columns.at(1).classes('column-chart__columns__item--highlight')).toBeFalsy()
@@ -231,6 +231,44 @@ describe('ColumnChart.vue', () => {
       expect(columns.at(7).classes('column-chart__columns__item--highlight')).toBeTruthy()
       expect(columns.at(8).classes('column-chart__columns__item--highlight')).toBeFalsy()
       expect(columns.at(9).classes('column-chart__columns__item--highlight')).toBeFalsy()
+    })
+
+  })
+
+  describe('a three columns chart with no highlights using remote JSON', () => {
+
+    let wrapper
+
+    beforeAll(async () => {
+      d3.json = jest.fn().mockReturnValue([
+        { date: 2019, value: 30 },
+        { date: 2020, value: 60 },
+        { date: 2021, value: 90 }
+      ])
+    })
+
+    it('should have a max value to 100 set with a property', async () => {
+      const propsData = { data: 'http://localhost/data.json', maxValue: 100 }
+      wrapper = mount(ColumnChart, { propsData })
+      wrapper.vm.$el.style.width = '500px'
+      wrapper.vm.setSizes()
+      await wrapper.vm.$nextTick()
+
+      const column = wrapper.findAll('.column-chart__columns__item').at(2)
+      const height = parseFloat(column.attributes('height'))
+      expect(height).toBe(wrapper.vm.padded.height * 0.9)
+    })
+
+    it('should have a max value to 180 set with a property', async () => {
+      const propsData = { data: 'http://localhost/data.json', maxValue: 180 }
+      wrapper = mount(ColumnChart, { propsData })
+      wrapper.vm.$el.style.width = '500px'
+      wrapper.vm.setSizes()
+      await wrapper.vm.$nextTick()
+
+      const column = wrapper.findAll('.column-chart__columns__item').at(2)
+      const height = parseFloat(column.attributes('height'))
+      expect(height).toBe(wrapper.vm.padded.height / 2)
     })
   })
 })

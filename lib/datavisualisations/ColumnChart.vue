@@ -95,6 +95,13 @@ export default {
     timeseriesKey: {
       type: String,
       default: 'date'
+    },
+    /**
+     * Set max value instead of extracting it from the data.
+     */
+    maxValue: {
+      type: Number,
+      default: null
     }
   },
   data() {
@@ -118,6 +125,11 @@ export default {
       const defaultWidth = 100
       return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
+    labelHeight () {
+      const selector = '.column-chart__axis--y .tick text'
+      const defaultHeight = 10
+      return this.elementsMaxBBox({ selector, defaultHeight }).height
+    },
     bucketHeight () {
       const selector = '.column-chart__axis--x .tick text'
       const defaultHeight = 10
@@ -127,7 +139,7 @@ export default {
       return {
         left: this.labelWidth + 10,
         right: 0,
-        top: 0,
+        top: this.labelHeight / 2,
         bottom: this.bucketHeight + 10
       }
     },
@@ -142,8 +154,10 @@ export default {
         .range([0, this.padded.width])
         .padding(.35)
 
+      const maxValue = this.maxValue || d3.max(this.sortedData, d => d[this.seriesName])
+
       const y = d3.scaleLinear()
-        .domain([0, d3.max(this.sortedData, d => d[this.seriesName])])
+        .domain([0, maxValue])
         .range([this.padded.height, 0])
 
       return { x, y }
