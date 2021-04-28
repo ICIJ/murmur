@@ -319,7 +319,7 @@ describe('StackedColumnChart.vue', () => {
     })
   })
 
-  describe('a stacked-colmuns chart with 3 columns in 2 groups and a max value', () => {
+  describe('a stacked-colmuns chart with 3 columns in 3 groups and a max value', () => {
 
     let wrapper
 
@@ -358,5 +358,58 @@ describe('StackedColumnChart.vue', () => {
       const totalHeight = fooColumn.element.offsetHeight + barColumn.element.offsetHeight + bazColumn.element.offsetHeight
       expect(totalHeight).toBe(50)
     })
+  })
+
+  describe('a stacked-colmuns chart with 3 columns in 3 groups with empty values', () => {
+
+    let wrapper
+
+    beforeEach(async () => {
+
+      const propsData = {
+        labelField: 'label',
+        fixedHeight: 500,
+        hideEmptyValues: true,
+        data: [
+          { label: 'today', foo: 90, bar: 5, baz: 5 },
+          { label: 'tomorrow', foo: 40, bar: 10, baz: 0 },
+          { label: 'next week', foo: 0, bar: 20, baz: 0 }
+        ]
+      }
+
+      const attrs = {
+        style: 'width: 600px'
+      }
+
+      wrapper = mount(StackedColumnChart, { propsData, attrs })
+    })
+
+
+    it('is a Vue instance', () => {
+      expect(wrapper.vm).toBeTruthy()
+    })
+
+    it('creates 3 columns', async () => {
+      expect(wrapper.findAll('.stacked-column-chart__groups__item')).toHaveLength(3)
+    })
+
+    it('creates the first column with no hidden bars', () => {
+      const group = wrapper.findAll('.stacked-column-chart__groups__item').at(0)
+      const hiddenBars = group.findAll('.stacked-column-chart__groups__item__bars__item--hidden')
+      expect(hiddenBars).toHaveLength(0)
+    })
+
+    it('creates the second column with one hidden bar', () => {
+      const group = wrapper.findAll('.stacked-column-chart__groups__item').at(1)
+      const hiddenBars = group.findAll('.stacked-column-chart__groups__item__bars__item--hidden')
+      expect(hiddenBars).toHaveLength(1)
+    })
+
+    it('creates the third column with two hidden bars', () => {
+      const group = wrapper.findAll('.stacked-column-chart__groups__item').at(2)
+      const hiddenBars = group.findAll('.stacked-column-chart__groups__item__bars__item--hidden')
+      expect(hiddenBars).toHaveLength(2)
+    })
+
   })
 })

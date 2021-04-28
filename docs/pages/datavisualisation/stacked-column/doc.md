@@ -118,12 +118,11 @@ You can also set the maximum value and use a different field for column's label:
 
 :::sample-card
 <div class="m-4">
-  <div class="d-flex align-items-baseline">
-    <h4>
-      ICIJ Staff by city
-    </h4>
-  </div>
-  <stacked-column-chart :data="icijStaff" :max-value="10" labelField="city" class="my-4" />  
+  <h4>
+    ICIJ Staff by office
+  </h4>
+  <p class="text-muted">As of April 2021. This list is more or less accurate.</p>
+  <stacked-column-chart :data="icijStaff" :max-value="10" labelField="city" hide-empty-values class="my-4" />  
 </div>
 :::
 
@@ -131,9 +130,11 @@ You can also set the maximum value and use a different field for column's label:
 <collapsible-block label="Show the data structure">
 ```json
 [
-  { "city": "Paris ", "developers": 4, "journalists": 1, "devops": 0 },
-  { "city": "Madrid ", "developers": 0, "journalists": 0, "devops": 4 },
-  { "city": "Washington DC", "developers": 1, "journalists": 5, "devops": 0 }
+  { "city": "Washington DC", "developers": 1, "journalists": 6, "devops": 1, "finance": 1 },
+  { "city": "Paris ", "developers": 5, "journalists": 1, "devops": 0, "finance": 0 },
+  { "city": "Madrid ", "developers": 1, "journalists": 0, "devops": 4, "finance": 0 },
+  { "city": "New York City", "developers": 0, "journalists": 3, "devops": 0, "finance": 1 },
+  { "city": "Syndey", "developers": 0, "journalists": 2, "devops": 0, "finance": 1 },
 ]
 ```
 </collapsible-block>
@@ -148,9 +149,11 @@ You can also set the maximum value and use a different field for column's label:
         socialMode: false,
         incidentReportsUrl: 'https://gist.githubusercontent.com/pirhoo/4055e8d1ee3016805eaf1d2feabdd895/raw/a3d2ba8e9d19fcd9fc659dab50ec075248178238/stacked-colums-incidents.json',
         icijStaff: [
-          { "city": "Paris ", "developers": 4, "journalists": 1, "devops": 0 },
-          { "city": "Madrid ", "developers": 0, "journalists": 0, "devops": 4 },
-          { "city": "Washington DC", "developers": 1, "journalists": 5, "devops": 0 }
+          { "city": "Washington DC", "developers": 1, "journalists": 6, "devops": 1, "finance": 1 },
+          { "city": "Paris ", "developers": 5, "journalists": 1, "devops": 0, "finance": 0 },
+          { "city": "Madrid ", "developers": 1, "journalists": 0, "devops": 4, "finance": 0 },
+          { "city": "New York City", "developers": 0, "journalists": 3, "devops": 0, "finance": 1 },
+          { "city": "Syndey", "developers": 0, "journalists": 2, "devops": 0, "finance": 1 },
         ]
       }
     }

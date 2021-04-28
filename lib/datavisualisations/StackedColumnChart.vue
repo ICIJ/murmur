@@ -34,6 +34,7 @@
                 :class="{
                   [`stacked-column-chart__groups__item__bars__item--${key}`]: true,
                   [`stacked-column-chart__groups__item__bars__item--${j}n`]: true,
+                  'stacked-column-chart__groups__item__bars__item--hidden': isHidden(i, key),
                   'stacked-column-chart__groups__item__bars__item--highlighted': isHighlighted(key),
                   'stacked-column-chart__groups__item__bars__item--value-overflow': hasValueOverflow(i, key),
                   'stacked-column-chart__groups__item__bars__item--value-pushed': hasValuePushed(i, key),
@@ -77,7 +78,7 @@ export default {
       default: () => ([])
     },
     /**
-     * Group name to display in the legen
+     * Group name to display in the legend
      */
     groups: {
       type: Array,
@@ -89,6 +90,12 @@ export default {
     barColors: {
       type: Array,
       default: () => ([])
+    },
+    /**
+     * Hide bars that have no values.
+     */
+    hideEmptyValues: {
+      type: Boolean
     },
     /**
      * Hide the legend.
@@ -350,6 +357,9 @@ export default {
       const value = bar.querySelector(valueSelector)
       return { bar, row, value }
     },
+    isHidden (i, key) {
+      return this.hideEmptyValues && !this.sortedData[i][key]
+    },
     hasValueOverflow (i, key) {
       const stack = this.stackBarAndValue(i)
       return find(stack, { key })?.overflow
@@ -480,6 +490,10 @@ export default {
             .stacked-column-chart:not(.stacked-column-chart--has-highlights) &--value-hidden &__value,
             .stacked-column-chart:not(.stacked-column-chart--has-highlights) &--value-pushed &__value {
               visibility: hidden;
+            }
+
+            &--hidden {
+              display: none;
             }
 
             &--value-overflow &__value {
