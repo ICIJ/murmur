@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import { BPagination } from 'bootstrap-vue'
+  import { BPagination, BInputGroup } from 'bootstrap-vue'
   import { BCol } from 'bootstrap-vue'
   import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons/faExchangeAlt'
   import { library } from './Fa'
@@ -57,6 +57,7 @@
     },
     components: {
       Fa: require('./Fa').default,
+      BInputGroup,
       BPagination,
       BCol
     },
