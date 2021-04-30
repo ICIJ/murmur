@@ -12,6 +12,13 @@ Object.defineProperties(window.HTMLElement.prototype, {
   }
 })
 
+const createContainer = (tag = 'div') => {
+  const container = document.createElement(tag)
+  document.body.appendChild(container)
+  return container
+}
+
+
 describe('StackedColumnChart.vue', () => {
 
   describe('a stacked-colmuns chart with two columns in four groups and direct labeling', () => {
@@ -29,7 +36,7 @@ describe('StackedColumnChart.vue', () => {
         ]
       }
 
-      wrapper = mount(StackedColumnChart, { propsData })
+      wrapper = mount(StackedColumnChart, { propsData, attachTo: createContainer() })
     })
 
     it('is a Vue instance', () => {
@@ -244,7 +251,7 @@ describe('StackedColumnChart.vue', () => {
         style: 'width: 600px'
       }
 
-      wrapper = mount(StackedColumnChart, { propsData, attrs })
+      wrapper = mount(StackedColumnChart, { propsData, attachTo: createContainer(), attrs })
     })
 
     it('is a Vue instance', () => {
@@ -339,7 +346,7 @@ describe('StackedColumnChart.vue', () => {
         style: 'width: 600px'
       }
 
-      wrapper = mount(StackedColumnChart, { propsData, attrs })
+      wrapper = mount(StackedColumnChart, { propsData, attachTo: createContainer(), attrs })
     })
 
     it('is a Vue instance', () => {
@@ -370,6 +377,7 @@ describe('StackedColumnChart.vue', () => {
         labelField: 'label',
         fixedHeight: 500,
         hideEmptyValues: true,
+        highlightDelay: 0,
         data: [
           { label: 'today', foo: 90, bar: 5, baz: 5 },
           { label: 'tomorrow', foo: 40, bar: 10, baz: 0 },
@@ -381,7 +389,7 @@ describe('StackedColumnChart.vue', () => {
         style: 'width: 600px'
       }
 
-      wrapper = mount(StackedColumnChart, { propsData, attrs })
+      wrapper = mount(StackedColumnChart, { propsData, attachTo: createContainer(), attrs })
     })
 
 
@@ -410,6 +418,5 @@ describe('StackedColumnChart.vue', () => {
       const hiddenBars = group.findAll('.stacked-column-chart__groups__item__bars__item--hidden')
       expect(hiddenBars).toHaveLength(2)
     })
-
   })
 })

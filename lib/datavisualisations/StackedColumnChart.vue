@@ -29,6 +29,7 @@
             <div v-for="(key, j) in discoveredKeys"
                 @mouseover="delayHighlight(key)"
                 @mouseleave="restoreHighlights()"
+                v-b-tooltip.html="{ delay: barTooltipDelay, disabled: noTooltips, title: barTitle(i, key) }"
                 :style="barStyle(i, key)"
                  class="stacked-column-chart__groups__item__bars__item"
                 :class="{
@@ -55,6 +56,7 @@
 </template>
 
 <script>
+import { VBTooltip } from 'bootstrap-vue/esm/directives/tooltip/tooltip'
 import * as d3 from 'd3';
 import keys from 'lodash/keys'
 import find from 'lodash/find'
@@ -69,6 +71,9 @@ import chart from '../mixins/chart'
 export default {
   name: 'StackedColumnChart',
   mixins: [chart],
+  directives: {
+    'b-tooltip': VBTooltip
+  },
   props: {
     /**
      * Field of each object containing data (for each group)
@@ -186,6 +191,21 @@ export default {
      maxValue: {
        type: Number,
        default: null
+     },
+     /**
+      * Function to define tooltip content.
+      */
+     tooltipDisplay: {
+       type: Function,
+       default: ({ formattedKey, formattedValue }) => {
+         return `<h6 class="mb-0">${formattedKey}</h6><div>${formattedValue}</div>`
+       }
+     },
+     /**
+      * Hide bar tooltips
+      */
+     noTooltips: {
+       type: Boolean
      }
   },
   data () {
@@ -272,6 +292,9 @@ export default {
       return {
         marginLeft: this.noDirectLabeling ? `${this.leftAxisLabelsWidth + this.yAxisTickPadding}px` : 0
       }
+    },
+    barTooltipDelay () {
+      return this.hasHighlights ? 0 : this.highlightDelay
     }
   },
   methods: {
@@ -319,6 +342,12 @@ export default {
       const height = `${100 * (value / totalWith)}%`
       const backgroundColor = this.colorScale(key)
       return { height, backgroundColor }
+    },
+    barTitle (i, key) {
+      const value = this.sortedData[i][key]
+      const formattedValue = this.$options.filters.d3Formatter(value, this.yAxisTickFormat)
+      const formattedKey = this.groupName(key)
+      return this.tooltipDisplay({ value, formattedValue, key, formattedKey })
     },
     stackBarAndValue (i) {
       if (!this.mounted) {

@@ -12,7 +12,7 @@ Component do draw dead simple stacked column charts.
   <p class="text-muted">
     Incidents were reported as routine events that did not require public disclosure. After the FDA tightened enforcement of its reporting rules in 2017, reports of injuries soared.
   </p>
-  <stacked-column-chart :data="incidentReportsUrl" y-axis-tick-format=",.0f" class="my-4" />  
+  <stacked-column-chart :data="incidentReportsUrl" :groups="['Deaths', 'Injuries', 'Malfunctions']" y-axis-tick-format=",.0f" class="my-4" />  
   <p class="text-muted small">
     Source: U.S. Food and Drug Administration, ICIJ analysis
   </p>
@@ -122,7 +122,7 @@ You can also set the maximum value and use a different field for column's label:
     ICIJ Staff by office
   </h4>
   <p class="text-muted">As of April 2021. This list is more or less accurate.</p>
-  <stacked-column-chart :data="icijStaff" :max-value="10" labelField="city" hide-empty-values class="my-4" />  
+  <stacked-column-chart :data="icijStaff" :max-value="10" no-tooltips labelField="city" hide-empty-values class="my-4" />  
 </div>
 :::
 
