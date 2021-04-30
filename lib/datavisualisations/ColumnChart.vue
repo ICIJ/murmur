@@ -5,15 +5,33 @@
         <g class="column-chart__axis column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }"></g>
         <g class="column-chart__axis column-chart__axis--y" :style="{ transform: `translate(${padded.left}px, 0)` }"></g>
       </g>
-      <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }" class="column-chart__columns">
-        <rect v-for="(bar, i) in bars"
-            :key="i"
-            :class="{ 'column-chart__columns__item--highlight': bar.highlight }"
+      <g class="column-chart__columns" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
+        <rect v-for="(bar, index) in bars"
+            :key="index"
+            :class="{ 'column-chart__columns__item--highlight': bar.datum.highlight }"
             class="column-chart__columns__item"
             :width="bar.width"
             :height="bar.height"
             :x="bar.x"
-            :y="bar.y"></rect>
+            :y="bar.y"
+            @mouseover="shownTooltip = index"
+            @mouseleave="shownTooltip = -1"></rect>
+      </g>
+      <g class="column-chart__tooltips" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }" v-if="!noTooltips">
+        <foreignObject :width="maxTooltipWidth" :height="maxTooltipHeight" v-for="(bar, index) in bars" :key="index" :transform="barTooltipTransform(bar)">
+          <div class="column-chart__tooltips__item" :class="barTooltipClasses(bar, index)">
+            <div class="column-chart__tooltips__item__wrapper" xmlns="http://www.w3.org/1999/xhtml">
+              <slot name="tooltip" v-bind="bar">
+                <h6 class="column-chart__tooltips__item__wrapper__heading mb-0">
+                  {{ bar.datum[timeseriesKey] | d3Formatter(xAxisTickFormat) }}
+                </h6>
+                <div class="column-chart__tooltips__item__wrapper__value">
+                  {{ bar.datum[seriesName] | d3Formatter(yAxisTickFormat) }}
+                </div>
+              </slot>
+            </div>
+          </div>
+        </foreignObject>
       </g>
     </svg>
   </div>
@@ -102,12 +120,33 @@ export default {
     maxValue: {
       type: Number,
       default: null
+    },
+    /**
+     * Set the maximum width of a tooltip
+     */
+    maxTooltipWidth: {
+      type: Number,
+      default: 200
+    },
+    /**
+     * Set the maximum height of a tooltip
+     */
+    maxTooltipHeight: {
+      type: Number,
+      default: 200
+    },
+    /**
+     * Hide bar tooltips
+     */
+    noTooltips: {
+      type: Boolean
     }
   },
   data() {
     return {
       width: 0,
-      height: 0
+      height: 0,
+      shownTooltip: -1
     }
   },
   computed: {
@@ -150,7 +189,7 @@ export default {
     },
     scale () {
       const x = d3.scaleBand()
-        .domain(this.sortedData.map(d => d[[this.timeseriesKey]]))
+        .domain(this.sortedData.map(d => d[this.timeseriesKey]))
         .range([0, this.padded.width])
         .padding(.35)
 
@@ -163,13 +202,13 @@ export default {
       return { x, y }
     },
     bars () {
-      return this.sortedData.map(d => {
+      return this.sortedData.map(datum => {
         return {
+          datum,
           width: Math.abs(this.scale.x.bandwidth()),
-          height: Math.abs(this.padded.height - this.scale.y(d[this.seriesName])),
-          highlight: d.highlight,
-          x: this.scale.x(d[this.timeseriesKey]),
-          y: this.scale.y(d[this.seriesName])
+          height: Math.abs(this.padded.height - this.scale.y(datum[this.seriesName])),
+          x: this.scale.x(datum[this.timeseriesKey]),
+          y: this.scale.y(datum[this.seriesName]),
         }
       });
     },
@@ -225,6 +264,22 @@ export default {
           .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
           .ticks(this.yAxisTicks)
         ).selectAll(".tick line").attr("x2", this.padded.width)
+    },
+    barTooltipTransform ({ x = 0, y = 0, width = 0 } = {}) {
+      const flipX = x > this.padded.width / 2
+      const flipY = y < this.padded.height / 2
+      const tooltipX = x + (flipX ? -this.maxTooltipWidth : width)
+      const tooltipY = y + (flipY ? 0 : -this.maxTooltipHeight)
+      return `translate(${tooltipX}, ${tooltipY})`
+    },
+    barTooltipClasses ({ x = 0, y = 0 } = {}, index = 0) {
+      const flipX = x > this.padded.width / 2
+      const flipY = y < this.padded.height / 2
+      return {
+        'column-chart__tooltips__item--flip-x': flipX,
+        'column-chart__tooltips__item--flip-y': flipY,
+        'column-chart__tooltips__item--visible': this.shownTooltip === index
+      }
     }
   }
 }
@@ -266,6 +321,67 @@ export default {
 
       &--x .tick line {
         display: none;
+      }
+    }
+
+    &__tooltips {
+      pointer-events: none;
+
+      &__item {
+        display: none;
+        text-align: center;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: flex-start;
+        height: 100%;
+        position: relative;
+
+        &--visible {
+          display: flex;
+        }
+
+        &--flip-x {
+          justify-content: flex-end;
+        }
+
+        &--flip-y {
+          align-items: flex-start;
+        }
+
+        &:after {
+          content: "";
+          border: ($tooltip-arrow-width / 2) solid transparent;
+          position: absolute;
+          transform: translateX(1px);
+        }
+
+        &--flip-x:after {
+          border-left-color: rgba($tooltip-bg, $tooltip-opacity);
+          transform: translateX(-1px);
+        }
+
+        &:not(&--flip-x):after {
+          border-right-color: rgba($tooltip-bg, $tooltip-opacity);
+        }
+
+        &--flip-y {
+          align-items: flex-start;
+        }
+
+        &--flip-y:after {
+          border-top-color: rgba($tooltip-bg, $tooltip-opacity);
+        }
+
+        &:not(&--flip-y):after {
+          border-bottom-color: rgba($tooltip-bg, $tooltip-opacity);
+        }
+
+        &__wrapper {
+          background: rgba($tooltip-bg, $tooltip-opacity);
+          color: $tooltip-color;
+          margin: 0 $tooltip-arrow-width;
+          padding: .2rem .4rem;
+        }
       }
     }
   }

@@ -150,7 +150,7 @@ describe('ColumnChart.vue', () => {
     })
   })
 
-  describe('a 10 columns chart with two highlights using remote CSV', () => {
+  describe('a 10 columns chart with two highlights using remote CSV and no tooltips', () => {
 
     let wrapper
 
@@ -173,7 +173,8 @@ describe('ColumnChart.vue', () => {
       const propsData = {
         data: 'http://localhost/data.csv',
         dataUrlType: 'csv',
-        seriesName: 'indicator'
+        seriesName: 'indicator',
+        noTooltips: true
       }
       wrapper = mount(ColumnChart, { propsData })
       wrapper.vm.$el.style.width = '500px'
@@ -233,6 +234,10 @@ describe('ColumnChart.vue', () => {
       expect(columns.at(9).classes('column-chart__columns__item--highlight')).toBeFalsy()
     })
 
+    it('should have 0 tooltips', () => {
+      const tooltips = wrapper.findAll('.column-chart__tooltips__item')
+      expect(tooltips).toHaveLength(0)
+    })
   })
 
   describe('a three columns chart with no highlights using remote JSON', () => {
@@ -245,6 +250,14 @@ describe('ColumnChart.vue', () => {
         { date: 2020, value: 60 },
         { date: 2021, value: 90 }
       ])
+    })
+
+    beforeEach(async () => {
+      const propsData = { data: 'http://localhost/data.json' }
+      wrapper = mount(ColumnChart, { propsData })
+      wrapper.vm.$el.style.width = '500px'
+      wrapper.vm.setSizes()
+      await wrapper.vm.$nextTick()
     })
 
     it('should have a max value to 100 set with a property', async () => {
@@ -269,6 +282,71 @@ describe('ColumnChart.vue', () => {
       const column = wrapper.findAll('.column-chart__columns__item').at(2)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height / 2)
+    })
+
+    it('should have 3 tooltips, none visible', () => {
+      const tooltips = wrapper.findAll('.column-chart__tooltips__item')
+      expect(tooltips).toHaveLength(3)
+      const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item--visible')
+      expect(visibleTooltips).toHaveLength(0)
+    })
+
+    it('should have one tooltip visible after the mouse overs a column', async () => {
+      wrapper.findAll('.column-chart__columns__item').at(0).trigger('mouseover')
+      await wrapper.vm.$nextTick()
+      const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item--visible')
+      expect(visibleTooltips).toHaveLength(1)
+    })
+
+    it('should hide the tooltip after the mouse leaves a column', async () => {
+      const firstColumn = wrapper.findAll('.column-chart__columns__item').at(0)
+
+      firstColumn.trigger('mouseover')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.findAll('.column-chart__tooltips__item--visible')).toHaveLength(1)
+
+      firstColumn.trigger('mouseover')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.findAll('.column-chart__tooltips__item--visible')).toHaveLength(1)
+    })
+
+    it('should have a first tooltip no fliped horizontaly or verticaly', () => {
+      const firstTooltip = wrapper.findAll('.column-chart__tooltips__item').at(0)
+      expect(firstTooltip.classes('column-chart__tooltips__item--flip-x')).toBeFalsy()
+      expect(firstTooltip.classes('column-chart__tooltips__item--flip-y')).toBeFalsy()
+    })
+
+    it('should have a second tooltip no fliped verticaly but not horizontaly', () => {
+      const secondTooltip = wrapper.findAll('.column-chart__tooltips__item').at(1)
+      expect(secondTooltip.classes('column-chart__tooltips__item--flip-x')).toBeFalsy()
+      expect(secondTooltip.classes('column-chart__tooltips__item--flip-y')).toBeTruthy()
+    })
+
+    it('should have a third tooltip fliped verticaly and horizontaly', () => {
+      const thirdTooltip = wrapper.findAll('.column-chart__tooltips__item').at(2)
+      expect(thirdTooltip.classes('column-chart__tooltips__item--flip-x')).toBeTruthy()
+      expect(thirdTooltip.classes('column-chart__tooltips__item--flip-y')).toBeTruthy()
+    })
+
+    it('should position the first tooltip next to the first bar', () => {
+      const firstTooltip = wrapper.findAll('.column-chart__tooltips foreignObject').at(0)
+      const x = wrapper.vm.bars[0].x + wrapper.vm.bars[0].width
+      const y = wrapper.vm.bars[0].y - wrapper.vm.maxTooltipHeight
+      expect(firstTooltip.attributes('transform')).toBe(`translate(${x}, ${y})`)
+    })
+
+    it('should position the second tooltip next to the second bar but fliped verticaly', () => {
+      const secondTooltip = wrapper.findAll('.column-chart__tooltips foreignObject').at(1)
+      const x = wrapper.vm.bars[1].x + wrapper.vm.bars[0].width
+      const y = wrapper.vm.bars[1].y
+      expect(secondTooltip.attributes('transform')).toBe(`translate(${x}, ${y})`)
+    })
+
+    it('should position the third tooltip before to the third bar', () => {
+      const thirdTooltip = wrapper.findAll('.column-chart__tooltips foreignObject').at(2)
+      const x = wrapper.vm.bars[2].x - wrapper.vm.maxTooltipWidth
+      const y = wrapper.vm.bars[2].y
+      expect(thirdTooltip.attributes('transform')).toBe(`translate(${x}, ${y})`)
     })
   })
 })

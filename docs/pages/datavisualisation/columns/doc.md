@@ -74,7 +74,11 @@ Or with discrete series:
   <p class="text-muted">
     Size of each ICIJ's leak.
   </p>
-  <column-chart :data="discreteData" series-name="size" timeseries-key="leak" :y-axis-tick-format="humanReadableGb" :y-axis-ticks="4" :max-value="3000" class="my-4"></column-chart>
+  <column-chart :data="discreteData" series-name="size" timeseries-key="leak" :y-axis-tick-format="humanReadableGb" :y-axis-ticks="4" :max-value="3000" class="my-4">
+    <template #tooltip="{ datum: { leak, size } }">
+      <span v-html="`The ${leak} investigation is ${humanReadableGb(size)}`"></span>
+    </template>
+  </column-chart>
   <p class="text-muted small">
     Source: ICIJ
   </p>
