@@ -19,18 +19,20 @@
       </g>
       <g class="column-chart__tooltips" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }" v-if="!noTooltips">
         <foreignObject :width="maxTooltipWidth" :height="maxTooltipHeight" v-for="(bar, index) in bars" :key="index" :transform="barTooltipTransform(bar)">
-          <div class="column-chart__tooltips__item" :class="barTooltipClasses(bar, index)">
-            <div class="column-chart__tooltips__item__wrapper" xmlns="http://www.w3.org/1999/xhtml">
-              <slot name="tooltip" v-bind="bar">
-                <h6 class="column-chart__tooltips__item__wrapper__heading mb-0">
-                  {{ bar.datum[timeseriesKey] | d3Formatter(xAxisTickFormat) }}
-                </h6>
-                <div class="column-chart__tooltips__item__wrapper__value">
-                  {{ bar.datum[seriesName] | d3Formatter(yAxisTickFormat) }}
-                </div>
-              </slot>
+          <transition name="fade">
+            <div class="column-chart__tooltips__item" :class="barTooltipClasses(bar, index)" v-if="index === shownTooltip">
+              <div class="column-chart__tooltips__item__wrapper" xmlns="http://www.w3.org/1999/xhtml">
+                <slot name="tooltip" v-bind="bar">
+                  <h6 class="column-chart__tooltips__item__wrapper__heading mb-0">
+                    {{ bar.datum[timeseriesKey] | d3Formatter(xAxisTickFormat) }}
+                  </h6>
+                  <div class="column-chart__tooltips__item__wrapper__value">
+                    {{ bar.datum[seriesName] | d3Formatter(yAxisTickFormat) }}
+                  </div>
+                </slot>
+              </div>
             </div>
-          </div>
+          </transition>
         </foreignObject>
       </g>
     </svg>
@@ -277,8 +279,7 @@ export default {
       const flipY = y < this.padded.height / 2
       return {
         'column-chart__tooltips__item--flip-x': flipX,
-        'column-chart__tooltips__item--flip-y': flipY,
-        'column-chart__tooltips__item--visible': this.shownTooltip === index
+        'column-chart__tooltips__item--flip-y': flipY
       }
     }
   }
@@ -327,8 +328,9 @@ export default {
     &__tooltips {
       pointer-events: none;
 
+
       &__item {
-        display: none;
+        display: flex;
         text-align: center;
         flex-direction: row;
         align-items: flex-end;
@@ -336,8 +338,12 @@ export default {
         height: 100%;
         position: relative;
 
-        &--visible {
-          display: flex;
+        &.fade-enter-active, &.fade-leave-active {
+          transition: $transition-fade;
+        }
+
+        &.fade-enter, &.fade-leave-to {
+          opacity: 0;
         }
 
         &--flip-x {

@@ -285,16 +285,16 @@ describe('ColumnChart.vue', () => {
     })
 
     it('should have 3 tooltips, none visible', () => {
-      const tooltips = wrapper.findAll('.column-chart__tooltips__item')
+      const tooltips = wrapper.findAll('.column-chart__tooltips foreignObject')
       expect(tooltips).toHaveLength(3)
-      const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item--visible')
+      const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item')
       expect(visibleTooltips).toHaveLength(0)
     })
 
     it('should have one tooltip visible after the mouse overs a column', async () => {
       wrapper.findAll('.column-chart__columns__item').at(0).trigger('mouseover')
       await wrapper.vm.$nextTick()
-      const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item--visible')
+      const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item')
       expect(visibleTooltips).toHaveLength(1)
     })
 
@@ -303,27 +303,33 @@ describe('ColumnChart.vue', () => {
 
       firstColumn.trigger('mouseover')
       await wrapper.vm.$nextTick()
-      expect(wrapper.findAll('.column-chart__tooltips__item--visible')).toHaveLength(1)
+      expect(wrapper.findAll('.column-chart__tooltips__item')).toHaveLength(1)
 
       firstColumn.trigger('mouseover')
       await wrapper.vm.$nextTick()
-      expect(wrapper.findAll('.column-chart__tooltips__item--visible')).toHaveLength(1)
+      expect(wrapper.findAll('.column-chart__tooltips__item')).toHaveLength(1)
     })
 
-    it('should have a first tooltip no fliped horizontaly or verticaly', () => {
-      const firstTooltip = wrapper.findAll('.column-chart__tooltips__item').at(0)
+    it('should have a first tooltip no fliped horizontaly or verticaly', async () => {
+      wrapper.setData({ shownTooltip: 0 })
+      await wrapper.vm.$nextTick()
+      const firstTooltip = wrapper.find('.column-chart__tooltips__item')
       expect(firstTooltip.classes('column-chart__tooltips__item--flip-x')).toBeFalsy()
       expect(firstTooltip.classes('column-chart__tooltips__item--flip-y')).toBeFalsy()
     })
 
-    it('should have a second tooltip no fliped verticaly but not horizontaly', () => {
-      const secondTooltip = wrapper.findAll('.column-chart__tooltips__item').at(1)
+    it('should have a second tooltip no fliped verticaly but not horizontaly', async () => {
+      wrapper.setData({ shownTooltip: 1 })
+      await wrapper.vm.$nextTick()
+      const secondTooltip = wrapper.find('.column-chart__tooltips__item')
       expect(secondTooltip.classes('column-chart__tooltips__item--flip-x')).toBeFalsy()
       expect(secondTooltip.classes('column-chart__tooltips__item--flip-y')).toBeTruthy()
     })
 
-    it('should have a third tooltip fliped verticaly and horizontaly', () => {
-      const thirdTooltip = wrapper.findAll('.column-chart__tooltips__item').at(2)
+    it('should have a third tooltip fliped verticaly and horizontaly', async () => {
+      wrapper.setData({ shownTooltip: 2 })
+      await wrapper.vm.$nextTick()
+      const thirdTooltip = wrapper.find('.column-chart__tooltips__item')
       expect(thirdTooltip.classes('column-chart__tooltips__item--flip-x')).toBeTruthy()
       expect(thirdTooltip.classes('column-chart__tooltips__item--flip-y')).toBeTruthy()
     })
