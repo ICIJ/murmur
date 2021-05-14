@@ -50,12 +50,6 @@ describe('HapticCopy.vue', () => {
     expect(wrapper.find('.haptic-copy__label').text()).toBe('Copy in the clipboard')
   })
 
-  it('should create a textarea inside the button after a click', () => {
-    const wrapper = mount(HapticCopy, { propsData })
-    wrapper.trigger('click')
-    expect(wrapper.find('textarea').exists()).toBeTruthy()
-  })
-
   it('should emit an `error` event after copying text', async () => {
     const wrapper = mount(HapticCopy, { propsData })
     await wrapper.vm.copy()
