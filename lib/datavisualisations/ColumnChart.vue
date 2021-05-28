@@ -2,8 +2,8 @@
   <div class="column-chart" :style="{ '--column-color': columnColor, '--column-highlight-color': columnHighlightColor }" :class="{ 'column-chart--has-highlights': dataHasHighlights, 'column-chart--social-mode': socialMode  }">
     <svg :width="width" :height="height">
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
-        <g class="column-chart__axis column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }"></g>
-        <g class="column-chart__axis column-chart__axis--y" :style="{ transform: `translate(${padded.left}px, 0)` }"></g>
+        <g class="column-chart__axis column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }" v-if="!noXAxis"></g>
+        <g class="column-chart__axis column-chart__axis--y" :style="{ transform: `translate(${padded.left}px, 0)` }" v-if="!noYAxis"></g>
       </g>
       <g class="column-chart__columns" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
         <rect v-for="(bar, index) in bars"
@@ -142,6 +142,18 @@ export default {
      */
     noTooltips: {
       type: Boolean
+    },
+    /**
+     * Hide x axis
+     */
+    noXAxis: {
+      type: Boolean
+    },
+    /**
+     * Hide y axis
+     */
+    noYAxis: {
+      type: Boolean
     }
   },
   data() {
@@ -178,10 +190,10 @@ export default {
     },
     margin () {
       return {
-        left: this.labelWidth + 10,
+        left: this.noYAxis ? 0 : this.labelWidth + 10,
         right: 0,
         top: this.labelHeight / 2,
-        bottom: this.bucketHeight + 10
+        bottom: this.noXAxis ? 0 : this.bucketHeight + 10
       }
     },
     padded () {

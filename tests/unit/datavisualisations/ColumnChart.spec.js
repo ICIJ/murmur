@@ -23,7 +23,7 @@ Object.defineProperties(window.HTMLElement.prototype, {
 
 describe('ColumnChart.vue', () => {
 
-  describe('a five columns chart with 1 highlight', () => {
+  describe('a five columns chart with 1 highlight and no y axis', () => {
 
     let wrapper
 
@@ -36,7 +36,8 @@ describe('ColumnChart.vue', () => {
             { date: 2002, value: 2 },
             { date: 2003, value: 3, highlight: true },
             { date: 2004, value: 4 }
-        ]
+        ],
+        noYAxis: true
       }
 
       wrapper = mount(ColumnChart, { propsData })
@@ -51,6 +52,11 @@ describe('ColumnChart.vue', () => {
 
     it('creates five x-axis ticks', () => {
       expect(wrapper.findAll('.column-chart__axis--x .tick')).toHaveLength(5)
+    })
+
+    it('creates no y-axis but a x-axis', () => {
+      expect(wrapper.find('.column-chart__axis--y').exists()).toBeFalsy()
+      expect(wrapper.find('.column-chart__axis--x').exists()).toBeTruthy()
     })
 
     it('creates x-axis ticks with the right years ', () => {
@@ -253,11 +259,17 @@ describe('ColumnChart.vue', () => {
     })
 
     beforeEach(async () => {
-      const propsData = { data: 'http://localhost/data.json' }
+      const propsData = { data: 'http://localhost/data.json', noXAxis: true }
       wrapper = mount(ColumnChart, { propsData })
       wrapper.vm.$el.style.width = '500px'
       wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
+    })
+
+
+    it('creates no x-axis but a y-axis', () => {
+      expect(wrapper.find('.column-chart__axis--x').exists()).toBeFalsy()
+      expect(wrapper.find('.column-chart__axis--y').exists()).toBeTruthy()
     })
 
     it('should have a max value to 100 set with a property', async () => {
