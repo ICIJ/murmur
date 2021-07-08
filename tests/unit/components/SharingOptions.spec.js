@@ -1,9 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { toBeVisible } from '@testing-library/jest-dom/matchers'
 
 import SharingOptions from '@/components/SharingOptions'
-
-expect.extend({ toBeVisible})
 
 describe('SharingOptions', () => {
 
@@ -60,7 +57,7 @@ describe('SharingOptions', () => {
 
   it('renders the embed button by default', () => {
     const wrapper = mount(SharingOptions, { propsData })
-    expect(wrapper.find('.sharing-options__link--embed').element).toBeVisible()
+    expect(wrapper.find('.sharing-options__link--embed').element.style.display).not.toBe('none')
   })
 
   it('hides the embed button when props.noEmbed is passed', () => {
@@ -68,7 +65,7 @@ describe('SharingOptions', () => {
     const wrapper = mount(SharingOptions, {
       propsData: { noEmbed, ...propsData }
     })
-    expect(wrapper.find('.sharing-options__link--embed').element).not.toBeVisible()
+    expect(wrapper.find('.sharing-options__link--embed').element.style.display).toBe('none')
   })
 
   it('hides the embed button when props.noEmbed is passed', () => {
@@ -76,7 +73,7 @@ describe('SharingOptions', () => {
     const wrapper = mount(SharingOptions, {
       propsData: { noEmbed, ...propsData }
     })
-    expect(wrapper.find('.sharing-options__link--embed').element).not.toBeVisible()
+    expect(wrapper.find('.sharing-options__link--embed').element.style.display).toBe('none')
   })
 
   it('uses a generic title', () => {
