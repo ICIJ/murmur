@@ -97,6 +97,9 @@
           classes[`advanced-link-form--${prop}`] = this[prop]
           return classes
         }, {})
+      },
+      size () {
+        return this.small ? 'sm' : 'md'
       }
     },
     methods: {
@@ -149,17 +152,17 @@
     @input="$emit('input', $event)">
     <b-tab :title="$t('advanced-link-form.raw.tab')" v-if="showForm('raw')">
       <div class="advanced-link-form__raw" :class="{ small }">
-        <b-input-group :size="small ? 'sm' : 'md'">
+        <b-input-group :size="size">
           <b-form-input readonly :value="link" class="advanced-link-form__raw__input" @click="selectRaw()" />
           <b-input-group-append>
-              <haptic-copy class="btn-secondary" :text="link" @attempt="selectRaw()" />
+            <haptic-copy class="btn-secondary" :text="link" @attempt="selectRaw()" />
           </b-input-group-append>
         </b-input-group>
       </div>
     </b-tab>
     <b-tab :title="$t('advanced-link-form.rich.tab')" v-if="showForm('rich')">
       <div class="advanced-link-form__rich" :class="{ small }">
-        <b-input-group :size="small ? 'sm' : 'md'">
+        <b-input-group :size="size">
           <a :href="link" class="form-control advanced-link-form__rich__input" @click.prevent="selectRich()" v-html="titleOrLink"></a>
           <b-input-group-append>
             <haptic-copy class="btn-secondary" html :text="linkAsHtml" :plain="link" @attempt="selectRich()" />
@@ -172,7 +175,7 @@
     </b-tab>
     <b-tab :title="$t('advanced-link-form.markdown.tab')" v-if="showForm('markdown')">
       <div class="advanced-link-form__markdown" :class="{ small }">
-        <b-input-group :size="small ? 'sm' : 'md'">
+        <b-input-group :size="size">
           <b-form-input readonly :value="linkAsMarkdown" class="advanced-link-form__markdown__input" @click="selectMarkdown()" />
           <b-input-group-append>
               <haptic-copy class="btn-secondary" :text="linkAsMarkdown" @attempt="selectMarkdown()" />
@@ -185,7 +188,7 @@
     </b-tab>
     <b-tab :title="$t('advanced-link-form.html.tab')" v-if="showForm('html')">
       <div class="advanced-link-form__html" :class="{ small }">
-        <b-input-group :size="small ? 'sm' : 'md'">
+        <b-input-group :size="size">
           <b-form-input readonly :value="linkAsHtml" class="advanced-link-form__html__input" @click="selectHtml()" />
           <b-input-group-append>
               <haptic-copy class="btn-secondary" :text="linkAsHtml" @attempt="selectHtml()" />
