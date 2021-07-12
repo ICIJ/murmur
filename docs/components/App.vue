@@ -74,6 +74,7 @@ export default {
     & /deep/ .hljs {
       background: $dark;
       padding: $spacer;
+      display: block;
     }
 
     .fade-enter-active, .fade-leave-active {
