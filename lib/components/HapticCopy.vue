@@ -14,7 +14,7 @@
         {{ label || $t('haptic-copy.label') }}
       </span>
     </slot>
-    <b-tooltip noninteractive ref="tooltip" :target="() => $el" :triggers="[]" :container="tooltipContainer" v-if="!noTooltip">
+    <b-tooltip noninteractive ref="tooltip" :target="() => $el" :triggers="[]" :container="tooltipContainer" v-if="!noTooltip && !!$el">
       {{ tooltipContent }}
     </b-tooltip>
   </button>

@@ -1,19 +1,13 @@
+import MutationObserver from 'mutationobserver-shim'
 import { mount } from '@vue/test-utils'
 import AdvancedLinkForm from '@/components/AdvancedLinkForm.vue'
+// @see https://github.com/molgenis/molgenis-ui-filter/issues/16#issuecomment-576639112
+global.MutationObserver = MutationObserver
 
 describe('AdvancedLinkForm.vue', () => {
 
   // Mock Vue i18n method
   const mocks = { $t: (t) => (t) }
-
-  beforeAll(() => {
-    // Prevent multiple Bootstrap Vue warnings in tests
-    jest.spyOn(console, 'warn').mockImplementation(() => {})
-  })
-
-  afterAll(() => {
-   console.warn.mockClear()
-  })
 
   it('should be a Vue instance', () => {
     const wrapper = mount(AdvancedLinkForm, { mocks })
@@ -61,16 +55,18 @@ describe('AdvancedLinkForm.vue', () => {
     expect(wrapper.find('.tab-pane.active .advanced-link-form__markdown').exists()).toBeTruthy()
   })
 
-  it('should not use card by default', () => {
+  it('should not use card by default', async () => {
     const wrapper = mount(AdvancedLinkForm, { mocks })
+    await wrapper.vm.$nextTick()
     expect(wrapper.classes()).not.toContain('advanced-link-form--card')
     expect(wrapper.find('.nav').classes()).not.toContain('card-header-tabs')
     expect(wrapper.find('.tab-pane.active').classes()).not.toContain('card-body')
   })
 
-  it('should use card when property is set', () => {
+  it('should use card when property is set', async () => {
     const propsData = { card: true }
     const wrapper = mount(AdvancedLinkForm, { propsData, mocks })
+    await wrapper.vm.$nextTick()
     expect(wrapper.classes()).toContain('advanced-link-form--card')
     expect(wrapper.find('.nav').classes()).toContain('card-header-tabs')
     expect(wrapper.find('.tab-pane.active').classes()).toContain('card-body')

@@ -46,7 +46,7 @@ and `markdown` forms, using no fading animation, and using a `small` layout:
     card
     small
     no-fade
-    forms="['raw', 'markdown']"
+    :forms="['raw', 'markdown']"
     title="Medtronic spends millions each year on lobbying in the US"
     link="https://projects.icij.org/the-implant-files/graphics/#/medtronic-lobbying" />
 </b-popover>
