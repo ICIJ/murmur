@@ -57,9 +57,9 @@ Murmur.mergeLocaleMessage('en', {
 
 Here are English locales defined in <repository-link path="lib/locales/en.json">lib/locales/en.json</repository-link>:
 
-```
-{{ en }}
-```
+<collapsible-block label="All English locales">
+  <pre class="bg-dark p-3 m-0"><code>{{ JSON.stringify(en, null, 2) }}</code></pre>
+</collapsible-block>
 
 <script>
   import en from '@/locales/en.json'
