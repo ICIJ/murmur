@@ -1,4 +1,6 @@
+import { createLocalVue, mount } from '@vue/test-utils'
 import { default as config, Config } from '@/config'
+import Murmur from '@/main'
 
 describe('config.js', () => {
 
@@ -92,5 +94,35 @@ describe('config.js', () => {
     expect(config.isnt('activated')).toBeTruthy()
     config.set('activated', false)
     expect(config.isnt('activated')).toBeTruthy()
+  })
+
+  it('should create a reactive property', async () => {
+    const localVue = createLocalVue()
+    localVue.use(Murmur)
+    const component = {
+      render(h) {
+        return h('div', this.$config.get('reactiveProp', 'bar'))
+      }
+    }
+    const wrapper = mount(component, { localVue })
+    expect(wrapper.text()).toBe('bar')
+    wrapper.vm.$config.set('reactiveProp', 'baz')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.text()).toBe('baz')
+  })
+
+  it('should create a nested reactive property', async () => {
+    const localVue = createLocalVue()
+    localVue.use(Murmur)
+    const component = {
+      render(h) {
+        return h('div', this.$config.get('nested.reactiveProp', 'bar'))
+      }
+    }
+    const wrapper = mount(component, { localVue })
+    expect(wrapper.text()).toBe('bar')
+    wrapper.vm.$config.set('nested.reactiveProp', 'baz')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.text()).toBe('baz')
   })
 })
