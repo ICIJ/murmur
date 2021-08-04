@@ -27,11 +27,19 @@ With pills:
 </div>
 :::
 
-With pills, using a `small` layout:
+With pills, using a `sm` layout:
 
 :::sample-card
 <div class="p-2 text-center">
-  <custom-pagination v-model="currentPage" :per-page="10" pills :total-rows="200" small />
+  <custom-pagination v-model="currentPage" :per-page="10" pills :total-rows="200" size="sm" />
+</div>
+:::
+
+Or a `compact` layout:
+
+:::sample-card
+<div class="p-2 text-center">
+  <custom-pagination v-model="currentPage" :per-page="10" :total-rows="200" compact />
 </div>
 :::
 

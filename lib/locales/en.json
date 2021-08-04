@@ -118,6 +118,7 @@
   },
   "custom-pagination": {
     "placeholder": "Jump to page",
+    "compact-placeholder": "Jump to...",
     "total-pages": "No pages | 1 page | {count} pages total",
     "invalid-number-error": "Invalid page number"
   }

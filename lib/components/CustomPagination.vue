@@ -1,27 +1,25 @@
 <template>
-  <div class="custom-pagination container-fluid">
-    <div class="row mr-2">
-      <div class="col m-1 border-right ml-n1">
-        <b-pagination :size="small ? 'sm' : 'md'"
-         class='mt-2'
-         :class="paginationClassList"
+  <div class="custom-pagination container-fluid" :class="{ 'custom-pagination--compact': compact, 'custom-pagination--pills': pills }">
+    <div class="row justify-content-center" :class="{ 'no-gutters': compact && !pills }">
+      <div class="col-auto custom-pagination__pages">
+        <b-pagination :size="size"
          :total-rows="totalRows"
          :per-page="perPage"
          :value="value"
          :pills="pills"
+         :class="paginationClassList"
          @input="value => $emit('input', value)"
+         class="m-0"
          first-number
          last-number>
        </b-pagination>
       </div>
-
-      <div class="col my-1 float-right">
-        <div class="mt-2">
+      <div class="col-auto">
+        <div class="custom-pagination__form">
           <form class="input-group" @submit.prevent="applyJumpFormPage">
-            <b-input-group :size="small ? 'sm' : 'md'"
-            >
-              <input v-model="currentPageInput" type="number" class="form-control" :placeholder="$t('custom-pagination.placeholder')" aria-label="Jump to page" aria-describedby="basic-addon2">
-              <div class="input-group-append">
+            <b-input-group :size="size">
+              <input v-model="currentPageInput" type="number" class="form-control" :placeholder="inputPlaceholder" aria-label="Jump to page" />
+              <div class="input-group-append" v-if="!compact">
                 <button class="btn btn-secondary btn-sm" type="submit">
                   <span class="px-1 py-3">
                     Go
@@ -30,12 +28,14 @@
               </div>
             </b-input-group>
          </form>
-         <small class="float-left mt-1 ml-1 text-danger" id="invalid-number-error" v-if="errors.length">
-           {{ errors[0] }}
-         </small>
-         <small class="float-left mt-1 ml-1 text-muted" v-else>
-           {{ $tc('custom-pagination.total-pages', numberOfPages, { count: numberOfPages }) }}
-         </small>
+         <template v-if="!compact">
+           <small class="float-left mt-1 ml-1 text-danger" id="invalid-number-error" v-if="errors.length">
+             {{ errors[0] }}
+           </small>
+           <small class="float-left mt-1 ml-1 text-muted" v-else>
+             {{ $tc('custom-pagination.total-pages', numberOfPages, { count: numberOfPages }) }}
+           </small>
+         </template>
         </div>
       </div>
     </div>
@@ -94,9 +94,17 @@
         type: Boolean
       },
       /**
-      * Makes the pagination and input field smaller
+      * Set the size of the input.  'sm', 'md' (default), or 'lg'
       */
-      small: {
+      size: {
+        type: String,
+        default: 'md',
+        validator: (value)=> ['sm', 'md', 'lg'].includes(value)
+      },
+      /**
+       * Compact layout
+       */
+      compact: {
         type: Boolean
       }
     },
@@ -120,6 +128,12 @@
       }
     },
     computed: {
+      inputPlaceholder () {
+        if (this.compact) {
+          return this.$t('custom-pagination.compact-placeholder')
+        }
+        return this.$t('custom-pagination.placeholder')
+      },
       numberOfPages () {
         return Math.ceil(this.totalRows / this.perPage)
       },
@@ -133,15 +147,37 @@
 </script>
 
 <style lang="scss" scoped>
-  /* Chrome, Safari, Edge, Opera */
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+  @import '../styles/lib';
 
-  /* Firefox */
-  input[type=number] {
-    -moz-appearance: textfield;
+  .custom-pagination {
+
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    &:not(.custom-pagination--compact) &__pages {
+      border-right: 1px solid $border-color;
+    }
+
+    &--compact &__pages /deep/ .page-item:last-of-type .page-link {
+      border-right: 0;
+      border-radius: 0;
+    }
+
+    &--compact &__form {
+      max-width: 105px;
+    }
+
+    &--compact > .row {
+      align-items: center;
+    }
   }
 </style>
