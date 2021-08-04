@@ -23,7 +23,7 @@ With pills:
 
 :::sample-card
 <div class="p-2 text-center">
-  <custom-pagination v-model="currentPage" :per-page="10" pills :total-rows="200" />
+  <custom-pagination v-model="currentPage" :pages="3" pills :total-rows="200" />
 </div>
 :::
 
@@ -39,7 +39,7 @@ Or a `compact` layout:
 
 :::sample-card
 <div class="p-2 text-center">
-  <custom-pagination v-model="currentPage" :per-page="10" :total-rows="200" compact />
+  <custom-pagination v-model="currentPage" :per-page="50" :pages="3" compact />
 </div>
 :::
 

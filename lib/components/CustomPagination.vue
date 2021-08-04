@@ -2,13 +2,13 @@
   <div class="custom-pagination container-fluid" :class="{ 'custom-pagination--compact': compact, 'custom-pagination--pills': pills }">
     <div class="row justify-content-center" :class="{ 'no-gutters': compact && !pills }">
       <div class="col-auto custom-pagination__pages">
-        <b-pagination :size="size"
-         :total-rows="totalRows"
+        <b-pagination @input="value => $emit('input', value)"
+         :total-rows="perPage * numberOfPages"
          :per-page="perPage"
          :value="value"
          :pills="pills"
          :class="paginationClassList"
-         @input="value => $emit('input', value)"
+         :size="size"
          class="m-0"
          first-number
          last-number>
@@ -108,10 +108,11 @@
         type: Boolean
       },
       /**
-       * (Optional) Number of page. If none, it will be calculated using the size.
+       * (Optional) Number of page. Propety `size` is required for this to work
+       * properly. If `pages` is empty, it will be calculated using the size.
        */
       pages: {
-        type: Number,
+        type: [Number, String],
         default: null
       }
     },
@@ -145,7 +146,7 @@
         if (this.pages === null) {
           return Math.ceil(this.totalRows / this.perPage)
         }
-        return this.pages
+        return Number(this.pages)
       },
       paginationClassList () {
         if (this.small) {
@@ -185,7 +186,7 @@
     &--compact &__form {
       max-width: 105px;
     }
-    
+
     &--compact &__form input {
       height: 100%;
     }
