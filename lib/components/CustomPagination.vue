@@ -106,6 +106,13 @@
        */
       compact: {
         type: Boolean
+      },
+      /**
+       * (Optional) Number of page. If none, it will be calculated using the size.
+       */
+      pages: {
+        type: Number,
+        default: null
       }
     },
     data() {
@@ -116,7 +123,7 @@
       }
     },
     methods: {
-      applyJumpFormPage (event) {
+      applyJumpFormPage () {
         const number = isNaN(parseInt(this.currentPageInput)) ? 0 : parseInt(this.currentPageInput)
         this.errors = []
         if (number > this.numberOfPages || number < 1 ) {
@@ -135,7 +142,10 @@
         return this.$t('custom-pagination.placeholder')
       },
       numberOfPages () {
-        return Math.ceil(this.totalRows / this.perPage)
+        if (this.pages === null) {
+          return Math.ceil(this.totalRows / this.perPage)
+        }
+        return this.pages
       },
       paginationClassList () {
         if (this.small) {
