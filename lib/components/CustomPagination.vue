@@ -185,6 +185,10 @@
     &--compact &__form {
       max-width: 105px;
     }
+    
+    &--compact &__form input {
+      height: 100%;
+    }
 
     &--compact > .row {
       align-items: center;
