@@ -15,8 +15,8 @@
        </b-pagination>
       </div>
       <div class="col-auto">
-        <div class="custom-pagination__form h-100">
-          <form class="input-group h-100" @submit.prevent="applyJumpFormPage">
+        <div class="custom-pagination__form">
+          <form class="input-group" @submit.prevent="applyJumpFormPage">
             <b-input-group :size="size">
               <input v-model="currentPageInput" type="number" class="form-control" :placeholder="inputPlaceholder" aria-label="Jump to page" />
               <div class="input-group-append" v-if="!compact">
@@ -94,7 +94,7 @@
         type: Boolean
       },
       /**
-      * Set the size of the input.  'sm', 'md' (default), or 'lg'
+      * Set the size of the input: 'sm', 'md' (default), or 'lg'.
       */
       size: {
         type: String,
@@ -185,6 +185,10 @@
 
     &--compact &__form {
       max-width: 105px;
+
+      &, & > .input-group {
+        height: 100%;
+      }
     }
 
     &--compact &__form input {
