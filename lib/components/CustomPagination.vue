@@ -1,6 +1,6 @@
 <template>
   <div class="custom-pagination container-fluid" :class="{ 'custom-pagination--compact': compact, 'custom-pagination--pills': pills }">
-    <div class="row justify-content-center" :class="{ 'no-gutters': compact && !pills }">
+    <div class="row justify-content-center align-items-stretch" :class="{ 'no-gutters': compact && !pills }">
       <div class="col-auto custom-pagination__pages">
         <b-pagination @input="value => $emit('input', value)"
          :total-rows="perPage * numberOfPages"
@@ -15,8 +15,8 @@
        </b-pagination>
       </div>
       <div class="col-auto">
-        <div class="custom-pagination__form">
-          <form class="input-group" @submit.prevent="applyJumpFormPage">
+        <div class="custom-pagination__form h-100">
+          <form class="input-group h-100" @submit.prevent="applyJumpFormPage">
             <b-input-group :size="size">
               <input v-model="currentPageInput" type="number" class="form-control" :placeholder="inputPlaceholder" aria-label="Jump to page" />
               <div class="input-group-append" v-if="!compact">
