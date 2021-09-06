@@ -12,7 +12,23 @@
          class="m-0"
          first-number
          last-number>
-       </b-pagination>
+          <template #prev-text="{ disabled, index, page }">
+            <!-- @slot The 'Go to previous page' button content -->
+            <slot name="prev-text" v-bind="{ disabled, index, page }" />
+          </template>
+          <template #next-text="{ disabled, index, page }">
+            <!-- @slot The 'Go to next page' button content -->
+            <slot name="next-text" v-bind="{ disabled, index, page }" />
+          </template>
+          <template #page="{ active, content, disabled, index, page }">
+            <!-- @slot Page number button content -->
+            <slot name="page" v-bind="{ active, content, disabled, index, page }" />
+          </template>
+          <template #ellipsis-text>
+            <!-- @slot The '...' indicator content. Overrides the `ellipsis-text` prop -->
+            <slot name="ellipsis-text" />
+          </template>
+         </b-pagination>
       </div>
       <div class="col-auto">
         <div class="custom-pagination__form">
