@@ -15,18 +15,23 @@
       <div class="navbar-collapse" :class="{ collapse: collapseNavbar }">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            <a href="https://www.icij.org/investigations/" target="_blank" class="nav-link text-uppercase">
+              {{ $t('generic-header.navbar.investigations') }}
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="https://www.icij.org/leak/" target="_blank" class="nav-link text-uppercase">
-              {{ $t('imddb-header.navbar.leak') }}
+              {{ $t('generic-header.navbar.leak') }}
             </a>
           </li>
           <li class="nav-item">
             <a id="follow-us-toggler" class="nav-link text-uppercase">
-              {{ $t('imddb-header.navbar.follow') }}
+              {{ $t('generic-header.navbar.follow') }}
             </a>
           </li>
           <li class="nav-item mr-lg-3">
             <a @click.prevent="$refs.donateFormModal.show()" href="#" class="text-uppercase btn btn-saddle-red font-weight-bold">
-              {{ $t('imddb-header.navbar.support') }}
+              {{ $t('generic-header.navbar.support') }}
             </a>
           </li>
         </ul>
@@ -37,7 +42,7 @@
     </component>
     <b-modal hide-footer lazy ref="donateFormModal" size="lg">
       <span slot="modal-title" class="text-uppercase font-weight-bold text-primary">
-        {{ $t('imddb-header.navbar.support') }}
+        {{ $t('generic-header.navbar.support') }}
       </span>
       <donate-form no-title></donate-form>
     </b-modal>
