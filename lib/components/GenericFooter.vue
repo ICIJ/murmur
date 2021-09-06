@@ -9,12 +9,12 @@
             </a>
           </h5>
           <p class="">
-            1710 Rhode Island Ave NW | 11th floor <br />
+            1710 Rhode Island Ave NW | 11th floor<br />
             Washington DC 20006 USA
           </p>
           <p>
             <strong>
-              <a href="mailto:contact@icij.org" class="text-selective-yellow">contact@icij.org</a>
+              <a href="mailto:contact@icij.org" class="">contact@icij.org</a>
             </strong>
           </p>
           <!-- @slot Additional content on the left side of the footer -->
@@ -23,42 +23,47 @@
         <div class="col-md-7">
           <div class="row justify-content-end">
             <div class="col-md-5">
-              <h5 class="text-selective-yellow text-uppercase mb-3">
+              <h5 class="text-uppercase mb-3">
                 {{ $t('generic-footer.investigations') }}
               </h5>
               <!-- @slot List of investigations -->
               <slot name="investigations">
                 <ul class="list-unstyled">
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/implant-files/" target="_blank">
-                      The Implant Files
+                    <a href="https://www.icij.org/investigations/fincen-files/" target="_blank">
+                      FinCEN Files
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/paradise-papers/" target="_blank">
-                      The Paradise Papers
+                    <a href="https://www.icij.org/investigations/luanda-leaks/" target="_blank">
+                      Luanda Leaks
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/panama-papers/" target="_blank">
-                      The Panama Papers
+                    <a href="https://www.icij.org/investigations/china-cables/" target="_blank">
+                      China Cables
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/world-bank" target="_blank">
-                      Evicted and Abandoned
+                    <a href="https://www.icij.org/investigations/mauritius-leaks/" target="_blank">
+                      Mauritius Leaks
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/offshore/" target="_blank">
-                      Secrecy for Sale
+                    <a href="https://www.icij.org/investigations/bribery-division/" target="_blank">
+                      Bribery Division
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/" target="_blank">
+                      More investigations
                     </a>
                   </li>
                 </ul>
               </slot>
             </div>
             <div class="col-md-4">
-              <h5 class="text-selective-yellow text-uppercase mb-3">
+              <h5 class="text-uppercase mb-3">
                 {{ $t('generic-footer.follow-us') }}
               </h5>
               <ul class="list-unstyled">
@@ -136,7 +141,7 @@ export default {
 
   .generic-footer {
     background: black;
-    color: #999;
+    color: #fff;
     padding:$spacer * 4 0;
 
     @include media-breakpoint-down(md) {
@@ -149,7 +154,13 @@ export default {
 
     h5 {
       font-family: $font-family-sans-serif;
-      font-size: 1rem;
+      font-size: 1.1rem;
+      color: #848484;
+    }
+
+    .list-unstyled-item {
+      line-height: 1.5em;
+      margin: 5px 0;
     }
 
     &__icij {
