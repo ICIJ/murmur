@@ -133,7 +133,6 @@
     "lib": "lib",
     "doc": "docs"
   },
-  "type": "module",
   "engines": {
     "node": ">=14.17",
     "npm": ">=6"
