@@ -25,7 +25,7 @@
       </svg>
       <div class="stacked-column-chart__groups d-flex flex-grow-1" :style="paddedStyle">
         <div class="stacked-column-chart__groups__item flex-grow-1 d-flex flex-column text-center" v-for="(datum, i) in sortedData">
-          <div class="stacked-column-chart__groups__item__bars flex-grow-1 d-flex flex-column-reverse px-1 justify-content-start">
+          <div class="stacked-column-chart__groups__item__bars flex-grow-1 d-flex flex-column-reverse px-1 justify-content-start align-items-center">
             <div v-for="(key, j) in discoveredKeys"
                 @mouseover="delayHighlight(key)"
                 @mouseleave="restoreHighlights()"
@@ -95,6 +95,13 @@ export default {
     barColors: {
       type: Array,
       default: () => ([])
+    },
+    /**
+     * Max with of each bar.
+     */
+    barMaxWidth: {
+      type: String,
+      default: '100%'
     },
     /**
      * Hide bars that have no values.
@@ -341,7 +348,8 @@ export default {
       const totalWith = this.relative ? this.totalRowValue(i) : this.maxRowValue
       const height = `${100 * (value / totalWith)}%`
       const backgroundColor = this.colorScale(key)
-      return { height, backgroundColor }
+      const maxWidth = this.barMaxWidth
+      return { maxWidth, height, backgroundColor }
     },
     barTitle (i, key) {
       const value = this.sortedData[i][key]
@@ -488,6 +496,7 @@ export default {
         &__bars {
 
           &__item {
+            width: 100%;
             position: relative;
             min-height: 1px;
 

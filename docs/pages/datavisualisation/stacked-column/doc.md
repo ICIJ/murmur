@@ -1,7 +1,3 @@
----
-badge: unstable
----
-
 Component do draw dead simple stacked column charts.
 
 :::sample-card
@@ -139,6 +135,29 @@ You can also set the maximum value and use a different field for column's label:
 ```
 </collapsible-block>
 
+It also work with single-value groups:
+
+
+:::sample-card
+<div class="m-4">
+  <h4>Leaks size</h4>
+  <p class="text-muted">
+    Size of ICIJ's leak.
+  </p>
+  <stacked-column-chart
+    :data="leaksSize"
+    :y-axis-tick-format="humanReadableGb"
+    :max-value="3000"
+    label-field="leak"
+    class="my-4"
+    bar-max-width="50%"
+    hide-legend
+    no-tooltips />
+  <p class="text-muted small">
+    Source: ICIJ
+  </p>
+</div>
+:::
 
 ::: api-table datavisualisations/StackedColumnChart.vue :::
 
@@ -154,7 +173,21 @@ You can also set the maximum value and use a different field for column's label:
           { "city": "Madrid ", "developers": 1, "journalists": 0, "devops": 4, "finance": 0 },
           { "city": "New York City", "developers": 0, "journalists": 3, "devops": 0, "finance": 1 },
           { "city": "Syndey", "developers": 0, "journalists": 2, "devops": 0, "finance": 1 },
+        ],
+        leaksSize: [        
+          { leak: 'Offshore Leaks (2013)', size: 260 },
+          { leak: 'Panama Papers (2016)', size: 2.6 * 1e3 },
+          { leak: 'Paradise Papers (2017)', size: 1.4 * 1e3 }
         ]
+      }
+    },    
+    methods: {
+      humanReadableGb (size) {
+        if (size >= 1e3) {
+          return `${size/1e3}TB`          
+        } else {          
+          return `${size}GB`
+        }
       }
     }
   }

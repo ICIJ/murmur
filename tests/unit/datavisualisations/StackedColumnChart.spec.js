@@ -12,21 +12,19 @@ Object.defineProperties(window.HTMLElement.prototype, {
   }
 })
 
-const createContainer = (tag = 'div') => {
-  const container = document.createElement(tag)
-  document.body.appendChild(container)
-  return container
-}
 
 
 describe('StackedColumnChart.vue', () => {
+  const createContainer = (tag = 'div') => {
+    const container = document.createElement(tag)
+    document.body.appendChild(container)
+    return container
+  }
 
   describe('a stacked-colmuns chart with two columns in four groups and direct labeling', () => {
-
     let wrapper
 
     beforeEach(async () => {
-
       const propsData = {
         data: [
           { date: 2006, foo: 90, bar: 10 },
@@ -241,6 +239,7 @@ describe('StackedColumnChart.vue', () => {
         labelField: 'label',
         noDirectLabeling:  true,
         fixedHeight: 500,
+        barMaxWidth: '50%',
         data: [
           { label: 'today', foo: 90, bar: 5, baz: 5 },
           { label: 'tomorrow', foo: 40, bar: 10, baz: 0 }
@@ -269,6 +268,16 @@ describe('StackedColumnChart.vue', () => {
       const bazColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--baz')
       const totalHeight = fooColumn.element.offsetHeight + barColumn.element.offsetHeight + bazColumn.element.offsetHeight
       expect(totalHeight).toBe(100)
+    })
+
+    it('creates the first group of columns with maximum width', () => {
+      const firstGroup = wrapper.findAll('.stacked-column-chart__groups__item').at(0)
+      const fooColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--foo')
+      const barColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--bar')
+      const bazColumn = firstGroup.find('.stacked-column-chart__groups__item__bars__item--baz')
+      expect(fooColumn.element.style.maxWidth).toBe('50%')
+      expect(barColumn.element.style.maxWidth).toBe('50%')
+      expect(bazColumn.element.style.maxWidth).toBe('50%')
     })
 
     it('creates the second group of columns with ~50% height', () => {
