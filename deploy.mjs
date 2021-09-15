@@ -1,7 +1,7 @@
-const gh = require('gh-pages');
-const path = require('path');
-const ora = require('ora')
-const chalk = require('chalk')
+import gh from 'gh-pages'
+import path from 'path'
+import ora from 'ora'
+import chalk from 'chalk'
 
 process.env.NODE_ENV = 'production'
 

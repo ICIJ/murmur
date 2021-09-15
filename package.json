@@ -1,6 +1,6 @@
 {
   "name": "@icij/murmur",
-  "version": "2.29.1",
+  "version": "2.30.0",
   "private": false,
   "description": "Murmur is ICIJ's Design System for Bootstrap 4 and Vue.js",
   "author": "promera@icij.org",
@@ -133,6 +133,7 @@
     "lib": "lib",
     "doc": "docs"
   },
+  "type": "module",
   "engines": {
     "node": ">=14.17",
     "npm": ">=6"
