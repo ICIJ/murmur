@@ -4,7 +4,7 @@
         'stacked-bar-chart--has-highlights': dataHasHighlights,
         'stacked-bar-chart--social-mode': socialMode,
         'stacked-bar-chart--label-above': labelAbove,
-        'stacked-bar-chart--has-highlights': hasHighlights,
+        'stacked-bar-chart--has-highlights': hasHighlights || hasRowHighlights,
         'stacked-bar-chart--has-constraint-height': hasConstraintHeight,
         'stacked-bar-chart--has-label-above': labelAbove,
       }" :style="{ height }">
@@ -40,7 +40,7 @@
                 :class="{
                   [`stacked-bar-chart__groups__item__bars__item--${key}`]: true,
                   [`stacked-bar-chart__groups__item__bars__item--${j}n`]: true,
-                  'stacked-bar-chart__groups__item__bars__item--highlighted': isHighlighted(key),
+                  'stacked-bar-chart__groups__item__bars__item--highlighted': isHighlighted(key) || isRowHighlighted(i),
                   'stacked-bar-chart__groups__item__bars__item--value-overflow': hasValueOverflow(i, key),
                   'stacked-bar-chart__groups__item__bars__item--value-pushed': hasValuePushed(i, key),
                   'stacked-bar-chart__groups__item__bars__item--value-hidden': hasValueHidden(i, key)
@@ -58,6 +58,7 @@
 <script>
 import * as d3 from 'd3'
 import find from 'lodash/find'
+import get from 'lodash/get'
 import identity from 'lodash/identity'
 import keys from 'lodash/keys'
 import without from 'lodash/without'
@@ -160,10 +161,23 @@ export default {
       type: Number,
       default: 50
     },
+    /**
+     * A list of entire row to highlight
+     */
+    rowHighlights: {
+      type: Array,
+      default: () => ([])
+    },
+    /**
+     * Set a minimal height for the bars
+     */
     minBarHeight: {
       type: Number,
       default: 16
     },
+    /**
+     * Set a maximal height for the bars
+     */
     maxBarHeight: {
       type: Number,
       default: 60
@@ -219,6 +233,9 @@ export default {
     hasHighlights () {
       return !!this.highlightedKeys.length
     },
+    hasRowHighlights () {
+      return !!this.rowHighlights.length
+    },
     height () {
       if (this.fixedHeight !== null) {
         return `${this.fixedHeight}px`
@@ -248,11 +265,16 @@ export default {
     delayHighlight (key) {
       clearTimeout(this.highlightTimeout)
       // Reduce the delay to zero if there is already an highlighted key
-      const delay = this.hasHighlights ? 0 : this.highlightDelay
+      const isDelayed = !this.hasHighlights
+      const delay = isDelayed ? this.highlightDelay : 0
       this.highlightTimeout = setTimeout(() => this.highlight(key), delay)
     },
     isHighlighted (key) {
       return this.highlightedKeys.indexOf(key) > -1
+    },
+    isRowHighlighted (i) {
+      const row = get(this.sortedData, [i, this.labelField], null)
+      return this.rowHighlights.includes(row) && !this.highlightedKeys.length
     },
     barStyle (i, key) {
       const value = this.sortedData[i][key]

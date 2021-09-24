@@ -8,7 +8,10 @@ Component do draw dead simple stacked bar charts.
   <p class="text-muted">
     Companies must report when a patient has potentially been hurt or killed by one of their medical devices.
   </p>
-  <stacked-bar-chart :data="incidentReports" class="my-4" label-above />  
+  <stacked-bar-chart
+    :data="incidentReports"
+    class="my-4"
+    label-above />  
   <p class="text-muted small">
     Note: The companies shown here are 10 of the biggest participants in the medical device industry. Numbers for Becton, Dickinson and Company include adverse events reported by C. R. Bard, which was acquired in 2017. Source: U.S. Food and Drug Administration, ICIJ analysis.
   </p>

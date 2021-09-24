@@ -158,6 +158,22 @@ describe('StackedBarChart.vue', () => {
       expect(boxOfficeLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeTruthy()
     })
 
+    it('hightlight the whole "Avatar" row', async () => {
+      await wrapper.setProps({ rowHighlights: ['Avatar'] })
+      const boxOffice = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item').at(0)
+      const budget = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item').at(1)
+      expect(boxOffice.classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+      expect(budget.classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+    })
+
+    it('hightlight the whole "Ghostbusters" row', async () => {
+      await wrapper.setProps({ rowHighlights: ['Ghostbusters'] })
+      const boxOffice = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item').at(6)
+      const budget = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item').at(7)
+      expect(boxOffice.classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+      expect(budget.classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+    })
+
     it('creates bars with specific colors', async () => {
       wrapper.setProps({ barColors: [ "#000", "#444" ] })
       await wrapper.vm.$nextTick()

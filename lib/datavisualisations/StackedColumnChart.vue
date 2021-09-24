@@ -3,7 +3,7 @@
         class="stacked-column-chart d-flex flex-column"
        :class="{
          'stacked-column-chart--social-mode': socialMode,
-         'stacked-column-chart--has-highlights': hasHighlights,
+         'stacked-column-chart--has-highlights': hasHighlights || hasColumnHighlights,
          'stacked-column-chart--no-direct-labeling': noDirectLabeling,
         }">
     <ul class="stacked-column-chart__legend list-inline" v-if="!hideLegend">
@@ -36,7 +36,7 @@
                   [`stacked-column-chart__groups__item__bars__item--${key}`]: true,
                   [`stacked-column-chart__groups__item__bars__item--${j}n`]: true,
                   'stacked-column-chart__groups__item__bars__item--hidden': isHidden(i, key),
-                  'stacked-column-chart__groups__item__bars__item--highlighted': isHighlighted(key),
+                  'stacked-column-chart__groups__item__bars__item--highlighted': isHighlighted(key) || isColumnHighlighted(i),
                   'stacked-column-chart__groups__item__bars__item--value-overflow': hasValueOverflow(i, key),
                   'stacked-column-chart__groups__item__bars__item--value-pushed': hasValuePushed(i, key),
                   'stacked-column-chart__groups__item__bars__item--value-hidden': hasValueHidden(i, key)
@@ -60,6 +60,7 @@ import { VBTooltip } from 'bootstrap-vue/esm/directives/tooltip/tooltip'
 import * as d3 from 'd3';
 import keys from 'lodash/keys'
 import find from 'lodash/find'
+import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
@@ -180,6 +181,13 @@ export default {
        default: 400
      },
      /**
+      * A list of entire column to highlight
+      */
+     columnHighlights: {
+       type: Array,
+       default: () => ([])
+     },
+     /**
       * Delay to apply when restoring hightlights to initial state
       */
      restoreHighlightDelay: {
@@ -224,9 +232,14 @@ export default {
       highlightTimeout: null
     }
   },
+  resizeObserver: null,
   mounted () {
-    const resizeObserver = new ResizeObserver(this.setup)
-    this.$nextTick(() => resizeObserver.observe(this.$el))
+    this.$options.resizeObserver = new ResizeObserver(this.setup)
+    this.$nextTick(() => this.$options.resizeObserver.observe(this.$el))
+  },
+  beforeDestroy () {
+    this.$options.resizeObserver.unobserve(this.$el)
+    this.$options.resizeObserver = null
   },
   watch: {
     socialMode () {
@@ -271,6 +284,9 @@ export default {
     },
     hasHighlights () {
       return !!this.highlightedKeys.length
+    },
+    hasColumnHighlights () {
+      return !!this.columnHighlights.length
     },
     leftScale () {
       return d3.scaleLinear().domain([0, this.maxRowValue]).range([this.leftAxisHeight, 0])
@@ -332,11 +348,16 @@ export default {
     delayHighlight (key) {
       clearTimeout(this.highlightTimeout)
       // Reduce the delay to zero if there is already an highlighted key
-      const delay = this.hasHighlights ? 0 : this.highlightDelay
+      const isDelayed = !this.hasHighlights
+      const delay = isDelayed ? this.highlightDelay : 0
       this.highlightTimeout = setTimeout(() => this.highlight(key), delay)
     },
     isHighlighted (key) {
       return this.highlightedKeys.indexOf(key) > -1
+    },
+    isColumnHighlighted (i) {
+      const column = get(this.sortedData, [i, this.labelField], null)
+      return this.columnHighlights.includes(column) && !this.highlightedKeys.length
     },
     totalRowValue (i) {
       return d3.sum(this.discoveredKeys, key => {

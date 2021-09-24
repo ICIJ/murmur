@@ -163,6 +163,22 @@ describe('StackedColumnChart.vue', () => {
       expect(barLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeTruthy()
     })
 
+    it('hightlight the whole "2006" column', async () => {
+      await wrapper.setProps({ columnHighlights: [2006] })
+      const foo = wrapper.findAll('.stacked-column-chart__groups__item__bars__item').at(0)
+      const bar = wrapper.findAll('.stacked-column-chart__groups__item__bars__item').at(1)
+      expect(foo.classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+      expect(bar.classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+    })
+
+    it('hightlight the whole "2009" column', async () => {
+      await wrapper.setProps({ columnHighlights: [2009] })
+      const foo = wrapper.findAll('.stacked-column-chart__groups__item__bars__item').at(6)
+      const bar = wrapper.findAll('.stacked-column-chart__groups__item__bars__item').at(7)
+      expect(foo.classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+      expect(bar.classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
+    })
+
     it('creates columns with specific colors', async () => {
       wrapper.setProps({ barColors: [ "#000", "#444" ] })
       await wrapper.vm.$nextTick()

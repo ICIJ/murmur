@@ -8,7 +8,11 @@ Component do draw dead simple stacked column charts.
   <p class="text-muted">
     Incidents were reported as routine events that did not require public disclosure. After the FDA tightened enforcement of its reporting rules in 2017, reports of injuries soared.
   </p>
-  <stacked-column-chart :data="incidentReportsUrl" :groups="['Deaths', 'Injuries', 'Malfunctions']" y-axis-tick-format=",.0f" class="my-4" />  
+  <stacked-column-chart
+    :data="incidentReportsUrl"
+    :groups="['Deaths', 'Injuries', 'Malfunctions']"
+    class="my-4"
+    y-axis-tick-format=",.0f" />  
   <p class="text-muted small">
     Source: U.S. Food and Drug Administration, ICIJ analysis
   </p>
