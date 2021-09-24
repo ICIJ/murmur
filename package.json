@@ -1,6 +1,6 @@
 {
   "name": "@icij/murmur",
-  "version": "2.30.0",
+  "version": "2.31.0",
   "private": false,
   "description": "Murmur is ICIJ's Design System for Bootstrap 4 and Vue.js",
   "author": "promera@icij.org",
@@ -8,7 +8,7 @@
     "serve": "vue-cli-service serve",
     "build": "yarn build:docs && yarn build:lib",
     "lint": "vue-cli-service lint",
-    "deploy": "node deploy.js",
+    "deploy": "node deploy.mjs",
     "build:docs": "vue-cli-service build --dest dist/docs",
     "build:lib": "vue-cli-service build --target lib --dest dist/lib 'lib/main.js'",
     "postpublish": "yarn deploy",
