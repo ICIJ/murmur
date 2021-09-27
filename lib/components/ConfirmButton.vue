@@ -126,14 +126,30 @@ export default {
         this.$root.$emit('bv::hide::tooltip')
       }
       this.showTooltip = !this.showTooltip
+      /**
+       * Emitted when the confirmation is toggled.
+       * @event toggled
+       * @param Boolean True if the button is shown.
+       */
+      this.$root.$emit('toggled', this.showTooltip)
     },
     cancel () {
       this.$refs.confirmationTooltip.$emit('close')
       this.cancelled()
+      /**
+       * Emitted when the confirmation is cancelled.
+       * @event cancelled
+       */
+      this.$root.$emit('cancelled')
     },
     confirm () {
       this.showTooltip = false
       this.confirmed()
+      /**
+       * Emitted when the confirmation is confirmed.
+       * @event confirmed
+       */
+      this.$root.$emit('confirmed')
     }
   },
   beforeMount () {
