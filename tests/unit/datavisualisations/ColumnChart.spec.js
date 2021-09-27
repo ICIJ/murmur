@@ -9,7 +9,6 @@ jest.mock('d3', () => {
   }
 })
 
-
 // Mock HTML element offset so the size of the chart can be calculated
 // dynamicly using JSDOM and tests
 Object.defineProperties(window.HTMLElement.prototype, {
@@ -250,8 +249,8 @@ describe('ColumnChart.vue', () => {
 
     let wrapper
 
-    beforeAll(async () => {
-      d3.json = jest.fn().mockReturnValue([
+    beforeAll(() => {
+      d3.json = jest.fn().mockResolvedValue([
         { date: 2019, value: 30 },
         { date: 2020, value: 60 },
         { date: 2021, value: 90 }
@@ -276,6 +275,7 @@ describe('ColumnChart.vue', () => {
       const propsData = { data: 'http://localhost/data.json', maxValue: 100 }
       wrapper = mount(ColumnChart, { propsData })
       wrapper.vm.$el.style.width = '500px'
+      await new Promise(resolve => setTimeout(resolve))
       wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
 
@@ -287,6 +287,7 @@ describe('ColumnChart.vue', () => {
     it('should have a max value to 180 set with a property', async () => {
       const propsData = { data: 'http://localhost/data.json', maxValue: 180 }
       wrapper = mount(ColumnChart, { propsData })
+      await new Promise(resolve => setTimeout(resolve))
       wrapper.vm.$el.style.width = '500px'
       wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
