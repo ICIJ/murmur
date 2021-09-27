@@ -60,8 +60,12 @@
               icon: faPuzzlePiece
             },
             {
-              name: 'Data Visualisation',
+              name: 'Data Visualisations',
               routes: filterRoutes({ meta: { section: 'datavisualisation' } })
+            },
+            {
+              name: 'Maps',
+              routes: filterRoutes({ meta: { section: 'maps' } })
             },
             {
               name: 'utilities',

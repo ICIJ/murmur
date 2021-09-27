@@ -1,6 +1,4 @@
 const container = require('markdown-it-container')
-const vueDocs = require('vue-docgen-api')
-const { escape } = require('lodash')
 
 module.exports = function (name) {
   return [container, name, {

@@ -3,7 +3,8 @@ import filter from 'lodash/filter'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
 
-export const ROUTE_SECTIONS = ['getting-started', 'visual', 'structure', 'components', 'datavisualisation', 'utilities']
+export const ROUTE_SECTIONS = ['getting-started', 'visual', 'structure',
+  'components', 'datavisualisation', 'maps', 'utilities']
 
 export function loadDoc(section, name) {
   return () => import(/* webpackChunkName: "[request]" */ `$pages/${section}/${name}/doc`)
