@@ -234,11 +234,8 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('resize', this.setSizes)
+    this.$on('resized', this.setSizes)
     this.setSizes()
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.setSizes)
   },
   watch: {
     width () {
