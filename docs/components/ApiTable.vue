@@ -80,8 +80,8 @@
         return `<code>${v}</code>`
       },
       varFormatter (v = '—') {
-        if (v && v.indexOf('function() {') === 0) {
-          return 'computed'
+        if (v && (v.indexOf('function() {') === 0 || v.indexOf('() =>') === 0)) {
+          return '<span class="text-muted">computed</span>'
         }
         return `<var>${v}</var>`
       }
@@ -148,11 +148,13 @@
           border-top: 0;
 
           .table {
+            white-space: nowrap;
             thead th {
               border-top: 0;
 
               &.description {
                 min-width: 330px;
+                max-width: 450px;
               }
             }
 
