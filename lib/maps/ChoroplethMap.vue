@@ -89,7 +89,7 @@ export default {
       // Bind geojson features to path
       this.prepare()
         .append('g')
-          .selectAll('path')
+          .selectAll('.choropleth-map__main__feature')
           .data(this.geojson.features)
           // Add the path with the correct class
           .enter()
@@ -130,7 +130,7 @@ export default {
       return this.$options.topojsonPromise
     },
     mapZoomed ({ transform }) {
-      this.map.selectAll('path')
+      this.map.selectAll('.choropleth-map__main__feature')
         .attr('transform', transform)
     },
     async mapClicked (event, d) {
@@ -161,7 +161,7 @@ export default {
       this.$emit('reset')
     },
     setFeaturesClasses () {
-      this.map.selectAll('path').attr('class', this.featureClass)
+      this.map.selectAll('.choropleth-map__main__feature').attr('class', this.featureClass)
     },
     featureZoom (d, pointer = [0, 0]) {
       this.zoomIdentifier = get(d, this.topojsonObjectsIdentifier)
