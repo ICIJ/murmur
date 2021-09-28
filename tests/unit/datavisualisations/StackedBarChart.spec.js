@@ -43,7 +43,7 @@ describe('StackedBarChart.vue', () => {
     it('creates the first group of bars with maximum width', () => {
       const firstGroup = wrapper.findAll('.stacked-bar-chart__groups__item').at(0)
       const budgetBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--budget')
-      const boxOfficeBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--box_office')
+      const boxOfficeBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--box-office')
       const totalWidth = budgetBar.element.offsetWidth + boxOfficeBar.element.offsetWidth
       expect(totalWidth).toBe(100)
     })
@@ -51,7 +51,7 @@ describe('StackedBarChart.vue', () => {
     it('creates the second group of bars with ~27% width', () => {
       const secondGroup = wrapper.findAll('.stacked-bar-chart__groups__item').at(1)
       const budgetBar = secondGroup.find('.stacked-bar-chart__groups__item__bars__item--budget')
-      const boxOfficeBar = secondGroup.find('.stacked-bar-chart__groups__item__bars__item--box_office')
+      const boxOfficeBar = secondGroup.find('.stacked-bar-chart__groups__item__bars__item--box-office')
       const totalWidth = Math.round(budgetBar.element.offsetWidth + boxOfficeBar.element.offsetWidth)
       expect(totalWidth).toBe(27)
     })
@@ -59,7 +59,7 @@ describe('StackedBarChart.vue', () => {
     it('creates the third group of bars with ~34% width', () => {
       const secondGroup = wrapper.findAll('.stacked-bar-chart__groups__item').at(2)
       const budgetBar = secondGroup.find('.stacked-bar-chart__groups__item__bars__item--budget')
-      const boxOfficeBar = secondGroup.find('.stacked-bar-chart__groups__item__bars__item--box_office')
+      const boxOfficeBar = secondGroup.find('.stacked-bar-chart__groups__item__bars__item--box-office')
       const totalWidth = Math.round(budgetBar.element.offsetWidth + boxOfficeBar.element.offsetWidth)
       expect(totalWidth).toBe(34)
     })
@@ -73,7 +73,7 @@ describe('StackedBarChart.vue', () => {
 
     it('creates the first group of bars with box_office taking ~92% width', () => {
       const firstGroup = wrapper.findAll('.stacked-bar-chart__groups__item').at(0)
-      const boxOfficeBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--box_office')
+      const boxOfficeBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--box-office')
       const width = Math.round(boxOfficeBar.element.offsetWidth)
       expect(width).toBe(92)
     })
@@ -128,7 +128,7 @@ describe('StackedBarChart.vue', () => {
       const boxOfficeLegend = wrapper.findAll('.stacked-bar-chart__legend__item').at(1)
       boxOfficeLegend.trigger('mouseover')
       await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
-      const budgetBars = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item--box_office')
+      const budgetBars = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item--box-office')
       expect(budgetBars.at(0).classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
       expect(budgetBars.at(1).classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
       expect(budgetBars.at(2).classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
@@ -179,7 +179,7 @@ describe('StackedBarChart.vue', () => {
       await wrapper.vm.$nextTick()
       const firstGroup = wrapper.findAll('.stacked-bar-chart__groups__item').at(0)
       const budgetBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--budget')
-      const boxOfficeBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--box_office')
+      const boxOfficeBar = firstGroup.find('.stacked-bar-chart__groups__item__bars__item--box-office')
       expect(budgetBar.element.style['background-color']).toBe('rgb(0, 0, 0)')
       expect(boxOfficeBar.element.style['background-color']).toBe('rgb(68, 68, 68)')
     })
@@ -231,6 +231,66 @@ describe('StackedBarChart.vue', () => {
       const values = firstGroup.findAll('.stacked-bar-chart__groups__item__bars__item__value')
       expect(values.at(0).text()).toBe('$237')
       expect(values.at(1).text()).toBe('$2,784')
+    })
+  })
+
+  describe('a stacked-bars chart with 3 bars in 3 groups with empty values', () => {
+
+    let wrapper
+
+    beforeEach(async () => {
+
+      const propsData = {
+        labelField: 'label',
+        fixedHeight: 500,
+        hideEmptyValues: true,
+        highlightDelay: 0,
+        data: [
+          { label: 'today', foo: 90, 'baz 1': 5, 'baz 2': 5 },
+          { label: 'tomorrow', foo: 40, 'baz 1': 10, 'baz 2': 0 },
+          { label: 'next week', foo: 0, 'baz 1': 20, 'baz 2': 0 }
+        ]
+      }
+
+      const attrs = {
+        style: 'width: 600px'
+      }
+
+      wrapper = mount(StackedBarChart, { propsData, attrs })
+    })
+
+    it('is a Vue instance', () => {
+      expect(wrapper.vm).toBeTruthy()
+    })
+
+    it('creates 3 bars', async () => {
+      expect(wrapper.findAll('.stacked-bar-chart__groups__item')).toHaveLength(3)
+    })
+
+    it('creates the first bar with no hidden bars', () => {
+      const group = wrapper.findAll('.stacked-bar-chart__groups__item').at(0)
+      const hiddenBars = group.findAll('.stacked-bar-chart__groups__item__bars__item--hidden')
+      expect(hiddenBars).toHaveLength(0)
+    })
+
+    it('creates the first bar with normalized classes on bar', () => {
+      const group = wrapper.findAll('.stacked-bar-chart__groups__item').at(0)
+      const items = group.findAll('.stacked-bar-chart__groups__item__bars__item')
+      expect(items.at(0).classes('stacked-bar-chart__groups__item__bars__item--foo')).toBeTruthy()
+      expect(items.at(1).classes('stacked-bar-chart__groups__item__bars__item--baz-1')).toBeTruthy()
+      expect(items.at(2).classes('stacked-bar-chart__groups__item__bars__item--baz-2')).toBeTruthy()
+    })
+
+    it('creates the second bar with one hidden bar', () => {
+      const group = wrapper.findAll('.stacked-bar-chart__groups__item').at(1)
+      const hiddenBars = group.findAll('.stacked-bar-chart__groups__item__bars__item--hidden')
+      expect(hiddenBars).toHaveLength(1)
+    })
+
+    it('creates the third bar with two hidden bars', () => {
+      const group = wrapper.findAll('.stacked-bar-chart__groups__item').at(2)
+      const hiddenBars = group.findAll('.stacked-bar-chart__groups__item__bars__item--hidden')
+      expect(hiddenBars).toHaveLength(2)
     })
   })
 })

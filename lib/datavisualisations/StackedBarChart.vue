@@ -38,9 +38,10 @@
                 :style="barStyle(i, key)"
                 class="stacked-bar-chart__groups__item__bars__item d-flex flex-row align-items-center"
                 :class="{
-                  [`stacked-bar-chart__groups__item__bars__item--${key}`]: true,
+                  [`stacked-bar-chart__groups__item__bars__item--${normalizeKey(key)}`]: true,
                   [`stacked-bar-chart__groups__item__bars__item--${j}n`]: true,
                   'stacked-bar-chart__groups__item__bars__item--highlighted': isHighlighted(key) || isRowHighlighted(i),
+                  'stacked-bar-chart__groups__item__bars__item--hidden': isHidden(i, key),
                   'stacked-bar-chart__groups__item__bars__item--value-overflow': hasValueOverflow(i, key),
                   'stacked-bar-chart__groups__item__bars__item--value-pushed': hasValuePushed(i, key),
                   'stacked-bar-chart__groups__item__bars__item--value-hidden': hasValueHidden(i, key)
@@ -60,6 +61,7 @@ import * as d3 from 'd3'
 import find from 'lodash/find'
 import get from 'lodash/get'
 import identity from 'lodash/identity'
+import kebabCase from 'lodash/kebabCase'
 import keys from 'lodash/keys'
 import without from 'lodash/without'
 import sortBy from 'lodash/sortBy'
@@ -133,6 +135,12 @@ export default {
     sortBy: {
       type: [Array, String],
       default: null
+    },
+    /**
+     * Hide bars that have no values.
+     */
+    hideEmptyValues: {
+      type: Boolean
     },
     /**
      * Hide the legend.
@@ -244,6 +252,9 @@ export default {
     }
   },
   methods: {
+    normalizeKey (key) {
+      return kebabCase(key)
+    },
     totalRowValue (i) {
       return d3.sum(this.discoveredKeys, key => {
         return this.sortedData[i][key]
@@ -315,21 +326,23 @@ export default {
       if (!this.mounted) {
         return { }
       }
+      const barClass = 'stacked-bar-chart__groups__item__bars__item'
       const rowSelector = '.stacked-bar-chart__groups__item'
       const row = this.$el.querySelectorAll(rowSelector)[i]
-      const barSelector = `.stacked-bar-chart__groups__item__bars__item--${key}`
+      const normalizedKey = this.normalizeKey(key)
+      const barSelector = `.${barClass}--${normalizedKey}`
       const bar = row.querySelector(barSelector)
-      const valueSelector = '.stacked-bar-chart__groups__item__bars__item__value'
+      const valueSelector = `.${barClass}__value`
       const value = bar.querySelector(valueSelector)
       return { bar, row, value }
     },
     hasValueOverflow (i, key) {
       const stack = this.stackBarAndValue(i)
-      return find(stack, { key })?.overflow
+      return get(find(stack, { key }), 'overflow')
     },
     hasValuePushed (i, key) {
       const stack = this.stackBarAndValue(i)
-      return find(stack, { key })?.pushed
+      return get(find(stack, { key }), 'pushed')
     },
     hasValueHidden (i, key) {
       const keyIndex = this.discoveredKeys.indexOf(key)
@@ -338,6 +351,9 @@ export default {
         return false
       }
       return this.hasValueOverflow(i, key) && this.hasValueOverflow(i, nextKey)
+    },
+    isHidden (i, key) {
+      return this.hideEmptyValues && !this.sortedData[i][key]
     }
   }
 }
@@ -442,6 +458,10 @@ export default {
             .stacked-bar-chart--has-constraint-height & {
               height: auto;
               align-self: stretch;
+            }
+
+            &--hidden {
+              display: none !important;
             }
 
             @for $i from 0 through ($quantile * length($colors)) {
