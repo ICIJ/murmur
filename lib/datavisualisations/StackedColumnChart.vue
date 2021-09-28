@@ -446,7 +446,7 @@ export default {
     $muted-group-filter: grayscale(30%) brightness(10%);
     $muted-group-transition: opacity .3s, filter .3s;
     $colors: $primary, $info, $warning;
-    $quantile: 2;
+    $quantile: 3;
 
     @each $start-color in $colors {
       $i: index($colors, $start-color) - 1;
