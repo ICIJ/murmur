@@ -3,11 +3,15 @@ import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
 import { debounce, get, kebabCase, keys, max, min, once, pickBy, values } from 'lodash'
 import { feature } from 'topojson'
+import ScaleLegend from '../components/ScaleLegend'
 import chart from '../mixins/chart'
 
 export default {
   name: 'ChoroplethMap',
   mixins: [chart],
+  components: {
+    ScaleLegend
+  },
   props: {
     zoomable: {
       type: Boolean
@@ -208,10 +212,6 @@ export default {
       return d3.scaleLog()
         .domain([Math.max(1, this.minValue), this.maxValue])
         .range([this.featureColorScaleStart, this.featureColorScaleEnd])
-        .nice()
-    },
-    featureColorScaleTicks () {
-      return this.featureColorScale.ticks()
     },
     featurePath () {
       return d3.geoPath().projection(this.mapProjection)
@@ -264,21 +264,7 @@ export default {
       return min(values(this.loadedData)) || 0
     },
     cursorValue () {
-      return get(this, ['data', this.cursorIdentifier], 0)
-    },
-    cursorLeft () {
-      const scale = this.featureColorScale.copy().range([0, 100])
-      const left = scale(this.cursorValue)
-      return `${left || 0}%`
-    },
-    legendScaleWidth () {
-      return Math.max(100, Math.min(300, this.mapRect.width * 0.25))
-    },
-    legendScaleHeight () {
-      return 16
-    },
-    legendScaleTickWidth () {
-      return Math.ceil(this.legendScaleWidth / this.featureColorScaleTicks.length)
+      return get(this, ['data', this.cursorIdentifier], null)
     }
   }
 }
@@ -287,33 +273,18 @@ export default {
 <template>
   <div class="choropleth-map" :class="mapClass">
     <svg class="choropleth-map__main"></svg>
-    <div class="choropleth-map__legend">
-      <div class="choropleth-map__legend__bound choropleth-map__legend__bound--min">
-        <slot name="legend-cursor-min" v-bind="{ minValue }">
-          {{ minValue | formatNumber }}
-        </slot>
-      </div>
-      <svg class="choropleth-map__legend__scale" :width="legendScaleWidth" :height="legendScaleHeight">
-        <rect
-          v-for="(tick, index) in featureColorScaleTicks"
-          :fill="featureColorScale(tick)"
-          :height="legendScaleHeight"
-          :key="index"
-          :width="legendScaleTickWidth"
-          :x="legendScaleTickWidth * index"
-          :y="0" />
-      </svg>
-      <div class="choropleth-map__legend__bound choropleth-map__legend__bound--max">
-        <slot name="legend-cursor-max" v-bind="{ maxValue }">
-          {{ maxValue | formatNumber }}
-        </slot>
-      </div>
-      <div class="choropleth-map__legend__cursor" :style="{ left: cursorLeft }" v-if="hasCursor">
-        <slot name="legend-cursor" v-bind="{ value: cursorValue, identifier: cursorIdentifier }">
-          {{ cursorValue | formatNumber }}
-        </slot>
-      </div>
-    </div>
+    <scale-legend
+      :color-scale-end="featureColorScaleEnd"
+      :color-scale-start="featureColorScaleStart"
+      :color-scale="featureColorScale"
+      :cursor-value="cursorValue"
+      :max="maxValue"
+      :min="minValue"
+      class="choropleth-map__legend">
+      <template #cursor="{ value }">
+        <slot name="legend-cursor" v-bind="{ value, identifier: cursorIdentifier }" />
+      </template>
+    </scale-legend>
   </div>
 </template>
 
@@ -352,41 +323,6 @@ export default {
     position: absolute;
     left: 0;
     bottom: 0;
-
-    &__bound, &__cursor {
-      position: absolute;
-      bottom: 100%;
-      font-size: 0.8rem;
-
-      &--min {
-        left: 0;
-      }
-
-      &--max {
-        right: 0;
-      }
-    }
-
-    .choropleth-map--has-cursor &__bound {
-      color: $text-muted;
-      opacity: 0.6;
-    }
-
-    &__cursor {
-      font-weight: bold;
-      transform: translateX(-50%);
-      left: 50%;
-
-      &:after {
-        content: "";
-        border: 5px solid transparent;
-        border-top-color: currentColor;
-        position: absolute;
-        left: 50%;
-        top: 100%;
-        transform: translateX(-50%);
-      }
-    }
   }
 }
 </style>

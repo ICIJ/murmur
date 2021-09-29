@@ -40,8 +40,10 @@ identify a location):
     topojson-url="https://gist.githubusercontent.com/pirhoo/44bba7823e09f3bc6bf21c33ddad186d/raw/france-departments.topojson"
     topojson-objects="departements"
     topojson-objects-identifier="properties.code">
-    <template #legend-cursor="{ value, identifier }">
-      <b-badge v-html="`${value.toLocaleString()} hl`" />
+    <template #legend-cursor="{ value, identifier }">      
+      <div class="bg-dark text-light px-2 py-1 text-nowrap">
+        <span v-html="`${value.toLocaleString()} hl`"></span>
+      </div>
     </template>
   </choropleth-map>
   <p class="text-right">

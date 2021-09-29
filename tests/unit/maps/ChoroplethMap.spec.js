@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import { zipObjectDeep } from 'lodash'
-import { mount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import ChoroplethMap from '@/maps/ChoroplethMap.vue'
 
 describe('ChoroplethMap.vue', () => {
@@ -17,7 +17,7 @@ describe('ChoroplethMap.vue', () => {
           KGZ: 200
         }
       }
-      wrapper = mount(ChoroplethMap, { propsData })
+      wrapper = shallowMount(ChoroplethMap, { propsData })
       wrapper.vm.$el.style.width = '500px'
       await wrapper.vm.loadTopojson()
       await wrapper.vm.$nextTick()
@@ -30,13 +30,13 @@ describe('ChoroplethMap.vue', () => {
     it('has a feature for KGZ with the end color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__feature--identifier-kgz')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(218, 189, 181)')
+      expect(color).toBe('rgb(133, 35, 8)')
     })
 
     it('has a feature for SRV with the middle color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__feature--identifier-srb')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(234, 216, 212)')
+      expect(color).toBe('rgb(184, 126, 111)')
     })
 
     it('has a feature for FRA with the start color of the scale', () => {
@@ -106,7 +106,7 @@ describe('ChoroplethMap.vue', () => {
           "03": 200
         }
       }
-      wrapper = mount(ChoroplethMap, { propsData })
+      wrapper = shallowMount(ChoroplethMap, { propsData })
       wrapper.vm.$el.style.width = '500px'
       await wrapper.vm.loadTopojson()
       await wrapper.vm.$nextTick()
@@ -129,13 +129,13 @@ describe('ChoroplethMap.vue', () => {
     it('has a feature for 02 with the middle color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__feature--identifier-02')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(234, 216, 212)')
+      expect(color).toBe('rgb(184, 126, 111)')
     })
 
     it('has a feature for 03 with the end color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__feature--identifier-03')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(218, 189, 181)')
+      expect(color).toBe('rgb(133, 35, 8)')
     })
 
     it('zooms on the map when a feature is clicked', async () => {
