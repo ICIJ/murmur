@@ -145,7 +145,9 @@ export default {
       return this.$options.topojsonPromise
     },
     mapZoomed ({ transform }) {
-      this.map.selectAll('.choropleth-map__main__feature')
+      this.map
+        .style('--map-scale', transform.k)
+        .selectAll('.choropleth-map__main__feature')
         .attr('transform', transform)
     },
     async mapClicked (event, d) {
@@ -336,7 +338,7 @@ export default {
       stroke: currentColor;
       stroke-width: calc(1px / var(--map-scale, 1));
       fill: currentColor;
-      transition: opacity 750ms, filter 750ms, stroke-width 750ms;
+      transition: opacity 750ms, filter 750ms;
 
       &:not([style]) {
         opacity: 0.8;

@@ -37,6 +37,7 @@ identify a location):
   <choropleth-map
     :data="wineStockByDepartment"
     clickable
+    zoomable
     topojson-url="https://gist.githubusercontent.com/pirhoo/44bba7823e09f3bc6bf21c33ddad186d/raw/france-departments.topojson"
     topojson-objects="departements"
     topojson-objects-identifier="properties.code">
