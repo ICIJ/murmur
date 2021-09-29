@@ -13,6 +13,14 @@ export default {
     ScaleLegend
   },
   props: {
+    max: {
+      type: Number,
+      default: null
+    },
+    min: {
+      type: Number,
+      default: null
+    },
     zoomable: {
       type: Boolean
     },
@@ -267,9 +275,15 @@ export default {
       return d3.select(this.$el).select('svg')
     },
     maxValue () {
+      if (this.max !== null) {
+        return this.max
+      }
       return max(values(this.loadedData)) || 0
     },
     minValue () {
+      if (this.min !== null) {
+        return this.min
+      }
       return min(values(this.loadedData)) || 0
     },
     cursorValue () {
