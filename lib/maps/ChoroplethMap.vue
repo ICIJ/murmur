@@ -42,6 +42,9 @@ export default {
     transitionDuration: {
       type: Number,
       default: 750
+    },
+    hatchEmpty: {
+      type: Boolean
     }
   },
   data () {
@@ -111,10 +114,10 @@ export default {
     },
     featureClassObject (d) {
       const pathClass = 'choropleth-map__main__feature'
-      const id = kebabCase(get(d, this.topojsonObjectsIdentifier))
+      const id = get(d, this.topojsonObjectsIdentifier)
       return {
         [pathClass]: true,
-        [`${pathClass}--identifier-${id}`]: true,
+        [`${pathClass}--identifier-${kebabCase(id)}`]: true,
         [`${pathClass}--zoomed`]: this.zoomIdentifier === id,
         [`${pathClass}--cursored`]: this.cursorIdentifier === id
       }
@@ -154,6 +157,7 @@ export default {
     },
     resetZoom () {
       this.map
+        .style('--map-scale', 1)
         .transition()
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, d3.zoomIdentity)
@@ -165,17 +169,21 @@ export default {
       this.$emit('reset')
     },
     setFeaturesClasses () {
-      this.map.selectAll('.choropleth-map__main__feature').attr('class', this.featureClass)
+      this.map
+        .selectAll('.choropleth-map__main__feature')
+        .attr('class', this.featureClass)
     },
     featureZoom (d, pointer = [0, 0]) {
       this.zoomIdentifier = get(d, this.topojsonObjectsIdentifier)
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
+      const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
       const zoomIdentity = d3.zoomIdentity
         .translate(width / 2, height / 2)
-        .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+        .scale(scale)
         .translate(-(x0 + x1) / 2, -(y0 + y1) / 2)
       return this.map
+        .style('--map-scale', scale)
         .transition()
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, zoomIdentity, pointer)
@@ -232,7 +240,8 @@ export default {
     mapClass () {
       return {
         'choropleth-map--has-cursor': this.hasCursor,
-        'choropleth-map--has-zoom': this.hasZoom
+        'choropleth-map--has-zoom': this.hasZoom,
+        'choropleth-map--hatch-empty': this.hatchEmpty
       }
     },
     mapProjection () {
@@ -272,7 +281,12 @@ export default {
 
 <template>
   <div class="choropleth-map" :class="mapClass">
-    <svg class="choropleth-map__main"></svg>
+    <svg class="choropleth-map__main">
+      <pattern id="diagonalHatch" width="1" height="1" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+        <rect width="1" height="1" :fill="featureColorScaleEnd" />
+        <line x1="0" y1="0" x2="0" y2="1" :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }" />
+      </pattern>
+    </svg>
     <scale-legend
       :color-scale-end="featureColorScaleEnd"
       :color-scale-start="featureColorScaleStart"
@@ -306,11 +320,17 @@ export default {
 
     & /deep/ &__feature {
       stroke: currentColor;
+      stroke-width: calc(1px / var(--map-scale, 1));
       fill: currentColor;
-      transition: opacity 750ms, filter 750ms;
+      transition: opacity 750ms, filter 750ms, stroke-width 750ms;
 
       &:not([style]) {
-        opacity: 0.7;
+        opacity: 0.8;
+
+        .choropleth-map--hatch-empty & {
+          opacity: 0.3;
+          fill: url('#diagonalHatch');
+        }
       }
 
       .choropleth-map--has-zoom &:not(.choropleth-map__main__feature--zoomed) {
