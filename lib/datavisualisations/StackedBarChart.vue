@@ -27,7 +27,10 @@
       <slot name="header-right" />
     </div>
     <div class="stacked-bar-chart__groups ">
-      <div class="stacked-bar-chart__groups__item border-bottom flex-fill d-flex align-items-center" :class="{ 'flex-column': labelAbove }" v-for="(datum, i) in sortedData">
+      <div :class="{ 'flex-column': labelAbove }" 
+           :key="i"
+           class="stacked-bar-chart__groups__item border-bottom flex-fill d-flex align-items-center" 
+           v-for="(datum, i) in sortedData">
         <div class="stacked-bar-chart__groups__item__label mr-1 small" :class="{ 'w-100': labelAbove }">
           {{ datum[labelField] }}
         </div>
@@ -35,8 +38,9 @@
           <div v-for="(key, j) in discoveredKeys"
                 @mouseover="delayHighlight(key)"
                 @mouseleave="restoreHighlights()"
+                :key="j"
                 :style="barStyle(i, key)"
-                class="stacked-bar-chart__groups__item__bars__item d-flex flex-row align-items-center"
+                class="stacked-bar-chart__groups__item__bars__item"
                 :class="{
                   [`stacked-bar-chart__groups__item__bars__item--${normalizeKey(key)}`]: true,
                   [`stacked-bar-chart__groups__item__bars__item--${j}n`]: true,
@@ -454,6 +458,9 @@ export default {
             min-width: 1px;
             min-height: 10px;
             height: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
 
             .stacked-bar-chart--has-constraint-height & {
               height: auto;
