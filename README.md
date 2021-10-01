@@ -9,7 +9,7 @@ Murmur is <a href="https://icij.org">ICIJ</a>'s Design System for Bootstrap 4 an
 <div align="center">
 
 | | Status |
-| ---: | --- |
+| --: | :-- |
 | **CI checks** | [![CircleCI](https://circleci.com/gh/ICIJ/murmur.svg?style=shield)](https://circleci.com/gh/ICIJ/murmur) |
 | **Code Climate** | [![Code Climate](https://api.codeclimate.com/v1/badges/e487295b939be72d5f15/maintainability)](ttps://codeclimate.com/github/ICIJ/murmur/maintainability) |
 | **NPM version** | [![NPM version](https://img.shields.io/npm/v/@icij/murmur)](https://www.npmjs.com/package/@icij/murmur) |
