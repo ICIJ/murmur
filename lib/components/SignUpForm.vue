@@ -21,6 +21,8 @@
 <script>
 import Promise from 'promise-polyfill'
 import jsonp from 'jsonp'
+import castArray from 'lodash/castArray'
+import flatten from 'lodash/flatten'
 import last from 'lodash/last'
 import config from '../config'
 import i18n from '@/i18n'
@@ -38,6 +40,20 @@ export default {
     action: {
       type: String,
       default: () => config.get('signup-form.action')
+    },
+    /**
+     * Malchimp email field parameter 
+     */
+    emailField: {
+      type: String,
+      default: () => config.get('signup-form.email-field')
+    },
+    /**
+     * Malchimp default groups. Can be an array or a commat-separated list of groups.
+     */
+    defaultGroups: {
+      type: [String, Array],
+      default: () => config.get('signup-form.default-groups')
     },
     /**
      * Disable the main label.
@@ -76,6 +92,9 @@ export default {
     };
   },
   computed: {
+    groups () {
+      return flatten(castArray(this.defaultGroups).map(g => g.split(',')))
+    },
     url () {
       return this.action.replace('/post?', '/post-json?').concat('&c=?')
     },
@@ -87,10 +106,10 @@ export default {
     },
     submitUrl () {
       const url = new URL(this.url)
-      url.searchParams.set('EMAIL', this.email)
       url.searchParams.set('SIGNUP', this.tracker)
       url.searchParams.set('MMERGE24', this.parentReferrer)
-      url.searchParams.set('group[9][1]', '1')
+      url.searchParams.set(this.emailField, this.email)
+      this.groups.map(group => url.searchParams.set(group, '1'))
       return url.href
     }
   },
