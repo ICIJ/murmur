@@ -14,7 +14,14 @@
         {{ label || $t('haptic-copy.label') }}
       </span>
     </slot>
-    <b-tooltip noninteractive ref="tooltip" :target="() => $el" :triggers="[]" :container="tooltipContainer" v-if="!noTooltip && !!$el">
+    <b-tooltip
+      noninteractive
+      ref="tooltip"
+      v-if="!noTooltip && !!$el"
+      :placement="tooltipPlacement"
+      :target="() => $el"
+      :triggers="[]"
+      :container="tooltipContainer">
       {{ tooltipContent }}
     </b-tooltip>
   </button>
@@ -31,6 +38,21 @@
   import Promise from 'promise-polyfill'
 
   import { library } from './Fa'
+
+  const tooltipPlacements = [
+    'top',
+    'topleft',
+    'topright',
+    'right',
+    'righttop',
+    'rightbottom',
+    'bottom',
+    'bottomleft',
+    'bottomright',
+    'left',
+    'lefttop',
+    'leftbottom'
+  ]
 
   export default {
     i18n,
@@ -66,6 +88,16 @@
       tooltipHideDelay: {
         type: Number,
         default: 2000
+      },
+      /**
+       * Placement of the tooltip. Can be: top, topleft, topright, right,<br />
+       * righttop, rightbottom, bottom, bottomleft, bottomright, left, lefttop,
+       * and leftbottom.
+       */
+      tooltipPlacement: {
+        type: String,
+        default: 'top',
+        validator: (placement) => tooltipPlacements.includes(placement)
       },
       /**
        * Copy HTML content
