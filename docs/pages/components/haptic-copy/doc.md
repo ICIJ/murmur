@@ -12,7 +12,13 @@ A button to copy text with an haptic feedback:
 
 :::sample-card
 <div class="p-2 text-center">
-  <haptic-copy hide-label text="Lorem secondary sit amet" class="btn-secondary"></haptic-copy>
+  <haptic-copy
+    class="btn-secondary"
+    hide-label
+    tooltip-placement="right"
+    v-b-tooltip.hover.right
+    title="Click to copy"
+    text="Lorem secondary sit amet" />
 </div>
 :::
 

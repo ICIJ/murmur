@@ -17,7 +17,7 @@
     <b-tooltip
       noninteractive
       ref="tooltip"
-      v-if="!noTooltip && !!$el"
+      v-if="!noTooltip && mounted"
       :placement="tooltipPlacement"
       :target="() => $el"
       :triggers="[]"
@@ -175,9 +175,11 @@
         // And close the tooltip after a short delay
         this.nextTimeout(this.closeTooltip, this.tooltipHideDelay)
       },
-      openTooltip (msg = 'haptic-copy.tooltip.succeed') {
+      async openTooltip (msg = 'haptic-copy.tooltip.succeed') {
         this.tooltipContent = this.$te(msg) ? this.$t(msg) : msg
-        return this.$nextTick().then(() => this.$refs.tooltip && this.$refs.tooltip.$emit('open'))
+        this.$root.$emit('bv::hide::tooltip')
+        await this.$nextTick()
+        this.$refs.tooltip && this.$refs.tooltip.$emit('open')
       },
       async closeTooltip () {
         this.$refs.tooltip && this.$refs.tooltip.$emit('close')
