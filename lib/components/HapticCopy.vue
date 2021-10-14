@@ -1,5 +1,5 @@
 <template>
-  <button class="btn haptic-copy" @click.stop="copy">
+  <button class="btn haptic-copy" @click.stop="copy" @mouseleave="closeTooltip">
     <!-- @slot Main content of the button (including the icon) -->
     <slot>
       <font-awesome-layers>
