@@ -17,7 +17,7 @@
     <b-tooltip
       noninteractive
       ref="tooltip"
-      v-if="!noTooltip && mounted"
+      v-if="!noTooltip && mounted && $el"
       :placement="tooltipPlacement"
       :target="() => $el"
       :triggers="[]"
