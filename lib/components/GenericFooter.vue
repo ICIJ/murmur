@@ -8,9 +8,11 @@
               <img :src="require('@/assets/images/icij-full-white.svg')" alt="International Consortium of Investigative Journalists" />
             </a>
           </h5>
-          <p class="">
-            1710 Rhode Island Ave NW | 11th floor<br />
-            Washington DC 20006 USA
+          <p>
+            <slot name="address">
+              1800 M Street NW, Front 1 #33019<br />
+              Washington, D.C. 20033 USA
+            </slot>
           </p>
           <p>
             <strong>
