@@ -9,6 +9,7 @@
             </a>
           </h5>
           <p>
+            <!-- @slot Override office's address  -->
             <slot name="address">
               1800 M Street NW, Front 1 #33019<br />
               Washington, D.C. 20033 USA
