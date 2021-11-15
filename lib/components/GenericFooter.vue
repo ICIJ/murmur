@@ -115,6 +115,7 @@
 
 <script>
 import i18n from '@/i18n'
+import config from '../config'
 
 /**
  * GenericFooter
@@ -133,6 +134,12 @@ export default {
   computed: {
     year () {
       return (new Date()).getFullYear()
+    },
+    contactEmail () {
+      return config.get('contact-email')
+    },
+    contactEmailMailto () {
+      return `mailto:${this.contactEmail}`
     }
   }
 }
