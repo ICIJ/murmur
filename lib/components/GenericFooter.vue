@@ -16,7 +16,7 @@
           </p>
           <p>
             <strong>
-              <a href="mailto:contact@icij.org" class="">contact@icij.org</a>
+              <a :href="contactEmailMailto" class="">{{ contactEmail }}</a>
             </strong>
           </p>
           <!-- @slot Additional content on the left side of the footer -->
