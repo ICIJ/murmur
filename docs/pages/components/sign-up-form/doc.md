@@ -6,7 +6,7 @@
 
 :::sample-card
 <div class="m-4">
-  <sign-up-form horizontal default-groups="group[9][1],group[9][131072]" />
+  <sign-up-form variant="secondary" horizontal default-groups="group[9][1],group[9][131072]" />
 </div>
 :::
 

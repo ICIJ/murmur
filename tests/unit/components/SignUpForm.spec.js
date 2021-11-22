@@ -17,7 +17,7 @@ describe('SignUpForm', () => {
   it('disables the label when props.noLabel is passed', () => {
     const noLabel = true
     const wrapper = mount(SignUpForm, {
-       propsData: { noLabel }
+      propsData: { noLabel }
     })
     expect(wrapper.find('label').exists()).toBeFalsy()
   })
@@ -30,7 +30,7 @@ describe('SignUpForm', () => {
   it('renders the form horizontally when props.horizontal is passed', () => {
     const horizontal = true
     const wrapper = mount(SignUpForm, {
-       propsData: { horizontal }
+      propsData: { horizontal }
     })
     expect(wrapper.classes('sign-up-form--horizontal')).toBeTruthy()
   })
@@ -111,5 +111,18 @@ describe('SignUpForm', () => {
     wrapper.vm.send = jest.fn().mockRejectedValue({ })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.errorMessage).toBe('Something\'s wrong')
+  })
+
+  it('changes the color variant of the button ', async () => {
+    const wrapper = mount(SignUpForm)
+    // variant is primary
+    let element = wrapper.find('.sign-up-form__fieldset__group__addon .btn-primary')
+    expect(element.exists()).toBeTruthy()
+
+    //variant is secondary
+    const propsData={ variant:'secondary'}
+    await wrapper.setProps(propsData)
+    element = wrapper.find('.sign-up-form__fieldset__group__addon .btn-secondary')
+    expect(element.exists()).toBeTruthy()
   })
 })

@@ -7,7 +7,7 @@
       <div class="sign-up-form__fieldset__group" :class="{ 'input-group': horizontal }">
         <input v-model="email" name="EMAIL" type="email" class="form-control" :placeholder="$t('sign-up-form.placeholder')" id="input-email" />
         <div class="sign-up-form__fieldset__group__addon" :class="{ 'input-group-append': horizontal }">
-          <button class="btn btn-primary text-uppercase font-weight-bold" type="submit">
+          <button class="btn text-uppercase font-weight-bold" :class="variantColorClass" type="submit">
             {{ $t("sign-up-form.submit") }}
           </button>
         </div>
@@ -80,7 +80,14 @@ export default {
     referrer: {
       type: String,
       default: null
-    }
+    },
+    /**
+     * Color variant of the sign up button
+     */
+    variant: {
+      type: String,
+      default: 'primary'
+    },
   },
   data () {
     return {
@@ -111,6 +118,9 @@ export default {
       url.searchParams.set(this.emailField, this.email)
       this.groups.map(group => url.searchParams.set(group, '1'))
       return url.href
+    },
+    variantColorClass() {
+      return `btn-${this.variant}`
     }
   },
   methods: {
