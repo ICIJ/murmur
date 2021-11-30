@@ -11,7 +11,7 @@
       </a>
     </div>
     <b-modal hide-footer ref="embedForm" title="Embed on your website" class="text-dark">
-      <embed-form no-title no-preview :min-height="iframeMinHeight" :min-width="iframeMinWidth"></embed-form>
+      <embed-form no-title no-preview :url="this.embedUrl || this.url" :min-height="iframeMinHeight" :min-width="iframeMinWidth"></embed-form>
     </b-modal>
   </div>
 </template>
@@ -56,6 +56,12 @@
       url: {
         type: String,
         default: () => config.get('sharing-options.url', null) || IframeResizer.deletePymParams()
+      },
+      /**
+       * URL to use specificaly with the embed form
+       */
+      embedUrl: {
+        type: String
       },
       /**
        * Direction of the sharing options. Can be: <em>row</em>, <em>row-reverse</em>,
