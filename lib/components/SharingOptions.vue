@@ -11,7 +11,7 @@
       </a>
     </div>
     <b-modal hide-footer ref="embedForm" title="Embed on your website" class="text-dark">
-      <embed-form no-title no-preview :url="this.embedUrl || this.url" :min-height="iframeMinHeight" :min-width="iframeMinWidth"></embed-form>
+      <embed-form no-title no-preview :url="embedUrl || url" :min-height="iframeMinHeight" :min-width="iframeMinWidth"></embed-form>
     </b-modal>
   </div>
 </template>
