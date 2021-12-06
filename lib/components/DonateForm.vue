@@ -217,7 +217,7 @@
       &__buttons {
         button {
           margin: 0 5px;
-          border: solid 1px $border-level-selected;
+          border: solid 1px var(--primary);
         }
       }
 
@@ -226,7 +226,7 @@
         cursor: pointer;
 
         &.active {
-          border-bottom: solid 3px $border-level-selected;
+          border-bottom: solid 3px var(--primary);
         }
       }
 
