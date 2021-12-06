@@ -88,7 +88,7 @@
       </p>
       <div>
         <ul class="donate-form__insider__list">
-          <li class="donate-form__insider__list-item" v-for="benefit in $t('donate-form.benefits.list')" v-html="benefit"></li>
+          <li class="donate-form__insider__list-item" v-for="(benefit, index) in $t('donate-form.benefits.list')" :key='index' v-html="benefit"></li>
         </ul>
       </div>
       <div>
@@ -149,7 +149,7 @@
       }
     },
     watch: {
-      installmentPeriod (installmentPeriod) {
+      installmentPeriod () {
         if (!this.amountIsPristine) {
           return
         }
@@ -157,7 +157,7 @@
         // Set suggested amount
         this.$set(this, 'amount', this.getSuggestedAmount())
       },
-      amount(v,o) {
+      amount(v) {
 
         this.level = this.changeThe
 
