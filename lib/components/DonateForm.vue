@@ -155,7 +155,7 @@
         }
 
         // Set suggested amount
-        this.$set(this, 'amount', this.getSuggestedAmount())
+        this.amount = this.getSuggestedAmount()
       },
       amount(v) {
 
@@ -170,25 +170,36 @@
         if (!this.amountIsPristine) {
           return
         }
+        
+        if(!this.level){
+          this.level = this.firstRange
+        }
+
         // Return suggested amount
         return this.suggestedAmount[this.level][this.installmentPeriod]
       },
       selectLevel (level) {
 
         // Set chose level
-        this.$set(this, 'level', level)
+        this.level = level;
 
         // Set suggested amount
-        this.$set(this, 'amount', this.getSuggestedAmount())
+        this.amount = this.getSuggestedAmount()
       }
     },
     computed: {
+      firstRange(){
+          const key= keys(this.ranges)[0]
+          return this.ranges[key]
+      },
+      ranges(){
+        return this.labelForChange[this.installmentPeriod || 'yearly']
+      },
       changeThe () {
-        const ranges = this.labelForChange[this.installmentPeriod || 'yearly']
         // Final label
         let label = null
-        forEach(sortBy(map(keys(ranges), Number)), amount => {
-          label = this.amount >= amount ? ranges[amount] : label
+        forEach(sortBy(map(keys(this.ranges), Number)), amount => {
+          label = this.amount >= amount ? this.ranges[amount] : label
         })
         return label
       }
