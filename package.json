@@ -76,8 +76,11 @@
     "vue-cli-plugin-i18n": "^2.1.4",
     "vue-docgen-api": "^4.41.2",
     "vue-router": "^3.4.9",
-    "vue-template-compiler": "^2.5.11",
-    "vuex": "^3.6.2"
+    "vue-template-compiler": "^2.6.12",
+    "vuex": "^3.6.2",
+    "vue": "^2.6.12",
+    "vue-i18n": "^8.25.1",
+    "bootstrap-vue": "2.21.2"
   },
   "eslintConfig": {
     "root": true,
