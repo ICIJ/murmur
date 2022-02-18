@@ -1,7 +1,7 @@
 <script>
 import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
-import { debounce, get, kebabCase, keys, max, min, once, pickBy, values } from 'lodash'
+import { debounce, get, kebabCase, keys, max, min, pickBy, values } from 'lodash'
 import { feature } from 'topojson'
 import ScaleLegend from '../components/ScaleLegend'
 import chart from '../mixins/chart'
@@ -13,6 +13,16 @@ export default {
     ScaleLegend
   },
   props: {
+    hatchEmpty: {
+      type: Boolean
+    },
+    hideLegend: {
+      type: Boolean
+    },
+    featureColorScale: {
+      type: Function,
+      default: null
+    },
     max: {
       type: Number,
       default: null
@@ -20,17 +30,6 @@ export default {
     min: {
       type: Number,
       default: null
-    },
-    zoomable: {
-      type: Boolean
-    },
-    zoomMin: {
-      type: Number,
-      default: 1
-    },
-    zoomMax: {
-      type: Number,
-      default: 8
     },
     clickable: {
       type: Boolean
@@ -51,9 +50,17 @@ export default {
       type: Number,
       default: 750
     },
-    hatchEmpty: {
+    zoomable: {
       type: Boolean
-    }
+    },
+    zoomMin: {
+      type: Number,
+      default: 1
+    },
+    zoomMax: {
+      type: Number,
+      default: 8
+    },
   },
   data () {
     return {
@@ -151,6 +158,13 @@ export default {
         .attr('transform', transform)
     },
     async mapClicked (event, d) {
+      /**
+       * A click on a feature
+       * @event click
+       * @param Clicked feature
+       */
+      this.$emit('click', d)
+      // Don't zoom on the map feature
       if (!this.clickable) {
         return
       }
@@ -218,15 +232,21 @@ export default {
       return '#fff'
     },
     featureColor () {
-      return (d) => {
+      return d => {
         const id = get(d, this.topojsonObjectsIdentifier)
         if (!(id in this.loadedData)) {
           return
         }
-        return this.featureColorScale(this.loadedData[id])
+        return this.featureColorScaleFunction(this.loadedData[id])
       }
     },
-    featureColorScale () {
+    featureColorScaleFunction () {
+      if (this.featureColorScale !== null) {
+        return this.featureColorScale
+      }
+      return this.defaultFeatureColorScale
+    },
+    defaultFeatureColorScale () {
       return d3.scaleLog()
         .domain([Math.max(1, this.minValue), this.maxValue])
         .range([this.featureColorScaleStart, this.featureColorScaleEnd])
@@ -306,10 +326,11 @@ export default {
     <scale-legend
       :color-scale-end="featureColorScaleEnd"
       :color-scale-start="featureColorScaleStart"
-      :color-scale="featureColorScale"
+      :color-scale="featureColorScaleFunction"
       :cursor-value="cursorValue"
       :max="maxValue"
       :min="minValue"
+      v-if="!hideLegend"
       class="choropleth-map__legend">
       <template #cursor="{ value }">
         <slot name="legend-cursor" v-bind="{ value, identifier: cursorIdentifier }" />

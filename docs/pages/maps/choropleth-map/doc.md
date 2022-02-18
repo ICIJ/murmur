@@ -25,6 +25,21 @@ each country:
 ```
 </collapsible-block>
 
+You can use a custom function to colorize the map features:
+
+:::sample-card
+<div class="bg-light p-4">
+  <h4 class="mb-4">Motor vehicles per 1000 people</h4>
+  <choropleth-map :data="motorVehiclesPer1000people" :feature-color-scale="featureColorScale" hide-legend />
+  <p class="text-right">
+    <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
+      Source
+    </a>
+  </p>
+</div>
+:::
+
+
 The map can also be clickable to zoom on a specific feature, and use a different
 topojson. This way you can build arbitrary choropleth maps with a different set
 of feature (not limited to countries as long as you indicate the property to
@@ -64,7 +79,17 @@ identify a location):
 
 
 <script>
+import * as d3 from 'd3'
+
 export default {
+  computed: {
+    featureColorScale () {
+      const scale = d3.scaleThreshold()
+        .domain([100, 300, 500, 1000])
+        .range(["#ffffcc","#c2e699","#78c679", "#238443"]);
+      return scale
+    }
+  },
   data () {
     return {      
       motorVehiclesPer1000people: {
