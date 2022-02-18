@@ -2,7 +2,6 @@
 import { isFunction, isString } from 'lodash'
 import * as d3 from 'd3'
 import * as scaleFunctions from 'd3-scale'
-import ResizeObserver from 'resize-observer-polyfill'
 
 export default {
   name: 'ScaleLegend',
@@ -98,7 +97,7 @@ export default {
       return this.colorScaleBaseCanvas.getContext('2d')
     },
     colorScaleCanvas () {
-      for (const [x, rectWidth] of this.colorScaleRange) {
+      for (const x of this.colorScaleWidthRange) {
         const value = this.widthScale(x)
         this.colorScaleContext.fillStyle = this.colorScaleFunction(value)
         this.colorScaleContext.fillRect(x, 0, 1, this.height)
@@ -108,8 +107,8 @@ export default {
     colorScaleBase64 () {
       return this.colorScaleCanvas.toDataURL()
     },
-    colorScaleRange () {
-      return d3.range(1, this.width + 1).map(x => [x, 1])
+    colorScaleWidthRange () {
+      return d3.range(1, this.width + 1)
     },
     hasCursor () {
       return ![null, undefined].includes(this.cursorValue)
