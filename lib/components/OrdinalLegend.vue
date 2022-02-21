@@ -1,5 +1,5 @@
 <script>
-import { isFunction, kebabCase, uniqueId } from 'lodash'
+import { get, isFunction, kebabCase, uniqueId } from 'lodash'
 import * as d3 from 'd3'
 
 export default {
@@ -73,7 +73,7 @@ export default {
        * @event update 
        * @param Mixed Value of the category identifier
        */
-      this.$emit('update', d[this.categoriesIdentifier])
+      this.$emit('update', get(d, this.categoriesIdentifier, null))
     },
     updateHighlight (d = {}) {
       /** 
@@ -81,7 +81,7 @@ export default {
        * @event update:highlight 
        * @param Mixed Value of the category identifier
        */
-      this.$emit('update:highlight', d[this.categoriesIdentifier])
+      this.$emit('update:highlight', get(d, this.categoriesIdentifier, null))
     }
   }
 }
@@ -92,11 +92,11 @@ export default {
     <li v-for ="d in data" :key="d[categoriesIdentifier]" class="ordinal-legend__item" :class="itemClassList(d)">
       <a @click="update(d)" @mouseover="updateHighlight(d)" @mouseleave="updateHighlight()">
         <slot name="marker" :marker="{ path: d.path, color: d.color }">
-          <svg class="ordinal-legend__item__marker mr-2" :viewBox="markerViewbox">
+          <svg class="ordinal-legend__item__marker mr-1" :viewBox="markerViewbox">
             <path :d="markerPathFunction(d)" :fill="d.color" class="ordinal-legend__item__marker__path"></path>
           </svg> 
         </slot>
-        <span class="ordinal-legend__item__label">{{d.label}}</span>
+        <span class="ordinal-legend__item__label">{{ d.label }}</span>
       </a>
     </li>
   </ul>
@@ -117,7 +117,7 @@ export default {
     display: inline-block;
 
     &:not(:last-child) {
-      margin-right: $spacer * 2;
+      margin-right: $spacer;
     }
   }
   
