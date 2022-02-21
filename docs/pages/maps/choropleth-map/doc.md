@@ -30,7 +30,7 @@ You can use a custom function to colorize the map features:
 :::sample-card
 <div class="bg-light p-4">
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
-  <choropleth-map :data="motorVehiclesPer1000people" :feature-color-scale="featureColorScale" hide-legend />
+  <choropleth-map :data="motorVehiclesPer1000people" :feature-color-scale="featureColorScale" />
   <p class="text-right">
     <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
       Source
@@ -85,7 +85,7 @@ export default {
   computed: {
     featureColorScale () {
       const scale = d3.scaleThreshold()
-        .domain([100, 300, 500, 1000])
+        .domain([100, 300, 700])
         .range(["#ffffcc","#c2e699","#78c679", "#238443"]);
       return scale
     }
