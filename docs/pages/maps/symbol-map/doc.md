@@ -8,7 +8,7 @@ By default, `SymbolMap` builds a map of the world.
 <div class="bg-light p-4">
   <h4>ICIJ Offices</h4>
   <p class="mb-4">A non-exhaustive list of ICIJ offices and opperations.</p>
-  <symbol-map :data="icijOffices" zoomable />
+  <symbol-map :data="icijOffices" horizontal-legend zoomable />
   <p class="text-right">
     <a href="#">
       Source

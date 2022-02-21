@@ -19,6 +19,9 @@ export default {
     hideLegend: {
       type: Boolean
     },
+    horizontalLegend: {
+      type: Boolean
+    },
     topojsonObjects: {
       type: String,
       default: 'countries1'
@@ -318,7 +321,7 @@ export default {
 <template>
   <div class="symbol-map" :class="mapClass">
     <slot name="legend" v-bind="{ legendData }">
-      <ordinal-legend :data="legendData" horizontal v-if="!hideLegend && legendData" />
+      <ordinal-legend :data="legendData" :horizontal="horizontalLegend" v-if="!hideLegend && legendData" />
     </slot>
     <svg class="symbol-map__main"></svg>
   </div>
