@@ -2,7 +2,7 @@
 badge: unstable
 ---
 
-By default, ChoroplethMap is building a map of the world.
+By default, ChoroplethMap builds a map of the world.
 
 :::sample-card
 <div class="bg-light p-4">
