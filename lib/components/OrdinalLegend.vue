@@ -1,5 +1,5 @@
 <script>
-import { isFunction, uniqueId } from 'lodash'
+import { isFunction, kebabCase, uniqueId } from 'lodash'
 import * as d3 from 'd3'
 
 export default {
@@ -59,6 +59,7 @@ export default {
     itemClassList (d) {
       const id = d[this.categoriesIdentifier]
       return {
+        [`ordinal-legend__item--identifier-${kebabCase(d.label)}`]: true,
         'ordinal-legend__item--highlighted': id === this.highlight,
         'ordinal-legend__item--selected': id === this.value
       }

@@ -1,7 +1,7 @@
 <script>
 import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
-import { debounce, get, groupBy, isFunction, kebabCase, keys, pickBy, uniqueId } from 'lodash'
+import { debounce, get, groupBy, isFunction, kebabCase, keys, pickBy, set, uniqueId } from 'lodash'
 import { feature } from 'topojson'
 import OrdinalLegend from '../components/OrdinalLegend.vue'
 import chart from '../mixins/chart'
@@ -22,6 +22,10 @@ export default {
     topojsonObjects: {
       type: String,
       default: 'countries1'
+    },
+    categoriesIdentifier: {
+      type: [String, Array],
+      default: 'category'
     },
     markersIdentifier: {
       type: [String, Array],
@@ -160,7 +164,8 @@ export default {
       return keys(pickBy(this.markerClassObject(d), value => value)).join(' ')
     },
     markerClassObject (d) {
-      const { category, [this.markersIdentifier]: id } = d 
+      const category = get(d, this.categoriesIdentifier)
+      const id = get(d, this.markersIdentifier)
       const pathClass = 'symbol-map__main__markers__item'
       return {
         [pathClass]: true,
@@ -287,16 +292,20 @@ export default {
       return d3.select(this.$el).select('.symbol-map__main')
     },
     cursorValue () {
-      return find(this.loadedDataWithIds, { [this.markersIdentifier]: this.cursorIdentifier })
+      return find(this.loadedDataWithIds, d => get(d, this.markersIdentifier) === this.cursorIdentifier)
     },
     loadedDataWithIds () {
       return this.loadedData.map(d => {
-        const id = uniqueId()
-        return { [this.markersIdentifier]: id, ...d }
+        return { 
+          ...set({}, this.markersIdentifier, uniqueId()), 
+          ...d
+        }
       })
     },
     legendData () {
-      const categories = groupBy(this.loadedData || [], 'category')
+      const categories = groupBy(this.loadedData || [], (d) => {
+        return get(d, this.categoriesIdentifier)
+      })
       return Object.entries(categories).map(entry => {
         const [label, [{ color }] ] = entry
         return { label, color }
