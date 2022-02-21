@@ -18,7 +18,7 @@ Or use different colors
 </div>
 :::
 
-And a non linear scale
+And a non-continuous scale
 
 :::sample-card
 <div class="bg-light p-5 text-center">
