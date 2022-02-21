@@ -35,6 +35,10 @@ export default {
       type: String,
       default: '#000'
     },
+    markerWidth: {
+      type: Number,
+      default: 10
+    },
     topojsonUrl: {
       type: String,
       default: 'https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries-sans-antarctica.json'
@@ -53,7 +57,7 @@ export default {
     zoomMax: {
       type: Number,
       default: 8
-    },
+    }
   },
   data () {
     return {
@@ -173,7 +177,7 @@ export default {
     markerTransform ({ latitude, longitude}) {
       const { height, width } = this.markerBoundingClientRect
       const [x, y] = this.mapProjection([longitude, latitude])
-      const scale = 0.025
+      const scale = this.markerWidth / width
       const cx = x - (width / 2) * scale
       const cy = y - (height / 2) * scale
       return `translate(${cx}, ${cy}) scale(${scale})`
