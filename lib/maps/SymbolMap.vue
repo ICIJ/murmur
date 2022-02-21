@@ -3,13 +3,20 @@ import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
 import { debounce, get, isFunction, kebabCase, keys, pickBy, uniqueId } from 'lodash'
 import { feature } from 'topojson'
+import OrdinalLegend from '../components/OrdinalLegend.vue'
 import chart from '../mixins/chart'
 
 export default {
   name: 'SymbolMap',
   mixins: [chart],
+  components: {
+    OrdinalLegend
+  },
   props: {
     clickable: {
+      type: Boolean
+    },
+    hideLegend: {
       type: Boolean
     },
     topojsonObjects: {
@@ -273,7 +280,7 @@ export default {
       if (!this.mounted) {
         return null
       }
-      return d3.select(this.$el).select('svg')
+      return d3.select(this.$el).select('.symbol-map__main')
     },
     cursorValue () {
       return find(this.loadedDataWithIds, { [this.markersIdentifier]: this.cursorIdentifier })
@@ -282,7 +289,7 @@ export default {
       return this.loadedData.map(d => {
         const id = uniqueId()
         return { [this.markersIdentifier]: id, ...d }
-      })
+      }) || []
     }
   }
 }
@@ -290,6 +297,7 @@ export default {
 
 <template>
   <div class="symbol-map" :class="mapClass">
+    <ordinal-legend :data="loadedDataWithIds" horizontal v-if="!hideLegend && loadedData" />
     <svg class="symbol-map__main"></svg>
   </div>
 </template>
