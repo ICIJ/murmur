@@ -98,8 +98,7 @@ export default {
     },
     colorScaleCanvas () {
       for (const x of this.colorScaleWidthRange) {
-        const value = this.widthScale(x)
-        this.colorScaleContext.fillStyle = this.colorScaleFunction(value)
+        this.colorScaleContext.fillStyle = this.widthScaleColor(x)
         this.colorScaleContext.fillRect(x, 0, 1, this.height)
       }
       return this.colorScaleBaseCanvas
@@ -122,10 +121,21 @@ export default {
       return this.colorScale
     },
     cursorLeftScale () {
-      return this.colorScaleFunction.copy().range([0, 100])
+      return d3.scaleLinear()
+        .domain([this.min, this.max])
+        .range([0, 100])
+        .interpolate(d3.interpolateRound)
+    },
+    widthScaleColor () {
+      return x => {
+        const value = this.widthScale(x)
+        return this.colorScaleFunction(value)
+      }
     },
     widthScale () {
-      return this.colorScaleFunction.copy().range([1, this.width]).invert
+      return d3.scaleLinear()
+        .domain([0, this.width])
+        .range([this.min, this.max])
     }
   }
 }
