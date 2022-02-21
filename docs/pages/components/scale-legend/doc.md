@@ -22,7 +22,7 @@ And a non-continuous scale
 
 :::sample-card
 <div class="bg-light p-5 text-center">
-  <scale-legend :min="0" :max="6e4" :color-scale="thresholdScale" />
+  <scale-legend :width="200" :min="0" :max="6e4" :color-scale="thresholdScale" />
 </div>
 :::
 
