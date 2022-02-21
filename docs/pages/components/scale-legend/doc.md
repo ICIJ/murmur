@@ -18,6 +18,14 @@ Or use different colors
 </div>
 :::
 
+And a non linear scale
+
+:::sample-card
+<div class="bg-light p-5 text-center">
+  <scale-legend :min="0" :max="6e4" :color-scale="thresholdScale" />
+</div>
+:::
+
 You can highlight a specific value:
 
 :::sample-card
@@ -40,5 +48,18 @@ The cursor can be customized with slot:
 </div>
 :::
 
-
 ::: api-table components/ScaleLegend.vue :::
+
+<script>
+import * as d3 from 'd3'
+
+export default {
+  computed: {
+    thresholdScale () {
+      return d3.scaleThreshold()
+        .domain([1e4, 2e4, 3e4, 4e4, 5e4])
+        .range(["#D12229", "#F68A1E", "#FDE01A", "#007940", "#24408E", "#732982"])
+    }
+  }
+}
+</script>
