@@ -331,8 +331,7 @@ export default {
 @import '../styles/lib';
 
 .symbol-map {
-  position: relative;
-
+  
   &__main {
     color: #fff;
     min-height: 300px;
