@@ -13,8 +13,8 @@ describe('SymbolMap.vue', () => {
       const propsData = {
         data: [
           { id: 1, latitude: 48.859116, longitude: 2.331839, color: '#6e40aa', category: 'TECH', label: 'Paris, France' },
-          { id: 2, latitude: -34.035875, longitude: 151.194191, color: '#ff5e63', category: 'FINANCE', label: 'Syndey, Australia' },
-          { id: 3, latitude: 38.9072, longitude: -77.0369, color: '#aff05b', category: 'EDITO', label: 'Whasington DC, USA' }
+          { id: 2, latitude: -34.035875, longitude: 151.194191, color: '#ff5e63', category: 'FINANCE', label: 'Sydney, Australia' },
+          { id: 3, latitude: 38.9072, longitude: -77.0369, color: '#aff05b', category: 'EDITO', label: 'Washington DC, USA' }
         ]
       }
       wrapper = shallowMount(SymbolMap, { propsData })

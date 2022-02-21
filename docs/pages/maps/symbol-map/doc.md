@@ -30,7 +30,7 @@ export default {
     return {
       icijOffices: [
         { latitude: 48.859116, longitude: 2.331839, color: '#6e40aa', category: 'TECH', label: 'Paris, France' },
-        { latitude: -34.035875, longitude: 151.194191, color: '#ff5e63', category: 'FINANCE', label: 'Syndey, Australia' },
+        { latitude: -34.035875, longitude: 151.194191, color: '#ff5e63', category: 'FINANCE', label: 'Sydney, Australia' },
         { latitude: 38.9072, longitude: -77.0369, color: '#aff05b', category: 'EDITO', label: 'Washington DC, USA' }
       ]
     }
