@@ -69,7 +69,8 @@ export default {
   data () {
     return {
       mapRect: { width: 0, height: 0 },
-      cursorIdentifier: null
+      cursorIdentifier: null,
+      categoryHighlight: null
     }
   },
   topojson: null,
@@ -84,6 +85,9 @@ export default {
       this.draw()
     },
     cursorIdentifier () {
+      this.setMarkersClasses()
+    },
+    categoryHighlight () {
       this.setMarkersClasses()
     }
   },
@@ -173,7 +177,8 @@ export default {
       return {
         [pathClass]: true,
         [`${pathClass}--category-${kebabCase(category)}`]: category !== null,
-        [`${pathClass}--cursored`]: this.cursorIdentifier === id
+        [`${pathClass}--cursored`]: this.cursorIdentifier === id,
+        [`${pathClass}--highlighted`]: this.categoryHighlight === category
       }
     },
     markerPathFunction (d) {
@@ -260,6 +265,9 @@ export default {
     hasCursor () {
       return !!this.cursorIdentifier
     },
+    hasHighlight () {
+      return !!this.categoryHighlight
+    },
     topojson () {
       return this.$options.topojson
     },
@@ -269,7 +277,8 @@ export default {
     },
     mapClass () {
       return {
-        'symbol-map--has-cursor': this.hasCursor
+        'symbol-map--has-cursor': this.hasCursor,
+        'symbol-map--has-highlight': this.hasHighlight,
       }
     },
     mapProjection () {
@@ -310,7 +319,7 @@ export default {
         return get(d, this.categoriesIdentifier)
       })
       return Object.entries(categories).map(entry => {
-        const [label, [{ color }] ] = entry
+        const [ label, [{ color }] ] = entry
         return { label, color }
       })
     }
@@ -321,7 +330,12 @@ export default {
 <template>
   <div class="symbol-map" :class="mapClass">
     <slot name="legend" v-bind="{ legendData }">
-      <ordinal-legend :data="legendData" :horizontal="horizontalLegend" v-if="!hideLegend && legendData" />
+      <ordinal-legend 
+        :data="legendData" 
+        :highlight.sync="categoryHighlight" 
+        :horizontal="horizontalLegend"
+        categories-identifier="label"
+        v-if="!hideLegend && legendData" />
     </slot>
     <svg class="symbol-map__main"></svg>
   </div>
@@ -331,6 +345,9 @@ export default {
 @import '../styles/lib';
 
 .symbol-map {
+  $muted-item-opacity: .2;
+  $muted-item-filter: grayscale(30%) brightness(10%);
+  $muted-item-transition: opacity .2s, filter .2s;
   
   &__main {
     color: #fff;
@@ -347,6 +364,22 @@ export default {
       stroke-width: calc(1px / var(--map-scale, 1));
       fill: currentColor;
       transition: opacity 750ms, filter 750ms;
+    }
+
+    & /deep/ &__markers__item {
+      opacity: 1;
+      filter: grayscale(0%) brightness(100%);
+      transition: $muted-item-transition;
+
+      .symbol-map--has-highlight & {
+        opacity: $muted-item-opacity;
+        filter: $muted-item-filter;
+      }
+
+      .symbol-map--has-highlight &--highlighted {
+        opacity: 1;
+        filter: grayscale(0%) brightness(100%);
+      }
     }
   }
 }
