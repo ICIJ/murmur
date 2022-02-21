@@ -1,7 +1,7 @@
 <script>
 import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
-import { debounce, get, isFunction, kebabCase, keys, pickBy, uniqueId } from 'lodash'
+import { debounce, get, groupBy, isFunction, kebabCase, keys, pickBy, uniqueId } from 'lodash'
 import { feature } from 'topojson'
 import OrdinalLegend from '../components/OrdinalLegend.vue'
 import chart from '../mixins/chart'
@@ -289,7 +289,14 @@ export default {
       return this.loadedData.map(d => {
         const id = uniqueId()
         return { [this.markersIdentifier]: id, ...d }
-      }) || []
+      })
+    },
+    legendData () {
+      const categories = groupBy(this.loadedData || [], 'category')
+      return Object.entries(categories).map(entry => {
+        const [label, [{ color }] ] = entry
+        return { label, color }
+      })
     }
   }
 }
@@ -297,7 +304,9 @@ export default {
 
 <template>
   <div class="symbol-map" :class="mapClass">
-    <ordinal-legend :data="loadedDataWithIds" horizontal v-if="!hideLegend && loadedData" />
+    <slot name="legend" v-bind="{ legendData }">
+      <ordinal-legend :data="legendData" horizontal v-if="!hideLegend && legendData" />
+    </slot>
     <svg class="symbol-map__main"></svg>
   </div>
 </template>
