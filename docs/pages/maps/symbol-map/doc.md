@@ -72,11 +72,11 @@ Just like the `ChoroplethMap`, the `SymbolMap` can use a different topoJSON to g
 
 :::sample-card
 <div class="bg-white p-4">
-  <h4>Sport equiments in Marseille</h4>
-  <p>Every sport equiments administrated by the city of Marseille.</p>
+  <h4>Sport facilities in Marseille</h4>
+  <p>Every sport facilities administrated by the city of Marseille.</p>
   <symbol-map 
-    class="marseille-equipments-map"
-    data="https://gist.githubusercontent.com/pirhoo/c42b180b774177bd9882899e009dddbe/raw/marseille-sport-equimenets.json"
+    class="marseille-facilities-map"
+    data="https://gist.githubusercontent.com/pirhoo/c42b180b774177bd9882899e009dddbe/raw/marseille-sport-facilities.json"
     fit-to-markers
     horizontal-legend
     marker-width="7"
@@ -196,7 +196,7 @@ export default {
   --category-color-7n: #630015;
 }
 
-.marseille-equipments-map.symbol-map /deep/ .symbol-map__main__features__item {
+.marseille-facilities-map.symbol-map /deep/ .symbol-map__main__features__item {
   stroke: #ccc;
 }
 </style>
