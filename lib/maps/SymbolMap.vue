@@ -211,7 +211,7 @@ export default {
       return `${this.mapId}-marker-${id}`
     },
     markerClassObject (d) {
-      const category = get(d, this.categoryObjectsPath)
+      const category = String(get(d, this.categoryObjectsPath))
       const categoryIndex = this.categories.indexOf(category)
       const id = get(d, this.markerObjectsPath)
       const pathClass = 'symbol-map__main__markers__item'
@@ -389,7 +389,7 @@ export default {
       const categories = (this.loadedData || []).map(d => {
         return get(d, this.categoryObjectsPath)
       })
-      return uniq(categories)
+      return uniq(categories).map(String)
     },
     legendData () {
       const categories = groupBy(this.loadedData || [], d => {
@@ -493,7 +493,7 @@ export default {
         }
 
         @for $i from 0 through ($quantile * length($colors)) {
-          &--category-#{$i}n:not([fill]) {
+          &--category-#{$i}n path:not([fill]) {
             fill: var(--category-color-#{$i}n);
           }
         }
