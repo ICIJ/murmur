@@ -29,6 +29,8 @@ All you have to do is to pass an array with coordinates:
 ```
 </collapsible-block>
 
+You can also create a more advanced map with custom marker size and custom colors in CSS:
+
 :::sample-card
 <div class="bg-white p-4">
   <h4>Nuclear power plants in Europe</h4>
@@ -47,7 +49,7 @@ All you have to do is to pass an array with coordinates:
         <strong class="h3" v-html="`${MWe} MWe`"></strong>
       </div>
     </template>
-    <template #legend-label="{ label}">
+    <template #legend-label="{ label }">
       <span v-if="label === '1'" v-html="'1 reactor'"></span>
       <span v-else v-html="`${label} reactors`"></span>
     </template>
@@ -59,6 +61,38 @@ All you have to do is to pass an array with coordinates:
   </p>
 </div>
 :::
+
+<collapsible-block label="Show the data structure">
+```json
+{{ powerPlants }}
+```
+</collapsible-block>
+
+Just like the `ChoroplethMap`, the `SymbolMap` can use a different topoJSON to generate its base layer:
+
+:::sample-card
+<div class="bg-white p-4">
+  <h4>Sport equiments in Marseille</h4>
+  <p>Every sport equiments administrated by the city of Marseille.</p>
+  <symbol-map 
+    data="https://gist.githubusercontent.com/pirhoo/c42b180b774177bd9882899e009dddbe/raw/marseille-sport-equimenets.json"
+    fit-to-markers
+    horizontal-legend
+    marker-width="7"
+    topojson-objects="collection"
+    topojson-url="https://gist.githubusercontent.com/pirhoo/a734b72bcf69f81f034b676e0aac4788/raw/marseille.topojson">
+    <template #tooltip="{ name }">
+      <span v-html="name"></span>
+    </template>
+  </symbol-map>
+  <p class="text-right">
+    <a href="https://trouver.datasud.fr/dataset/marseille-equipements-sportifs">
+      Source
+    </a>
+  </p>
+</div>
+:::
+
 	
 <script>
 import * as d3 from 'd3'
