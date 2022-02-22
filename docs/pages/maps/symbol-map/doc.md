@@ -75,6 +75,7 @@ Just like the `ChoroplethMap`, the `SymbolMap` can use a different topoJSON to g
   <h4>Sport equiments in Marseille</h4>
   <p>Every sport equiments administrated by the city of Marseille.</p>
   <symbol-map 
+    class="marseille-equipments-map"
     data="https://gist.githubusercontent.com/pirhoo/c42b180b774177bd9882899e009dddbe/raw/marseille-sport-equimenets.json"
     fit-to-markers
     horizontal-legend
@@ -193,6 +194,10 @@ export default {
   --category-color-5n: #e31a1c;
   --category-color-6n: #b10026;
   --category-color-7n: #630015;
+}
+
+.marseille-equipments-map.symbol-map /deep/ .symbol-map__main__features__item {
+  stroke: #ccc;
 }
 </style>
 
