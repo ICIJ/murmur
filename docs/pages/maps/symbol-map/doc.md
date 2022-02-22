@@ -10,7 +10,7 @@ By default, `SymbolMap` builds a map of the world.
   <p class="mb-4">A non-exhaustive list of ICIJ offices and opperations.</p>
   <symbol-map :data="icijOffices" horizontal-legend zoomable>
     <template #tooltip="{ category, label }">
-      <span v-html="`${label} (${category})`"></span>
+      {{ label }} - {{ category }}
     </template>
   </symbol-map>
   <p class="text-right">
@@ -45,13 +45,19 @@ You can also create a more advanced map with custom marker size and custom color
     tooltip-placement="rightbottom">
     <template #tooltip="{ country, label, MWe }">
       <div class="text-left p-1">
-        <h6 v-html="`${label} (${country})`"></h6>
-        <strong class="h3" v-html="`${MWe} MWe`"></strong>
+        <h6>
+          {{ label }} ({{ country }})
+        </h6>
+        <strong class="h3">{{ MWe }} MWe</strong>
       </div>
     </template>
     <template #legend-label="{ label }">
-      <span v-if="label === '1'" v-html="'1 reactor'"></span>
-      <span v-else v-html="`${label} reactors`"></span>
+      <span v-if="label === '1'">
+        1 reactor
+      </span>
+      <span v-else>
+       {{ label }} reactors
+      </span>
     </template>
   </symbol-map>
   <p class="text-right">
@@ -75,15 +81,15 @@ Just like the `ChoroplethMap`, the `SymbolMap` can use a different topoJSON to g
   <h4>Sport facilities in Marseille</h4>
   <p>Every sport facilities administrated by the city of Marseille.</p>
   <symbol-map 
+    :marker-width="7"
     class="marseille-facilities-map"
     data="https://gist.githubusercontent.com/pirhoo/c42b180b774177bd9882899e009dddbe/raw/marseille-sport-facilities.json"
     fit-to-markers
     horizontal-legend
-    marker-width="7"
     topojson-objects="collection"
     topojson-url="https://gist.githubusercontent.com/pirhoo/a734b72bcf69f81f034b676e0aac4788/raw/marseille.topojson">
     <template #tooltip="{ name }">
-      <span v-html="name"></span>
+      {{ name }}
     </template>
   </symbol-map>
   <p class="text-right">
