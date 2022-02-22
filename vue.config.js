@@ -12,15 +12,19 @@ module.exports = {
     // Add custom loader
     config.resolveLoader.modules.add('./loaders')
     // Add rule to handle markdown file
-    config.module.rule('markdown').test(/\.md$/)
-      .use('vue-loader').loader('vue-loader').end()
-      .use('markdown-loader')
-        .loader('markdown-loader')
-        .options({
-          sourceDir: resolve('./docs'),
-          // Custom markdown parser
-          markdown: require('./docs/markdown')
-        })
+    config.module.rule('markdown')
+      .test(/\.md$/)
+        .use('vue-loader')
+          .loader('vue-loader')
+          .end()
+        .use('markdown-loader')
+          .loader('markdown-loader')
+          .options({
+            sourceDir: resolve('./docs'),
+            // Custom markdown parser
+            markdown: require('./docs/markdown')
+          })
+         .end()
     // Markdown files must be resolved too
     config.resolve.extensions.add('.md')
     // Add a plugin to compile a lightweight of highlight.js
