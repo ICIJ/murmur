@@ -39,9 +39,13 @@ All you have to do is to pass an array with coordinates:
     category-objects-path="reactors"
     class="power-plants-map"
     fit-to-markers
-    horizontal-legend>
+    horizontal-legend
+    tooltip-placement="rightbottom">
     <template #tooltip="{ country, label, MWe }">
-      <span v-html="`${label} (${country}): ${MWe} MWe`"></span>
+      <div class="text-left p-1">
+        <h6 v-html="`${label} (${country})`"></h6>
+        <strong class="h3" v-html="`${MWe} MWe`"></strong>
+      </div>
     </template>
     <template #legend-label="{ label}">
       <span v-if="label === '1'" v-html="'1 reactor'"></span>

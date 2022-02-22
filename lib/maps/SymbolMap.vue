@@ -63,6 +63,17 @@ export default {
     noMarkersScale: {
       type: Boolean
     },
+    tooltipCustomClass: {
+      type: String
+    },
+    tooltipPlacement: {
+      type: String,
+      default: 'top'
+    },
+    tooltipFallbackPlacement: {
+      type: [Array, String],
+      default: 'flip'
+    },
     topojsonObjects: {
       type: String,
       default: 'countries1'
@@ -432,7 +443,13 @@ export default {
       </ordinal-legend>
     </slot>
     <svg class="symbol-map__main"></svg>
-    <b-tooltip ref="marker-tooltip" :target="tooltipTarget" v-if="tooltipTarget">
+    <b-tooltip 
+      :custom-class="tooltipCustomClass"
+      :fallback-placement="tooltipFallbackPlacement"
+      :placement="tooltipPlacement"
+      :target="tooltipTarget" 
+      ref="marker-tooltip" 
+      v-if="tooltipTarget">
       <slot name="tooltip" v-bind="{ markerCursor, ...markerCursorValue }">
         {{ markerLabel(markerCursorValue) }}
       </slot>
