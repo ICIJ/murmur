@@ -91,12 +91,18 @@ export default {
   <ul class="ordinal-legend list-unstyled" :class="classList">
     <li v-for ="d in data" :key="d[categoryObjectsPath]" class="ordinal-legend__item" :class="itemClassList(d)">
       <a @click="update(d)" @mouseover="updateHighlight(d)" @mouseleave="updateHighlight()">
-        <slot name="marker" :marker="{ path: d.path, color: d.color }">
-          <svg class="ordinal-legend__item__marker mr-1" :viewBox="markerViewbox">
-            <path :d="markerPathFunction(d)" :fill="d.color" class="ordinal-legend__item__marker__path"></path>
-          </svg> 
-        </slot>
-        <span class="ordinal-legend__item__label">{{ d.label }}</span>
+        <span class="ordinal-legend__item__marker mr-1">
+          <slot name="marker" :marker="{ path: d.path, color: d.color }">
+            <svg :viewBox="markerViewbox">
+              <path :d="markerPathFunction(d)" :fill="d.color" class="ordinal-legend__item__marker__path"></path>
+            </svg> 
+          </slot>
+        </span>
+        <span class="ordinal-legend__item__label">
+          <slot name="label" v-bind="d">
+            {{ d.label }}
+          </slot>
+        </span>
       </a>
     </li>
   </ul>
@@ -137,7 +143,7 @@ export default {
       color: inherit
     }
 
-    &__marker {
+    &__marker svg {
       height: 1em;
       width: 1em;
     }
