@@ -28,17 +28,24 @@ All you have to do is to pass an array with coordinates:
 {{ icijOffices }}
 ```
 </collapsible-block>
-
+	
+	
+	
 <script>
 export default {		
   data () {
     return {
       icijOffices: [
-        { latitude: 48.859116, longitude: 2.331839, color: '#6e40aa', category: 'Technology', label: 'Paris, France' },
-        { latitude: 25.766368, longitude: -80.210268, color: '#6e40aa', category: 'Technology', label: 'Miami, FL, USA' },
-        { latitude: 40.429913, longitude: -3.669245, color: '#6e40aa', category: 'Technology', label: 'Madrid, Spain' },
-        { latitude: -34.035875, longitude: 151.194191, color: '#ff5e63', category: 'Finance', label: 'Sydney, Australia' },
-        { latitude: 38.9072, longitude: -77.0369, color: '#aff05b', category: 'Editorial', label: 'Washington DC, USA' }
+        { latitude: 48.859116, longitude: 2.331839, category: 'Technology', label: 'Paris, France' },
+        { latitude: 25.766368, longitude: -80.210268, category: 'Technology', label: 'Miami, FL, USA' },
+        { latitude: 40.429913, longitude: -3.669245, category: 'Technology', label: 'Madrid, Spain' },
+        { color: '#aff05b', latitude: 35.128683, longitude: -106.579128, category: 'Data', label: 'Alburquerque, USA' },
+        { color: '#aff05b', latitude: 44.80401, longitude: 20.46513, category: 'Data', label: 'Belgrade, Serbia' },
+        { color: '#aff05b', latitude: 53.33928, longitude: -6.281314, category: 'Data', label: 'Dublin, Ireland' },
+        { latitude: -34.035875, longitude: 151.194191, category: 'Finance', label: 'Sydney, Australia' },
+        { latitude: 18.2076699, longitude: -67.1463184, category: 'Finance', label: 'Puerto Rico' },
+        { color: '#6e40aa', latitude: 38.9072, longitude: -77.0369, category: 'Editorial', label: 'Washington DC, USA' },
+        { color: '#6e40aa', latitude: 47.4808722, longitude: 18.8501225, category: 'Editorial', label: 'Budapest, Hungary' }
       ]
     }
   }

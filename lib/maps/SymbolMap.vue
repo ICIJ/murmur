@@ -1,7 +1,7 @@
 <script>
 import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
-import { debounce, find, get, groupBy, isFunction, kebabCase, keys, pickBy, set, uniqueId } from 'lodash'
+import { debounce, find, get, groupBy, isFunction, kebabCase, keys, pickBy, set, uniq, uniqueId } from 'lodash'
 import { feature } from 'topojson'
 import OrdinalLegend from '../components/OrdinalLegend.vue'
 import chart from '../mixins/chart'
@@ -43,7 +43,7 @@ export default {
     },
     markerColor: {
       type: String,
-      default: '#000'
+      default: null
     },
     featureColor: {
       type: [String, Function],
@@ -123,6 +123,14 @@ export default {
         this.map.call(this.mapZoom)
       }
     },
+    categoryColor (category) {
+      if (this.mounted) {
+        const index = this.categories.indexOf(category) 
+        const style = window.getComputedStyle(this.$el)
+        return style.getPropertyValue(`--category-color-${index}n`) || '#000'
+      }
+      return  null
+    },
     draw () {
       const map = this.prepare()
       // Bind a group for geojson features to path
@@ -193,11 +201,13 @@ export default {
     },
     markerClassObject (d) {
       const category = get(d, this.categoryObjectsPath)
+      const categoryIndex = this.categories.indexOf(category)
       const id = get(d, this.markerObjectsPath)
       const pathClass = 'symbol-map__main__markers__item'
       return {
         [pathClass]: true,
         [`${pathClass}--category-${kebabCase(category)}`]: category !== null,
+        [`${pathClass}--category-${categoryIndex}n`]: category !== null,
         [`${pathClass}--cursored`]: this.markerCursor === id,
         [`${pathClass}--identifier-${kebabCase(id)}`]: id !== null,
         [`${pathClass}--highlighted`]: this.categoryHighlight === category
@@ -341,12 +351,19 @@ export default {
         }
       })
     },
+    categories () {
+      const categories = (this.loadedData || []).map(d => {
+        return get(d, this.categoryObjectsPath)
+      })
+      return uniq(categories)
+    },
     legendData () {
-      const categories = groupBy(this.loadedData || [], (d) => {
+      const categories = groupBy(this.loadedData || [], d => {
         return get(d, this.categoryObjectsPath)
       })
       return Object.entries(categories).map(entry => {
-        const [ label, [{ color }] ] = entry
+        const [ label, [{ color: firstColor }] ] = entry
+        const color = firstColor || this.categoryColor(label)  
         return { label, color }
       })
     },
@@ -389,6 +406,19 @@ export default {
   $muted-item-opacity: .2;
   $muted-item-filter: grayscale(30%) brightness(10%);
   $muted-item-transition: opacity .2s, filter .2s;
+
+  $colors: $primary, $info, $warning, $danger;
+  $quantile: 2;
+
+  @each $start-color in $colors {
+    $i: index($colors, $start-color) - 1;
+    $end-color: mix($start-color, text-contrast($start-color), 20%);
+
+    @for $j from ($quantile * $i) through ($quantile * $i + $quantile - 1) {
+      $amount: ($j % $quantile) * (100% / $quantile);
+      --category-color-#{$j}n: #{mix($end-color, $start-color, $amount)};
+    }
+  }
   
   &__main {
     color: #ebebeb;
@@ -421,10 +451,13 @@ export default {
         opacity: 1;
         filter: grayscale(0%) brightness(100%);
       }
-      
-    }
 
-    
+      @for $i from 0 through ($quantile * length($colors)) {
+        &--category-#{$i}n:not([fill]) {
+          fill: var(--category-color-#{$i}n);
+        }
+      }
+    }
   }
 }
 </style>
