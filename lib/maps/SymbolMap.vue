@@ -436,6 +436,7 @@ export default {
         :data="legendData" 
         :highlight.sync="categoryHighlight" 
         :horizontal="horizontalLegend"
+        :marker-path="markerPath"
         category-objects-path="label"
         v-if="!hideLegend && legendData">
         <template #marker="d"><slot name="legend-marker" v-bind="d" /></template>
