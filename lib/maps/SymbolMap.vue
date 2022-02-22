@@ -53,6 +53,9 @@ export default {
       type: Number,
       default: 10
     },
+    noMarkersScale: {
+      type: Boolean
+    },
     topojsonObjects: {
       type: String,
       default: 'countries1'
@@ -151,14 +154,15 @@ export default {
         .selectAll('.symbol-map__main__markers__item')
         .data(this.loadedDataWithIds)
         .enter()
-          .append('path')
-          .on('mouseover', this.markerMouseOver)
-          .on('mouseleave', this.markerMouseLeave)
+          .append('g')
           .attr('id', this.markerId)
           .attr('class', this.markerClass)
-          .attr('d', this.markerPathFunction)
-          .attr('fill', this.markerColorFunction)
           .attr('transform', this.markerTransform)
+            .append('path')
+            .on('mouseover', this.markerMouseOver)
+            .on('mouseleave', this.markerMouseLeave)
+            .attr('d', this.markerPathFunction)
+            .attr('fill', this.markerColorFunction)
       this.prepareZoom()
     },
     featureClass (d) {
@@ -225,7 +229,7 @@ export default {
     markerTransform ({ latitude, longitude}) {
       const { height, width } = this.markerBoundingClientRect
       const [x, y] = this.mapProjection([longitude, latitude])
-      const scale = this.markerWidth / width
+      const scale = this.markerWidth / width 
       const cx = x - (width / 2) * scale
       const cy = y - (height / 2) * scale
       return `translate(${cx}, ${cy}) scale(${scale})`
@@ -314,6 +318,7 @@ export default {
       return {
         'symbol-map--has-cursor': this.hasCursor,
         'symbol-map--has-highlight': this.hasHighlight,
+        'symbol-map--has-markers-scale': !this.noMarkersScale
       }
     },
     mapProjection () {
@@ -437,24 +442,33 @@ export default {
       transition: opacity 750ms, filter 750ms;
     }
 
-    & /deep/ &__markers__item {
-      opacity: 1;
-      filter: grayscale(0%) brightness(100%);
-      transition: $muted-item-transition;
-
-      .symbol-map--has-highlight & {
-        opacity: $muted-item-opacity;
-        filter: $muted-item-filter;
-      }
-
-      .symbol-map--has-highlight &--highlighted {
+    & /deep/ &__markers {
+      shape-rendering: geometricPrecision;
+      
+      &__item {
         opacity: 1;
         filter: grayscale(0%) brightness(100%);
-      }
+        transition: $muted-item-transition;
 
-      @for $i from 0 through ($quantile * length($colors)) {
-        &--category-#{$i}n:not([fill]) {
-          fill: var(--category-color-#{$i}n);
+        .symbol-map--has-highlight & {
+          opacity: $muted-item-opacity;
+          filter: $muted-item-filter;
+        }
+
+        .symbol-map--has-highlight &--highlighted {
+          opacity: 1;
+          filter: grayscale(0%) brightness(100%);
+        }
+
+        @for $i from 0 through ($quantile * length($colors)) {
+          &--category-#{$i}n:not([fill]) {
+            fill: var(--category-color-#{$i}n);
+          }
+        }
+          
+        .symbol-map--has-markers-scale & path {
+          transform: scale(calc(1 / var(--map-scale)));
+          transform-origin: center center;
         }
       }
     }
