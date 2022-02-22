@@ -154,10 +154,10 @@ export default {
     },
     featureClassObject (d) {
       const pathClass = 'symbol-map__main__features__item'
-      const id = get(d, this.topojsonObjectsPath)
+      const id = get(d, this.topojsonObjectsPath, null)
       return {
         [pathClass]: true,
-        [`${pathClass}--identifier-${kebabCase(id)}`]: true
+        [`${pathClass}--identifier-${kebabCase(id)}`]: id !== null
       }
     },
     async loadTopojson () {
