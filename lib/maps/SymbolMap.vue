@@ -326,7 +326,7 @@ export default {
       }
       return d3.select(this.$el).select('.symbol-map__main')
     },
-    cursorValue () {
+    markerCursorValue () {
       return find(this.loadedDataWithIds, d => {
         return get(d, this.markerObjectsPath) === this.markerCursor
       })
@@ -353,7 +353,7 @@ export default {
     },
     tooltipTarget () {
       if (this.hasTooltip) {
-        return this.markerId(this.cursorValue)
+        return this.markerId(this.markerCursorValue)
       }
       return null
     }
@@ -373,8 +373,8 @@ export default {
     </slot>
     <svg class="symbol-map__main"></svg>
     <b-tooltip ref="marker-tooltip" :target="tooltipTarget" v-if="tooltipTarget">
-      <slot name="tooltip" v-bind="{ markerCursor, ...cursorValue }">
-        {{ markerLabel(cursorValue) }}
+      <slot name="tooltip" v-bind="{ markerCursor, ...markerCursorValue }">
+        {{ markerLabel(markerCursorValue) }}
       </slot>
     </b-tooltip>
   </div>
