@@ -7,10 +7,12 @@ module.exports = function (name) {
     render (tokens, idx) {
       if (tokens[idx].nesting === 1) {
         const language = tokens[idx].info.slice(name.length + 1).trim() || 'html'
-        const code = hljs.highlight(tokens[idx + 1].content, { language })
-        return `<sample-card lang="${language}" code="${escape(tokens[idx + 1].content)}">
+        const rawCode = tokens[idx + 1].content
+        const code = hljs.highlight(rawCode, { language })
+        const sanitizedCode = code.value.replace(/{{/, '{<span></span>{')
+        return `<sample-card lang="${language}">
           <template slot="code">
-            <pre><code class="${language}">${code.value}</code></pre>
+            <pre><code class="${language}">${sanitizedCode}</code></pre>
           </template>
           <template>
             <div>`
