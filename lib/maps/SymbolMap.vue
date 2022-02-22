@@ -194,6 +194,7 @@ export default {
         [pathClass]: true,
         [`${pathClass}--category-${kebabCase(category)}`]: category !== null,
         [`${pathClass}--cursored`]: this.markerCursor === id,
+        [`${pathClass}--identifier-${kebabCase(id)}`]: id !== null,
         [`${pathClass}--highlighted`]: this.categoryHighlight === category
       }
     },
