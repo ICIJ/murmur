@@ -26,11 +26,15 @@ export default {
       type: String,
       default: 'countries1'
     },
-    categoriesIdentifier: {
+    topojsonObjectsPath: {
+      type: [String, Array],
+      default: 'id'
+    },
+    categorieObjectsPath: {
       type: [String, Array],
       default: 'category'
     },
-    markersIdentifier: {
+    markerObjectsPath: {
       type: [String, Array],
       default: 'id'
     },
@@ -69,7 +73,7 @@ export default {
   data () {
     return {
       mapRect: { width: 0, height: 0 },
-      cursorIdentifier: null,
+      markerCursor: null,
       categoryHighlight: null
     }
   },
@@ -84,7 +88,7 @@ export default {
     socialMode () {
       this.draw()
     },
-    cursorIdentifier () {
+    markerCursor () {
       this.setMarkersClasses()
     },
     categoryHighlight () {
@@ -142,7 +146,7 @@ export default {
     },
     featureClassObject (d) {
       const pathClass = 'symbol-map__main__features__item'
-      const id = get(d, this.topojsonObjectsIdentifier)
+      const id = get(d, this.topojsonObjectsPath)
       return {
         [pathClass]: true,
         [`${pathClass}--identifier-${kebabCase(id)}`]: true
@@ -162,22 +166,22 @@ export default {
         .attr('transform', transform)
     },
     markerMouseLeave () {
-      this.cursorIdentifier = null
+      this.markerCursor = null
     },
     markerMouseOver (_, d) {
-      this.cursorIdentifier = d.id
+      this.markerCursor = get(d, this.markerObjectsPath)
     },
     markerClass (d) {
       return keys(pickBy(this.markerClassObject(d), value => value)).join(' ')
     },
     markerClassObject (d) {
-      const category = get(d, this.categoriesIdentifier)
-      const id = get(d, this.markersIdentifier)
+      const category = get(d, this.categorieObjectsPath)
+      const id = get(d, this.markerObjectsPath)
       const pathClass = 'symbol-map__main__markers__item'
       return {
         [pathClass]: true,
         [`${pathClass}--category-${kebabCase(category)}`]: category !== null,
-        [`${pathClass}--cursored`]: this.cursorIdentifier === id,
+        [`${pathClass}--cursored`]: this.markerCursor === id,
         [`${pathClass}--highlighted`]: this.categoryHighlight === category
       }
     },
@@ -263,7 +267,7 @@ export default {
       return rect
     },
     hasCursor () {
-      return !!this.cursorIdentifier
+      return !!this.markerCursor
     },
     hasHighlight () {
       return !!this.categoryHighlight
@@ -304,19 +308,19 @@ export default {
       return d3.select(this.$el).select('.symbol-map__main')
     },
     cursorValue () {
-      return find(this.loadedDataWithIds, d => get(d, this.markersIdentifier) === this.cursorIdentifier)
+      return find(this.loadedDataWithIds, d => get(d, this.markerObjectsPath) === this.markerCursor)
     },
     loadedDataWithIds () {
       return this.loadedData.map(d => {
         return { 
-          ...set({}, this.markersIdentifier, uniqueId()), 
+          ...set({}, this.markerObjectsPath, uniqueId()), 
           ...d
         }
       })
     },
     legendData () {
       const categories = groupBy(this.loadedData || [], (d) => {
-        return get(d, this.categoriesIdentifier)
+        return get(d, this.categorieObjectsPath)
       })
       return Object.entries(categories).map(entry => {
         const [ label, [{ color }] ] = entry
@@ -334,7 +338,7 @@ export default {
         :data="legendData" 
         :highlight.sync="categoryHighlight" 
         :horizontal="horizontalLegend"
-        categories-identifier="label"
+        category-objects-path="label"
         v-if="!hideLegend && legendData" />
     </slot>
     <svg class="symbol-map__main"></svg>

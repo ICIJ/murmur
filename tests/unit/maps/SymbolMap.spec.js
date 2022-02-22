@@ -36,7 +36,7 @@ describe('SymbolMap.vue', () => {
     it('activates the cursor when mouse is over a marker', () => {
       const feature = wrapper.find('.symbol-map__main__markers__item--category-tech')
       feature.element.dispatchEvent(new Event('mouseover'))
-      expect(wrapper.vm.cursorIdentifier).toBe(1)
+      expect(wrapper.vm.markerCursor).toBe(1)
     })    
     
     it('has a marker in the finance category', () => {
@@ -48,14 +48,14 @@ describe('SymbolMap.vue', () => {
     it('activates the cursor when mouse is over a marker', () => {
       const feature = wrapper.find('.symbol-map__main__markers__item--category-finance')
       feature.element.dispatchEvent(new Event('mouseover'))
-      expect(wrapper.vm.cursorIdentifier).toBe(2) 
+      expect(wrapper.vm.markerCursor).toBe(2) 
     })
 
     it('deactivates the cursor when mouse leaves a marker', () => {
-      wrapper.setData({ cursorIdentifier: 3 })
+      wrapper.setData({ markerCursor: 3 })
       const feature = wrapper.find('.symbol-map__main__markers__item--category-edito')
       feature.element.dispatchEvent(new Event('mouseleave'))
-      expect(wrapper.vm.cursorIdentifier).toBe(null)
+      expect(wrapper.vm.markerCursor).toBe(null)
     })
 
     it('set a class to the component when a cursor is active', async () => {
@@ -66,7 +66,7 @@ describe('SymbolMap.vue', () => {
     })
 
     it('remove the class to the component when a cursor is removed', async () => {
-      await wrapper.setData({ cursorIdentifier: 2 })
+      await wrapper.setData({ markerCursor: 2 })
       expect(wrapper.classes('symbol-map--has-cursor')).toBeTruthy()
       const feature = wrapper.find('.symbol-map__main__markers__item--category-finance')
       feature.element.dispatchEvent(new Event('mouseleave'))

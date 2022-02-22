@@ -16,7 +16,7 @@ export default {
       type: [String, Function],
       default: 'M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z'
     },
-    categoriesIdentifier: {
+    categoryObjectsPath: {
       type: [String, Array],
       default: 'id'
     },
@@ -51,13 +51,13 @@ export default {
     dataWithIds () {
       return this.data.map(d => {
         const id = uniqueId()
-        return { [this.categoriesIdentifier]: id, ...d }
+        return { [this.categoryObjectsPath]: id, ...d }
       })
     }
   },
   methods:{
     itemClassList (d) {
-      const id = d[this.categoriesIdentifier]
+      const id = d[this.categoryObjectsPath]
       return {
         [`ordinal-legend__item--identifier-${kebabCase(d.label)}`]: true,
         'ordinal-legend__item--highlighted': id === this.highlight,
@@ -73,7 +73,7 @@ export default {
        * @event update 
        * @param Mixed Value of the category identifier
        */
-      this.$emit('update', get(d, this.categoriesIdentifier, null))
+      this.$emit('update', get(d, this.categoryObjectsPath, null))
     },
     updateHighlight (d = {}) {
       /** 
@@ -81,7 +81,7 @@ export default {
        * @event update:highlight 
        * @param Mixed Value of the category identifier
        */
-      this.$emit('update:highlight', get(d, this.categoriesIdentifier, null))
+      this.$emit('update:highlight', get(d, this.categoryObjectsPath, null))
     }
   }
 }
@@ -89,7 +89,7 @@ export default {
 
 <template>
   <ul class="ordinal-legend list-unstyled" :class="classList">
-    <li v-for ="d in data" :key="d[categoriesIdentifier]" class="ordinal-legend__item" :class="itemClassList(d)">
+    <li v-for ="d in data" :key="d[categoryObjectsPath]" class="ordinal-legend__item" :class="itemClassList(d)">
       <a @click="update(d)" @mouseover="updateHighlight(d)" @mouseleave="updateHighlight()">
         <slot name="marker" :marker="{ path: d.path, color: d.color }">
           <svg class="ordinal-legend__item__marker mr-1" :viewBox="markerViewbox">
