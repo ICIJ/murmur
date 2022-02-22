@@ -33,17 +33,17 @@ All you have to do is to pass an array with coordinates:
 <div class="bg-white p-4">
   <h4>Nuclear power plants in Europe</h4>
   <symbol-map 
-    :data="europeanPowerPlants"
-    :marker-width="7"
-    marker-path="M 143.97,136.52 144,153 H 0 V 137 C 18.15,94.8 28.98,48.61 30,0 h 84 c 1.01,48.36 11.98,94.49 29.97,136.52 z"
-    fit-to-markers
-    horizontal-legend
+    :data="powerPlants"
+    :marker-path="powerPlantMarkerPath"
+    :marker-width="powerPlantMarkerWidth"
     category-objects-path="reactors"
-    class="power-plants-map">
-    <template #tooltip="{ country, label }">
-      <span v-html="`${label} (${country})`"></span>
+    class="power-plants-map"
+    fit-to-markers
+    horizontal-legend>
+    <template #tooltip="{ country, label, MWe }">
+      <span v-html="`${label} (${country}): ${MWe} MWe`"></span>
     </template>
-    <template #legend-label="{ label }">
+    <template #legend-label="{ label}">
       <span v-if="label === '1'" v-html="'1 reactor'"></span>
       <span v-else v-html="`${label} reactors`"></span>
     </template>
@@ -57,7 +57,20 @@ All you have to do is to pass an array with coordinates:
 :::
 	
 <script>
-export default {		
+import * as d3 from 'd3'
+
+export default {	
+  computed: {
+    powerPlantMarkerWidth () {
+      const scale = d3.scaleLinear()
+        .domain(d3.extent(this.powerPlants, d => d.MWe))
+        .range([5, 20])
+      return d => scale(d.MWe)
+    },
+    powerPlantMarkerPath () {
+      return 'M 143.97,136.52 144,153 H 0 V 137 C 18.15,94.8 28.98,48.61 30,0 h 84 c 1.01,48.36 11.98,94.49 29.97,136.52 z'
+    }
+  },
   data () {
     return {
       icijOffices: [
@@ -72,7 +85,7 @@ export default {
         { color: '#6e40aa', latitude: 38.9072, longitude: -77.0369, category: 'Editorial', label: 'Washington DC, USA' },
         { color: '#6e40aa', latitude: 47.4808722, longitude: 18.8501225, category: 'Editorial', label: 'Budapest, Hungary' }
       ],
-      europeanPowerPlants: [
+      powerPlants: [
         { latitude: 53.85083, longitude: 9.34472, label: "Brokdorf", reactors: 1, MWe: 1410, country: "Germany" },
         { latitude: 39.80806, longitude: -5.69694, label: "Almaraz", reactors: 2, MWe: 2017, country: "Spain" },
         { latitude: 60.40333, longitude: 18.16667, label: "Forsmark", reactors: 3, MWe: 3138, country: "Sweden" },

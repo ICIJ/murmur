@@ -57,7 +57,7 @@ export default {
       default: null
     },
     markerWidth: {
-      type: Number,
+      type: [Number, Function],
       default: 10
     },
     noMarkersScale: {
@@ -197,6 +197,12 @@ export default {
         .selectAll('.symbol-map__main__features, .symbol-map__main__markers')
         .attr('transform', transform)
     },
+    markerBoundingClientRect (d) {
+      const marker = this.map.append('path').attr('d', this.markerPathFunction(d))
+      const rect = marker.node().getBoundingClientRect()
+      marker.remove()
+      return rect
+    },
     markerMouseLeave () {
       this.markerCursor = null
     },
@@ -230,13 +236,17 @@ export default {
     markerColorFunction ({ color, ...d }) {
       return color || (isFunction(this.markerColor) ? this.markerColor(d) : this.markerColor)
     },
+    markerWidthFunction (d) {
+      return isFunction(this.markerWidth) ? this.markerWidth(d) : this.markerWidth
+    },
     markerLabel (d) {
       return get(d, this.labelObjectsPath)
     },
-    markerTransform ({ latitude, longitude}) {
-      const { height, width } = this.markerBoundingClientRect
+    markerTransform (d) {
+      const { latitude, longitude } = d
+      const { height, width } = this.markerBoundingClientRect(d)
       const [x, y] = this.mapProjection([longitude, latitude])
-      const scale = this.markerWidth / width 
+      const scale = this.markerWidthFunction(d) / Math.max(1, width)
       const cx = x - (width / 2) * scale
       const cy = y - (height / 2) * scale
       return `translate(${cx}, ${cy}) scale(${scale})`
@@ -298,12 +308,6 @@ export default {
   computed: {
     featurePath () {
       return d3.geoPath().projection(this.mapProjection)
-    },
-    markerBoundingClientRect () {
-      const marker = this.map.append('path').attr('d', this.markerPathFunction)
-      const rect = marker.node().getBoundingClientRect()
-      marker.remove()
-      return rect
     },
     hasCursor () {
       return !!this.markerCursor
