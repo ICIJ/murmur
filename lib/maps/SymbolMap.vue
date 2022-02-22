@@ -25,14 +25,6 @@ export default {
     horizontalLegend: {
       type: Boolean
     },
-    topojsonObjects: {
-      type: String,
-      default: 'countries1'
-    },
-    topojsonObjectsPath: {
-      type: [String, Array],
-      default: 'id'
-    },
     categoryObjectsPath: {
       type: [String, Array],
       default: 'category'
@@ -53,9 +45,21 @@ export default {
       type: String,
       default: '#000'
     },
+    featureColor: {
+      type: [String, Function],
+      default: 'currentColor'
+    },
     markerWidth: {
       type: Number,
       default: 10
+    },
+    topojsonObjects: {
+      type: String,
+      default: 'countries1'
+    },
+    topojsonObjectsPath: {
+      type: [String, Array],
+      default: 'id'
     },
     topojsonUrl: {
       type: String,
@@ -168,6 +172,7 @@ export default {
       return this.$options.topojsonPromise
     },
     mapZoomed ({ transform }) {
+      this.markerCursor = null
       this.map
         .style('--map-scale', transform.k)
         .selectAll('.symbol-map__main__features, .symbol-map__main__markers')
@@ -201,8 +206,8 @@ export default {
     markerPathFunction (d) {
       return isFunction(this.markerPath) ? this.markerPath(d) : this.markerPath
     },
-    markerColorFunction ({ color }) {
-      return color || this.markerColor
+    markerColorFunction ({ color, ...d }) {
+      return color || (isFunction(this.markerColor) ? this.markerColor(d) : this.markerColor)
     },
     markerLabel (d) {
       return get(d, this.labelObjectsPath)
@@ -270,9 +275,6 @@ export default {
     }
   },
   computed: {
-    featureColor () {
-      return '#fff'
-    },
     featurePath () {
       return d3.geoPath().projection(this.mapProjection)
     },
@@ -389,7 +391,7 @@ export default {
   $muted-item-transition: opacity .2s, filter .2s;
   
   &__main {
-    color: #fff;
+    color: #ebebeb;
     min-height: 300px;
     height: 100%;
     width: 100%;
