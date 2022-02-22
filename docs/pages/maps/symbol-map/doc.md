@@ -5,7 +5,7 @@ badge: unstable
 By default, `SymbolMap` builds a map of the world.
 
 :::sample-card
-<div class="bg-light p-4">
+<div class="bg-white p-4">
   <h4>ICIJ Offices</h4>
   <p class="mb-4">A non-exhaustive list of ICIJ offices and opperations.</p>
   <symbol-map :data="icijOffices" horizontal-legend zoomable>
