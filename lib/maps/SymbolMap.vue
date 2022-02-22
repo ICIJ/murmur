@@ -1,7 +1,7 @@
 <script>
 import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
-import { debounce, get, groupBy, isFunction, kebabCase, keys, pickBy, set, uniqueId } from 'lodash'
+import { debounce, find, get, groupBy, isFunction, kebabCase, keys, pickBy, set, uniqueId } from 'lodash'
 import { feature } from 'topojson'
 import OrdinalLegend from '../components/OrdinalLegend.vue'
 import chart from '../mixins/chart'
@@ -19,6 +19,9 @@ export default {
     hideLegend: {
       type: Boolean
     },
+    hideTooltip: {
+      type: Boolean
+    },
     horizontalLegend: {
       type: Boolean
     },
@@ -30,9 +33,13 @@ export default {
       type: [String, Array],
       default: 'id'
     },
-    categorieObjectsPath: {
+    categoryObjectsPath: {
       type: [String, Array],
       default: 'category'
+    },
+    labelObjectsPath: {
+      type: [String, Array],
+      default: 'label'
     },
     markerObjectsPath: {
       type: [String, Array],
@@ -135,6 +142,7 @@ export default {
           .append('path')
           .on('mouseover', this.markerMouseOver)
           .on('mouseleave', this.markerMouseLeave)
+          .attr('id', this.markerId)
           .attr('class', this.markerClass)
           .attr('d', this.markerPathFunction)
           .attr('fill', this.markerColorFunction)
@@ -174,8 +182,12 @@ export default {
     markerClass (d) {
       return keys(pickBy(this.markerClassObject(d), value => value)).join(' ')
     },
+    markerId (d) {
+      const id = get(d, this.markerObjectsPath)
+      return `${this.mapId}-marker-${id}`
+    },
     markerClassObject (d) {
-      const category = get(d, this.categorieObjectsPath)
+      const category = get(d, this.categoryObjectsPath)
       const id = get(d, this.markerObjectsPath)
       const pathClass = 'symbol-map__main__markers__item'
       return {
@@ -190,6 +202,9 @@ export default {
     },
     markerColorFunction ({ color }) {
       return color || this.markerColor
+    },
+    markerLabel (d) {
+      return get(d, this.labelObjectsPath)
     },
     markerTransform ({ latitude, longitude}) {
       const { height, width } = this.markerBoundingClientRect
@@ -279,6 +294,9 @@ export default {
       const object = get(this.topojson, ['objects', this.topojsonObjects], null)
       return feature(this.topojson, object)
     },
+    mapId () {
+      return uniqueId('symbol-map-')
+    },
     mapClass () {
       return {
         'symbol-map--has-cursor': this.hasCursor,
@@ -308,7 +326,9 @@ export default {
       return d3.select(this.$el).select('.symbol-map__main')
     },
     cursorValue () {
-      return find(this.loadedDataWithIds, d => get(d, this.markerObjectsPath) === this.markerCursor)
+      return find(this.loadedDataWithIds, d => {
+        return get(d, this.markerObjectsPath) === this.markerCursor
+      })
     },
     loadedDataWithIds () {
       return this.loadedData.map(d => {
@@ -320,12 +340,21 @@ export default {
     },
     legendData () {
       const categories = groupBy(this.loadedData || [], (d) => {
-        return get(d, this.categorieObjectsPath)
+        return get(d, this.categoryObjectsPath)
       })
       return Object.entries(categories).map(entry => {
         const [ label, [{ color }] ] = entry
         return { label, color }
       })
+    },
+    hasTooltip () {
+      return !this.hideTooltip && this.loadedData && this.markerCursor
+    },
+    tooltipTarget () {
+      if (this.hasTooltip) {
+        return this.markerId(this.cursorValue)
+      }
+      return null
     }
   }
 }
@@ -342,6 +371,11 @@ export default {
         v-if="!hideLegend && legendData" />
     </slot>
     <svg class="symbol-map__main"></svg>
+    <b-tooltip ref="marker-tooltip" :target="tooltipTarget" v-if="tooltipTarget">
+      <slot name="tooltip" v-bind="{ markerCursor, ...cursorValue }">
+        {{ markerLabel(cursorValue) }}
+      </slot>
+    </b-tooltip>
   </div>
 </template>
 
@@ -384,7 +418,10 @@ export default {
         opacity: 1;
         filter: grayscale(0%) brightness(100%);
       }
+      
     }
+
+    
   }
 }
 </style>
