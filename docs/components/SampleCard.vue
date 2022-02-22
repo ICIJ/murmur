@@ -18,7 +18,7 @@
           <span v-if="collapseCode">Show code</span>
           <span v-if="!collapseCode">Hide code</span>
         </button>
-        <haptic-copy class="btn-sm font-weight-bold btn col" :text="code"></haptic-copy>
+        <haptic-copy class="btn-sm font-weight-bold btn col" :text="extractedCode" v-if="extractedCode" />
       </div>
       <slide-up-down :active="!collapseCode" class="sample-card__body__code bg-dark">
         <slot name="code">
@@ -56,7 +56,8 @@
         default: () => ({ })
       },
       code: {
-        type: String
+        type: String,
+        default: null
       },
       lang: {
         type: String,
@@ -65,8 +66,14 @@
     },
     data () {
       return {
-        collapseCode: true
+        collapseCode: true,
+        extractedCode: null
       }
+    },
+    async mounted () {
+      await this.$nextTick()
+      const codeElement = this.$el.querySelector('.sample-card__body__code code')
+      this.extractedCode = this.code || codeElement?.textContent?.replace(/\\/, '')
     },
     methods: {
       toggleCode (toggle = !this.collapseCode) {
