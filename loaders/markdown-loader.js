@@ -79,9 +79,7 @@ module.exports = function (src) {
       `<div>${html}</div>\n` +
     `</template>\n` +
     `<script>
-      export default {
-
-      }
+      export default { }
     </script>` +
     (hoistedTags || []).join('\n') +
     `\n${dataBlockString}\n`
