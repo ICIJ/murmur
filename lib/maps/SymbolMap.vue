@@ -13,6 +13,10 @@ export default {
     OrdinalLegend
   },
   props: {
+    categoryObjectsPath: {
+      type: [String, Array],
+      default: 'category'
+    },
     clickable: {
       type: Boolean
     },
@@ -25,13 +29,20 @@ export default {
     horizontalLegend: {
       type: Boolean
     },
-    categoryObjectsPath: {
-      type: [String, Array],
-      default: 'category'
+    featureColor: {
+      type: [String, Function],
+      default: 'currentColor'
+    },
+    fitToMarkers: {
+      type: Boolean
     },
     labelObjectsPath: {
       type: [String, Array],
       default: 'label'
+    },
+    mapPadding: {
+      type: Number,
+      default: 15
     },
     markerObjectsPath: {
       type: [String, Array],
@@ -44,10 +55,6 @@ export default {
     markerColor: {
       type: String,
       default: null
-    },
-    featureColor: {
-      type: [String, Function],
-      default: 'currentColor'
     },
     markerWidth: {
       type: Number,
@@ -140,7 +147,7 @@ export default {
       map.append('g')
         .attr('class', 'symbol-map__main__features')
         .selectAll('.symbol-map__main__features__item')
-        .data(this.geojson.features)
+        .data(this.featuresGeojson.features)
         // Add the path with the correct class
         .enter()
           .append('path')
@@ -308,8 +315,25 @@ export default {
       return this.$options.topojson
     },
     geojson () {
+      return this.fitToMarkers ? this.markersGeojson : this.featuresGeojson
+    },
+    featuresGeojson () {
       const object = get(this.topojson, ['objects', this.topojsonObjects], null)
       return feature(this.topojson, object)
+    },
+    markersGeojson () {
+      return {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [this.coordinates]
+        }
+      }
+    },
+    coordinates () {
+      return (this.loadedData || []).map( ({ longitude, latitude }) => {
+        return [ longitude, latitude ]
+      })
     },
     mapId () {
       return uniqueId('symbol-map-')
@@ -323,7 +347,12 @@ export default {
     },
     mapProjection () {
       const { height, width } = this.mapRect
-      return geoRobinson().fitSize([width, height], this.geojson)
+      const padding = this.mapPadding
+      return geoRobinson()
+        .fitExtent([
+          [padding, padding], 
+          [width - padding, height - padding]
+        ], this.geojson)
     },
     mapZoom () {
       return d3.zoom()
@@ -393,7 +422,10 @@ export default {
         :highlight.sync="categoryHighlight" 
         :horizontal="horizontalLegend"
         category-objects-path="label"
-        v-if="!hideLegend && legendData" />
+        v-if="!hideLegend && legendData">
+        <template #marker="d"><slot name="legend-marker" v-bind="d" /></template>
+        <template #label="d"><slot name="legend-label" v-bind="d" /></template>
+      </ordinal-legend>
     </slot>
     <svg class="symbol-map__main"></svg>
     <b-tooltip ref="marker-tooltip" :target="tooltipTarget" v-if="tooltipTarget">
