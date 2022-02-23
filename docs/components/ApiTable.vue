@@ -43,6 +43,7 @@
 
 <script>
   import reduce from 'lodash/reduce'
+  import sortBy from 'lodash/sortBy'
   import keys from 'lodash/keys'
   import isObject from 'lodash/isObject'
 
@@ -68,10 +69,10 @@
     },
     methods: {
       toItems(docgen = {}) {
-        return reduce(keys(docgen), (items, name) => {
+        return sortBy(reduce(keys(docgen), (items, name) => {
           items.push({ name, ...docgen[name] })
           return items
-        }, [])
+        }, []), 'name')
       },
       hasItems(docgen = {}) {
         return !!keys(docgen).length
