@@ -38,7 +38,7 @@ export default {
       type: String,
       default: 'countries1'
     },
-    topojsonObjectsIdentifier: {
+    topojsonObjectsPath: {
       type: [String, Array],
       default: 'id'
     },
@@ -65,8 +65,8 @@ export default {
   data () {
     return {
       mapRect: { width: 0, height: 0 },
-      cursorIdentifier: null,
-      zoomIdentifier: null
+      featureCursor: null,
+      featureZoom: null
     }
   },
   topojson: null,
@@ -80,10 +80,10 @@ export default {
     socialMode () {
       this.draw()
     },
-    zoomIdentifier () {
+    featureZoom () {
       this.setFeaturesClasses()
     },
-    cursorIdentifier () {
+    featureCursor () {
       this.setFeaturesClasses()
     }
   },
@@ -111,7 +111,8 @@ export default {
       // Bind geojson features to path
       this.prepare()
         .append('g')
-          .selectAll('.choropleth-map__main__feature')
+          .attr('class', '.choropleth-map__main__features')
+          .selectAll('.choropleth-map__main__features__item')
           .data(this.geojson.features)
           // Add the path with the correct class
           .enter()
@@ -128,21 +129,21 @@ export default {
       return keys(pickBy(this.featureClassObject(d), value => value)).join(' ')
     },
     featureClassObject (d) {
-      const pathClass = 'choropleth-map__main__feature'
-      const id = get(d, this.topojsonObjectsIdentifier)
+      const pathClass = 'choropleth-map__main__features__item'
+      const id = get(d, this.topojsonObjectsPath)
       return {
         [pathClass]: true,
         [`${pathClass}--identifier-${kebabCase(id)}`]: true,
-        [`${pathClass}--zoomed`]: this.zoomIdentifier === id,
-        [`${pathClass}--cursored`]: this.cursorIdentifier === id
+        [`${pathClass}--zoomed`]: this.featureZoom === id,
+        [`${pathClass}--cursored`]: this.featureCursor === id
       }
     },
     featureMouseLeave (event, d) {
-      this.cursorIdentifier = null
+      this.featureCursor = null
     },
     featureMouseOver (event, d) {
-      const id = get(d, this.topojsonObjectsIdentifier)
-      this.cursorIdentifier = id in this.loadedData ? id : null
+      const id = get(d, this.topojsonObjectsPath)
+      this.featureCursor = id in this.loadedData ? id : null
     },
     async loadTopojson () {
       if (!this.$options.topojsonPromise) {
@@ -154,7 +155,7 @@ export default {
     mapZoomed ({ transform }) {
       this.map
         .style('--map-scale', transform.k)
-        .selectAll('.choropleth-map__main__feature')
+        .selectAll('.choropleth-map__main__features__item')
         .attr('transform', transform)
     },
     async mapClicked (event, d) {
@@ -168,10 +169,10 @@ export default {
       if (!this.clickable) {
         return
       }
-      if (this.zoomIdentifier === get(d, this.topojsonObjectsIdentifier)) {
+      if (this.featureZoom === get(d, this.topojsonObjectsPath)) {
         return this.resetZoom(event, d)
       }
-      await this.featureZoom(d, d3.pointer(event, this.map.node()))
+      await this.setFeatureZoom(d, d3.pointer(event, this.map.node()))
       /**
        * A zoom on a feature ended
        * @event zoomed
@@ -185,7 +186,7 @@ export default {
         .transition()
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, d3.zoomIdentity)
-      this.zoomIdentifier = null
+      this.featureZoom = null
       /**
        * The zomm on the map was reset to its initial <slot ate></slot>
        * @event reset
@@ -194,11 +195,11 @@ export default {
     },
     setFeaturesClasses () {
       this.map
-        .selectAll('.choropleth-map__main__feature')
+        .selectAll('.choropleth-map__main__features__item')
         .attr('class', this.featureClass)
     },
-    featureZoom (d, pointer = [0, 0]) {
-      this.zoomIdentifier = get(d, this.topojsonObjectsIdentifier)
+    setFeatureZoom (d, pointer = [0, 0]) {
+      this.featureZoom = get(d, this.topojsonObjectsPath)
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
       const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
@@ -233,7 +234,7 @@ export default {
     },
     featureColor () {
       return d => {
-        const id = get(d, this.topojsonObjectsIdentifier)
+        const id = get(d, this.topojsonObjectsPath)
         if (!(id in this.loadedData)) {
           return
         }
@@ -255,10 +256,10 @@ export default {
       return d3.geoPath().projection(this.mapProjection)
     },
     hasCursor () {
-      return !!this.cursorIdentifier
+      return !!this.featureCursor
     },
     hasZoom () {
-      return !!this.zoomIdentifier
+      return !!this.featureZoom
     },
     topojson () {
       return this.$options.topojson
@@ -309,7 +310,7 @@ export default {
       return min(values(this.loadedData)) || 0
     },
     cursorValue () {
-      return get(this, ['data', this.cursorIdentifier], null)
+      return get(this, ['data', this.featureCursor], null)
     }
   }
 }
@@ -333,7 +334,7 @@ export default {
       v-if="!hideLegend"
       class="choropleth-map__legend">
       <template #cursor="{ value }">
-        <slot name="legend-cursor" v-bind="{ value, identifier: cursorIdentifier }" />
+        <slot name="legend-cursor" v-bind="{ value, identifier: featureCursor }" />
       </template>
     </scale-legend>
   </div>
@@ -355,7 +356,7 @@ export default {
       color: $dark;
     }
 
-    & /deep/ &__feature {
+    & /deep/ &__features__item {
       stroke: currentColor;
       stroke-width: calc(1px / var(--map-scale, 1));
       fill: currentColor;
@@ -370,7 +371,7 @@ export default {
         }
       }
 
-      .choropleth-map--has-zoom &:not(.choropleth-map__main__feature--zoomed) {
+      .choropleth-map--has-zoom &:not(.choropleth-map__main__features__item--zoomed) {
         filter: grayscale(90%);
       }
     }

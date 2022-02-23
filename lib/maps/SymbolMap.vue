@@ -273,7 +273,7 @@ export default {
       if (!this.clickable) {
         return
       }
-      await this.featureZoom(d, d3.pointer(event, this.map.node()))
+      await this.setFeatureZoom(d, d3.pointer(event, this.map.node()))
       /**
        * A zoom on a feature ended
        * @event zoomed
@@ -298,7 +298,7 @@ export default {
         .selectAll('.symbol-map__main__markers__item')
         .attr('class', this.markerClass)
     },
-    featureZoom (d, pointer = [0, 0]) {
+    setFeatureZoom (d, pointer = [0, 0]) {
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
       const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))

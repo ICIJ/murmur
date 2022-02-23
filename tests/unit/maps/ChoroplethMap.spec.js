@@ -28,60 +28,60 @@ describe('ChoroplethMap.vue', () => {
     })
 
     it('has a feature for KGZ with the end color of the scale', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-kgz')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
       const color = window.getComputedStyle(feature.element).color
       expect(color).toBe('rgb(133, 35, 8)')
     })
 
     it('has a feature for SRV with the middle color of the scale', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-srb')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-srb')
       const color = window.getComputedStyle(feature.element).color
       expect(color).toBe('rgb(184, 126, 111)')
     })
 
     it('has a feature for FRA with the start color of the scale', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-fra')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-fra')
       const color = window.getComputedStyle(feature.element).color
       expect(color).toBe('rgb(255, 255, 255)')
     })
 
     it('activates the cursor when mouse is over a feature', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-kgz')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
       feature.element.dispatchEvent(new Event('mouseover'))
-      expect(wrapper.vm.cursorIdentifier).toBe('KGZ')
+      expect(wrapper.vm.featureCursor).toBe('KGZ')
     })
 
     it('changes the cursor when mouse is over another feature', () => {
-      wrapper.setData({ cursorIdentifier: 'KGZ' })
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-fra')
+      wrapper.setData({ featureCursor: 'KGZ' })
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-fra')
       feature.element.dispatchEvent(new Event('mouseover'))
-      expect(wrapper.vm.cursorIdentifier).toBe('FRA')
+      expect(wrapper.vm.featureCursor).toBe('FRA')
     })
 
     it('deactivates the cursor when mouse leaves a feature', () => {
-      wrapper.setData({ cursorIdentifier: 'KGZ' })
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-kgz')
+      wrapper.setData({ featureCursor: 'KGZ' })
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
       feature.element.dispatchEvent(new Event('mouseleave'))
-      expect(wrapper.vm.cursorIdentifier).toBe(null)
+      expect(wrapper.vm.featureCursor).toBe(null)
     })
 
     it('doesnt actve the cursor when mouse is over a feature without data', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-usa')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-usa')
       feature.element.dispatchEvent(new Event('mouseover'))
-      expect(wrapper.vm.cursorIdentifier).toBe(null)
+      expect(wrapper.vm.featureCursor).toBe(null)
     })
 
     it('set a class to the component when a cursor is active', async () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-kgz')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
       feature.element.dispatchEvent(new Event('mouseover'))
       await wrapper.vm.$nextTick()
       expect(wrapper.classes('choropleth-map--has-cursor')).toBeTruthy()
     })
 
     it('remove the class to the component when a cursor is removed', async () => {
-      await wrapper.setData({ cursorIdentifier: 'KGZ' })
+      await wrapper.setData({ featureCursor: 'KGZ' })
       expect(wrapper.classes('choropleth-map--has-cursor')).toBeTruthy()
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-kgz')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
       feature.element.dispatchEvent(new Event('mouseleave'))
       await wrapper.vm.$nextTick()
       expect(wrapper.classes('choropleth-map--has-cursor')).toBeFalsy()
@@ -97,7 +97,7 @@ describe('ChoroplethMap.vue', () => {
       const propsData = {
         topojsonUrl: 'https://gist.githubusercontent.com/pirhoo/44bba7823e09f3bc6bf21c33ddad186d/raw/france-departments.topojson',
         topojsonObjects: 'departements',
-        topojsonObjectsIdentifier: 'properties.code',
+        topojsonObjectsPath: 'properties.code',
         clickable: true,
         transitionDuration: 0,
         data: {
@@ -121,53 +121,53 @@ describe('ChoroplethMap.vue', () => {
     })
 
     it('has a feature for 01 with the start color of the scale', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-01')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-01')
       const color = window.getComputedStyle(feature.element).color
       expect(color).toBe('rgb(255, 255, 255)')
     })
 
     it('has a feature for 02 with the middle color of the scale', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-02')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-02')
       const color = window.getComputedStyle(feature.element).color
       expect(color).toBe('rgb(184, 126, 111)')
     })
 
     it('has a feature for 03 with the end color of the scale', () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-03')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       const color = window.getComputedStyle(feature.element).color
       expect(color).toBe('rgb(133, 35, 8)')
     })
 
     it('zooms on the map when a feature is clicked', async () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-03')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       feature.element.dispatchEvent(new Event('click'))
-      expect(wrapper.vm.zoomIdentifier).toBe('03')
+      expect(wrapper.vm.featureZoom).toBe('03')
     })
 
     it('adds a class to a feature upon click', async () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-03')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       feature.element.dispatchEvent(new Event('click'))
       await new Promise(resolve => wrapper.vm.$on('zoomed', resolve))
-      expect(feature.classes('choropleth-map__main__feature--zoomed')).toBeTruthy()
+      expect(feature.classes('choropleth-map__main__features__item--zoomed')).toBeTruthy()
     })
 
     it('removes a class from a feature on the second click', async () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-03')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       feature.element.dispatchEvent(new Event('click'))
       feature.element.dispatchEvent(new Event('click'))
       await new Promise(resolve => wrapper.vm.$on('zoomed', resolve))
-      expect(feature.classes('choropleth-map__main__feature--zoomed')).toBeFalsy()
+      expect(feature.classes('choropleth-map__main__features__item--zoomed')).toBeFalsy()
     })
 
     it('adds a class to the map upon click on a feature', async () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-03')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       feature.element.dispatchEvent(new Event('click'))
       await wrapper.vm.$nextTick()
       expect(wrapper.classes('choropleth-map--has-zoom')).toBeTruthy()
     })
 
     it('removes a class from the map on the second click', async () => {
-      const feature = wrapper.find('.choropleth-map__main__feature--identifier-03')
+      const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       feature.element.dispatchEvent(new Event('click'))
       feature.element.dispatchEvent(new Event('click'))
       await wrapper.vm.$nextTick()

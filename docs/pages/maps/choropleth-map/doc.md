@@ -55,7 +55,7 @@ identify a location):
     zoomable
     topojson-url="https://gist.githubusercontent.com/pirhoo/44bba7823e09f3bc6bf21c33ddad186d/raw/france-departments.topojson"
     topojson-objects="departements"
-    topojson-objects-identifier="properties.code">
+    topojson-objects-path="properties.code">
     <template #legend-cursor="{ value, identifier }">      
       <div class="bg-dark text-light px-2 py-1 text-nowrap">
         <span v-html="`${value.toLocaleString()} hl`"></span>
