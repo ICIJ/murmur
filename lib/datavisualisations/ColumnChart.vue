@@ -1,5 +1,5 @@
 <template>
-  <div class="column-chart" :style="{ '--column-color': columnColor, '--column-highlight-color': columnHighlightColor }" :class="{ 'column-chart--has-highlights': dataHasHighlights, 'column-chart--social-mode': socialMode  }">
+  <div class="column-chart" :style="{'--column-color': columnColor, '--column-highlight-color': columnHighlightColor }" :class="{ 'column-chart--has-highlights': dataHasHighlights, 'column-chart--social-mode': socialMode  }">
     <svg :width="width" :height="height">
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
         <g class="column-chart__axis column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }" v-if="!noXAxis"></g>
@@ -43,6 +43,8 @@
 import * as d3 from 'd3'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
+import keys from 'lodash/keys'
+import without from 'lodash/without'
 import chart from '../mixins/chart'
 
 export default {
@@ -283,7 +285,7 @@ export default {
       const tooltipY = y + (flipY ? 0 : -this.maxTooltipHeight)
       return `translate(${tooltipX}, ${tooltipY})`
     },
-    barTooltipClasses ({ x = 0, y = 0 } = {}, index = 0) {
+    barTooltipClasses ({ x = 0, y = 0 } = {}) {
       const flipX = x > this.padded.width / 2
       const flipY = y < this.padded.height / 2
       return {
