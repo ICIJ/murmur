@@ -24,9 +24,9 @@
         <g class="stacked-column-chart__left-axis__canvas" :transform="`translate(${width}, 0)`"></g>
       </svg>
       <div class="stacked-column-chart__groups d-flex flex-grow-1" :style="paddedStyle">
-        <div class="stacked-column-chart__groups__item flex-grow-1 d-flex flex-column text-center" v-for="(datum, i) in sortedData">
+        <div class="stacked-column-chart__groups__item flex-grow-1 d-flex flex-column text-center" v-for="(datum, i) in sortedData" :key="i">
           <div class="stacked-column-chart__groups__item__bars flex-grow-1 d-flex flex-column-reverse px-1 justify-content-start align-items-center">
-            <div v-for="(key, j) in discoveredKeys"
+            <div v-for="(key, j) in discoveredKeys" :key="j"
                 @mouseover="delayHighlight(key)"
                 @mouseleave="restoreHighlights()"
                 v-b-tooltip.html="{ delay: barTooltipDelay, disabled: noTooltips, title: barTitle(i, key) }"
@@ -61,7 +61,6 @@ import * as d3 from 'd3';
 import keys from 'lodash/keys'
 import find from 'lodash/find'
 import get from 'lodash/get'
-import reduce from 'lodash/reduce'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
 import without from 'lodash/without'
@@ -272,7 +271,7 @@ export default {
       if (this.keys.length) {
         return this.keys
       }
-      return without(keys(this.sortedData[0] || {}), this.labelField)
+      return without(keys(this.sortedData[0] || {}), this.labelField)
     },
     colorScale () {
       return d3.scaleOrdinal().domain(this.discoveredKeys).range(this.barColors)
@@ -360,7 +359,7 @@ export default {
       return this.columnHighlights.includes(column) && !this.highlightedKeys.length
     },
     totalRowValue (i) {
-      return d3.sum(this.discoveredKeys, key => {
+      return d3.sum(this.discoveredKeys, key => {
         return this.sortedData[i][key]
       })
     },
@@ -420,11 +419,11 @@ export default {
     },
     hasValueOverflow (i, key) {
       const stack = this.stackBarAndValue(i)
-      return find(stack, { key })?.overflow
+      return find(stack, { key })?.overflow
     },
     hasValuePushed (i, key) {
       const stack = this.stackBarAndValue(i)
-      return find(stack, { key })?.pushed
+      return find(stack, { key })?.pushed
     },
     hasValueHidden (i, key) {
       const keyIndex = this.discoveredKeys.indexOf(key)
