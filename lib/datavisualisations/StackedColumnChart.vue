@@ -237,8 +237,8 @@ export default {
     this.$nextTick(() => this.$options.resizeObserver.observe(this.$el))
   },
   beforeDestroy () {
-    this.$options.resizeObserver.unobserve(this.$el)
-    this.$options.resizeObserver = null
+      this.$options.resizeObserver?.unobserve(this.$el)
+      this.$options.resizeObserver = null
   },
   watch: {
     socialMode () {
