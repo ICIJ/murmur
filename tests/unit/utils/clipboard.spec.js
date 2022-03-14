@@ -1,4 +1,3 @@
-import Promise from 'promise-polyfill'
 import noop from 'lodash/noop'
 import { copyText } from '@/utils/clipboard'
 

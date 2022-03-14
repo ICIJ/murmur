@@ -35,7 +35,6 @@
   import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
   import noop from 'lodash/noop'
   import i18n from '@/i18n'
-  import Promise from 'promise-polyfill'
 
   import { library } from './Fa'
 

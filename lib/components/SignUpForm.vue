@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import Promise from 'promise-polyfill'
 import jsonp from 'jsonp'
 import castArray from 'lodash/castArray'
 import flatten from 'lodash/flatten'
