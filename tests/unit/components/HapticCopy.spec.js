@@ -50,10 +50,10 @@ describe('HapticCopy.vue', () => {
     expect(wrapper.find('.haptic-copy__label').text()).toBe('Copy in the clipboard')
   })
 
-  it('should emit an `error` event after copying text', async () => {
+  it('should emit an `success` event after copying text', async () => {
     const wrapper = mount(HapticCopy, { propsData })
     await wrapper.vm.copy()
-    expect(wrapper.emitted().error).toBeTruthy()
+    expect(wrapper.emitted().success).toBeTruthy()
   })
 
   it('should emit an `attempt` event before copying text', async () => {
@@ -62,10 +62,10 @@ describe('HapticCopy.vue', () => {
     expect(wrapper.emitted().attempt).toBeTruthy()
   })
 
-  it('should fill the tooltip content with an error', async () => {
+  it('should not fill the tooltip content with an error', async () => {
     const wrapper = mount(HapticCopy, { propsData })
     await wrapper.vm.copy()
-    expect(wrapper.vm.tooltipContent).toBe('Unable to copy the text')
+    expect(wrapper.vm.tooltipContent).not.toBe('Unable to copy the text')
   })
 
   it('should fill the tooltip content with a success message', () => {

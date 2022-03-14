@@ -39,7 +39,7 @@
 
   import { library } from './Fa'
 
-  const tooltipPlacements = [
+  const TOOLTIPS_PLACEMENTS = [
     'top',
     'topleft',
     'topright',
@@ -97,7 +97,7 @@
       tooltipPlacement: {
         type: String,
         default: 'top',
-        validator: (placement) => tooltipPlacements.includes(placement)
+        validator: placement => TOOLTIPS_PLACEMENTS.includes(placement)
       },
       /**
        * Copy HTML content
