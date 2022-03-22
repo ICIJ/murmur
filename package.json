@@ -1,6 +1,6 @@
 {
   "name": "@icij/murmur",
-  "version": "2.39.6",
+  "version": "2.39.7",
   "private": false,
   "sideEffects": [
     "*.css",
