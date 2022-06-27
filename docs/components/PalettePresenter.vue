@@ -34,7 +34,7 @@
       },
       textContrast(name) {
         const hex = this.colors[name].value.hex
-        return chroma.contrast(hex, '#000') > 4.5 ? '#000' : '#fff'
+        return chroma.contrast(hex, '#000') > 8 ? '#000' : '#fff'
       }
     }
   }
