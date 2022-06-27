@@ -19,7 +19,7 @@ import SampleCard from './components/SampleCard.vue'
 import routes from './routes'
 import './styles/app.scss'
 
-import 'highlight.js/styles/monokai-sublime.css'
+import 'highlight.js/styles/base16/bright.css'
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
