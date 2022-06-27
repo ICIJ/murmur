@@ -14,11 +14,11 @@ available in your application. This documentation, like any application using th
 package, has its own subset of icons:
 
 <ul class="list-inline">
-  <li v-for="icon in fas" class="p-1 border border-primary rounded list-inline-item mb-2">
-    <fa :icon="icon" class="fa-fw fa-2x" />
+  <li v-for="icon, i in fas" :key="i" class="p-1 text-primary list-inline-item mb-2">
+    <fa :icon="icon" fixed-width size="2x" />
   </li>  
-  <li v-for="icon in fab" class="p-1 border border-primary rounded list-inline-item mb-2">
-    <fa :icon="['fab', icon]" class="fa-fw fa-2x" />
+  <li v-for="icon, i in fab" :key="i" class="p-1 text-primary list-inline-item mb-2">
+    <fa :icon="['fab', icon]" fixed-width size="2x" />
   </li>
 </ul>
 
