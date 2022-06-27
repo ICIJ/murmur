@@ -122,8 +122,8 @@
 
     &__footer {
       padding: $spacer;
-      background:  mix($light, $dark, 10%);
-      box-shadow: 0 0 0 $spacer $dark;
+      background:  mix($light, $docs-menu-bg, 10%);
+      box-shadow: 0 0 0 $spacer $docs-menu-bg;
       border-radius: $border-radius-sm;
       color: $light;
       font-size: 0.9em;
@@ -144,19 +144,15 @@
       }
     }
 
-    &__heading {
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      font-weight: 200;
-      color: $docs-menu-muted;
-      margin-bottom: $spacer;
-    }
-
     &__link {
       color: $docs-menu-color;
       position: relative;
       padding: $spacer * 0.25 $spacer * 0.75;
       display: inline-block;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
 
       &__icon {
         color: $docs-menu-muted;
