@@ -1,11 +1,6 @@
-$primary: #c10448;
-$secondary: #003552;
-$dark: #001226;
-$danger: #dc4b55;
-$info: #05808c;
-$light: #f5f3f3;
+@import '@/styles/variables.scss';
 
-$docs-menu-bg: $dark;
+$docs-menu-bg: #000;
 $docs-menu-color: #fff;
 $docs-menu-muted: mix($docs-menu-bg, $docs-menu-color, 50);
 
@@ -19,4 +14,7 @@ $app-main-max-width: 770px;
 $modal-backdrop-bg: rgba(darken($dark, 10), .5);
 $code-color: $info;
 
-@import '@/styles/variables.scss';
+$link-color: #000;
+$link-decoration: none;
+$link-hover-color: $primary;
+$link-hover-decoration: none;
