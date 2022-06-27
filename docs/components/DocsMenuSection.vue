@@ -4,7 +4,7 @@
       <fa :icon="headingIcon" class="float-right" />
       {{ name }}
     </h4>
-    <b-collapse :visible="active" tag="ul" class="list-unstyled mb-0">
+    <b-collapse :visible="active" tag="ul" class="list-unstyled mb-0 pb-4">
       <li v-for="route in routes" :key="route.name" class="docs-menu__section__item d-flex justify-content-between align-items-center mb-2">
         <router-link :to="route.path" class="docs-menu__link">
           <fa :icon="route.icon || icon" class="docs-menu__link__icon mr-1" />
@@ -94,10 +94,11 @@
 
     &__heading {
       font-size: 0.9rem;
+      font-weight: 400;
+      font-family: $font-family-sans-serif;
       text-transform: uppercase;
-      font-weight: 200;
-      color: $docs-menu-muted;
       margin-bottom: $spacer;
+      color: $text-muted;
       cursor: pointer;
 
       &:hover {
