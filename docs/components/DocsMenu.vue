@@ -15,8 +15,8 @@
     </div>
     <div class="docs-menu__footer d-flex align-items-center justify-content-between">
       <a href="https://icij.org" target="_blank" class="d-flex align-items-center ">
-        <brand color="white" size="26" class="docs-menu__footer__logo mr-2" />
-        A project by ICIJ
+        <brand-expansion dark mode="medium" size="26" class="docs-menu__footer__logo mr-2" />
+        <span class="sr-only">A project by ICIJ</span>
       </a>
       <a :href="repository.url" target="_blank">
         <fa :icon="['fab', 'github']" size="2x" />
@@ -32,15 +32,17 @@
   import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
+import BrandExpansion from '../../lib/components/BrandExpansion.vue'
 
   library.add(faPuzzlePiece, faGithub)
 
   export default {
     name: 'DocsMenu',
     components: {
-      DocsMenuSection,
-      Fa
-    },
+    DocsMenuSection,
+    Fa,
+    BrandExpansion
+},
     props: {
       sections: {
         type: Array,
