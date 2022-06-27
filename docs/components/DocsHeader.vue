@@ -2,14 +2,16 @@
   <div class="docs-header" v-if="showHeader">
     <div class="docs-header__container">
       <div class="docs-header__container__breadcrumb" v-if="showBreadcrumb">
-        <a v-for="item in breadcrumb" class="docs-header__container__breadcrumb">
+        <a v-for="(item, i) in breadcrumb" class="docs-header__container__breadcrumb" :key="i">
           {{ item }}
         </a>
       </div>
       <h1 class="docs-header__container__title">
         {{ title }}
       </h1>
-      <p class="lead m-0">{{ description }}</p>
+      <p class="lead m-0">
+        {{ description }}
+      </p>
     </div>
   </div>
 </template>
@@ -57,6 +59,7 @@
 
       &__title {
         padding: 0;
+        text-transform: uppercase;
       }
     }
 
