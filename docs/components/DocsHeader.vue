@@ -60,6 +60,8 @@
       &__title {
         padding: 0;
         text-transform: uppercase;
+        font-family: $jumbotron-font-family;
+        font-weight: $jumbotron-font-weight;
       }
     }
 
