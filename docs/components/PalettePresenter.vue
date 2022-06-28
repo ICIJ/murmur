@@ -1,7 +1,7 @@
 <template>
   <div class="palette-presenter">
     <ul class="list-unstyled palette-presenter__list">
-      <li v-for="({ value }, name) in colors" :style="bgStyle(name)" class="palette-presenter__list__item">
+      <li v-for="({ value }, name) in colors" :style="bgStyle(name)" :key="name" class="palette-presenter__list__item">
         <span class="font-weight-bold palette-presenter__list__item__name">
           {{ name }}
         </span>
