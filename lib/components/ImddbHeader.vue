@@ -50,7 +50,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <button class="btn btn-saddle-red btn-block font-weight-bold" id="follow-icij">
+            <button class="btn btn-primary btn-block font-weight-bold" id="follow-icij">
               {{ $t('imddb-header.navbar.follow') }}
             </button>
             <b-popover container="imddb-header" target="follow-icij" placement="bottomleft" :show.sync="showFollowUsPopover">
@@ -193,7 +193,7 @@
   @import '../styles/lib';
 
   .imddb-header {
-    background: rgba($mercury, 0.8);
+    background: rgba($gray-400, 0.8);
     box-shadow: 0 0 6px 0 rgba(#000, .1);
     position: relative;
     top:0;
@@ -205,7 +205,7 @@
     }
 
     @include media-breakpoint-down(md) {
-      background: $mercury;
+      background: $gray-400;
     }
 
     &.headroom {
@@ -247,7 +247,7 @@
     }
 
     .navbar-toggler {
-      background: $mercury;
+      background: $gray-400;
       position: absolute;
       right: $spacer;
       top: $spacer / 2;

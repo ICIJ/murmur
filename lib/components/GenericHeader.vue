@@ -30,7 +30,7 @@
             </a>
           </li>
           <li class="nav-item mr-lg-3">
-            <a @click.prevent="$refs.donateFormModal.show()" href="#" class="text-uppercase btn btn-saddle-red font-weight-bold">
+            <a @click.prevent="$refs.donateFormModal.show()" href="#" class="text-uppercase btn btn-primary font-weight-bold">
               {{ $t('generic-header.navbar.support') }}
             </a>
           </li>
