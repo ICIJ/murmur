@@ -6,12 +6,15 @@
       comes from ICIJ graphical charter. Every color utility classes provided by
       Boostrap (<code>bg-primary</code>, <code>text-primary</code>, ...) work as expected.
     </p>
-    <p>
-      Additional namespaces are available to specificaly use the ICIJ colors within
-      a custom theme: <code>selective-yellow</code> and <code>saddle-red</code>.
-      Color utility classes are created as well for this colors.
-    </p>
     <palette-presenter :colors="themeColors"></palette-presenter>
+    <h3>Grays</h3>
+    <p>
+      The colour tones to be used are outlined below and are on a gray scale that
+      incorporates the new brand colour ways. Amount of gray was reduced
+      tones used in illustration to create higher contrast in images. Only the grays
+      outlined below should be used in any illustrations.
+    </p>
+    <palette-presenter :colors="grays"></palette-presenter>
   </div>
 </template>
 
@@ -22,6 +25,9 @@
     computed: {
       themeColors () {
         return mainVariables.global["$theme-colors"].value
+      },
+      grays () {
+        return mainVariables.global["$brand-grays"].value
       },
     }
   }
