@@ -44,15 +44,20 @@ You can now use the `bars` icon in you templates using the Fa component:
 ```
 
 <script>
+  import { uniqBy } from 'lodash'
   import { library } from '@/components/Fa'
 
   export default {
     computed: {
       fas () {
-        return Object.keys(library.definitions.fas || {})
+        return uniqBy(Object.keys(library.definitions.fas || {}), key => {
+          return library.definitions.fas[key][2]
+        })
       },      
       fab () {
-        return Object.keys(library.definitions.fab || {})
+        return uniqBy(Object.keys(library.definitions.fab || {}), key => {
+          return library.definitions.fas[key][2]
+        })
       }
     }
   }
