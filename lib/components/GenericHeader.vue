@@ -4,13 +4,13 @@
       <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand generic-header__brand">
-          <img :src="require('@/assets/images/icij-red.svg')" alt="" class="d-inline-block d-sm-none"/>
-          <img :src="require('@/assets/images/icij-full.svg')" alt="" class="d-none d-sm-inline-block"/>
+          <brand-expansion :size="45"  mode="short" class="d-inline-block d-sm-none" />
+          <brand-expansion :size="45"  mode="long" class="d-none d-sm-inline-block" />
           <span class="sr-only">International Consortium of Investigative Journalists</span>
         </a>
       </slot>
-      <button class="navbar-toggler" type="button" aria-label="Toggle navigation" @click="toggleNavbar">
-        <span class="navbar-toggler-icon"></span>
+      <button class="navbar-toggler border-0" type="button" aria-label="Toggle navigation" @click="toggleNavbar">
+        <fa icon="bars" size="xl" class="text-primary" />
       </button>
       <div class="navbar-collapse" :class="{ collapse: collapseNavbar }">
         <ul class="navbar-nav ml-auto">
@@ -52,22 +52,30 @@
 <script>
   import { BModal } from 'bootstrap-vue/esm/components/modal/modal'
   import { BPopover } from 'bootstrap-vue/esm/components/popover/popover'
+  import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 
   import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
+  import BrandExpansion from './BrandExpansion.vue'
   import DonateForm from './DonateForm.vue'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
 
+  import { library } from './Fa'
+
   /**
-   * ImddbHeader
+   * GenericHeader
    */
   export default {
     i18n,
-    name: 'ImddbHeader',
+    name: 'GenericHeader',
+    beforeMount() {
+      library.add(faBars)
+    },
     components: {
       BModal,
       BPopover,
+      BrandExpansion,
       headroom,
       DonateForm,
       FollowUsPopover
@@ -172,10 +180,6 @@
       font-weight: bolder;
       padding-right: $spacer;
       font-size: 1rem;
-
-      img {
-        height: 45px;
-      }
     }
 
     .navbar-toggler {
