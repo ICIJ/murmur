@@ -141,10 +141,12 @@
       padding-right: $spacer;
       margin-right: $spacer;
       border-right: 2px solid white;
-      font-family: $headings-font-family;
+      font-family: $jumbotron-font-family;
       font-size: 1.1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-
     &__lead {
       flex-grow: 1;
       min-width: 0;
