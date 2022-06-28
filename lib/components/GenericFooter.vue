@@ -5,7 +5,8 @@
         <div class="col-md-5">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
             <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo text-decoration-none">
-              <img :src="require('@/assets/images/icij-full-white.svg')" alt="International Consortium of Investigative Journalists" />
+              <brand-expansion mode="long" dark />
+              <span class="sr-only">International Consortium of Investigative Journalists</span>
             </a>
           </h5>
           <p>
@@ -117,6 +118,7 @@
 <script>
 import i18n from '@/i18n'
 import config from '../config'
+import BrandExpansion from './BrandExpansion.vue'
 
 /**
  * GenericFooter
@@ -124,6 +126,7 @@ import config from '../config'
 export default {
   i18n,
   name: 'GenericFooter',
+  components: { BrandExpansion },
   props: {
     /**
      * Version of the app to display in the bottom-right corner of the footer
@@ -150,8 +153,8 @@ export default {
   @import '../styles/lib';
 
   .generic-footer {
-    background: black;
-    color: #fff;
+    background: $black;
+    color: $white;
     padding:$spacer * 4 0;
 
     @include media-breakpoint-down(md) {
@@ -165,12 +168,16 @@ export default {
     h5 {
       font-family: $font-family-sans-serif;
       font-size: 1.1rem;
-      color: #848484;
+      color: $gray-600;
     }
 
-    .list-unstyled-item {
+    .list-unstyled .list-unstyled-item {
       line-height: 1.5em;
       margin: 5px 0;
+
+      a {
+        border-bottom: 0;
+      }
     }
 
     &__icij {
