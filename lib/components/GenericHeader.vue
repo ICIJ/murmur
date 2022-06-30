@@ -58,6 +58,7 @@
   import { headroom } from 'vue-headroom'
   import BrandExpansion from './BrandExpansion.vue'
   import DonateForm from './DonateForm.vue'
+  import Fa from './Fa.js'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
 
@@ -78,6 +79,7 @@
       BrandExpansion,
       headroom,
       DonateForm,
+      Fa,
       FollowUsPopover
     },
     props: {

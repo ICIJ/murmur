@@ -72,6 +72,7 @@ export default {
 
       return {
         '--monochrome-color': this.color,
+        color: this.color,
         background: this.background,
         width
       }
