@@ -4,7 +4,7 @@
       <!-- @slot Redefines brand -->
       <slot name="brand">
         <a :href="homeUrl" class="navbar-brand imddb-header__brand">
-          <img src="../assets/images/icij-black@2x.png" height="25" class="mr-3" />
+          <img src="../assets/images/icij@2x.png" height="25" class="mr-3" />
           {{ project }}
         </a>
       </slot>
