@@ -9,7 +9,7 @@
 .app__main {
   p a:not(.nav-link):not(.btn),
   article a:not(.nav-link):not(.btn),
-  li a:not(.nav-link):not(.btn) {
+  li:not(.ordinal-legend__item) a:not(.nav-link):not(.btn) {
     border-bottom: 1px solid $primary;
   }
 }
