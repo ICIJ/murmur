@@ -2,9 +2,9 @@
   <div class="docs-menu d-flex flex-column justify-content-between">
     <div>
       <div class="docs-menu__brand d-none d-md-flex">
-        <router-link class="docs-menu__brand__logo" to="/">
+        <textured-deck to="/" tag="router-link" value="3" class="docs-menu__brand__logo">
           <img src="@/assets/images/murmur-white.svg" alt="" height="110px" />
-        </router-link>
+        </textured-deck>
         <div class="docs-menu__brand__version">
           <a class="small d-block text-white" href="https://www.npmjs.com/package/@icij/murmur" target="_blank">
             <strong>Murmur</strong> {{ version }}
@@ -32,17 +32,19 @@
   import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
-import BrandExpansion from '../../lib/components/BrandExpansion.vue'
+  import BrandExpansion from '@components/BrandExpansion.vue'
+  import TexturedDeck from '@components/TexturedDeck.vue'
 
   library.add(faPuzzlePiece, faGithub)
 
   export default {
     name: 'DocsMenu',
     components: {
-    DocsMenuSection,
-    Fa,
-    BrandExpansion
-},
+      DocsMenuSection,
+      Fa,
+      BrandExpansion,
+      TexturedDeck
+    },
     props: {
       sections: {
         type: Array,
