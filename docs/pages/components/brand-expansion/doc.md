@@ -26,7 +26,7 @@ A variation of the logo with only the acronym "ICIJ":
 A variation of the logo with the definition of the acronym "ICIJ":
 
 :::sample-card
-<div class="text-center">
+<div class="text-center position-relative">
   <div class="position-absolute p-3">
     <b-form-checkbox v-model="animated" name="check-button" size="sm" switch>
       Animated
@@ -44,7 +44,7 @@ A variation of the logo with the definition of the acronym "ICIJ":
 A variation of the logo with ICIJ's punchline:
 
 :::sample-card
-<div class="text-center">
+<div class="text-center position-relative">
   <div class="position-absolute p-3">
     <b-form-checkbox v-model="animated" name="check-button" size="sm" switch>
       Animated

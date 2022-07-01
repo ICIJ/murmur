@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <div class="app__navbar d-block d-md-none bg-dark p-3 clearfix">
+    <div class="app__navbar d-block d-lg-none bg-dark p-3 clearfix">
       <router-link to="/">
         <img src="@/assets/images/murmur-white.svg" alt="ICIJ" class="border border-primary d-inline-block" height="30px" />
       </router-link>
@@ -84,7 +84,7 @@ export default {
       opacity: 0;
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       &__overlay {
         z-index: $zindex-modal-backdrop;
         position: fixed;
@@ -101,7 +101,7 @@ export default {
       min-width: $app-menu-max-width;
       background: $docs-menu-bg;
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         z-index: $zindex-modal;
         position: fixed;
         top: 0;
@@ -124,7 +124,7 @@ export default {
       border: $spacer solid $docs-menu-bg;
       border-left: 0;
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         min-height: auto;
         border: 0;
       }
