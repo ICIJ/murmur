@@ -81,7 +81,7 @@ export default {
       this.draw()
     },
     data () {
-      this.draw()
+      this.update()
     },
     featureZoom () {
       this.setFeaturesClasses()
@@ -128,6 +128,14 @@ export default {
             .style('color', this.featureColor)
       this.prepareZoom()
     },
+    update () {
+      // Bind geojson features to path
+      this.map
+        .selectAll('.choropleth-map__main__features__item')
+        .data(this.geojson.features)
+        .attr('class',this.featureClass)
+        .style('color', this.featureColor)
+    },
     featureClass (d) {
       return keys(pickBy(this.featureClassObject(d), value => value)).join(' ')
     },
@@ -137,6 +145,7 @@ export default {
       return {
         [pathClass]: true,
         [`${pathClass}--identifier-${kebabCase(id)}`]: true,
+        [`${pathClass}--empty`]: !(id in this.loadedData),
         [`${pathClass}--zoomed`]: this.featureZoom === id,
         [`${pathClass}--cursored`]: this.featureCursor === id
       }
@@ -363,9 +372,9 @@ export default {
       stroke: currentColor;
       stroke-width: calc(1px / var(--map-scale, 1));
       fill: currentColor;
-      transition: opacity 750ms, filter 750ms;
+      transition: opacity 750ms, filter 750ms, fill 750ms;
 
-      &:not([style]) {
+      &--empty {
         opacity: 0.8;
 
         .choropleth-map--hatch-empty & {
