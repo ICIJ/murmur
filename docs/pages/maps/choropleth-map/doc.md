@@ -9,6 +9,9 @@ By default, ChoroplethMap builds a map of the world.
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
   <choropleth-map :data="motorVehiclesPer1000people" hatch-empty />
   <p class="text-right">
+    <b-form-checkbox v-model="motorVehiclesInEurope" class="d-inline-block">
+      Only in Europe
+    </b-form-checkbox> | 
     <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
       Source
     </a>
@@ -30,7 +33,9 @@ You can use a custom function to colorize the map features:
 :::sample-card
 <div class="bg-light p-4">
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
-  <choropleth-map :data="motorVehiclesPer1000people" :feature-color-scale="featureColorScale" />
+  <choropleth-map 
+    :data="motorVehiclesPer1000people" 
+    :feature-color-scale="featureColorScale" />
   <p class="text-right">
     <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
       Source
@@ -79,6 +84,7 @@ identify a location):
 
 
 <script>
+import { pick } from 'lodash'
 import * as d3 from 'd3'
 
 export default {
@@ -88,11 +94,24 @@ export default {
         .domain([100, 300, 700])
         .range(["#ffffcc","#c2e699","#78c679", "#238443"]);
       return scale
+    },
+    motorVehiclesPer1000people () {
+      if (this.motorVehiclesInEurope) {
+        return this.motorVehiclesPer1000peopleInEurope
+      }
+      return this.motorVehiclesPer1000peopleInWorld
+    },
+    motorVehiclesPer1000peopleInEurope () {
+      return pick(this.motorVehiclesPer1000peopleInWorld, this.europeanCountries)
+    },
+    europeanCountries () {
+      return ["AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR"]
     }
   },
   data () {
-    return {      
-      motorVehiclesPer1000people: {
+    return {   
+      motorVehiclesInEurope: false,   
+      motorVehiclesPer1000peopleInWorld: {
         "SMR": 1263,
         "MCO": 899,
         "USA": 797,

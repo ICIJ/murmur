@@ -80,6 +80,9 @@ export default {
     socialMode () {
       this.draw()
     },
+    data () {
+      this.draw()
+    },
     featureZoom () {
       this.setFeaturesClasses()
     },
