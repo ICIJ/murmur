@@ -85,7 +85,6 @@ Or with discrete series:
 </div>
 :::
 
-
 <collapsible-block label="Show the data structure">
 ```json
 [
@@ -98,12 +97,44 @@ Or with discrete series:
 ```
 </collapsible-block>
 
+It also works with dynamic height
+
+:::sample-card
+<div class="m-4">
+  <h4>Leaks size</h4>
+  <p class="text-muted">
+    Size of each ICIJ's leak.
+  </p>
+  <column-chart 
+    series-name="size" 
+    timeseries-key="leak" 
+    :fixed-height="fixedHeight"
+    :data="discreteData" 
+    :y-axis-tick-format="humanReadableGb" 
+    :y-axis-ticks="4" 
+    :max-value="3000" class="my-4">
+    <template #tooltip="{ datum: { leak, size } }">
+      <span v-html="`The ${leak} investigation is ${humanReadableGb(size)}`"></span>
+    </template>
+  </column-chart>
+  <p class="text-muted form-inline align-items-center">
+    <span class="ml-auto mr-3 d-inline-flex align-items-center">
+      Height: 
+      <b-form-select class="ml-2" size="sm" v-model="fixedHeight" :options="[150, 300, 450]" />
+    </span>
+    Source: ICIJ
+  </p>
+</div>
+:::
+
+
 ::: api-table datavisualisations/ColumnChart.vue :::
 
 <script>
   export default {
     data () {
       return {
+        fixedHeight: 300,
         dataUrl: "https://gist.githubusercontent.com/pirhoo/259a1a5159db4a665d0c043fac71beef/raw/e74087b06cd12be2b2d3a8ca995730e38719cd4b/colums-incidents.json",
         discreteData: [
           { leak: 'Paradise Papers', size: 1.4 * 1e3 },

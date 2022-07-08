@@ -243,6 +243,9 @@ export default {
     width () {
       this.setup()
     },
+    fixedHeight () {
+      this.setSizes()
+    },
     socialMode () {
       this.setup()
     },
@@ -261,6 +264,7 @@ export default {
     setSizes() {
       this.width = this.$el.offsetWidth
       this.height = this.fixedHeight !== null ? this.fixedHeight : this.$el.offsetWidth * this.baseHeightRatio
+      this.update()
     },
     initialize() {
       d3.axisLeft().scale(this.scale.y)
