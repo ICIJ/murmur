@@ -3,7 +3,7 @@ export default {
   name: 'TexturedDeck',
   props: {
     /**
-     * Name of the texture file (1, 2, 3, 4, 5, 6)
+     * Name of the texture file ('silk', 'brick', 'rock', 'sand', 'crack', 'carbon')
      */
     value: {
       type: [String, Number],
@@ -22,11 +22,32 @@ export default {
     tag: {
       type: [String, Object],
       default: 'div'
+    },
+    /**
+     * Etheir or note we should use the black version of the texture
+     */
+    black: {
+      type: Boolean
     }
   },
   computed: {
+    names () {
+      return ['silk', 'brick', 'rock', 'sand', 'crack', 'carbon']
+    },
+    textureIndex () {
+      if (isNaN(this.value)) {
+        return Math.max(1, this.names.indexOf(this.value) + 1)
+      }
+      return this.value
+    },
+    filename () {
+      if (this.black) {
+        return `${this.textureIndex}-black.jpg`
+      }
+      return `${this.textureIndex}.jpg`
+    },
     url () {
-      return require(`@assets/images/textures/${this.value}.jpg`)
+      return require(`@assets/images/textures/${this.filename}`)
     },
     backgroundSize () {
       return this.size
