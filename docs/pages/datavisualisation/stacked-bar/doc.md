@@ -15,6 +15,13 @@ Component do draw dead simple stacked bar charts.
   <p class="text-muted small">
     Note: The companies shown here are 10 of the biggest participants in the medical device industry. Numbers for Becton, Dickinson and Company include adverse events reported by C. R. Bard, which was acquired in 2017. Source: U.S. Food and Drug Administration, ICIJ analysis.
   </p>
+  <p class="text-muted form-inline align-items-center">
+    <span class="ml-auto mr-3 d-inline-flex align-items-center">
+      Height: 
+      <b-form-select class="ml-2" size="sm" v-model="fixedHeight" :options="[150, 300, 450]" />
+    </span>
+    Source: ICIJ
+  </p>
 </div>
 :::
 
@@ -57,8 +64,17 @@ Or with a fixed height:
   <p class="text-muted">
     Size of each leak in GB.
   </p>
-  <stacked-bar-chart :data="leakSizes" class="mb-4" hide-legend :fixed-height="400" :x-axis-tick-format="humanReadableGb"></stacked-bar-chart>
-  <p class="text-muted small">
+  <stacked-bar-chart 
+    class="mb-4" 
+    hide-legend 
+    :data="leakSizes" 
+    :fixed-height="fixedHeight" 
+    :x-axis-tick-format="humanReadableGb" />
+  <p class="text-muted form-inline align-items-center">
+    <span class="ml-auto mr-3 d-inline-flex align-items-center">
+      Height: 
+      <b-form-select class="ml-2" size="sm" v-model="fixedHeight" :options="[200, 300, 400]" />
+    </span>
     Source: ICIJ
   </p>
 </div>
@@ -70,6 +86,7 @@ Or with a fixed height:
   export default {
     data () {
       return {        
+        fixedHeight: 400,
         incidentReports: [
            {
               "label":"Medtronic PLC",
