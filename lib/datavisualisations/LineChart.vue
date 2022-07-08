@@ -12,10 +12,8 @@
 
 <script>
 import * as d3 from 'd3'
-import cloneDeep from 'lodash/cloneDeep'
 import isFunction from 'lodash/isFunction'
 import identity from 'lodash/identity'
-import max from 'lodash/max'
 
 import chart from '../mixins/chart'
 
@@ -159,6 +157,9 @@ export default {
       this.update()
     },
     height () {
+      this.update()
+    },
+    fixedHeight () {
       this.update()
     },
     loadedData () {
