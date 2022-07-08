@@ -453,7 +453,6 @@ export default {
 
           &__item {
             text-align: right;
-            direction: rtl;
             transition: $muted-group-transition;
             min-width: 1px;
             min-height: 10px;
@@ -461,6 +460,7 @@ export default {
             display: flex;
             flex-direction: row;
             align-items: center;
+            justify-content: flex-end;
 
             .stacked-bar-chart--has-constraint-height & {
               height: auto;
@@ -497,7 +497,7 @@ export default {
             }
 
             &--value-pushed {
-              direction: ltr;
+              justify-content: flex-start;
             }
 
             &--value-pushed &__value {
@@ -510,10 +510,6 @@ export default {
               color: white;
               pointer-events: none;
               display: inline-block;
-
-              .stacked-bar-chart--has-constraint-height & {
-                possible: absolute;
-              }
             }
           }
         }
