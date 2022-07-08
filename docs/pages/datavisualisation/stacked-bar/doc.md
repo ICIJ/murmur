@@ -15,11 +15,7 @@ Component do draw dead simple stacked bar charts.
   <p class="text-muted small">
     Note: The companies shown here are 10 of the biggest participants in the medical device industry. Numbers for Becton, Dickinson and Company include adverse events reported by C. R. Bard, which was acquired in 2017. Source: U.S. Food and Drug Administration, ICIJ analysis.
   </p>
-  <p class="text-muted form-inline align-items-center">
-    <span class="ml-auto mr-3 d-inline-flex align-items-center">
-      Height: 
-      <b-form-select class="ml-2" size="sm" v-model="fixedHeight" :options="[150, 300, 450]" />
-    </span>
+  <p class="text-muted">
     Source: ICIJ
   </p>
 </div>
@@ -155,9 +151,9 @@ Or with a fixed height:
     methods: {
       humanReadableGb (size) {
         if (size >= 1e3) {
-          return `${size/1e3}TB`          
+          return `${size/1e3} TB`          
         } else {          
-          return `${size}GB`
+          return `${size} GB`
         }
       }
     }
