@@ -103,7 +103,8 @@
   },
   "jest": {
     "setupFiles": [
-      "jest-canvas-mock"
+      "jest-canvas-mock",
+      "<rootDir>/tests/unit/setup.mocks.js"
     ],
     "globalSetup": "<rootDir>/tests/unit/setup.js",
     "moduleFileExtensions": [
