@@ -64,6 +64,12 @@ export default {
       type: Number
     },
     /**
+     * Enforce a width for each bar's value
+     */
+    fixedValueWidth: {
+      type: Number
+    },
+    /**
      * Distance between a bar and its label
      */
     labelGap: {
@@ -114,6 +120,9 @@ export default {
       return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     valueWidth () {
+      if (this.fixedValueWidth)  {
+        return this.fixedValueWidth
+      }
       const selector = '.bar-chart__bars__item__value'
       const defaultWidth = 0
       return this.elementsMaxBBox({ selector, defaultWidth }).width + this.valueGap
