@@ -37,9 +37,11 @@ And import the Murmur's stylesheet:
 @import "@icij/murmur";
 ```
 
-Now all components will be globally available in your app. Murmur also expose a
+Now all components will be globally available in your app. Murmur also exposes a
 configuration object to handle common configuration option. To customize the
 default options please refer to the [dedicated page](#/utilities/config).
+
+If you need to usage component with images, please make sure to [configure assets](#/utilities/assets) properly so images are available in your final app bundle.
 
 ### Individual components
 
