@@ -31,6 +31,12 @@ import Murmur from '@icij/murmur'
 Vue.use(Murmur)
 ```
 
+And import the Murmur's stylesheet:
+
+```scss
+@import "@icij/murmur";
+```
+
 Now all components will be globally available in your app. Murmur also expose a
 configuration object to handle common configuration option. To customize the
 default options please refer to the [dedicated page](#/utilities/config).
