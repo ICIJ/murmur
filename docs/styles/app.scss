@@ -11,6 +11,12 @@
   li:not(.ordinal-legend__item) a:not(.nav-link):not(.btn) {
     border-bottom: 1px solid $primary;
   }
+
+  &__view {
+    table {
+      @extend .table;
+    }
+  }
 }
 
 .card-xs {
@@ -26,3 +32,5 @@
 .header-anchor {
   display: none
 }
+
+
