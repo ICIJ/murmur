@@ -83,6 +83,8 @@ $modal-content-box-shadow-sm-up: $popover-box-shadow !default;
 $tooltip-max-width: 260px !default;
 $tooltip-opacity: 1 !default;
 
+$alert-border-width: 0;
+
 // Bootstrap variables and functions must be available everywhere
 @import 'node_modules/bootstrap/scss/_functions.scss';
 @import 'node_modules/bootstrap/scss/_variables.scss';
