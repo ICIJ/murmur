@@ -10,3 +10,9 @@
 .text-serif {
   font-family: $font-family-serif;
 }
+
+.jumbotron > h1,
+.jumbotron > .h1 {
+  font-family: $jumbotron-font-family;
+  font-weight: $jumbotron-font-weight;
+}

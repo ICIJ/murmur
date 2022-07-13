@@ -1,6 +1,6 @@
 ## Headings
 
-All HTML headings, `<h1>` through `<h6>`, are available with the {{ headingsFontFamily }} font.
+All HTML headings, `<h1>` through `<h6>`, are available with the <strong>{{ headingsFontFamily }}</strong> font.
 
 Heading | Example
 --- | ---
@@ -10,6 +10,22 @@ Heading | Example
 `<h4></h4>` | <h4>h4. Bootstrap heading</h4>
 `<h5></h5>` | <h5>h5. Bootstrap heading</h5>
 `<h6></h6>` | <h6>h6. Bootstrap heading</h6>
+
+## Jumbotron
+
+A lightweight, flexible component that can optionally extend the entire viewport to showcase key marketing messages on your site. Jumbotron main header uses the <strong>{{ jumbotronFontFamily }}</strong> font.
+
+Bellow an example combined with a  `textured-deck`:
+
+:::sample-card
+<div>
+  <textured-deck black value="brick">
+    <b-jumbotron header="ICIJ" lead="For more information visit ICIJ website" bg-variant="transparent" class="m-0">
+      <b-button variant="primary" href="https://icij.org">More Info</b-button>
+    </b-jumbotron>
+  </textured-deck>
+</div>
+:::
 
 ## Font utilities
 
