@@ -1,6 +1,6 @@
 ## Headings
 
-All HTML headings, `<h1>` through `<h6>`, are available with the same font.
+All HTML headings, `<h1>` through `<h6>`, are available with the {{ headingsFontFamily }} font.
 
 Heading | Example
 --- | ---
@@ -24,27 +24,32 @@ Class | Example | Font
 `text-monospace` | <div class="text-monospace">div. Text with font monospace</div> | {{ monospaceFontFamily }}
 
 <script>
-  import { trim } from 'lodash'
+  import { get, trim } from 'lodash'
   import mainVariables from '!!sass-extract-loader?{"includePaths": ["./"]}!@styles/variables.scss'
 
   export default {
     computed: {
+      headingsFontFamily () {
+        return this.getFontValue("$headings-font-family")
+      },
       jumbotronFontFamily () {
-        const [ font ] = mainVariables.global["$jumbotron-font-family"].value
-        return trim(font.value, '\'"')
+        return this.getFontValue("$jumbotron-font-family")
       },
       serifFontFamily () {
-        const [ font ] = mainVariables.global["$font-family-serif"].value
-        return trim(font.value, '\'"')
+        return this.getFontValue("$font-family-serif")
       },
       sansSerifFontFamily () {
-        const [ font ] = mainVariables.global["$font-family-sans-serif"].value
-        return trim(font.value, '\'"')
+        return this.getFontValue("$font-family-sans-serif")
       },
       monospaceFontFamily () {
-        const [ font ] = mainVariables.global["$font-family-monospace"].value
+        return this.getFontValue("$font-family-monospace")
+      }
+    },
+    methods: {
+      getFontValue (name) {
+        const [ font ] = get(mainVariables, ['global', name, 'value'], [{ value: null }])
         return trim(font.value, '\'"')
-      },
+      }
     }
   }
 </script>
