@@ -371,7 +371,7 @@ export default {
 
         &:after {
           content: "";
-          border: ($tooltip-arrow-width / 2) solid transparent;
+          border: ($tooltip-arrow-width * 0.5) solid transparent;
           position: absolute;
           transform: translateX(1px);
         }

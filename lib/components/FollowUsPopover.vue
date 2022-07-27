@@ -92,8 +92,8 @@
 
     &__close {
       position: absolute;
-      right: $spacer / 2;
-      top: $spacer / 2;
+      right: $spacer * 0.5;
+      top: $spacer * 0.5;
     }
   }
 </style>

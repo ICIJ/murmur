@@ -109,7 +109,7 @@
 
       &__code {
         pre {
-          padding: $spacer / 2;
+          padding: $spacer * 0.5;
           margin: 0;
         }
       }

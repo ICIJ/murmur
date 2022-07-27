@@ -114,7 +114,7 @@ export default {
       // Bind geojson features to path
       this.prepare()
         .append('g')
-          .attr('class', '.choropleth-map__main__features')
+          .attr('class', 'choropleth-map__main__features')
           .selectAll('.choropleth-map__main__features__item')
           .data(this.geojson.features)
           // Add the path with the correct class
@@ -368,13 +368,13 @@ export default {
       color: $dark;
     }
 
-    & /deep/ &__features__item {
+    &:deep(.choropleth-map__main__features__item) {
       stroke: currentColor;
       stroke-width: calc(1px / var(--map-scale, 1));
       fill: currentColor;
       transition: opacity 750ms, filter 750ms, fill 750ms;
 
-      &--empty {
+      .choropleth-map__main__features__item--empty {
         opacity: 0.8;
 
         .choropleth-map--hatch-empty & {

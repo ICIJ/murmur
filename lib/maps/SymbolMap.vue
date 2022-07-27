@@ -459,6 +459,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@use "sass:math";
 @import '../styles/lib';
 
 .symbol-map {
@@ -474,7 +475,7 @@ export default {
     $end-color: mix($start-color, text-contrast($start-color), 20%);
 
     @for $j from ($quantile * $i) through ($quantile * $i + $quantile - 1) {
-      $amount: ($j % $quantile) * (100% / $quantile);
+      $amount: ($j % $quantile) * math.div(100%, $quantile);
       --category-color-#{$j}n: #{mix($end-color, $start-color, $amount)};
     }
   }
@@ -489,17 +490,17 @@ export default {
       color: $dark;
     }
 
-    & /deep/ &__features__item {
+    &:deep(.symbol-map__main__features__item) {
       stroke: currentColor;
       stroke-width: calc(1px / var(--map-scale, 1));
       fill: currentColor;
       transition: opacity 750ms, filter 750ms;
     }
 
-    & /deep/ &__markers {
+    &:deep(.symbol-map__main__markers) {
       shape-rendering: geometricPrecision;
       
-      &__item {
+      .symbol-map__main__markers__item {
         opacity: 1;
         filter: grayscale(0%) brightness(100%);
         transition: $muted-item-transition;

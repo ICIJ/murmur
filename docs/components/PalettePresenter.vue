@@ -1,13 +1,13 @@
 <template>
   <div class="palette-presenter">
     <ul class="list-unstyled palette-presenter__list">
-      <li v-for="({ value }, name) in colors" :style="bgStyle(name)" :key="name" class="palette-presenter__list__item">
+      <li v-for="(value, name) in colors" :style="bgStyle(name)" :key="name" class="palette-presenter__list__item">
         <span class="font-weight-bold palette-presenter__list__item__name">
           {{ name }}
         </span>
         <span class="font-weight-bold palette-presenter__list__item__value d-flex align-items-center">
           <span class="palette-presenter__list__item__value__hex">
-            {{ value.hex }}
+            {{ value }}
           </span>
           <haptic-copy class="btn-sm btn-link ml-2" hide-label :text="value.hex" />
         </span>
@@ -28,12 +28,12 @@
     methods: {
       bgStyle(name) {
         return {
-          backgroundColor: this.colors[name].value.hex,
+          backgroundColor: this.colors[name],
           color: this.textContrast(name)
         }
       },
       textContrast(name) {
-        const hex = this.colors[name].value.hex
+        const hex = this.colors[name]
         return chroma.contrast(hex, '#000') > 8 ? '#000' : '#fff'
       }
     }

@@ -171,18 +171,17 @@
       }
     }
 
-    & /deep/ .sharing-options {
+    .sharing-options {
       position: absolute;
       bottom: 100%;
       right: 0;
       margin: $spacer * 0.25;
 
-      &__link {
+      .sharing-options__link {
         opacity: 0;
         animation:slideup 200ms forwards;
         @include animation-delay-loop(0, 10, 50ms);
       }
     }
-
   }
 </style>

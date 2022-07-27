@@ -71,7 +71,7 @@ export default {
 
   .app {
 
-    & /deep/ .hljs {
+    &:deep(.hljs) {
       background: $dark;
       padding: $spacer;
       display: block;

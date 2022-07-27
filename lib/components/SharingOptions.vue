@@ -162,7 +162,7 @@
 
     &__link {
       display: block;
-      margin: $spacer / 4;
+      margin: $spacer * 0.25;
       background: black;
       height: 2.5em;
       line-height: 2.5em;

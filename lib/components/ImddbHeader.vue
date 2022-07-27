@@ -250,7 +250,7 @@
       background: $gray-400;
       position: absolute;
       right: $spacer;
-      top: $spacer / 2;
+      top: $spacer * 0.5;
       margin: 0;
     }
 

@@ -142,7 +142,7 @@
         }
 
         &__container {
-          padding: $spacer / 2;
+          padding: $spacer * 0.5;
           overflow: auto;
           width: 100%;
           border: 1px solid $table-border-color;

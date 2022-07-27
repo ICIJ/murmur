@@ -24,10 +24,10 @@
   export default {
     computed: {
       themeColors () {
-        return mainVariables.global["$theme-colors"].value
+        return mainVariables["$theme-colors"]
       },
       grays () {
-        return mainVariables.global["$brand-grays"].value
+        return mainVariables["$brand-grays"]
       },
     }
   }

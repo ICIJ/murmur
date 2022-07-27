@@ -63,8 +63,8 @@ Class | Example | Font
     },
     methods: {
       getFontValue (name) {
-        const [ font ] = get(mainVariables, ['global', name, 'value'], [{ value: null }])
-        return trim(font.value, '\'"')
+        const [ font ] = get(mainVariables, name, [null])
+        return trim(font, '\'"')
       }
     }
   }

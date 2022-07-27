@@ -88,3 +88,7 @@ $alert-border-width: 0;
 // Bootstrap variables and functions must be available everywhere
 @import 'node_modules/bootstrap/scss/_functions.scss';
 @import 'node_modules/bootstrap/scss/_variables.scss';
+
+// Get theses variables to make them available in the doc
+$theme-colors: none !default;
+$font-family-monospace: none !default;

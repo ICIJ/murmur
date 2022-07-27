@@ -194,7 +194,7 @@
       border-right: 1px solid $border-color;
     }
 
-    &--compact &__pages /deep/ .page-item:last-of-type .page-link {
+    &--compact &__pages:deep(.page-item:last-of-type .page-link) {
       border-right: 0;
       border-radius: 0;
     }

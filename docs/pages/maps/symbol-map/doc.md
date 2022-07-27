@@ -202,7 +202,7 @@ export default {
   --category-color-7n: #630015;
 }
 
-.marseille-facilities-map.symbol-map /deep/ .symbol-map__main__features__item {
+.marseille-facilities-map.symbol-map:deep(.symbol-map__main__features__item) {
   stroke: #ccc;
 }
 </style>

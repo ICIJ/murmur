@@ -438,6 +438,7 @@ export default {
 </script>
 
 <style lang="scss">
+  @use "sass:math";
   @import '../styles/lib';
 
   .stacked-column-chart {
@@ -452,7 +453,7 @@ export default {
       $end-color: mix($start-color, text-contrast($start-color), 20%);
 
       @for $j from ($quantile * $i) through ($quantile * $i + $quantile - 1) {
-        $amount: ($j % $quantile) * (100% / $quantile);
+        $amount: ($j % $quantile) * math.div(100%, $quantile);
         --group-color-#{$j}n: #{mix($end-color, $start-color, $amount)};
       }
     }
@@ -463,7 +464,7 @@ export default {
         display: inline-flex;
         flex-direction: row;
         align-items: center;
-        padding-right: $spacer / 2;
+        padding-right: $spacer * 0.5;
 
         @for $i from 0 through ($quantile * length($colors)) {
           &:nth-child(#{$i + 1}n) &__box {
@@ -481,7 +482,7 @@ export default {
           width: 1em;
           border-radius: .5em;
           display: inline-block;
-          margin-right: $spacer / 2;
+          margin-right: $spacer * 0.5;
         }
       }
     }
