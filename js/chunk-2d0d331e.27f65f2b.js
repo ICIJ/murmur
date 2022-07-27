@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0d331e"],{"5c71":function(e,n){e.exports={displayName:"ResponsiveIframe",description:"ResponsiveIframe",tags:{},exportName:"default",props:[{name:"url",description:"URL of the generated iframe code.",type:{name:"string"},required:!0},{name:"options",description:"Option to pass to the constructor of the pymParent instance",type:{name:"object"},defaultValue:{func:!1,value:" "}}]}}}]);
+//# sourceMappingURL=chunk-2d0d331e.27f65f2b.js.map
