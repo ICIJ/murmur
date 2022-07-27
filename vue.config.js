@@ -6,6 +6,15 @@ module.exports = {
   // The app use hashbang routes so we can have relative path in BASE_URL
   publicPath: './',
   lintOnSave: false,
+  css: {
+    loaderOptions: {
+      sass: {
+        // Replace the default lodader by dart sass
+        // @see https://www.priestch.com/replace-node-sass-with-dart-sass-in-vue-cli3-based-project/
+        implementation: require('sass')
+      }
+    }
+  },
   chainWebpack: config => {
     config.entry('app').clear().add('./docs/main.js')
     config.entry('lib').add('./lib/main.js')
