@@ -8,7 +8,7 @@
         <b-tab v-if="hasItems(docgen.props)" title="Properties" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.props)" :fields="propsFields" small class="m-0 small">
             <template v-for="{ key } in propsFields" v-slot:[`cell(${key})`]="{ value }">
-              <span v-html="value"></span>
+              <span v-html="value" :key="key"></span>
             </template>
           </b-table>
         </b-tab>
@@ -16,7 +16,7 @@
         <b-tab v-if="hasItems(docgen.slots)" title="Slots" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.slots)" :fields="slotsFields" small class="m-0 small">
             <template v-for="{ key } in slotsFields" v-slot:[`cell(${key})`]="{ value }">
-              <span v-html="value"></span>
+              <span v-html="value" :key="key"></span>
             </template>
           </b-table>
         </b-tab>
@@ -24,7 +24,7 @@
         <b-tab v-if="hasItems(docgen.events)" title="Events" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.events)" :fields="eventsFields" small class="m-0 small">
             <template v-for="{ key } in eventsFields" v-slot:[`cell(${key})`]="{ value }">
-              <span v-html="value"></span>
+              <span v-html="value" :key="key"></span>
             </template>
           </b-table>
         </b-tab>
@@ -32,7 +32,7 @@
         <b-tab v-if="hasItems(docgen.methods)" title="Methods" class="api-table__component__tabs__container">
           <b-table :items="toItems(docgen.methods)" :fields="methodsFields" small class="m-0 small">
             <template v-for="{ key } in methodsFields" v-slot:[`cell(${key})`]="{ value }">
-              <span v-html="value"></span>
+              <span v-html="value" :key="key"></span>
             </template>
           </b-table>
         </b-tab>
