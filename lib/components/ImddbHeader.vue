@@ -45,9 +45,11 @@
             </a>
           </li>
           <li class="nav-item mr-lg-3">
-            <a @click.prevent="$refs.donateFormModal.show()" href="#" class="nav-link">
-              {{ $t('imddb-header.navbar.support') }}
-            </a>
+            <slot name="donate-link">
+              <a target="_blank" :href="donateUrl" class="nav-link">
+                {{ $t('imddb-header.navbar.support') }}
+              </a>
+            </slot>
           </li>
           <li class="nav-item">
             <button class="btn btn-primary btn-block font-weight-bold" id="follow-icij">
@@ -60,12 +62,6 @@
         </ul>
       </div>
     </component>
-    <b-modal hide-footer lazy ref="donateFormModal" size="lg">
-      <span slot="modal-title" class="text-uppercase font-weight-bold text-primary">
-        {{ $t('imddb-header.navbar.support') }}
-      </span>
-      <donate-form no-title></donate-form>
-    </b-modal>
   </div>
 </template>
 
@@ -82,7 +78,6 @@
   import get from 'lodash/get'
 
   import i18n from '@/i18n'
-  import DonateForm from './DonateForm.vue'
   import { library } from './Fa'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
@@ -99,7 +94,6 @@
       BNavItemDropdown,
       BPopover,
       headroom,
-      DonateForm,
       FollowUsPopover,
       /** Prevent a bug with vue-docgen-api
        * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
@@ -150,6 +144,13 @@
       homeUrl: {
         type: String,
         default: () => config.get('app.home')
+      },
+      /**
+       * Target link of the donate button.
+       */
+      donateUrl: {
+        type: String,
+        default: () => config.get('app.donate-url')
       }
     },
     data () {

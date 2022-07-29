@@ -30,9 +30,11 @@
             </a>
           </li>
           <li class="nav-item mr-lg-3">
-            <a @click.prevent="$refs.donateFormModal.show()" href="#" class="text-uppercase btn btn-primary font-weight-bold">
-              {{ $t('generic-header.navbar.support') }}
-            </a>
+            <slot name="donate-link">
+              <a class="text-uppercase btn btn-primary font-weight-bold" target="_blank" :href="donateUrl">
+                {{ $t('generic-header.navbar.support') }}
+              </a>
+            </slot>
           </li>
         </ul>
         <b-popover id="follow-us-popover" ref="followUsPopover" container="generic-header" target="follow-us-toggler" placement="bottomleft" :show.sync="showFollowUsPopover">
@@ -40,12 +42,6 @@
         </b-popover>
       </div>
     </component>
-    <b-modal hide-footer lazy ref="donateFormModal" size="lg">
-      <span slot="modal-title" class="text-uppercase font-weight-bold text-primary">
-        {{ $t('generic-header.navbar.support') }}
-      </span>
-      <donate-form no-title></donate-form>
-    </b-modal>
   </div>
 </template>
 
@@ -57,7 +53,6 @@
   import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
   import BrandExpansion from './BrandExpansion.vue'
-  import DonateForm from './DonateForm.vue'
   import Fa from './Fa.js'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
@@ -78,7 +73,6 @@
       BPopover,
       BrandExpansion,
       headroom,
-      DonateForm,
       Fa,
       FollowUsPopover
     },
@@ -109,6 +103,13 @@
       brandOptions: {
         type: Object,
         default: () => ({})
+      },
+      /**
+       * Target link of the donate button.
+       */
+      donateUrl: {
+        type: String,
+        default: () => config.get('app.donate-url')
       }
     },
     data () {
