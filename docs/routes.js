@@ -1,4 +1,4 @@
-import { dirname } from 'path'
+import { dirname } from 'path-browserify'
 import filter from 'lodash/filter'
 import get from 'lodash/get'
 import sortBy from 'lodash/sortBy'
