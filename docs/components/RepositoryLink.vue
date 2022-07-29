@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import { repository } from '@package'
+  import packageInfo  from '@package'
   import join from 'url-join'
 
   export default {
@@ -20,7 +20,7 @@
     },
     computed: {
       href () {
-        return join(repository.url, 'tree', this.branch, this.path)
+        return join(packageInfo.repository.url, 'tree', this.branch, this.path)
       }
     }
   }
