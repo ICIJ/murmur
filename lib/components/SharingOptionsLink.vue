@@ -1,5 +1,5 @@
 <script>
-  import querystring from 'querystring'
+  import querystring from 'querystring-es3'
   import reduce from 'lodash/reduce'
   import noop from 'lodash/noop'
   import get from 'lodash/get'
