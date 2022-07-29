@@ -34,28 +34,28 @@
               <slot name="investigations">
                 <ul class="list-unstyled">
                   <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/uber-files/" target="_blank">
+                       The Uber Files 
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/russia-archive/" target="_blank">
+                       Russia Archive
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/ericsson-list/" target="_blank">
+                        The Ericsson List
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
+                    <a href="https://www.icij.org/investigations/pandora-papers/" target="_blank">
+                        Pandora Papers
+                    </a>
+                  </li>
+                  <li class="list-unstyled-item">
                     <a href="https://www.icij.org/investigations/fincen-files/" target="_blank">
                       FinCEN Files
-                    </a>
-                  </li>
-                  <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/luanda-leaks/" target="_blank">
-                      Luanda Leaks
-                    </a>
-                  </li>
-                  <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/china-cables/" target="_blank">
-                      China Cables
-                    </a>
-                  </li>
-                  <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/mauritius-leaks/" target="_blank">
-                      Mauritius Leaks
-                    </a>
-                  </li>
-                  <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/bribery-division/" target="_blank">
-                      Bribery Division
                     </a>
                   </li>
                   <li class="list-unstyled-item">
@@ -163,6 +163,7 @@ export default {
 
     a {
       color: inherit;
+      border-bottom: 0 !important;
     }
 
     h5 {
@@ -174,10 +175,6 @@ export default {
     .list-unstyled .list-unstyled-item {
       line-height: 1.5em;
       margin: 5px 0;
-
-      a {
-        border-bottom: 0;
-      }
     }
 
     &__icij {
