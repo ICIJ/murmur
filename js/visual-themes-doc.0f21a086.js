@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["visual-themes-doc"],{9570:function(n,e,s){"use strict";s.r(e);var t=function(){var n=this,e=n._self._c;return e("div")},u=[],l={},c=l,i=s("2877"),o=Object(i["a"])(c,t,u,!1,null,null,null);e["default"]=o.exports}}]);
-//# sourceMappingURL=visual-themes-doc.0f21a086.js.map

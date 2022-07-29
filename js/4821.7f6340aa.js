@@ -1,0 +1,2 @@
+(self["webpackChunk_icij_murmur"]=self["webpackChunk_icij_murmur"]||[]).push([[4821],{4821:function(e){e.exports={displayName:"DonateForm",description:"A form to encourage donations. We usualy put this form inside a modal",tags:{},exportName:"default",props:[{name:"noTitle",description:"Title of the form.",type:{name:"boolean"}}],slots:[{name:"introduction",description:"Description of the form (bellow the title)."}]}}}]);
+//# sourceMappingURL=4821.7f6340aa.js.map
