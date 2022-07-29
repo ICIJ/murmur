@@ -3,7 +3,7 @@
     <div>
       <div class="docs-menu__brand d-none d-md-flex">
         <textured-deck to="/" tag="router-link" value="3" class="docs-menu__brand__logo">
-          <img src="@/assets/images/murmur-white.svg" alt="" height="110px" />
+          <img src="@/assets/images/murmur-white.png" alt="" height="110px" />
         </textured-deck>
         <div class="docs-menu__brand__version">
           <a class="small d-block text-white" href="https://www.npmjs.com/package/@icij/murmur" target="_blank">
@@ -28,7 +28,7 @@
 <script>
   import { faPuzzlePiece } from '@fortawesome/free-solid-svg-icons/faPuzzlePiece'
   import { faGithub } from '@fortawesome/free-brands-svg-icons/faGithub'
-  import { version, repository } from '@package'
+  import packageInfo  from '@package'
   import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
   import { library, default as Fa } from '@/components/Fa'
@@ -81,8 +81,8 @@
     },
     data () {
       return {
-        version,
-        repository
+        version: packageInfo.version,
+        repository: packageInfo.repository
       }
     }
   }
