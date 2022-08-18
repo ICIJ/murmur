@@ -1,2 +1,0 @@
-(self["webpackChunk_icij_murmur"]=self["webpackChunk_icij_murmur"]||[]).push([[3483],{13483:function(e){e.exports={displayName:"ResponsiveIframe",description:"ResponsiveIframe",tags:{},exportName:"default",props:[{name:"url",description:"URL of the generated iframe code.",type:{name:"string"},required:!0},{name:"options",description:"Option to pass to the constructor of the pymParent instance",type:{name:"object"},defaultValue:{func:!1,value:" "}}]}}}]);
-//# sourceMappingURL=3483-legacy.a0d6fb53.js.map
