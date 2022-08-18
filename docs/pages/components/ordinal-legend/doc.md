@@ -2,7 +2,7 @@
 badge: unstable
 ---
 
-A quick way to create scale legend:
+A quick way to create orginal legend:
 
 :::sample-card
 <div class="bg-light p-5">
