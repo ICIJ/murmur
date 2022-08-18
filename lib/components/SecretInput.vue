@@ -38,6 +38,18 @@ export default {
     hapticCopyVariant: {
       type: String,
       default: 'primary'
+    },
+    /**
+     * Hide toggler button
+     */
+    noToggler: {
+      type: Boolean
+    },
+    /**
+     * Hide haptic copy button
+     */
+    noHapticCopy: {
+      type: Boolean
     }
   },
   beforeMount() {
@@ -86,7 +98,7 @@ export default {
 
 <template>
   <b-input-group :size="size" class="secret-input">
-    <b-input-group-prepend>
+    <b-input-group-prepend v-if="!noToggler">
       <b-button @click="toggle" variant="link" class="secret-input__toggler">
         <fa fixed-width :icon="togglerIcon" />
       </b-button>
@@ -97,7 +109,7 @@ export default {
       @click="selectInput"
       :type="inputType"
       :value="value" />
-    <b-input-group-append>
+    <b-input-group-append v-if="!noHapticCopy">
       <haptic-copy 
         class="secret-input__copy" 
         hide-label
