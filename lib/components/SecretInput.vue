@@ -76,7 +76,9 @@ export default {
       this.$emit('input', this.isVisible)
     },
     selectInput () {
-      this.$el.querySelector('.secret-input__input').select()
+      if (this.isVisible) {
+        this.$el.querySelector('.secret-input__input').select()
+      }
     }
   }
 }
@@ -86,7 +88,7 @@ export default {
   <b-input-group :size="size" class="secret-input">
     <b-input-group-prepend>
       <b-button @click="toggle" variant="link" class="secret-input__toggler">
-        <fa :icon="togglerIcon" />
+        <fa fixed-width :icon="togglerIcon" />
       </b-button>
     </b-input-group-prepend>
     <b-form-input 
