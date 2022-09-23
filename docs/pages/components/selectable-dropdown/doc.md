@@ -82,6 +82,16 @@ You might want to display a list and prove uniqueness using the `uid`:
 </div>
 :::
 
+When you want to display a very big list, like the 36,369 towns in France, the virtual scroller will help you deal with large amount of data:
+
+:::sample-card
+<div class="p-2 text-center">
+  <selectable-dropdown deactivate-keys multiple :items="frenchCities" v-model="selectedFrenchCities" scrollerHeight="500px" >       
+  </selectable-dropdown>
+  Selected cities: <span v-html="selectedFrenchCities.join(', ')"></span>
+</div>
+:::
+
 ::: api-table components/SelectableDropdown.vue :::
 
 <script>
@@ -91,6 +101,7 @@ You might want to display a list and prove uniqueness using the `uid`:
         country: 'Peru',
         countries: [],
         filteredCountries: ['Spain', 'Peru', 'France'],
+        
         twoCountries: ['Spain', 'France'],
         treeCountries: ['Spain', 'Peru', 'France'],
         allCountries: ['France', 'United States of America', 'Spain', 'Peru'],
@@ -106,7 +117,9 @@ You might want to display a list and prove uniqueness using the `uid`:
           { label: 'Street Fighter', episode: 'III', uid: 'sf3' },
           { label: 'Street Fighter', episode: 'IV',  uid: 'sf4' },
           { label: 'Street Fighter', episode: 'V',   uid: 'sf5' },
-        ]
+        ],
+        frenchCities:[],
+        selectedFrenchCities:[]
       }
     },
     watch: {
@@ -116,6 +129,11 @@ You might want to display a list and prove uniqueness using the `uid`:
       countries () {
         console.log('Selected countries:', this.countries.join(', '))
       }
+    },
+    async created(){
+        const url = 'https://raw.githubusercontent.com/high54/Communes-France-JSON/master/france.json';
+        const cities = await fetch(url).then(data=> data.json());
+        this.frenchCities = [...new Set(cities.map(city=> city.Code_postal + ' - ' + city.Nom_commune).sort())];
     }
   }
 </script>

@@ -1,25 +1,33 @@
 <template>
   <div class="selectable-dropdown show" v-if="!hide" :class="{ 'selectable-dropdown--multiple': multiple, [listClass]: true }">
-    <span v-for="(item, index) in items"
-          :key="index"
+    <recycle-scroller
+    :style="cssProps"
+      class="scroller"
+      :items="items_"
+      :key-field="keyField"
+      :item-size="itemSize"
+      v-slot="{ item }"
+    >
+    <span 
           @click.exact="clickToSelectItem(item)"
           @click.ctrl="clickToAddItem(item)"
           @click.shift="clickToSelectRangeToItem(item)"
           :class="{ active: itemActivated(item), [itemClass]: true }"
           class="selectable-dropdown__item px-3 d-flex">
-      <!-- @slot Item content -->
-      <slot name="item" v-bind:item="item">
-        <div class="selectable-dropdown__item__check" v-if="multiple">
-          <fa :icon="indexIcon(item)" class="mr-2" />
-        </div>
-        <div class="flex-grow-1 text-truncate selectable-dropdown__item__label">
-          <!-- @slot Item's label content -->
-          <slot name="item-label" v-bind:item="item">
-            {{ serializer(item) }}
-          </slot>
-        </div>
-      </slot>
+        <!-- @slot Item content -->
+        <slot name="item" v-bind:item="item">
+          <div class="selectable-dropdown__item__check" v-if="multiple">
+            <fa :icon="indexIcon(item)" class="mr-2" />
+          </div>
+          <div class="flex-grow-1 text-truncate selectable-dropdown__item__label">
+            <!-- @slot Item's label content -->
+            <slot name="item-label" v-bind:item="item">
+              {{ serializer(item) }}
+            </slot>
+          </div>
+        </slot>
     </span>
+    </recycle-scroller>
   </div>
 </template>
 
@@ -30,11 +38,10 @@
   import filter from 'lodash/filter'
   import identity from 'lodash/identity'
   import isEqual from 'lodash/isEqual'
-  import isString from 'lodash/isString'
-  import last from 'lodash/last'
-  import range from 'lodash/range'
+  import uniqueId from "lodash/uniqueId";
 
   import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons'
+  import { RecycleScroller } from 'vue-virtual-scroller'
 
   const KEY_ESC_CODE = 27
   const KEY_UP_CODE = 38
@@ -108,13 +115,30 @@
       eq: {
         type: Function,
         default: eq
+      },
+      /**
+       * Display height of the items in pixels used to calculate the scroll size and position
+       * Default value is 32 (32px)
+       */
+      itemSize: {
+        type: Number,
+        default: 32
+      },
+      /**
+       * Height of the scroll container to specify especially if using the virtual scroll feature
+       * Default value is 'inherit'
+       */
+       scrollerHeight:{
+        type: String,
+        default:'inherit'
       }
     },
     components: {
       /** Prevent a bug with vue-docgen-api
        * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
        */
-      Fa: require('./Fa').default
+      Fa: require('./Fa').default,
+      RecycleScroller
     },
     data () {
       return {
@@ -213,11 +237,11 @@
         if (!this.activeItems.length || !this.multiple) {
           this.selectItem(item)
         } else {
-          const index = this.items.indexOf(item)
+          const index = this.items_.indexOf(item)
           if (index > this.firstActiveItemIndex) {
-            this.activeItems = this.items.slice(this.firstActiveItemIndex, index + 1)
+            this.activeItems = this.items_.slice(this.firstActiveItemIndex, index + 1)
           } else {
-            this.activeItems = this.items.slice(index, this.firstActiveItemIndex + 1)
+            this.activeItems = this.items_.slice(index, this.firstActiveItemIndex + 1)
           }
         }
       },
@@ -226,10 +250,10 @@
         this.activeItems = [...items]
       },
       activatePreviousItem () {
-        this.activeItems = [ this.items[ Math.max(this.firstActiveItemIndex - 1, -1) ] ]
+        this.activeItems = [ this.items_[ Math.max(this.firstActiveItemIndex - 1, -1) ] ]
       },
       activateNextItem () {
-        this.activeItems = [ this.items[ Math.min(this.firstActiveItemIndex + 1, this.items.length - 1) ] ]
+        this.activeItems = [ this.items_[ Math.min(this.firstActiveItemIndex + 1, this.items_.length - 1) ] ]
       },
       deactivateItems () {
         this.activeItems = []
@@ -270,11 +294,24 @@
       }
     },
     computed: {
+      cssProps() {
+        return {
+          '--scroller-height':this.scrollerHeight
+        }
+      },
+      keyField(){
+        return typeof this.items_[0] == 'string' ? null : 'recycle_scroller_id'
+      },
+      items_(){ 
+        if(typeof this.items[0] == 'string'){
+          return this.items
+        }
+        return this.items.map(item=>({...item,recycle_scroller_id: `id-${uniqueId()}`})) },
       firstActiveItemIndex () {
-        return this.activeItems.length ? this.items.indexOf(this.activeItems[0]) : -1
+        return this.activeItems.length ? this.items_.indexOf(this.activeItems[0]) : -1
       },
       lastActiveItemIndex () {
-        return this.activeItems.length ? this.items.indexOf(this.activeItems.slice(-1)) : -1
+        return this.activeItems.length ? this.items_.indexOf(this.activeItems.slice(-1)) : -1
       },
       keysMap () {
         return {
@@ -287,15 +324,21 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  @import '~node_modules/vue-virtual-scroller/dist/vue-virtual-scroller.css';
   .selectable-dropdown {
-    user-select: none;
+    --scroller-height:'inherit';
 
+    user-select: none;
     &.dropdown-menu {
       position: relative;
       top: 0;
       left: 0;
       float: none;
     }
+    & .scroller {
+      height: var(--scroller-height);
+    }
+
   }
 </style>

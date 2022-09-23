@@ -11,21 +11,37 @@ window.addEventListener = jest.fn((event, cb) => {
 })
 
 describe('SelectableDropdown.vue', () => {
-
+  beforeAll(()=>{
+    // Removes warning about IntersectionObserver used in vue virtual scroller
+    // but not implemented in jest
+    const mockIntersectionObserver = jest.fn();
+    mockIntersectionObserver.mockReturnValue({
+      observe: () => null,
+      unobserve: () => null,
+      disconnect: () => null
+    });
+    window.IntersectionObserver = mockIntersectionObserver;
+  })
+  afterAll(()=> {
+    window.IntersectionObserver.mockClear()
+  })
   it('is a Vue instance', () => {
     const wrapper = mount(SelectableDropdown)
     expect(wrapper.vm).toBeTruthy()
   })
 
-  it('has a list of items', () => {
+  it('has a list of items', async () => {
     const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'] }
     const wrapper = mount(SelectableDropdown, { propsData })
+    await wrapper.vm.$nextTick()
     expect(wrapper.findAll('.dropdown-item')).toHaveLength(3)
   })
 
-  it('has a list of items written in upper case', () => {
+  it('has a list of items written in upper case', async () => {
     const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'], serializer: c => c.toUpperCase() }
     const wrapper = mount(SelectableDropdown, { propsData })
+    await wrapper.vm.$nextTick()
+
     expect(wrapper.findAll('.dropdown-item').at(0).text()).toBe('LESOTHO')
     expect(wrapper.findAll('.dropdown-item').at(1).text()).toBe('SENEGAL')
     expect(wrapper.findAll('.dropdown-item').at(2).text()).toBe('DJIBOUTI')
@@ -37,9 +53,11 @@ describe('SelectableDropdown.vue', () => {
     expect(wrapper.find('.list').exists()).toBeTruthy()
   })
 
-  it('has a list of items with a `item` class', () => {
+  it('has a list of items with a `item` class', async () => {
     const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'], itemClass: 'item' }
     const wrapper = mount(SelectableDropdown, { propsData })
+    await wrapper.vm.$nextTick()
+
     expect(wrapper.findAll('.item').at(0).text()).toBe('Lesotho')
     expect(wrapper.findAll('.item').at(1).text()).toBe('Senegal')
     expect(wrapper.findAll('.item').at(2).text()).toBe('Djibouti')
@@ -81,9 +99,10 @@ describe('SelectableDropdown.vue', () => {
     expect(wrapper.emitted().input[2]).toContain('Senegal')
   })
 
-  it('emits a `click` event when user click on an item', () => {
+  it('emits a `click` event when user click on an item', async () => {
     const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'] }
     const wrapper = mount(SelectableDropdown, { propsData })
+    await wrapper.vm.$nextTick()
 
     wrapper.findAll('.dropdown-item').at(0).trigger('click')
     expect(wrapper.emitted().click[0]).toContain('Lesotho')
@@ -122,5 +141,17 @@ describe('SelectableDropdown.vue', () => {
       expect(wrapper.vm.itemActivated({ label: 'Lesotho' })).toBeTruthy()
       expect(wrapper.vm.itemActivated({ label: 'Senegal' })).toBeFalsy()
     })
+  })
+
+  describe('Large number of selectable options', () => {
+    it('it displays only 7 items in the DOM on the 20 items given',async () => {
+      const twentyItems = Array.from(Array(20).keys())
+      const propsData = { items: twentyItems }
+      const wrapper = mount(SelectableDropdown, { propsData })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.findAll('.dropdown-item')).toHaveLength(7)
+    })
+
   })
 })
