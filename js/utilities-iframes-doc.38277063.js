@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunk_icij_murmur"]=self["webpackChunk_icij_murmur"]||[]).push([[6237],{44143:function(u,n,r){r.r(n),r.d(n,{default:function(){return f}});var e=function(){var u=this,n=u._self._c;return n("div")},i=[],l={},t=l,c=r(1001),s=(0,c.Z)(t,e,i,!1,null,null,null),f=s.exports}}]);
-//# sourceMappingURL=utilities-iframes-doc.38277063.js.map
