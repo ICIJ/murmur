@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunk_icij_murmur"]=self["webpackChunk_icij_murmur"]||[]).push([[7],{90091:function(r,u,e){e.r(u),e.d(u,{default:function(){return c}});var l=function(){var r=this,u=r._self._c;return u("div",[u("p",[r._v("::: sample-card "),u("follow-us-popover",{staticClass:"card card-xs my-4 mx-auto border border-primary"}),r._v(" :::")],1),u("p",[r._v("::: api-table components/FollowUsPopover.vue :::")])])},o=[],s={},a=s,n=e(1001),t=(0,n.Z)(a,l,o,!1,null,null,null),c=t.exports}}]);
+//# sourceMappingURL=components-follow-us-popover-doc.d74b06f2.js.map
