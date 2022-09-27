@@ -57,10 +57,10 @@
     mounted () {
       this.$options.resizeObserver = new ResizeObserver(this.setup)
       // Bind the resize observer after the first rendering
-      this.$nextTick(() => this.$options.resizeObserver.observe(this.$el))
+      this.$nextTick(() => this.$options.resizeObserver?.observe(this.$el))
     },
     beforeDestroy () {
-      this.$options.resizeObserver.unobserve(this.$el)
+      this.$options.resizeObserver?.unobserve(this.$el)
       this.$options.resizeObserver = null
     },
     computed: {
