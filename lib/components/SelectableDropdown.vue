@@ -6,13 +6,13 @@
       :items="items_"
       :key-field="keyField"
       :item-size="itemSize"
-      v-slot="{ item }"
+      v-slot="{ item, active }"
     >
     <span 
           @click.exact="clickToSelectItem(item)"
           @click.ctrl="clickToAddItem(item)"
           @click.shift="clickToSelectRangeToItem(item)"
-          :class="{ active: itemActivated(item), [itemClass]: true }"
+          :class="{'recycle_scroller-item--active':active, active: itemActivated(item), [itemClass]: true }"
           class="selectable-dropdown__item px-3 d-flex">
         <!-- @slot Item content -->
         <slot name="item" v-bind:item="item">
