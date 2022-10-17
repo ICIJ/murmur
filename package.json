@@ -2,26 +2,25 @@
   "name": "@icij/murmur",
   "version": "3.2.3",
   "private": false,
-  "sideEffects": [
-    "*.css",
-    "*.scss",
-    "*.vue",
-    "./docs"
-  ],
   "description": "Murmur is ICIJ's Design System for Bootstrap 4 and Vue.js",
   "author": "promera@icij.org",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "yarn build:docs && yarn build:lib",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "deploy": "node deploy.mjs",
     "build:docs": "vue-cli-service build --dest dist/docs",
     "build:lib": "vue-cli-service build --target lib --dest dist/lib 'lib/main.js'",
     "postpublish": "yarn deploy",
     "prepublishOnly": "yarn build",
-    "test:unit": "vue-cli-service test:unit",
     "test:unit:watch": "vue-cli-service test:unit --watch"
   },
+  "main": "dist/lib/murmur.umd.min.js",
+  "files": [
+    "lib/**/*",
+    "dist/lib/**/*"
+  ],
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
@@ -40,21 +39,23 @@
     "querystring-es3": "^0.2.1",
     "resize-observer-polyfill": "^1.5.1",
     "topojson": "^3.0.2",
+    "vue-class-component": "^7.2.3",
     "vue-headroom": "^0.10.1",
+    "vue-property-decorator": "^9.1.2",
     "vue-virtual-scroller": "^1.0.10"
-  },
-  "peerDependencies": {
-    "bootstrap-vue": "2.22.0",
-    "vue": "^2.6.12",
-    "vue-i18n": "^8.25.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@kazupon/vue-i18n-loader": "^0.5.0",
+    "@types/jest": "^27.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "~5.0.8",
+    "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-unit-jest": "~5.0.8",
     "@vue/cli-service": "~5.0.8",
+    "@vue/eslint-config-typescript": "^9.1.0",
     "@vue/test-utils": "^1.2.2",
     "@vue/vue2-jest": "^28",
     "@vuepress/markdown": "^1.9.7",
@@ -82,6 +83,8 @@
     "sass": "^1.54.0",
     "sass-loader": "^10.1.0",
     "toml": "^3.0.0",
+    "ts-jest": "^27.0.4",
+    "typescript": "~4.5.5",
     "url-join": "^4.0.1",
     "url-loader": "^4.1.1",
     "vue": "^2.6.12",
@@ -93,6 +96,11 @@
     "vue-template-compiler": "^2.6.12",
     "vuex": "^3.6.2"
   },
+  "peerDependencies": {
+    "bootstrap-vue": "2.22.0",
+    "vue": "^2.6.12",
+    "vue-i18n": "^8.25.1"
+  },
   "eslintConfig": {
     "root": true,
     "env": {
@@ -100,13 +108,24 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "@vue/typescript"
     ],
     "rules": {},
     "parserOptions": {
-      "parser": "babel-eslint"
+      "parser": "@typescript-eslint/parser"
     }
   },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "jest": {
     "setupFiles": [
       "jest-canvas-mock",
@@ -143,18 +162,9 @@
     "collectCoverageFrom": [
       "<rootDir>/lib/**/*.(js|vue)"
     ],
-    "testURL": "http://localhost/"
+    "testURL": "http://localhost/",
+    "preset": "@vue/cli-plugin-unit-jest/presets/typescript-and-babel"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
   "directories": {
     "lib": "lib",
     "doc": "docs"
@@ -163,16 +173,17 @@
     "node": ">=16",
     "npm": ">=8"
   },
-  "files": [
-    "lib/**/*",
-    "dist/lib/**/*"
-  ],
   "homepage": "https://icij.github.io/murmur/",
   "license": "MIT",
-  "main": "dist/lib/murmur.umd.min.js",
-  "style": "dist/lib/murmur.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/icij/murmur"
-  }
+  },
+  "sideEffects": [
+    "*.css",
+    "*.scss",
+    "*.vue",
+    "./docs"
+  ],
+  "style": "dist/lib/murmur.css"
 }
