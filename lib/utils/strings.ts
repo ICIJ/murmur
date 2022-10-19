@@ -1,4 +1,4 @@
-export function isUrl(value) {
+export function isUrl(value: string): boolean {
   try {
     new URL(value)
   } catch (_) {
