@@ -1,9 +1,12 @@
 export class RequestAnimationFrameWrapper {
+  live: boolean
+  callback: () => void
+
   constructor () {
     this.live = false
     this.callback = () => null
   }
-  start (callback) {
+  start (callback: () => void) {
     this.live = true
     this.callback = callback
     this.schedule()
