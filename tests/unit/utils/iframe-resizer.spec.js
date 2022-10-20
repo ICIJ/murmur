@@ -1,7 +1,7 @@
 import startsWith from 'lodash/startsWith'
 import IframeResizer from '@/utils/iframe-resizer'
 
-describe('iframe-resizer.js', () => {
+describe('iframe-resizer.ts', () => {
 
   it('should define a `create` static method', () => {
     expect(IframeResizer.create).toBeDefined()

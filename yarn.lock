@@ -1947,6 +1947,11 @@
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.6.4.tgz#ad899dad022bab6b5a9f0a0fe67c2f7a4a8950ed"
   integrity sha512-fOwvpvQYStpb/zHMx0Cauwywu9yLDmzWiiQBC7gJyq5tYLUXFZvDG7VK1B7WBxxjBJNKFOZ0zLoOQn8vmATbhw==
 
+"@types/pym.js@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@types/pym.js/-/pym.js-1.3.0.tgz#8ebe08e3ae7968a82aac5d58bb4d4c5a10e697f1"
+  integrity sha512-oDc3WOt/iICZCS+er8NGJe3BweLf+jlda3IwJ/TZiPQ4XK9md2jS1SMSsbWFCWjHjU4UX0Lvt05st881SZ0IHg==
+
 "@types/qs@*":
   version "6.9.7"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"

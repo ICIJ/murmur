@@ -30,8 +30,8 @@ export const injectAsset = memoize(function(file: string, id: string = `dynamic-
   })
 })
 
-export const injectAssets = function(): Promise<void> {
-  const files = flatten(arguments)
+export const injectAssets = function(...args: string[]): Promise<void> {
+  const files = flatten(args)
   return new Promise((resolve: () => void) => {
     var filesLoaded = 0;
     var allFilesLoaded = function() {
