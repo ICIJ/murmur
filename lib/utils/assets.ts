@@ -1,11 +1,11 @@
-import memoize from 'lodash/memoize'
-import flatten from 'lodash/flatten'
+import { memoize, flatten } from 'lodash'
 
-var assetUniqueIdCounter = 0;
+var assetUniqueIdCounter: number = 0;
 
-export const injectAsset = memoize(function(file, id = `dynamic-asset-${assetUniqueIdCounter++}`) {
-  return new Promise(resolve => {
-    const parent = document.querySelector("body") || document.querySelector("head");
+export const injectAsset = memoize(function(file: string, id: string = `dynamic-asset-${assetUniqueIdCounter++}`): Promise<unknown> {
+  
+  return new Promise((resolve: (value?: unknown) => void) => {
+    const parent: HTMLElement = document.querySelector("body") || document.querySelector("head")!
     const parts = file.split(".");
     const ext = parts[parts.length-1].toLowerCase();
     switch(ext) {
@@ -30,9 +30,9 @@ export const injectAsset = memoize(function(file, id = `dynamic-asset-${assetUni
   })
 })
 
-export const injectAssets = function() {
+export const injectAssets = function(): Promise<void> {
   const files = flatten(arguments)
-  return new Promise(resolve => {
+  return new Promise((resolve: () => void) => {
     var filesLoaded = 0;
     var allFilesLoaded = function() {
       if(++filesLoaded == files.length) {
