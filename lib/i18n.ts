@@ -5,8 +5,8 @@ if (!Vue.prototype.hasOwnProperty('$i18n')) {
   Vue.use(VueI18n)
 }
 
-export const locale = 'en'
-export const fallbackLocale = 'en'
+export const locale: string = 'en'
+export const fallbackLocale: string = 'en'
 
 export default new VueI18n({
   locale,
