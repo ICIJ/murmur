@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import { formatRows } from '../utils/placeholder.js'
+import config from '@/config'
+import { formatRows } from '../utils/placeholder'
 
 /**
  * A component to fill empty spaces with animated placeholders until content is loaded.
@@ -23,7 +24,8 @@ export default {
      * An array of lines describing a series of cell sizes and margin sizes.
      */
     rows: {
-      type: Array
+      type: Array,
+      default: () => config.get('content-placeholder.rows')
     },
     /**
      * The size of the background gradient with the elapsing effect.
