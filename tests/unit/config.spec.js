@@ -2,7 +2,7 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import { default as config, Config } from '@/config'
 import Murmur from '@/main'
 
-describe('config.js', () => {
+describe('config.ts', () => {
 
   it('should be an instance of `Config`', () => {
     expect(config).toBeInstanceOf(Config)

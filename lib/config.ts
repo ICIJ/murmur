@@ -25,23 +25,23 @@ export const Config = Vue.extend({
   },
   methods: {
     merge (values = {}) {
-      return each(values, (value, key) => {
+      each(values, (value, key) => {
         this.set(key, value)
       })
     },
-    set (key, value) {
-      const levels = key.split('.')
+    set (key: string, value: any): any {
+      const levels: string[] = key.split('.')
       if (levels.length > 1) {
-        this.$set(this[_VALUES], key, this.scope(levels.shift()).set(levels.join('.'), value))
+        this.$set(this[_VALUES], key, this.scope(levels.shift() as string).set(levels.join('.'), value))
       } else {
         this.$set(this[_VALUES], key, value)
       }
       return value
     },
-    get (key, defaultValue) {
+    get (key: string, defaultValue: any): any {
       return get(this[_VALUES], key, defaultValue)
     },
-    is (key) {
+    is (key: string): boolean {
       const value = this.get(key, null)
       switch(value) {
         case 1: return true
@@ -55,19 +55,19 @@ export const Config = Vue.extend({
         default: return !!value
       }
     },
-    isnt (key) {
+    isnt (key: string): boolean {
       return !this.is(key)
     },
-    scope (name) {
+    scope (name: string) {
       this.$set(this[_SCOPES], name, get(this.scopes, name, new Config()))
-      return this[_SCOPES][name]
+      return get(this, [_SCOPES, name])
     },
   },
   computed: {
-    values () {
+    values (): any {
       return this[_VALUES]
     },
-    scopes () {
+    scopes (): any {
       return this[_SCOPES]
     }
   }
