@@ -134,6 +134,7 @@
     "globalSetup": "<rootDir>/tests/unit/setup.js",
     "moduleFileExtensions": [
       "js",
+      "ts",
       "jsx",
       "json",
       "vue"
