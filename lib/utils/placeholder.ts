@@ -1,3 +1,5 @@
+/// <reference types="./placeholder" />
+
 export function isFlexBasis (value: string | number): boolean {
   return Number(value).toString() === value.toString()
 }
