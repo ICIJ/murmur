@@ -1,4 +1,4 @@
-/// <reference types="./placeholder" />
+import { BoxStyle, ContentPlaceholderStyledRow, ContentPlaceholderRow, ContentPlaceholderRowBoxes, ContentPlaceholderStyledRows, ContentPlaceholderRows } from "@/utils/placeholderTypes"
 
 export function isFlexBasis(value: string | number): boolean {
   return Number(value).toString() === value.toString()
@@ -39,17 +39,17 @@ export function getBoxStyle(left: number, width: number, isLast: boolean, subCla
   return arr
 }
 
-export function formatRows(rows: ContentPlaceholderRows, subClass: string = 'box'): ContentPlaceholderRows {
-  const rowArr: ContentPlaceholderRows = rows.map((row: ContentPlaceholderRow) => {
+export function formatRows(rows: ContentPlaceholderRows, subClass: string = 'box'): ContentPlaceholderStyledRows {
+  const rowArr: ContentPlaceholderStyledRows = rows.map((row: ContentPlaceholderRow) => {
     // Will contain all boxes in 
-    const rowBoxes: ContentPlaceholderRowBoxes = []
+    const rowBoxes: Array<BoxStyle> = []
     // Create placeholder row with initial height
-    const rowObj: ContentPlaceholderRow = { height: row.height, boxes: [] }
+    const rowObj: ContentPlaceholderStyledRow = { height: row.height, boxes: [] }
     // Add style
     row.boxes.forEach((box: Array<any>, index: number) => {
       const isLast: boolean = index === row.boxes.length - 1
       // Merge the box styles
-      rowBoxes.push.apply(rowBoxes, getBoxStyle(box[0], box[1], isLast, subClass) as Array<any>)
+      rowBoxes.push(...getBoxStyle(box[0], box[1], isLast, subClass))
     })
     rowObj.boxes = rowBoxes
     return rowObj
