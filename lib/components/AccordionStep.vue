@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import Vue, {PropType, VueConstructor} from "vue"
+import Vue, { VueConstructor} from "vue"
 import {AccordionKey} from "@/keys"
 import {Accordion, Step} from "@/types";
 
