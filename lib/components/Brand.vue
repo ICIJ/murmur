@@ -16,11 +16,16 @@
   </span>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { isString } from 'lodash'
+
+import type { BrandStyle } from '@/types'
+
 /**
  * A component to create variations of ICIJ logo
  */
-export default {
+export default defineComponent({
   name: 'Brand',
   props: {
     /**
@@ -33,7 +38,7 @@ export default {
      * Monochromatic logo's color
      */
     color: {
-      type: String,
+      type: [String],
       default: null
     },
     /**
@@ -58,27 +63,27 @@ export default {
     }
   },
   computed: {
-    width () {
-      return `${147.151 / 200 * this.sizeAsFloat}px`
+    width () : string {
+      return `${147.151 / 200 * this.sizeAsNumber}px`
     },
-    height () {
-      return `${this.sizeAsFloat}px`
+    height () : string{
+      return `${this.sizeAsNumber}px`
     },
-    sizeAsFloat () {
-      return parseInt(this.size)
+    sizeAsNumber (): number {
+      return isString(this.size) ? parseInt(this.size): this.size
     },
-    style () {
-      const width = this.square ? this.height : null
+    style (): BrandStyle {
+      const width = this.square ? this.height : 'auto'
 
       return {
         '--monochrome-color': this.color,
         color: this.color,
         background: this.background,
         width
-      }
+      } 
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

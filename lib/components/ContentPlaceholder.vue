@@ -10,21 +10,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import config from '@/config'
-import { formatRows } from '../utils/placeholder'
+import { defineComponent, PropType } from 'vue'
+import { formatRows } from '@/utils/placeholder'
+
+import type { ContentPlaceholderRows, ContentPlaceholderStyledRows } from "@/utils/placeholderTypes"
 
 /**
  * A component to fill empty spaces with animated placeholders until content is loaded.
  */
-export default {
+export default defineComponent({
   name: 'ContentPlaceholder',
   props: {
     /**
      * An array of lines describing a series of cell sizes and margin sizes.
      */
     rows: {
-      type: Array,
+      type: Array as PropType<ContentPlaceholderRows>,
       default: () => config.get('content-placeholder.rows')
     },
     /**
@@ -36,11 +39,11 @@ export default {
     }
   },
   computed: {
-    formattedRows () {
+    formattedRows (): ContentPlaceholderStyledRows {
       return formatRows(this.rows, 'content-placeholder__wrapper__row__box')
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">

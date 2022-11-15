@@ -26,18 +26,24 @@
   </component>
 </template>
 
-<script>
+<script lang="ts">
 import noop from 'lodash/noop'
 import uniqueId from 'lodash/uniqueId'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
 
 import { library } from './Fa'
+import { defineComponent, PropType } from 'vue'
+import type Vue from 'vue'
+
+import  { TooltipPlacement } from '@/enums'
+
 
 /**
  * ConfirmButton
  */
-export default {
+export default defineComponent({
+  
   name: 'ConfirmButton',
   props: {
     /**
@@ -91,8 +97,8 @@ export default {
      * Tooltip position
      */
     placement: {
-      type: String,
-      default: 'top'
+      type: String as PropType<TooltipPlacement>,
+      default: TooltipPlacement.Top
     },
     /**
      * HTML tag to render this component to.
@@ -116,12 +122,12 @@ export default {
     }
   },
   watch: {
-    showTooltip (value) {
-      this.$refs.confirmationTooltip.$emit(value ? 'open' : 'close')
+    showTooltip (value: boolean) {
+      (this.$refs.confirmationTooltip as Vue).$emit(value ? 'open' : 'close')
     }
   },
   methods: {
-    toggleConfirmationTooltip () {
+    toggleConfirmationTooltip () : void {
       if ( !this.showTooltip ) {
         this.$root.$emit('bv::hide::tooltip')
       }
@@ -133,8 +139,8 @@ export default {
        */
       this.$root.$emit('toggled', this.showTooltip)
     },
-    cancel () {
-      this.$refs.confirmationTooltip.$emit('close')
+    cancel (): void  {
+      (this.$refs.confirmationTooltip as Vue).$emit('close')
       this.cancelled()
       /**
        * Emitted when the confirmation is cancelled.
@@ -142,7 +148,7 @@ export default {
        */
       this.$root.$emit('cancelled')
     },
-    confirm () {
+    confirm () : void  {
       this.showTooltip = false
       this.confirmed()
       /**
@@ -156,6 +162,7 @@ export default {
     library.add(faTimes)
   }
 }
+)
 </script>
 
 <style lang="scss">

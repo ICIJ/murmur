@@ -1,13 +1,19 @@
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
+import { isString } from 'lodash'
+import { DeckTexture } from '@/enums'
+
+type TexturedDeckValue = DeckTexture | number
+
+export default defineComponent({
   name: 'TexturedDeck',
   props: {
     /**
      * Name of the texture file ('silk', 'brick', 'rock', 'sand', 'crack', 'carbon')
      */
     value: {
-      type: [String, Number],
-      default: 1
+      type: Object as PropType<TexturedDeckValue>,
+      default: DeckTexture.Brick
     },
     /**
      * CSS background-size property (cover, contain, auto, 50%, 50% auto, ...)
@@ -31,35 +37,35 @@ export default {
     }
   },
   computed: {
-    names () {
-      return ['silk', 'brick', 'rock', 'sand', 'crack', 'carbon']
+    names (): DeckTexture[] {
+      return Object.values(DeckTexture)
     },
-    textureIndex () {
-      if (isNaN(this.value)) {
+    textureIndex (): number {
+      if (isString(this.value)) {
         return Math.max(1, this.names.indexOf(this.value) + 1)
       }
       return this.value
     },
-    filename () {
+    filename (): string {
       if (this.black) {
         return `${this.textureIndex}-black.jpg`
       }
       return `${this.textureIndex}.jpg`
     },
-    url () {
+    url (): string {
       return require(`@assets/images/textures/${this.filename}`)
     },
-    backgroundSize () {
+    backgroundSize (): string {
       return this.size
     },
-    backgroundImage () {
+    backgroundImage (): string {
       return `url("${this.url}")`
     },
-    inheritedProps () {
+    inheritedProps (): object {
       return { ...this.$attrs, ...this.$props, tag: undefined }
     }
   }
-}
+})
 </script>
 
 <template>

@@ -7,11 +7,11 @@
   </div>
 </template>
 <script lang="ts">
-import Vue, {PropType} from "vue"
+import {defineComponent, PropType} from "vue"
 import {AccordionKey} from "@/keys"
 import type {AccordionProvide, Step} from "@/types";
 const STEP_CHANGE_EVENT:string = 'step-change'
-export default Vue.extend({
+export default defineComponent({
   name: "AccordionWrapper",
   model: {
     prop: 'step',

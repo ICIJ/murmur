@@ -50,11 +50,18 @@
   </span>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
+import { isString } from 'lodash'
+
+import  { BrandMode } from '@/enums'
+import type { BrandExpansionStyle } from '@/types'
+
+
 /**
  * A component to create variations of ICIJ logo with text
  */
-export default {
+export default defineComponent({
   name: 'BrandExpansion',
   props: {
     /**
@@ -88,8 +95,8 @@ export default {
      * Brand mode ("short", "medium", "long")
      */
     mode: {
-      type: String,
-      default: 'short'
+      type: String as PropType<BrandMode>,
+      default: BrandMode.Short
     },
     /**
      * Reverse color of the main text to white if no `color` is given
@@ -99,27 +106,31 @@ export default {
     }
   },
   computed: {
-    baseWidth () {
-      const widths = { short: 401.256, medium: 901.24, long: 1047.01}    
+    baseWidth (): number {
+      const widths = { 
+        [BrandMode.Short]: 401.256, 
+        [BrandMode.Medium]: 901.24, 
+        [BrandMode.Long]: 1047.01 
+      }
       return widths[this.mode]
     },
-    width () {
-      return `${this.baseWidth / 200 * this.sizeAsFloat}px`
+    width (): string {
+      return `${this.baseWidth / 200 * this.sizeAsNumber}px`
     },
-    height () {
-      return `${this.sizeAsFloat}px`
+    height (): string {
+      return `${this.sizeAsNumber}px`
     },
-    sizeAsFloat () {
-      return parseInt(this.size)
+    sizeAsNumber (): number {
+      return isString(this.size) ? parseInt(this.size): this.size
     },
-    style () {
+    style (): BrandExpansionStyle {
       return {
         '--monochrome-color': this.color,
         background: this.background
       }
     }
   }
-}
+})
 </script>
 
 <style scoped lang="scss">
