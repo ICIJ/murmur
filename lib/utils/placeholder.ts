@@ -1,24 +1,24 @@
 /// <reference types="./placeholder" />
 
-export function isFlexBasis (value: string | number): boolean {
+export function isFlexBasis(value: string | number): boolean {
   return Number(value).toString() === value.toString()
 }
 
-export function isWidth (value: string | number): boolean {
+export function isWidth(value: string | number): boolean {
   const valueAsStr = String(value)
   const cssSuffix = ['px', '%', 'em', 'rem']
   let checkState = false
   cssSuffix.forEach(suffix => {
     if (Number(valueAsStr.split(suffix)[0]) &&
-    valueAsStr.split(suffix)[1] === '' &&
-    valueAsStr.split(suffix).length === 2) {
+      valueAsStr.split(suffix)[1] === '' &&
+      valueAsStr.split(suffix).length === 2) {
       checkState = true
     }
   })
   return checkState
 }
 
-export function getBoxStyle (left: number, width: number, isLast: boolean, subClass: string = 'box'): BoxStyle[] {
+export function getBoxStyle(left: number, width: number, isLast: boolean, subClass: string = 'box'): BoxStyle[] {
   const arr: BoxStyle[] = []
 
   if (left !== 0) {
@@ -31,7 +31,7 @@ export function getBoxStyle (left: number, width: number, isLast: boolean, subCl
   if (isFlexBasis(width)) {
     arr.push({ style: `flex-grow: ${width}; flex-shrink: 0; flex-basis: 0;` })
   } else if (isWidth(width)) {
-    arr.push({ style: `flex-grow: 0; flex-shrink: 0; flex-basis: ${width};`})
+    arr.push({ style: `flex-grow: 0; flex-shrink: 0; flex-basis: ${width};` })
   }
   if (isLast) {
     arr.push({ style: 'flex-grow: 1; flex-shrink: 0; flex-basis: 0;', subClass })
@@ -39,7 +39,7 @@ export function getBoxStyle (left: number, width: number, isLast: boolean, subCl
   return arr
 }
 
-export function formatRows (rows: ContentPlaceholderRows, subClass: string = 'box'): ContentPlaceholderRows {
+export function formatRows(rows: ContentPlaceholderRows, subClass: string = 'box'): ContentPlaceholderRows {
   const rowArr: ContentPlaceholderRows = rows.map((row: ContentPlaceholderRow) => {
     // Will contain all boxes in 
     const rowBoxes: ContentPlaceholderRowBoxes = []
