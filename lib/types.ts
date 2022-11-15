@@ -1,4 +1,5 @@
 import { AccordionKey } from "@/keys";
+import type { StyleValue } from 'vue/types/jsx'
 
 export type Step = symbol | string
 
@@ -12,6 +13,16 @@ export type Accordion = {
     step: Step;
     steps: Step[];
 }
+
 export type AccordionProvide = {
     [AccordionKey]: Accordion
 }
+
+export type BrandStyle = StyleValue & {
+    '--monochrome-color': string,
+    color: string,
+    background: string,
+    width: string
+}
+
+export type BrandExpansionStyle = Pick<BrandStyle, "--monochrome-color" | "background">

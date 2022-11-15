@@ -18,18 +18,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import type { StyleValue } from 'vue/types/jsx'
+import { isString } from 'lodash'
 
-function isString(x: any): x is string {
-  return typeof x === "string"
-}
-
-type BrandStyle = StyleValue & {
-  '--monochrome-color': string,
-  color: string,
-  background: string,
-  width: string
-}
+import type { BrandStyle } from '@/types'
 
 /**
  * A component to create variations of ICIJ logo
