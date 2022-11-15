@@ -14,25 +14,25 @@ describe('AccordionStep', () => {
 
         it('has step2 has current step', () => {
             const propsData = { step: step2, steps }
-            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper, { propsData })
+            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper as any, { propsData })
             expect(wrapper.exists()).toBeTruthy()
             expect(wrapper.vm.isActiveStep(step2)).toBe(true)
 
         })
         it('has step1 has first step', () => {
             const propsData = { step: step1, steps }
-            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper, { propsData })
+            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper as any, { propsData })
             expect(wrapper.vm.isFirstStep(step1)).toBe(true)
         })
 
         it('has step3 has last step', () => {
             const propsData = { step: step3, steps }
-            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper, { propsData })
+            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper as any, { propsData })
             expect(wrapper.vm.isLastStep(step3)).toBe(true)
         })
         it('changes from step1 to step2', async () => {
             const propsData = { step: step1, steps }
-            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper, { propsData })
+            const wrapper: Wrapper<any> = shallowMount(AccordionWrapper as any, { propsData })
             expect(wrapper.vm.isActiveStep(step1)).toBe(true)
             wrapper.vm.emitAccordionNextStepEvent()
             expect(wrapper.emitted()).toHaveProperty('step-change')
@@ -41,7 +41,7 @@ describe('AccordionStep', () => {
         })
         it('changes from step2 to step1', async () => {
             const propsData = { step: step2, steps }
-            const wrapper: Wrapper<any> = mount(AccordionWrapper, { propsData })
+            const wrapper: Wrapper<any> = mount(AccordionWrapper as any, { propsData })
             expect(wrapper.vm.isActiveStep(step2)).toBe(true)
             wrapper.vm.emitAccordionPreviousStepEvent()
             expect(wrapper.emitted()).toHaveProperty('step-change')
