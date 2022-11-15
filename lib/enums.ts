@@ -8,3 +8,12 @@ export enum TooltipPlacement {
     Bottom = 'bottom', Bottomleft = 'bottomleft', Bottomright = 'bottomright',
     Left = 'left', Lefttop = 'lefttop', Leftbottom = 'leftbottom'
 }
+
+export enum DeckTexture {
+    Silk = 'silk',
+    Brick = 'brick',
+    Rock = 'rock',
+    Sand = 'sand',
+    Crack = 'crack',
+    Carbon = 'carbon'
+}
