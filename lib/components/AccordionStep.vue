@@ -13,8 +13,8 @@
     </h4>
     <b-collapse :visible="isActive">
       <div class="accordion-wrapper__content__step__main card-body row no-gutters">
-        <!-- @slot Content of the step -->
-        <slot name="content">
+        <!-- @slot Content of the step with props {isFirst:boolean, isLast:boolean, step:Step, nextStep:Function}-->
+        <slot name="content" v-bind="{isFirst, isLast, step, previousStep, nextStep }">
           {{ content }}
         </slot>
       </div>
