@@ -117,6 +117,9 @@ export default {
     this.$on('resized', this.debouncedDraw)
   },
   watch: {
+    data () {
+      this.draw()
+    },
     socialMode () {
       this.draw()
     },
