@@ -17,3 +17,9 @@ export enum DeckTexture {
     Crack = 'crack',
     Carbon = 'carbon'
 }
+
+export enum Size {
+    sm = 'sm',
+    md = 'md',
+    lg = 'lg',
+}

@@ -1,12 +1,26 @@
-<script>
+<script lang="ts">
   import i18n from '@/i18n'
+  import { defineComponent} from 'vue'
   import { BTabs, BTab, BInputGroup, BInputGroupAppend, BFormInput } from 'bootstrap-vue'
   import HapticCopy from './HapticCopy.vue'
+  import { Size } from '@/enums'
+
+  type AdvancedLinkedFormClassName = `${'advanced-link-form--'}${string}`
+  interface AdvancedLinkedFormClasses {[prop:AdvancedLinkedFormClassName]:boolean}
+
+  interface TextRange {
+    moveToElementText : Function;
+    select : Function;
+  }
+
+  interface HTMLElementSupportingCreateRange extends HTMLElement {
+    createTextRange() : TextRange;
+  }
 
   /**
    * A form with tabs to offer several copy formats to users.
    */
-  export default {
+  export default defineComponent({
     name: 'AdvancedLinkForm',
     i18n,
     components: {
@@ -82,7 +96,7 @@
       }
     },
     computed: {
-      titleOrLink () {
+      titleOrLink () {
         return this.title || this.link
       },
       linkAsMarkdown () {
@@ -92,22 +106,22 @@
         return `<a href="${this.link}" target="_blank">${this.titleOrLink}</a>`
       },
       formClasses () {
-        const props = ['card', 'pills', 'small', 'vertical']
-        return props.reduce((classes, prop) => {
-          classes[`advanced-link-form--${prop}`] = this[prop]
+        const props=['card','pills','small','vertical']
+        return props.reduce((classes : AdvancedLinkedFormClasses, prop) : AdvancedLinkedFormClasses => {
+          classes[`advanced-link-form--${prop}`] = (this as any)[prop] // TS: introspection of vue component 
           return classes
         }, {})
       },
       size () {
-        return this.small ? 'sm' : 'md'
+        return this.small ? Size.sm : Size.md
       }
     },
     methods: {
-      showForm (name) {
+      showForm (name: string):boolean {
         return this.forms.indexOf(name) > -1
       },
-      selectInput (target) {
-        this.$el.querySelector(target).select()
+      selectInput (target: string): void {
+        (this.$el.querySelector(target) as HTMLTextAreaElement|null )?.select()
       },
       selectRaw () {
         this.selectInput('.advanced-link-form__raw__input')
@@ -115,16 +129,18 @@
       selectRich () {
         // The element to select
         const node = this.$el.querySelector('.advanced-link-form__rich__input')
+        if (!node) return
+        
         // Browser supports `getSelection`
-        if (window.getSelection) {
-          const selection = window.getSelection()
+        const selection = window.getSelection ? window.getSelection() : null
+        if (selection) {
           const range = document.createRange()
           range.selectNodeContents(node)
           selection.removeAllRanges()
           selection.addRange(range)
-        // Browser supports `body.createTextRange`
-        } else if (document.body.createTextRange) {
-          const range = document.body.createTextRange()
+        } // Browser supports `body.createTextRange` 
+        else if ((document.body as HTMLElementSupportingCreateRange).createTextRange) { 
+          const range : TextRange = (document.body as HTMLElementSupportingCreateRange).createTextRange()
           range.moveToElementText(node)
           range.select()
         }
@@ -136,7 +152,7 @@
         this.selectInput('.advanced-link-form__html__input')
       }
     }
-  }
+  })
 </script>
 
 <template>
@@ -151,7 +167,7 @@
     :class="formClasses"
     @input="$emit('input', $event)">
     <b-tab :title="$t('advanced-link-form.raw.tab')" v-if="showForm('raw')">
-      <div class="advanced-link-form__raw" :class="{ small }">
+      <div class="advanced-link-form__raw" :class="{ small }">
         <b-input-group :size="size">
           <b-form-input readonly :value="link" class="advanced-link-form__raw__input" @click="selectRaw()" />
           <b-input-group-append>
@@ -161,7 +177,7 @@
       </div>
     </b-tab>
     <b-tab :title="$t('advanced-link-form.rich.tab')" v-if="showForm('rich')">
-      <div class="advanced-link-form__rich" :class="{ small }">
+      <div class="advanced-link-form__rich" :class="{ small }">
         <b-input-group :size="size">
           <a :href="link" class="form-control advanced-link-form__rich__input" @click.prevent="selectRich()" v-html="titleOrLink"></a>
           <b-input-group-append>
@@ -174,7 +190,7 @@
       </div>
     </b-tab>
     <b-tab :title="$t('advanced-link-form.markdown.tab')" v-if="showForm('markdown')">
-      <div class="advanced-link-form__markdown" :class="{ small }">
+      <div class="advanced-link-form__markdown" :class="{ small }">
         <b-input-group :size="size">
           <b-form-input readonly :value="linkAsMarkdown" class="advanced-link-form__markdown__input" @click="selectMarkdown()" />
           <b-input-group-append>
@@ -187,7 +203,7 @@
       </div>
     </b-tab>
     <b-tab :title="$t('advanced-link-form.html.tab')" v-if="showForm('html')">
-      <div class="advanced-link-form__html" :class="{ small }">
+      <div class="advanced-link-form__html" :class="{ small }">
         <b-input-group :size="size">
           <b-form-input readonly :value="linkAsHtml" class="advanced-link-form__html__input" @click="selectHtml()" />
           <b-input-group-append>
