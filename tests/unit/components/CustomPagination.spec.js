@@ -29,6 +29,7 @@ describe('CustomPagination.vue', () => {
   it('calculates numberOfPages based on the totalRows and perPage prop values', () => {
     const propsData = { totalRows: 200, perPage: 20 }
     const wrapper = mount(CustomPagination, { propsData })
+    expect(wrapper.vm.numberOfPages).toBe(10)
   })
 
   it('emits an event on form submit with the currentPageInput', async () => {
@@ -46,7 +47,7 @@ describe('CustomPagination.vue', () => {
     await wrapper.setData({ currentPageInput: 50 })
     await wrapper.vm.applyJumpFormPage()
     await wrapper.vm.$nextTick()
-    expect(wrapper.emitted()).toBeFalsy
+    expect(wrapper.emitted()).toMatchObject({})
   })
 
   it('sets errors if the currentPageInput is invalid', async () => {
