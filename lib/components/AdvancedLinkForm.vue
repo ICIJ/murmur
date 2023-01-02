@@ -157,6 +157,7 @@ export default defineComponent({
         range.select();
       }
     },
+<<<<<<< HEAD
     selectMarkdown() : void {
       this.selectInput(".advanced-link-form__markdown__input");
     },
@@ -165,6 +166,66 @@ export default defineComponent({
     },
   },
 });
+=======
+    computed: {
+      titleOrLink () {
+        return this.title || this.link
+      },
+      linkAsMarkdown () {
+        return `[${this.titleOrLink}](${this.link})`
+      },
+      linkAsHtml () {
+        return `<a href="${this.link}" target="_blank">${this.titleOrLink}</a>`
+      },
+      formClasses () {
+        const props=['card','pills','small','vertical']
+        return props.reduce((classes : AdvancedLinkedFormClasses, prop) : AdvancedLinkedFormClasses => {
+          classes[`advanced-link-form--${prop}`] = (this as any)[prop] // TS: introspection of vue component 
+          return classes
+        }, {})
+      },
+      size () {
+        return this.small ? Size.sm : Size.md
+      }
+    },
+    methods: {
+      showForm (name: string):boolean {
+        return this.forms.indexOf(name) > -1
+      },
+      selectInput (target: string): void {
+        (this.$el.querySelector(target) as HTMLTextAreaElement|null )?.select()
+      },
+      selectRaw () {
+        this.selectInput('.advanced-link-form__raw__input')
+      },
+      selectRich () {
+        // The element to select
+        const node = this.$el.querySelector('.advanced-link-form__rich__input')
+        if (!node) return
+        
+        // Browser supports `getSelection`
+        const selection = window.getSelection ? window.getSelection() : null
+        if (selection) {
+          const range = document.createRange()
+          range.selectNodeContents(node)
+          selection.removeAllRanges()
+          selection.addRange(range)
+        } // Browser supports `body.createTextRange` 
+        else if ((document.body as HTMLElementSupportingCreateRange).createTextRange) { 
+          const range : TextRange = (document.body as HTMLElementSupportingCreateRange).createTextRange()
+          range.moveToElementText(node)
+          range.select()
+        }
+      },
+      selectMarkdown () {
+        this.selectInput('.advanced-link-form__markdown__input')
+      },
+      selectHtml () {
+        this.selectInput('.advanced-link-form__html__input')
+      }
+    }
+  })
+>>>>>>> 4278b638 (feat: update component to Typescript)
 </script>
 
 <template>
@@ -224,10 +285,14 @@ export default defineComponent({
         </p>
       </div>
     </b-tab>
+<<<<<<< HEAD
     <b-tab
       :title="$t('advanced-link-form.markdown.tab')"
       v-if="showForm('markdown')"
     >
+=======
+    <b-tab :title="$t('advanced-link-form.markdown.tab')" v-if="showForm('markdown')">
+>>>>>>> 4278b638 (feat: update component to Typescript)
       <div class="advanced-link-form__markdown" :class="{ small }">
         <b-input-group :size="size">
           <b-form-input
