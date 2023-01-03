@@ -85,7 +85,7 @@ export default defineComponent({
       type: Boolean,
     },
     /**
-     * Makes the tabs and the panels smaller.
+     * Makes the tabs and the panels vertical.
      */
     vertical: {
       type: Boolean,
@@ -104,29 +104,23 @@ export default defineComponent({
     },
   },
   computed: {
-    titleOrLink() {
+    titleOrLink() : string | undefined {
       return this.title || this.link;
     },
-    linkAsMarkdown() {
+    linkAsMarkdown() : string {
       return `[${this.titleOrLink}](${this.link})`;
     },
-    linkAsHtml() {
+    linkAsHtml() : string{
       return `<a href="${this.link}" target="_blank">${this.titleOrLink}</a>`;
     },
-    formClasses() {
+    formClasses() : AdvancedLinkedFormClasses {
       const props = ["card", "pills", "small", "vertical"];
-      return props.reduce(
-        (
-          classes: AdvancedLinkedFormClasses,
-          prop
-        ): AdvancedLinkedFormClasses => {
+      return props.reduce(( classes: AdvancedLinkedFormClasses, prop ): AdvancedLinkedFormClasses => {
           classes[`advanced-link-form--${prop}`] = (this as any)[prop]; // TS: introspection of vue component
           return classes;
-        },
-        {}
-      );
+        }, {} );
     },
-    size() {
+    size() : string {
       return this.small ? Size.sm : Size.md;
     },
   },
@@ -137,10 +131,10 @@ export default defineComponent({
     selectInput(target: string): void {
       (this.$el.querySelector(target) as HTMLTextAreaElement | null)?.select();
     },
-    selectRaw() {
+    selectRaw() : void{
       this.selectInput(".advanced-link-form__raw__input");
     },
-    selectRich() {
+    selectRich() : void {
       // The element to select
       const node = this.$el.querySelector(".advanced-link-form__rich__input");
       if (!node) return;
@@ -163,10 +157,10 @@ export default defineComponent({
         range.select();
       }
     },
-    selectMarkdown() {
+    selectMarkdown() : void {
       this.selectInput(".advanced-link-form__markdown__input");
     },
-    selectHtml() {
+    selectHtml() : void {
       this.selectInput(".advanced-link-form__html__input");
     },
   },
