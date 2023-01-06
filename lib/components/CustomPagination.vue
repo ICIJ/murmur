@@ -2,7 +2,7 @@
   <div class="custom-pagination container-fluid" :class="{ 'custom-pagination--compact': compact, 'custom-pagination--pills': pills }">
     <div class="row justify-content-center align-items-stretch" :class="{ 'no-gutters': compact && !pills }">
       <div class="col-auto custom-pagination__pages">
-        <b-pagination @input="value => $emit('input', value)"
+        <b-pagination @input="updateValue"
          :total-rows="perPage * numberOfPages"
          :per-page="perPage"
          :value="value"
@@ -58,24 +58,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import { BPagination, BInputGroup } from 'bootstrap-vue'
-  import { BCol } from 'bootstrap-vue'
-  import { faExchangeAlt } from '@fortawesome/free-solid-svg-icons/faExchangeAlt'
-  import { library } from './Fa'
   import i18n from '@/i18n'
+  import { defineComponent } from 'vue'
+  import { Size } from  "@/enums"
+  import { TranslateResult } from 'vue-i18n'
 
-  export default {
+  interface CustomPaginationData {
+    currentPageInput: string,
+    invalidNumberError: TranslateResult,
+    errors: TranslateResult[]
+  }
+
+
+  export default defineComponent({
     i18n,
     name: 'CustomPagination',
-    beforeMount() {
-      library.add(faExchangeAlt)
-    },
     components: {
-      Fa: require('./Fa').default,
       BInputGroup,
       BPagination,
-      BCol
     },
     model: {
       prop: 'value',
@@ -114,8 +116,8 @@
       */
       size: {
         type: String,
-        default: 'md',
-        validator: (value)=> ['sm', 'md', 'lg'].includes(value)
+        default: Size.md,
+        validator: (value:Size)=> Object.values(Size).includes(value)
       },
       /**
        * Compact layout
@@ -132,15 +134,15 @@
         default: null
       }
     },
-    data() {
+    data() : CustomPaginationData {
       return {
-        currentPageInput: null,
+        currentPageInput: '',
         invalidNumberError: this.$t('custom-pagination.invalid-number-error'),
         errors: []
       }
     },
     methods: {
-      applyJumpFormPage () {
+      applyJumpFormPage () : void{
         const number = isNaN(parseInt(this.currentPageInput)) ? 0 : parseInt(this.currentPageInput)
         this.errors = []
         if (number > this.numberOfPages || number < 1 ) {
@@ -149,14 +151,15 @@
         if (this.errors.length == 0) {
           this.$emit('input', parseInt(this.currentPageInput))
         }
+      },
+      updateValue(value:string) : void{
+        this.$emit('input', value)
       }
     },
     computed: {
-      inputPlaceholder () {
-        if (this.compact) {
-          return this.$t('custom-pagination.compact-placeholder')
-        }
-        return this.$t('custom-pagination.placeholder')
+      inputPlaceholder (): string {
+        const compact = this.compact ? 'compact-' : ''
+        return this.$t(`custom-pagination.${compact}placeholder`) as string
       },
       numberOfPages () {
         if (this.pages === null) {
@@ -164,13 +167,11 @@
         }
         return Number(this.pages)
       },
-      paginationClassList () {
-        if (this.small) {
-          return ['float-right', 'mr-1']
-        }
+      paginationClassList() {
+        return this.size === Size.sm ? ['float-right', 'mr-1']: []
       }
     }
-  }
+  })
 </script>
 
 <style lang="scss" scoped>
