@@ -117,7 +117,7 @@
       size: {
         type: String,
         default: Size.md,
-        validator: (value:Size)=> Object.values(Size).includes(value)
+        validator: (value:Size) => Object.values(Size).includes(value)
       },
       /**
        * Compact layout
@@ -142,7 +142,7 @@
       }
     },
     methods: {
-      applyJumpFormPage () : void{
+      applyJumpFormPage (): void {
         const number = isNaN(parseInt(this.currentPageInput)) ? 0 : parseInt(this.currentPageInput)
         this.errors = []
         if (number > this.numberOfPages || number < 1 ) {
@@ -152,7 +152,7 @@
           this.$emit('input', parseInt(this.currentPageInput))
         }
       },
-      updateValue(value:string) : void{
+      updateValue (value:string): void {
         this.$emit('input', value)
       }
     },
