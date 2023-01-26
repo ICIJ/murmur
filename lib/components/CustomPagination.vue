@@ -161,13 +161,13 @@
         const compact = this.compact ? 'compact-' : ''
         return this.$t(`custom-pagination.${compact}placeholder`) as string
       },
-      numberOfPages () {
+      numberOfPages (): number {
         if (this.pages === null) {
           return Math.ceil(this.totalRows / this.perPage)
         }
         return Number(this.pages)
       },
-      paginationClassList() {
+      paginationClassList(): string[] {
         return this.size === Size.sm ? ['float-right', 'mr-1']: []
       }
     }
