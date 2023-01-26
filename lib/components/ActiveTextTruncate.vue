@@ -49,7 +49,7 @@
         validator: (value:string) => ['ltr', 'rtl'].indexOf(value) > -1
       }
     },
-    data ():ActiveTextTruncateData {
+    data (): ActiveTextTruncateData {
       return {
         textLivePosition: 0,
         // This will hold a key generated every time the component is resized.
@@ -74,7 +74,7 @@
       wrapperElementWidth (): number {
         return get(this, 'wrapperElement.offsetWidth', 0)
       },
-      textElement () {
+      textElement (): Element | null {
         const selector = '.active-text-truncate__wrapper__text'
         return this.resizeObserverKey ? this.$el.querySelector(selector) : null
       },
