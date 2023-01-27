@@ -2,16 +2,16 @@
 
 $docs-menu-bg: #000;
 $docs-menu-color: #fff;
-$docs-menu-muted: mix($docs-menu-bg, $docs-menu-color, 50);
+$docs-menu-muted: mix($docs-menu-bg, $docs-menu-color, 50%);
 
 $docs-header-bg: $jumbotron-bg;
-$docs-header-border-color: darken($docs-header-bg, 10);
+$docs-header-border-color: darken($docs-header-bg, 10%);
 
 $pre-color: $light;
 $app-menu-max-width: 300px;
 $app-main-max-width: 770px;
 
-$modal-backdrop-bg: rgba(darken($dark, 10), .5);
+$modal-backdrop-bg: rgba(darken($dark, 10%), .5);
 $code-color: $info;
 
 $link-color: #000;
