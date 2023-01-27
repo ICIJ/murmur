@@ -6,11 +6,14 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import {defineComponent, PropType} from "vue"
 import {AccordionKey} from "@/keys"
 import type {AccordionProvide, Step} from "@/types";
-const STEP_CHANGE_EVENT:string = 'step-change'
+
+const STEP_CHANGE_EVENT: string = 'step-change'
+
 export default defineComponent({
   name: "AccordionWrapper",
   model: {
@@ -22,7 +25,7 @@ export default defineComponent({
      * Current active step value. Modified on "step-change" event.
      */
     step: {
-      type: [String, Symbol, Object as ()=>Step ],
+      type: [String, Symbol, Object as ()=> Step],
       required: true
     },
     /**
@@ -78,7 +81,6 @@ export default defineComponent({
     }
   },
 })
-
 </script>
 
 
