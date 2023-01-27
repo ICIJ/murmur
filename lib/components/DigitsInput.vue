@@ -105,7 +105,7 @@
     },
     computed: {
       joinedValues (): string {
-        return filter(this.values, v => !isNaN(v)).join('')
+        return filter(this.values, v => !isNaN(v as any)).join('')
       },
       inputs(): NodeListOf<HTMLElement> | [] {
         if (!this.mounted) {
