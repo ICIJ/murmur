@@ -42,7 +42,7 @@
         default: 6
       },
       /**
-       * Value enter by the user
+       * Value of the input
        */
       value: {
         type: [String, Number],
