@@ -70,8 +70,36 @@ describe('DigitsInput', () => {
       expect(wrapper.emitted('input')?.shift()).toEqual(['2048'])
     })
 
+    it('should trigger input even with multiple digits on the first input and ignore spaces', async () => {
+      await wrapper.findAll('input').at(0).setValue(' 204 8 ')
+      expect(wrapper.emitted('input')).toBeTruthy()
+      expect(wrapper.emitted('input')).toHaveLength(1)
+      expect(wrapper.emitted('input')?.shift()).toEqual(['2048'])
+    })
+
+    it('should not trigger input when the first input has no numbers', async () => {
+      await wrapper.findAll('input').at(0).setValue('foo')
+      expect(wrapper.emitted('input')).toBeFalsy()
+    })
+
     it('should spread multiple values in the first input to the next inputs', async () => {
       await wrapper.findAll('input').at(0).setValue('2048')
+      expect((wrapper.findAll('input').at(0).element as HTMLInputElement).value).toBe('2')
+      expect((wrapper.findAll('input').at(1).element as HTMLInputElement).value).toBe('0')
+      expect((wrapper.findAll('input').at(2).element as HTMLInputElement).value).toBe('4')
+      expect((wrapper.findAll('input').at(3).element as HTMLInputElement).value).toBe('8')
+    })
+
+    it('should spread multiple values in the first input to the next inputs and ignore minuses', async () => {
+      await wrapper.findAll('input').at(0).setValue('2-0-4-8')
+      expect((wrapper.findAll('input').at(0).element as HTMLInputElement).value).toBe('2')
+      expect((wrapper.findAll('input').at(1).element as HTMLInputElement).value).toBe('0')
+      expect((wrapper.findAll('input').at(2).element as HTMLInputElement).value).toBe('4')
+      expect((wrapper.findAll('input').at(3).element as HTMLInputElement).value).toBe('8')
+    })
+
+    it('should spread multiple values in the first input to the next inputs and ignore spaces', async () => {
+      await wrapper.findAll('input').at(0).setValue('2 0 4 8')
       expect((wrapper.findAll('input').at(0).element as HTMLInputElement).value).toBe('2')
       expect((wrapper.findAll('input').at(1).element as HTMLInputElement).value).toBe('0')
       expect((wrapper.findAll('input').at(2).element as HTMLInputElement).value).toBe('4')
