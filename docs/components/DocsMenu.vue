@@ -2,7 +2,7 @@
   <div class="docs-menu d-flex flex-column justify-content-between">
     <div>
       <div class="docs-menu__brand d-none d-md-flex">
-        <textured-deck to="/" tag="router-link" value="3" class="docs-menu__brand__logo">
+        <textured-deck to="/" tag="router-link" value="rock" class="docs-menu__brand__logo">
           <img src="@/assets/images/murmur-white.png" alt="" height="110px" />
         </textured-deck>
         <div class="docs-menu__brand__version">

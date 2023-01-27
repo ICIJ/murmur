@@ -12,7 +12,7 @@ export default defineComponent({
      * Name of the texture file ('silk', 'brick', 'rock', 'sand', 'crack', 'carbon')
      */
     value: {
-      type: Object as PropType<TexturedDeckValue>,
+      type: String as PropType<TexturedDeckValue>,
       default: DeckTexture.Brick
     },
     /**
