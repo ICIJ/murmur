@@ -21,7 +21,7 @@
 
   type DigitsInputData = { 
     mounted: boolean, 
-    values: string[]
+    values: string[] | number[] | null[]
   }
 
   /**
@@ -60,23 +60,20 @@
       this.mounted = true
     },
     watch: {
-      values(values: number[] | null[]): void {
-        // Copy the values
-        const formattedValues = [...values]
+      values(values: number[] | null[] | string[]): void {
+        // Copy and remove values that are not numbers
+        const formattedValues = values.map(value => String(value).replace(/\D/g, ''))
         // Iterate over the values to be sure
         // they are not exceeding 10 and should 
         // be spread to the next inputs
         formattedValues.forEach((value, d) => {
-          // Remove value that are not number
-          if (value !== null && isNaN(value)) {
-            formattedValues[d] = null
           // The value must be spread to the next input only
           // if it's higher than 9 (more than one digit)
-          } else if (value !== null && value > 9) {
+          if (value !== null && Number(value) > 9) {
             // Split the number into an array of strings
             String(value).split('').forEach((nextValue, n) => {
               // Spread the value to the next inputs of the array
-              formattedValues[d + n] = Number(nextValue)
+              formattedValues[d + n] = String(Number(nextValue))
             })
           }
         })
