@@ -30,7 +30,7 @@
   import SharingOptions from './SharingOptions'
   import config from '@root/config'
 
-import { library, default as Fa } from './Fa'
+  import { library, default as Fa } from './Fa'
 
   /**
    * EmbeddableFooter
