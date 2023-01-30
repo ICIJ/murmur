@@ -13,9 +13,31 @@ import highlightPlugin from './plugins/highlight.ts'
 import sassVarsPlugin from './plugins/sass-vars.ts'
 import vueDocgenPlugin from './plugins/vue-docgen.ts'
 
-
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    copyPublicDir: false,
+    lib: {
+      entry: resolve(__dirname, 'lib/main.js'),
+      name: '@icij/murmur',
+      fileName: 'lib/murmur'
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue'
+        },
+        exports: 'named',
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') {
+            return 'lib/murmur.css'
+          }
+          return assetInfo.name
+        },
+      },
+    }
+  },
   plugins: [
     vuePlugin({ 
       include: [/\.vue$/, /\.md$/]
@@ -54,6 +76,6 @@ export default defineConfig({
       '$root': resolve(__dirname, 'docs'),
       '$components': resolve(__dirname, 'docs/components'),
       '$pages': resolve(__dirname, 'docs/pages'),
-    },
+    }
   }
 })
