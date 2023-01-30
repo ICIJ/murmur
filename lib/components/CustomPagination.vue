@@ -60,9 +60,9 @@
 
 <script lang="ts">
   import { BPagination, BInputGroup } from 'bootstrap-vue'
-  import i18n from '@/i18n'
+  import i18n from '@root/i18n'
   import { defineComponent } from 'vue'
-  import { Size } from  "@/enums"
+  import { Size } from  "@root/enums"
   import { TranslateResult } from 'vue-i18n'
 
   interface CustomPaginationData {

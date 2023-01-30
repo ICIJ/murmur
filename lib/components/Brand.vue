@@ -20,7 +20,7 @@
 import { defineComponent } from 'vue'
 import { isString } from 'lodash'
 
-import type { BrandStyle } from '@/types'
+import type { BrandStyle } from '@root/types'
 
 /**
  * A component to create variations of ICIJ logo

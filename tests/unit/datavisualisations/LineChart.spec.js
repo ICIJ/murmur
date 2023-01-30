@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 import { mount } from '@vue/test-utils'
-import LineChart from '@/datavisualisations/LineChart.vue'
+import LineChart from '@root/datavisualisations/LineChart.vue'
 
 jest.mock('d3', () => {
   return {

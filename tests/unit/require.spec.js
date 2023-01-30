@@ -1,4 +1,4 @@
-import Murmur from '@/main'
+import Murmur from '@root/main'
 
 describe('the library bundle', () => {
 

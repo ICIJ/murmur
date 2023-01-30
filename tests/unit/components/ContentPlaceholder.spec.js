@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import ContentPlaceholder from '@/components/ContentPlaceholder.vue'
+import ContentPlaceholder from '@root/components/ContentPlaceholder.vue'
 
 describe('ContentPlaceholder.vue', () => {
 

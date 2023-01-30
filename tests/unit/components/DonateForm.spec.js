@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import DonateForm from '@/components/DonateForm.vue'
+import DonateForm from '@root/components/DonateForm.vue'
 
 describe('DonateForm.vue', () => {
 

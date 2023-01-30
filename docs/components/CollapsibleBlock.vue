@@ -21,7 +21,7 @@
 <script>
   import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight'
 
-  import { library, default as Fa } from '@/components/Fa'
+  import { library, default as Fa } from '@root/components/Fa'
 
   export default {
     name: 'CollapsibleBlock',

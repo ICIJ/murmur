@@ -9,8 +9,8 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue"
-import {AccordionKey} from "@/keys"
-import type {AccordionProvide, Step} from "@/types";
+import {AccordionKey} from "@root/keys"
+import type {AccordionProvide, Step} from "@root/types";
 
 const STEP_CHANGE_EVENT: string = 'step-change'
 
@@ -86,7 +86,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use "sass:math";
-@import '~@/styles/variables.scss';
+@import '~@rootstyles/variables.scss';
 
 
 .accordion-wrapper {

@@ -54,8 +54,8 @@
 import { defineComponent, PropType } from 'vue'
 import { isString } from 'lodash'
 
-import  { BrandMode } from '@/enums'
-import type { BrandExpansionStyle } from '@/types'
+import  { BrandMode } from '@root/enums'
+import type { BrandExpansionStyle } from '@root/types'
 
 
 /**

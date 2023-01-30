@@ -1,6 +1,6 @@
 import MutationObserver from 'mutationobserver-shim'
 import { mount } from '@vue/test-utils'
-import AdvancedLinkForm from '@/components/AdvancedLinkForm.vue'
+import AdvancedLinkForm from '@root/components/AdvancedLinkForm.vue'
 // @see https://github.com/molgenis/molgenis-ui-filter/issues/16#issuecomment-576639112
 global.MutationObserver = MutationObserver
 

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import CustomPagination from '@/components/CustomPagination.vue'
+import CustomPagination from '@root/components/CustomPagination.vue'
 
 describe('CustomPagination.vue', () => {
   it('is a Vue instance', () => {

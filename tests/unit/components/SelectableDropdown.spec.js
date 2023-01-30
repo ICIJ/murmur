@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import SelectableDropdown from '@/components/SelectableDropdown.vue'
+import SelectableDropdown from '@root/components/SelectableDropdown.vue'
 
 const KEY_UP_CODE = 38
 const KEY_DOWN_CODE = 40

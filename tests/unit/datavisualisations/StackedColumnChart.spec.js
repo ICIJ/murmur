@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import StackedColumnChart from '@/datavisualisations/StackedColumnChart.vue'
+import StackedColumnChart from '@root/datavisualisations/StackedColumnChart.vue'
 
 // Mock HTML element offset so the size of the chart can be calculated
 // dynamicly using JSDOM and tests

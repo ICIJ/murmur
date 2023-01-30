@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import ActiveTextTruncate from '@/components/ActiveTextTruncate.vue'
+import ActiveTextTruncate from '@root/components/ActiveTextTruncate.vue'
 
 // Mock HTML element offset so the size of the wrapper can be calculated
 // dynamicly using JSDOM and tests

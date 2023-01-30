@@ -24,11 +24,11 @@
 <script>
   import { faShareAlt } from '@fortawesome/free-solid-svg-icons/faShareAlt'
 
-  import i18n from '@/i18n'
-  import IframeResizer from '@/utils/iframe-resizer'
+  import i18n from '@root/i18n'
+  import IframeResizer from '@root/utils/iframe-resizer'
   import Brand from './Brand'
   import SharingOptions from './SharingOptions'
-  import config from '@/config'
+  import config from '@root/config'
 
   import { library } from './Fa'
 

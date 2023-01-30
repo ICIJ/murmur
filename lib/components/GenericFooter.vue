@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import i18n from '@/i18n'
+import i18n from '@root/i18n'
 import config from '../config'
 import BrandExpansion from './BrandExpansion.vue'
 

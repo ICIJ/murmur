@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import GenericHeader from '@/components/GenericHeader.vue'
+import GenericHeader from '@root/components/GenericHeader.vue'
 
 describe('GenericHeader.vue', () => {
 

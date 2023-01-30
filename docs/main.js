@@ -5,7 +5,7 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import BootstrapVue from 'bootstrap-vue'
-import Murmur from '@/main'
+import Murmur from '@root/main'
 
 import store from './store'
 import App from './components/App.vue'

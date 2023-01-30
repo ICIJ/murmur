@@ -36,7 +36,7 @@ import { library } from './Fa'
 import { defineComponent, PropType } from 'vue'
 import type Vue from 'vue'
 
-import  { TooltipPlacement } from '@/enums'
+import  { TooltipPlacement } from '@root/enums'
 
 
 /**

@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import SignUpForm from '@/components/SignUpForm'
-import Murmur from '@/main'
+import SignUpForm from '@root/components/SignUpForm'
+import Murmur from '@root/main'
 
 describe('SignUpForm', () => {
 

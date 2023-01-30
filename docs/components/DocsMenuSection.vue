@@ -26,8 +26,8 @@
   import { faAngleUp } from '@fortawesome/free-solid-svg-icons/faAngleUp'
   import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
 
-  import SlideUpDown from '@/components/SlideUpDown.vue'
-  import { library, default as Fa } from '@/components/Fa'
+  import SlideUpDown from '@root/components/SlideUpDown.vue'
+  import { library, default as Fa } from '@root/components/Fa'
 
   library.add(faAngleDown)
   library.add(faAngleUp)
@@ -87,7 +87,7 @@
 
 <style lang="scss">
   @import '../styles/variables.scss';
-  @import '@/styles/variables.scss';
+  @import '@rootstyles/variables.scss';
 
   .docs-menu__section {
     padding: 0 $spacer 0 $spacer;
