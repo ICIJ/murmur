@@ -41,7 +41,7 @@ Class | Example | Font
 
 <script>
   import { get, trim } from 'lodash'
-  import mainVariables from '!!sass-extract-loader?{"includePaths": ["./"]}!@styles/variables.scss'
+  import mainVariables from '@styles/variables.scss?sass-vars'
 
   export default {
     computed: {

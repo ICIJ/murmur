@@ -40,7 +40,7 @@ Here is the list of default values:
 </div>
 
 <script>
-  import config from '@/config.default'
+  import config from '@root/config.default'
 
   export default {
     data () {
