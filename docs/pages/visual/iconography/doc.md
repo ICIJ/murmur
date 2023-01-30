@@ -14,12 +14,9 @@ available in your application. This documentation, like any application using th
 package, has its own subset of icons:
 
 <ul class="list-inline">
-  <li v-for="icon, i in fas" :key="`fas-${i}`" class="p-1 text-primary list-inline-item mb-2">
+  <li v-for="icon, i in fas" :key="i" class="p-1 text-primary list-inline-item mb-2">
     <fa :icon="icon" fixed-width size="2x" />
   </li>  
-  <li v-for="icon, i in fab" :key="`fab-${i}`" class="p-1 text-primary list-inline-item mb-2">
-    <fa :icon="['fab', icon]" fixed-width size="2x" />
-  </li>
 </ul>
 
 This way, your application stays small and doesn't load unecessary icon — especialy
@@ -52,11 +49,6 @@ You can now use the `bars` icon in you templates using the Fa component:
       fas () {
         return uniqBy(Object.keys(library.definitions.fas || {}), key => {
           return get(library.definitions.fas, [key, 2])
-        })
-      },      
-      fab () {
-        return uniqBy(Object.keys(library.definitions.fab || {}), key => {
-          return get(library.definitions.fab, [key, 2])
         })
       }
     }
