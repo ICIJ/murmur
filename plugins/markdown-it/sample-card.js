@@ -1,8 +1,7 @@
-const hljs = require('highlight.js');
-const container = require('markdown-it-container')
-const escape = require('lodash/escape')
+import hljs from 'highlight.js'
+import container from 'markdown-it-container'
 
-module.exports = function (name) {
+export default function (name = 'sample-card') {
   return [container, name, {
     render (tokens, idx) {
       if (tokens[idx].nesting === 1) {
@@ -10,14 +9,15 @@ module.exports = function (name) {
         const rawCode = tokens[idx + 1].content
         const code = hljs.highlight(rawCode, { language })
         const sanitizedCode = code.value.replace(/{{/, '{<span></span>{')
-        return `<sample-card lang="${language}">
+        return `<div class="d-flex flex-column-reverse">
+        <sample-card lang="${language}">
           <template slot="code">
             <pre><code class="${language}">${sanitizedCode}</code></pre>
           </template>
-          <template>
-            <div>`
+        </sample-card>
+        <div class="border bg-light">`
       } else {
-        return `</div></template></sample-card>\n`
+        return `</div></div>`
       }
     }
   }]
