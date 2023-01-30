@@ -29,7 +29,7 @@
   import config from '../config'
   import IframeResizer from '../utils/iframe-resizer'
 
-  import { library } from './Fa'
+  import { library, default as Fa } from './Fa'
 
   /**
    * SharingOptions
@@ -41,10 +41,7 @@
       BModal,
       EmbedForm,
       SharingOptionsLink,
-      /** Prevent a bug with vue-docgen-api
-       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-       */
-      Fa: require('./Fa').default
+      Fa
     },
     beforeMount () {
       library.add(faCode)

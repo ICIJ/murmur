@@ -30,7 +30,7 @@
   import SharingOptions from './SharingOptions'
   import config from '@root/config'
 
-  import { library } from './Fa'
+import { library, default as Fa } from './Fa'
 
   /**
    * EmbeddableFooter
@@ -42,10 +42,7 @@
       library.add(faShareAlt)
     },
     components: {
-      /** Prevent a bug with vue-docgen-api
-       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-       */
-      Fa: require('./Fa').default,
+      Fa,
       SharingOptions,
       Brand
     },

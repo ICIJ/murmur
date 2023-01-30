@@ -9,6 +9,8 @@
   import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
   import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
+  import Fa from './Fa'
+
   // Popup instance and an interval holder
   export const $popup = {
     instance: null,
@@ -134,10 +136,7 @@
       }
     },
     components: {
-      /** Prevent a bug with vue-docgen-api
-       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-       */
-      Fa: require('./Fa').default
+      Fa
     },
     data () {
       return {

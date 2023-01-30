@@ -42,6 +42,7 @@
 
   import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons'
   import { RecycleScroller } from 'vue-virtual-scroller'
+  import Fa from './Fa'
 
   const KEY_ESC_CODE = 27
   const KEY_UP_CODE = 38
@@ -134,10 +135,7 @@
       }
     },
     components: {
-      /** Prevent a bug with vue-docgen-api
-       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-       */
-      Fa: require('./Fa').default,
+      Fa,
       RecycleScroller
     },
     data () {
@@ -325,7 +323,8 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '~node_modules/vue-virtual-scroller/dist/vue-virtual-scroller.css';
+  @import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
+  
   .selectable-dropdown {
     --scroller-height:'inherit';
 

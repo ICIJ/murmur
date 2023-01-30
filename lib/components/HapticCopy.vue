@@ -36,7 +36,7 @@
   import noop from 'lodash/noop'
   import i18n from '@root/i18n'
 
-  import { library } from './Fa'
+  import { library, default as Fa } from './Fa'
 
   const TOOLTIPS_PLACEMENTS = [
     'top',
@@ -122,10 +122,7 @@
     components: {
       BTooltip,
       FontAwesomeLayers,
-      /** Prevent a bug with vue-docgen-api
-       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-       */
-      Fa: require('./Fa').default
+      Fa
     },
     beforeMount () {
       library.add(faClipboard)
