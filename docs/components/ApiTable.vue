@@ -90,7 +90,8 @@
     async mounted () {
       if (this.path) {
         const path = this.path.replace(/\.vue$/i, '')
-        this.docgen = (await import(`!!vue-docgen-loader!@/${path}.vue`)).default
+        const docgens = import.meta.glob('@root/**/*.vue', { as: 'vue-docgen' })
+        this.docgen = (await docgens[`/lib/${path}.vue`]()).default
       } else if (this.api) {
         this.docgen = isObject(this.api) ? this.api : JSON.parse(this.api)
       }
