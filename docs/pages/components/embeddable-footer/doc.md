@@ -46,5 +46,4 @@ Finally, you can overide the "sharing-button" slot to use your own:
 :::
 
 
-
 ::: api-table components/EmbeddableFooter.vue :::
