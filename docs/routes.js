@@ -6,8 +6,10 @@ import sortBy from 'lodash/sortBy'
 export const ROUTE_SECTIONS = ['getting-started', 'visual', 'structure',
   'components', 'datavisualisation', 'maps', 'utilities']
 
+const docPaths = import.meta.glob(`./pages/**/*/doc.md`)
+
 export function loadDoc(section, name) {
-  return () => import(/* webpackChunkName: "[request]" */ `$pages/${section}/${name}/doc`)
+  return docPaths[`./pages/${section}/${name}/doc.md`]
 }
 
 export function sortRoutes() {
@@ -35,11 +37,13 @@ var routes = [
   }
 ]
 
+
 ROUTE_SECTIONS.forEach(section => {
   // Collect doc.vue/md file paths
-  const paths = require.context('./pages/', true, /doc\./, 'lazy').keys()
+  const docPaths = import.meta.glob(`./pages/**/*/doc.md`, { eager: true, as: 'front-matter' })
+  const paths = Object.keys(docPaths)
   // Create an arry of routes for the components for the given section
-  filter(paths, (p) => p.indexOf(`./${section}`) === 0).forEach(path => {
+  filter(paths, (p) => p.indexOf(`./pages/${section}`) === 0).forEach(path => {
     const name = dirname(path).split('/').pop()
     // Add the route to the list
     pushRouteOnce({
@@ -48,7 +52,7 @@ ROUTE_SECTIONS.forEach(section => {
       meta: {
         section,
         // We load metadata from the document using front-matter
-        ...require(`!!json-loader!metadata-loader!$pages/${section}/${name}/doc`)
+        ...docPaths[path].default
       },
       // Webpack requires to write the file name explicitly in order to create chunks
       component: loadDoc(section, name)
