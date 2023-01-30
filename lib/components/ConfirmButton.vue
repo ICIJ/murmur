@@ -32,7 +32,7 @@ import uniqueId from 'lodash/uniqueId'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
 
-import { library } from './Fa'
+import { library, default as Fa } from './Fa'
 import { defineComponent, PropType } from 'vue'
 import type Vue from 'vue'
 
@@ -110,10 +110,7 @@ export default defineComponent({
   },
   components: {
     BTooltip,
-    /** Prevent a bug with vue-docgen-api
-     * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-     */
-    Fa: require('./Fa').default
+    Fa
   },
   data () {
     return {

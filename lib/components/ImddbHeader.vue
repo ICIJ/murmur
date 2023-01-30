@@ -78,7 +78,7 @@
   import get from 'lodash/get'
 
   import i18n from '@root/i18n'
-  import { library } from './Fa'
+  import { library, default as Fa } from './Fa'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'
 
@@ -95,10 +95,7 @@
       BPopover,
       headroom,
       FollowUsPopover,
-      /** Prevent a bug with vue-docgen-api
-       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-       */
-      Fa: require('./Fa').default
+      Fa
     },
     beforeMount () {
       library.add(faGlobe)

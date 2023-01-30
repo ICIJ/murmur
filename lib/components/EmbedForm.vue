@@ -65,6 +65,7 @@
   import i18n from '@root/i18n'
   import HapticCopy from './HapticCopy'
   import IframeResizer from '@root/utils/iframe-resizer'
+  import Fa from './Fa'
 
   /**
    * Embed Form
@@ -79,10 +80,7 @@
     },
     components: {
       HapticCopy,
-      /** Prevent a bug with vue-docgen-api
-       * @see https://github.com/vue-styleguidist/vue-docgen-api/issues/23
-       */
-      Fa: require('./Fa').default
+      Fa
     },
     props: {
       /**

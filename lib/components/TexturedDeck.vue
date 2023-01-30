@@ -53,7 +53,7 @@ export default defineComponent({
       return `${this.textureIndex}.jpg`
     },
     url (): string {
-      return require(`@assets/images/textures/${this.filename}`)
+      return new URL(`@assets/images/textures/${this.filename}`, import.meta.url).href
     },
     backgroundSize (): string {
       return this.size
