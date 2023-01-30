@@ -8,21 +8,25 @@
   "scripts": {
     "dev": "vite",
     "serve": "vite preview",
-    "build": "yarn build:docs && yarn build:lib",
-    "build:docs": "vite build --dest dist/docs",
-    "build:lib": "vite build --target lib --dest dist/lib 'lib/main.js'",
+    "build": "yarn build:lib && yarn build:docs",
+    "build:lib": "vite build",
+    "build:docs": "vite build --config vite.docs.config.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix lib",
     "deploy": "node deploy.mjs",
     "postpublish": "yarn deploy",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "yarn build:lib",
+    "predeploy": "yarn build:docs",
     "test:unit:watch": "vue-cli-service test:unit --watch"
   },
-  "main": "dist/lib/murmur.umd.min.js",
-  "files": [
-    "lib/**/*",
-    "dist/lib/**/*"
-  ],
+  "main": "./dist/murmur.umd.cjs",
+  "module": "./dist/murmur.js",
+  "exports": {
+    ".": {
+      "import": "./dist/murmur.js",
+      "require": "./dist/murmur.umd.cjs"
+    }
+  },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
@@ -66,7 +70,6 @@
     "front-matter": "^4.0.2",
     "get-sass-vars": "^3.4.0",
     "gh-pages": "^4.0.0",
-    "gray-matter": "^4.0.3",
     "highlight.js": "^11.2.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^29",
@@ -78,7 +81,6 @@
     "ora": "^6.1.2",
     "sass": "^1.54.0",
     "sass-loader": "^10.1.0",
-    "toml": "^3.0.0",
     "ts-jest": "^29.0.3",
     "typescript": "~4.5.5",
     "url-join": "^4.0.1",
