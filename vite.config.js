@@ -18,6 +18,16 @@ export default defineConfig({
   plugins: [
     vuePlugin({ include: [/\.vue$/, /\.md$/] }),
     markdownPlugin({
+      vueVersion: '2.7.14',
+      escapeCodeTagInterpolation: false,
+      markdownItOptions: {
+        html: true,
+        xhtmlOut: false,
+        linkify: false,
+        typographer: false,
+        breaks: false,
+        quotes: ''
+      },
       markdownItSetup(md) {
         md.use(...markdownItApiTablePlugin())
         md.use(...markdownItSampleCardPlugin())
