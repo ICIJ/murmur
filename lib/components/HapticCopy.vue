@@ -31,10 +31,10 @@
   import { FontAwesomeLayers } from '@fortawesome/vue-fontawesome'
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons/faClipboardCheck'
-  import { copyText, copyHtml } from '@/utils/clipboard'
+  import { copyText, copyHtml } from '@root/utils/clipboard'
   import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
   import noop from 'lodash/noop'
-  import i18n from '@/i18n'
+  import i18n from '@root/i18n'
 
   import { library } from './Fa'
 

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { GenericFooter } from '@/main'
+  import { GenericFooter } from '@root/main'
 
   export default {
     components: {

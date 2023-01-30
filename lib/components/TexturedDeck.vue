@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { isString } from 'lodash'
-import { DeckTexture } from '@/enums'
+import { DeckTexture } from '@root/enums'
 
 type TexturedDeckValue = DeckTexture | number
 

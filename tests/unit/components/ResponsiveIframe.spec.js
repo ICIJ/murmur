@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import ResponsiveIframe from '@/components/ResponsiveIframe'
+import ResponsiveIframe from '@root/components/ResponsiveIframe'
 
 describe('ResponsiveIframe', () => {
 

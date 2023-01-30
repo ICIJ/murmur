@@ -77,7 +77,7 @@
   import find from 'lodash/find'
   import get from 'lodash/get'
 
-  import i18n from '@/i18n'
+  import i18n from '@root/i18n'
   import { library } from './Fa'
   import FollowUsPopover from './FollowUsPopover.vue'
   import config from '../config'

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { ResponsiveIframe } from '@/main'
+  import { ResponsiveIframe } from '@root/main'
 
   export default {
     components: {

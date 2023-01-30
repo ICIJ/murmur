@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils'
 import { scaleThreshold } from 'd3-scale'
-import ScaleLegend from '@/components/ScaleLegend.vue'
+import ScaleLegend from '@root/components/ScaleLegend.vue'
 
 describe('ScaleLegend.vue', () => {
   let wrapper

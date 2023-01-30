@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import { SlideUpDown } from '@/main'
+  import { SlideUpDown } from '@root/main'
 
   export default {
     components: {

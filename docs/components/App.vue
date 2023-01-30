@@ -2,7 +2,7 @@
   <div id="app" class="app">
     <div class="app__navbar d-block d-lg-none bg-dark p-3 clearfix">
       <router-link to="/">
-        <img src="@/assets/images/murmur-white.svg" alt="ICIJ" class="border border-primary d-inline-block" height="30px" />
+        <img src="@root/assets/images/murmur-white.svg" alt="ICIJ" class="border border-primary d-inline-block" height="30px" />
       </router-link>
       <button class="btn btn-link text-white float-right" @click="toggleMenu">
         <fa icon="bars" />
@@ -28,7 +28,7 @@
 
 <script>
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
-import { library, default as Fa } from '@/components/Fa'
+import { library, default as Fa } from '@root/components/Fa'
 import { mapState } from 'vuex'
 
 import DocsHeader from './DocsHeader.vue'

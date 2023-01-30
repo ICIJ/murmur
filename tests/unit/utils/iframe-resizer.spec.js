@@ -1,5 +1,5 @@
 import startsWith from 'lodash/startsWith'
-import IframeResizer from '@/utils/iframe-resizer'
+import IframeResizer from '@root/utils/iframe-resizer'
 
 describe('iframe-resizer.ts', () => {
 

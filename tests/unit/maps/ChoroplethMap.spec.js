@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import { zipObjectDeep } from 'lodash'
 import { shallowMount } from '@vue/test-utils'
-import ChoroplethMap from '@/maps/ChoroplethMap.vue'
+import ChoroplethMap from '@root/maps/ChoroplethMap.vue'
 
 describe('ChoroplethMap.vue', () => {
 

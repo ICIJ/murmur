@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import { zipObjectDeep } from 'lodash'
 import { shallowMount } from '@vue/test-utils'
-import SymbolMap from '@/maps/SymbolMap.vue'
+import SymbolMap from '@root/maps/SymbolMap.vue'
 
 describe('SymbolMap.vue', () => {
 

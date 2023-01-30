@@ -24,7 +24,7 @@ import castArray from 'lodash/castArray'
 import flatten from 'lodash/flatten'
 import last from 'lodash/last'
 import config from '../config'
-import i18n from '@/i18n'
+import i18n from '@root/i18n'
 
 /**
  * SignUpForm
