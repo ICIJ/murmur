@@ -1,7 +1,9 @@
 ::: sample-card
-<div class="p-4">
-  <embeddable-footer class="position-relative card"></embeddable-footer>
-</div>
+<template>
+  <div class="p-4">
+    <embeddable-footer class="position-relative card"></embeddable-footer>
+  </div>
+</template>
 :::
 
 Main slot is displayed as "lead" text:
@@ -17,33 +19,30 @@ Main slot is displayed as "lead" text:
 This can be used for more complex structures:
 
 ::: sample-card
-<div class="p-4">
-  <embeddable-footer class="position-relative card">
-    <div class="d-flex align-items-center">
-      <div class="flew-grow-1 mr-2">
-        This is an helpful text.
+<template>
+  <div class="p-4">
+    <embeddable-footer class="position-relative card">
+      <div class="d-flex align-items-center">
+        <div class="flew-grow-1 mr-2">
+          This is an helpful text.
+        </div>
+        <b-button variant="info" pill size="sm" class="ml-auto mr-2">
+          Help
+        </b-button>
       </div>
-      <b-button variant="info" pill size="sm" class="ml-auto mr-2">
-        Help
-      </b-button>
-    </div>
-  </embeddable-footer>
-</div>
+    </embeddable-footer>
+  </div>
+</template>
 :::
-
-Finally, you can overide the "sharing-button" slot to use your own:
-
-::: sample-card
-<div class="p-4">
-  <embeddable-footer class="position-relative card" :sharing-options-values="{ url: 'https://www.reddit.com/submit?url=https%3A%2F%2Ficij.org' }">
-    <template #sharing-button="{ sharingOptionsValues }">
-      <b-button variant="primary" pill size="sm" class="ml-auto mr-2" :href="sharingOptionsValues.url" target="_blank">
-        Share on Reddit
-      </b-button>
-    </template>
-  </embeddable-footer>
-</div>
-:::
-
 
 ::: api-table components/EmbeddableFooter.vue :::
+
+<script>
+  export default {
+    data () {
+      return {
+         url: 'https://www.reddit.com/submit?url=https%3A%2F%2Ficij.org'
+      }
+    }
+  }
+</script>
