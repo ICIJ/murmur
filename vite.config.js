@@ -7,8 +7,9 @@ import markdownItHighlightJs from 'markdown-it-highlightjs'
 import markdownItApiTablePlugin from './plugins/markdown-it/api-table.js'
 import markdownItSampleCardPlugin from './plugins/markdown-it/sample-card.js'
 
-import highlightPlugin from './plugins/highlight.ts'
+import docsPlugin from './plugins/docs.ts'
 import frontMatterPlugin from './plugins/front-matter.ts'
+import highlightPlugin from './plugins/highlight.ts'
 import sassVarsPlugin from './plugins/sass-vars.ts'
 import vueDocgenPlugin from './plugins/vue-docgen.ts'
 
@@ -34,6 +35,7 @@ export default defineConfig({
         md.use(markdownItHighlightJs)
       },
     }),
+    docsPlugin(),
     highlightPlugin(),
     frontMatterPlugin(),
     sassVarsPlugin(),
