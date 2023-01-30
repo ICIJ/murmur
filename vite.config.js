@@ -1,6 +1,6 @@
 import { resolve  } from 'path'
 import { defineConfig } from 'vite'
-import { createVuePlugin as vuePlugin } from 'vite-plugin-vue2'
+import vuePlugin from '@vitejs/plugin-vue2'
 
 import markdownPlugin from 'vite-plugin-md'
 import markdownItHighlightJs from 'markdown-it-highlightjs'
@@ -16,7 +16,9 @@ import vueDocgenPlugin from './plugins/vue-docgen.ts'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vuePlugin({ include: [/\.vue$/, /\.md$/] }),
+    vuePlugin({ 
+      include: [/\.vue$/, /\.md$/]
+    }),
     markdownPlugin({
       vueVersion: '2.7.14',
       escapeCodeTagInterpolation: false,
@@ -24,9 +26,7 @@ export default defineConfig({
         html: true,
         xhtmlOut: false,
         linkify: false,
-        typographer: false,
-        breaks: false,
-        quotes: ''
+        typographer: false
       },
       markdownItSetup(md) {
         md.use(...markdownItApiTablePlugin())
