@@ -34,7 +34,7 @@ Or a more advanced example:
   <h4>
     How high-budget movies score in the box office?
   </h4>
-  <stacked-bar-chart hide-empty-values :data="moviesUrl" label-field="movie" class="my-4" :sort-by="sortKey" :groups="['Budget', 'Box Office']" :relative="isRelative">  
+  <stacked-bar-chart hide-empty-values :data="moviesUrl" label-field="movie" class="my-4" :sort-by="sortKey" :groups="groups" :relative="isRelative">  
     <template #header-right>    
       <div class="ml-auto d-flex border align-items-center p-0">
         <div class="border-right">
@@ -66,6 +66,7 @@ Or with a fixed height:
     :data="leakSizes" 
     :fixed-height="fixedHeight" 
     :x-axis-tick-format="humanReadableGb" />
+
   <p class="text-muted form-inline align-items-center">
     <span class="ml-auto mr-3 d-inline-flex align-items-center">
       Height: 
@@ -73,6 +74,7 @@ Or with a fixed height:
     </span>
     Source: ICIJ
   </p>
+  
 </div>
 :::
 
@@ -139,6 +141,7 @@ Or with a fixed height:
          isRelative: true,
          sortKeys: ['movie', 'budget', 'box_office'],
          sortKey: ['movie'],
+         groups: ['Budget', 'Box Office'],
          leakSizes: [
            { label: 'Paradise Papers', value: 1.4 * 1e3 },
            { label: 'Panama Papers', value: 2.6 * 1e3 },

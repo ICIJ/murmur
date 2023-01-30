@@ -15,7 +15,7 @@ The AccordionStep component can be used independently of the AccordionWrapper co
 
 :::sample-card
 <div class="p-4">
-  <accordion-wrapper :steps="steps" v-model="step" class="p-2 bg-striped">
+  <accordion-wrapper :steps="steps" v-model="step" class="p-2">
     <accordion-step
       :step="$options.stepsEnum.MAILVELOPE"
       class="accordion-step__mailvelope"

@@ -10,7 +10,7 @@ Component do draw dead simple stacked column charts.
   </p>
   <stacked-column-chart
     :data="incidentReportsUrl"
-    :groups="['Deaths', 'Injuries', 'Malfunctions']"
+    :groups="incidentReportsGroups"
     class="my-4"
     y-axis-tick-format=",.0f" />  
   <p class="text-muted small">
@@ -171,6 +171,7 @@ It also work with single-value groups:
       return {
         socialMode: false,
         incidentReportsUrl: 'https://gist.githubusercontent.com/pirhoo/4055e8d1ee3016805eaf1d2feabdd895/raw/a3d2ba8e9d19fcd9fc659dab50ec075248178238/stacked-colums-incidents.json',
+        incidentReportsGroups: ['Deaths', 'Injuries', 'Malfunctions'],
         icijStaff: [
           { "city": "Washington DC", "developers": 1, "journalists": 6, "devops": 1, "finance": 1 },
           { "city": "Paris ", "developers": 5, "journalists": 1, "devops": 0, "finance": 0 },

@@ -19,37 +19,43 @@ Inside a card:
 Inside a modal (the modal's body is set to have no body):
 
 :::sample-card
-<div class="p-4 text-center">
-  <button class="btn btn-info font-weight-bold" @click="$refs.formModal.show()">
-    Click to see the form
-  </button>
+<div>
+  <div class="p-4 text-center">
+    <button class="btn btn-info font-weight-bold" @click="$refs.formModal.show()">
+      Click to see the form
+    </button>
+  </div>
+  <b-modal hide-footer hide-header body-class="p-0" ref="formModal" size="md" no-headings>
+    <advanced-link-form
+      card
+      title="Medtronic spends millions each year on lobbying in the US"
+      link="https://projects.icij.org/the-implant-files/graphics/#/medtronic-lobbying" />
+  </b-modal>
 </div>
-<b-modal hide-footer hide-header body-class="p-0" ref="formModal" size="md" no-headings>
-  <advanced-link-form
-    card
-    title="Medtronic spends millions each year on lobbying in the US"
-    link="https://projects.icij.org/the-implant-files/graphics/#/medtronic-lobbying" />
-</b-modal>
 :::
 
 This component can be use inside a popover. Here is a example with only `raw`
 and `markdown` forms, using no fading animation, and using a `small` layout:
 
 :::sample-card
-<div class="p-4 text-center">
-  <button class="btn btn-info font-weight-bold" id="popover-button-sample">
-    Click to see the form
-  </button>
-</div>
-<b-popover ref="formPopover" target="popover-button-sample" placement="right" triggers="focus">
-  <advanced-link-form
-    card
-    small
-    no-fade
-    :forms="['raw', 'markdown']"
-    title="Medtronic spends millions each year on lobbying in the US"
-    link="https://projects.icij.org/the-implant-files/graphics/#/medtronic-lobbying" />
-</b-popover>
+<template>
+  <div>
+    <div class="p-4 text-center">
+      <button class="btn btn-info font-weight-bold" id="popover-button-sample">
+        Click to see the form
+      </button>
+    </div>
+    <b-popover ref="formPopover" target="popover-button-sample" placement="right" triggers="focus">
+      <advanced-link-form
+        card
+        small
+        no-fade
+        :forms="['raw', 'markdown']"
+        title="Medtronic spends millions each year on lobbying in the US"
+        link="https://projects.icij.org/the-implant-files/graphics/#/medtronic-lobbying" />
+    </b-popover>
+  </div>
+</template>
 :::
 
 With tabs as pills:
