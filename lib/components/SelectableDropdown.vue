@@ -322,22 +322,22 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  @import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
+<style lang="scss">
+  @import 'node_modules/vue-virtual-scroller/dist/vue-virtual-scroller.css';
   
   .selectable-dropdown {
     --scroller-height:'inherit';
-
     user-select: none;
+
     &.dropdown-menu {
       position: relative;
       top: 0;
       left: 0;
       float: none;
     }
+
     & .scroller {
       height: var(--scroller-height);
     }
-
   }
 </style>
