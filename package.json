@@ -21,6 +21,10 @@
   },
   "main": "./dist/murmur.umd.cjs",
   "module": "./dist/murmur.js",
+  "files": [
+    "lib/**/*",
+    "dist/lib/**/*"
+  ],
   "exports": {
     ".": {
       "import": "./dist/murmur.js",
