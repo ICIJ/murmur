@@ -43,7 +43,7 @@ describe('ImddbHeader.vue', () => {
   })
 
   it('renders home link to the default value', () => {
-    const homeUrl = "http://localhost/"
+    const homeUrl = "http://localhost:3000/"
     const wrapper = shallowMount(ImddbHeader)
     expect(wrapper.find('.imddb-header__brand').element.href).toBe(homeUrl)
   })

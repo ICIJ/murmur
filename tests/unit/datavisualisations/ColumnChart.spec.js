@@ -2,10 +2,9 @@ import * as d3 from 'd3'
 import { mount } from '@vue/test-utils'
 import ColumnChart from '@root/datavisualisations/ColumnChart.vue'
 
-jest.mock('d3', () => {
+vi.mock('d3', async () => {
   return {
-    __esModule: true,
-    ...jest.requireActual('d3')
+    ...await vi.importActual('d3'),
   }
 })
 
@@ -104,7 +103,7 @@ describe('ColumnChart.vue', () => {
     let wrapper
 
     beforeAll(async () => {
-      d3.json = jest.fn().mockReturnValue([
+      d3.json = vi.fn().mockReturnValue([
         { date: 2019, value: 50 },
         { date: 2020, value: 100 }
       ])
@@ -160,7 +159,7 @@ describe('ColumnChart.vue', () => {
     let wrapper
 
     beforeAll(() => {
-      d3.csv = jest.fn().mockReturnValue([
+      d3.csv = vi.fn().mockReturnValue([
         { date: 2000, indicator: 0, highlight: false },
         { date: 2001, indicator: 10, highlight: false },
         { date: 2002, indicator: 20, highlight: false },
@@ -250,7 +249,7 @@ describe('ColumnChart.vue', () => {
     let wrapper
 
     beforeAll(() => {
-      d3.json = jest.fn().mockResolvedValue([
+      d3.json = vi.fn().mockResolvedValue([
         { date: 2019, value: 30 },
         { date: 2020, value: 60 },
         { date: 2021, value: 90 }

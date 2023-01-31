@@ -5,24 +5,24 @@ import { $popup } from '@root/components/SharingOptionsLink'
 
 function mockPopupParent () {
   return {
-    open: jest.fn().mockImplementation(() => {
+    open: vi.fn().mockImplementation(() => {
       return {
-        focus: jest.fn(),
-        close: jest.fn()
+        focus: vi.fn(),
+        close: vi.fn()
       }
     })
   }
 }
 
-jest.useFakeTimers()
+vi.useFakeTimers()
 
 describe('SharingOptionsLink', () => {
 
   const propsData = { network: 'twitter' }
 
   beforeEach(() => {
-    jest.clearAllMocks()
-    jest.restoreAllMocks()
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('should be a Vue instance', () => {
@@ -42,7 +42,7 @@ describe('SharingOptionsLink', () => {
   })
 
   it('should raise a console.error for an invalid prop', () => {
-    const spy = jest.spyOn(console, 'error').mockImplementation(() => null)
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => null)
     mount(SharingOptionsLink, { network: 'foo' })
     expect(spy).toBeCalledWith(expect.stringContaining('[Vue warn]: Missing required prop: "network"'))
   })
@@ -127,8 +127,8 @@ describe('SharingOptionsLink', () => {
     const propsData = { network: 'twitter', title: 'Foo' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     // Create two spies that must be called when clicking
-    const spyOpenPopup = jest.spyOn(wrapper.vm, 'openPopup').mockImplementation(() => null)
-    const spyCleanExistingPopup = jest.spyOn(wrapper.vm, 'cleanExistingPopupInstance').mockImplementation(() => null)
+    const spyOpenPopup = vi.spyOn(wrapper.vm, 'openPopup').mockImplementation(() => null)
+    const spyCleanExistingPopup = vi.spyOn(wrapper.vm, 'cleanExistingPopupInstance').mockImplementation(() => null)
     wrapper.trigger('click')
     expect(spyOpenPopup).toBeCalled()
     expect(spyCleanExistingPopup).toBeCalled()
@@ -136,7 +136,7 @@ describe('SharingOptionsLink', () => {
 
   it('should clear the interval and close existing popup when clicking on the component', () => {
     const wrapper = mount(SharingOptionsLink, { propsData })
-    $popup.instance = { close: jest.fn(), focus: jest.fn() }
+    $popup.instance = { close: vi.fn(), focus: vi.fn() }
     $popup.interval = setInterval(() => null)
     wrapper.vm.cleanExistingPopupInstance()
     expect($popup.interval).toBe(null)
@@ -144,7 +144,7 @@ describe('SharingOptionsLink', () => {
   })
 
   it('should share popup between components', () => {
-    $popup.instance = { close: jest.fn(), focus: jest.fn() }
+    $popup.instance = { close: vi.fn(), focus: vi.fn() }
     $popup.interval = setInterval(() => null)
     const wrapperA = mount(SharingOptionsLink, { propsData })
     const wrapperB = mount(SharingOptionsLink, { propsData })
@@ -176,7 +176,7 @@ describe('SharingOptionsLink', () => {
     // Close the popup
     $popup.instance.closed = true
     // Wait for the interval to be called
-    jest.advanceTimersByTime(1000)
+    vi.advanceTimersByTime(1000)
     // And check again!
     expect($popup.instance).toBe(null)
     expect($popup.interval).toBe(null)

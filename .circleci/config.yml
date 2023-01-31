@@ -24,4 +24,4 @@ jobs:
       # Run unit tests!
       - run:
           name: run tests
-          command: yarn run test:unit --maxWorkers=3
+          command: yarn run test:unit

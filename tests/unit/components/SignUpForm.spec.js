@@ -51,7 +51,7 @@ describe('SignUpForm', () => {
 
   it('sends the email when submitting the form', async () => {
     const wrapper = mount(SignUpForm)
-    wrapper.vm.send = jest.fn().mockResolvedValue({ })
+    wrapper.vm.send = vi.fn().mockResolvedValue({ })
     expect(wrapper.vm.send.mock.calls.length).toBe(0)
     await wrapper.vm.subscribe()
     expect(wrapper.vm.send.mock.calls.length).toBe(1)
@@ -60,7 +60,7 @@ describe('SignUpForm', () => {
   it('sends the email when submitting the form and display the confirmation', async () => {
     const wrapper = mount(SignUpForm)
     const msg = '☮️'
-    wrapper.vm.send = jest.fn().mockResolvedValue({ result: 'success', msg })
+    wrapper.vm.send = vi.fn().mockResolvedValue({ result: 'success', msg })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.successMessage).toBe(msg)
   })
@@ -69,7 +69,7 @@ describe('SignUpForm', () => {
     const wrapper = mount(SignUpForm)
     const msg = '☮️'
     wrapper.vm.email = 'data@icij.org'
-    wrapper.vm.send = jest.fn().mockResolvedValue({ result: 'success', msg })
+    wrapper.vm.send = vi.fn().mockResolvedValue({ result: 'success', msg })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.email).toBe('')
   })
@@ -77,7 +77,7 @@ describe('SignUpForm', () => {
   it('sends the email when submitting the form and display the error', async () => {
     const wrapper = mount(SignUpForm)
     const msg = '❎'
-    wrapper.vm.send = jest.fn().mockResolvedValue({ msg })
+    wrapper.vm.send = vi.fn().mockResolvedValue({ msg })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.errorMessage).toBe(msg)
   })
@@ -86,7 +86,7 @@ describe('SignUpForm', () => {
     const wrapper = mount(SignUpForm)
     const msg = '❎'
     wrapper.vm.email = 'data@icij.org'
-    wrapper.vm.send = jest.fn().mockRejectedValue({ msg })
+    wrapper.vm.send = vi.fn().mockRejectedValue({ msg })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.email).toBe('data@icij.org')
   })
@@ -94,21 +94,21 @@ describe('SignUpForm', () => {
   it('sends the email when submitting the form and display the error, with a rejected promise', async () => {
     const wrapper = mount(SignUpForm)
     const msg = '❎'
-    wrapper.vm.send = jest.fn().mockRejectedValue({ msg })
+    wrapper.vm.send = vi.fn().mockRejectedValue({ msg })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.errorMessage).toBe(msg)
   })
 
   it('sends the email and transform the error message', async () => {
     const wrapper = mount(SignUpForm)
-    wrapper.vm.send = jest.fn().mockRejectedValue({ msg: '0 -❎' })
+    wrapper.vm.send = vi.fn().mockRejectedValue({ msg: '0 -❎' })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.errorMessage).toBe('❎')
   })
 
   it('sends the email and show a default error message', async () => {
     const wrapper = mount(SignUpForm)
-    wrapper.vm.send = jest.fn().mockRejectedValue({ })
+    wrapper.vm.send = vi.fn().mockRejectedValue({ })
     await wrapper.vm.subscribe()
     expect(wrapper.vm.errorMessage).toBe('Something\'s wrong')
   })

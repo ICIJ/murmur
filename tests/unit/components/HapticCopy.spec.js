@@ -8,7 +8,7 @@ describe('HapticCopy.vue', () => {
 
   beforeAll(() => {
     // Prevent multiple Bootstrap Vue warnings in tests
-    jest.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
 
   afterAll(() => {

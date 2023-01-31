@@ -1,6 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import { scaleThreshold } from 'd3-scale'
 import ScaleLegend from '@root/components/ScaleLegend.vue'
+import { vi } from 'vitest'
 
 describe('ScaleLegend.vue', () => {
   let wrapper
@@ -9,7 +10,8 @@ describe('ScaleLegend.vue', () => {
 
     beforeEach(() => {
       const propsData = { min: 0, max: 150 }
-      wrapper = shallowMount(ScaleLegend, { propsData })
+      const computed = { colorScaleBase64: vi.fn() }
+      wrapper = shallowMount(ScaleLegend, { propsData, computed })
     })
 
     it('should be a Vue instance', () => {
@@ -73,7 +75,8 @@ describe('ScaleLegend.vue', () => {
         .range(["white", "pink", "red"])
       // Create a scale for value between 0 and 30,000
       const propsData = { min: 0, max: 3e4, width: 150, colorScale }
-      wrapper = shallowMount(ScaleLegend, { propsData })
+      const computed = { colorScaleBase64: vi.fn() }
+      wrapper = shallowMount(ScaleLegend, { propsData, computed })
     })
 
     it('should be a Vue instance', () => {

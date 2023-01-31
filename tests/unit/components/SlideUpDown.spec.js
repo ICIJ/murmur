@@ -38,7 +38,7 @@ describe('SlideUpDown', () => {
 
   it('calls `cleanLayout` after the transition', (done) => {
     const wrapper = mount(SlideUpDown)
-    wrapper.vm.cleanLayout = jest.fn()
+    wrapper.vm.cleanLayout = vi.fn()
     expect(wrapper.vm.cleanLayout.mock.calls.length).toBe(0)
     wrapper.vm.active = false
     setTimeout(() => {

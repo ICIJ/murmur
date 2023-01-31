@@ -15,6 +15,12 @@ import vueDocgenPlugin from './plugins/vue-docgen.ts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  test: {
+    globals: true,
+    reporter: 'basic',
+    environment: 'jsdom',
+    setupFiles: [ resolve(__dirname, 'tests/unit/setup.js') ]
+  },
   build: {
     copyPublicDir: false,
     lib: {
