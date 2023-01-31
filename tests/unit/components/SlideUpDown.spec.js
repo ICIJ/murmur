@@ -36,15 +36,17 @@ describe('SlideUpDown', () => {
     expect(wrapper.element.style.height).toBe('0px')
   })
 
-  it('calls `cleanLayout` after the transition', (done) => {
+  it('calls `cleanLayout` after the transition', async () => {
     const wrapper = mount(SlideUpDown)
     wrapper.vm.cleanLayout = vi.fn()
     expect(wrapper.vm.cleanLayout.mock.calls.length).toBe(0)
     wrapper.vm.active = false
-    setTimeout(() => {
-      expect(wrapper.vm.cleanLayout.mock.calls.length).toBe(1)
-      done()
-    }, wrapper.vm.duration)
+    await new Promise(done => {
+      setTimeout(() => {
+        expect(wrapper.vm.cleanLayout.mock.calls.length).toBe(1)
+        done()
+      }, wrapper.vm.duration)
+    })
   })
 
   it('calls `cleanLayout` which change the state from `pre` to `active`', async () => {
