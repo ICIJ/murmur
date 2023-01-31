@@ -40,9 +40,6 @@ export default {
       this.triggerSlide()
     }
   },
-  render (h) {
-    return h(this.tag, { style: this.style, ref: 'container' }, this.$slots.default)
-  },
   mounted () {
     this.deferedNextTick(() => {
       this.mounted = true
@@ -108,3 +105,9 @@ export default {
   }
 }
 </script>
+
+<template>
+  <component :is="tag" :style="style" ref="container">
+    <slot />
+  </component>
+</template>
