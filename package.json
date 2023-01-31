@@ -6,8 +6,7 @@
   "author": "promera@icij.org",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "serve": "vite preview",
+    "serve": "vite dev",
     "build": "yarn build:lib && yarn build:docs",
     "build:lib": "vite build",
     "build:docs": "vite build --config vite.docs.config.js",
