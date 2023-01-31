@@ -2,13 +2,11 @@ import * as d3 from 'd3'
 import { mount } from '@vue/test-utils'
 import LineChart from '@root/datavisualisations/LineChart.vue'
 
-jest.mock('d3', () => {
+vi.mock('d3', async () => {
   return {
-    __esModule: true,
-    ...jest.requireActual('d3')
+    ...await vi.importActual('d3'),
   }
 })
-
 
 // Mock HTML element offset so the size of the chart can be calculated
 // dynamicly using JSDOM and tests
@@ -77,7 +75,7 @@ describe('LineChart.vue', () => {
     let wrapper
 
     beforeEach(async () => {
-      d3.json = jest.fn().mockReturnValue([
+      d3.json = vi.fn().mockReturnValue([
         { date: 2019, value: 50 },
         { date: 2020, value: 100 }
       ])
@@ -112,7 +110,7 @@ describe('LineChart.vue', () => {
     let wrapper
 
     beforeEach(async () => {
-      d3.csv = jest.fn().mockReturnValue([
+      d3.csv = vi.fn().mockReturnValue([
         { date: 2000, indicator: 0, highlight: false },
         { date: 2001, indicator: 10, highlight: false },
         { date: 2002, indicator: 20, highlight: false },

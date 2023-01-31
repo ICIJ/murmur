@@ -8,7 +8,7 @@ describe('SharingOptions', () => {
     url: 'https://medicaldevices.icij.org/',
     values: {
       title: 'A title to share',
-      twitter_title: 'A tweet to share #jest',
+      twitter_title: 'A tweet to share #vue',
       facebook_description: 'A short description for facebook but not for the other network'
     }
   }
@@ -84,7 +84,7 @@ describe('SharingOptions', () => {
 
   it('uses a dedicated title for Twitter', () => {
     const wrapper = mount(SharingOptions, { propsData })
-    expect(wrapper.vm.valuesFor('twitter').title).toBe('A tweet to share #jest')
+    expect(wrapper.vm.valuesFor('twitter').title).toBe('A tweet to share #vue')
   })
 
   it('uses a dedicated description for Facebook', () => {
@@ -94,7 +94,7 @@ describe('SharingOptions', () => {
 
   it('toggles the embed form', () => {
     const wrapper = mount(SharingOptions, { propsData })
-    wrapper.vm.$refs.embedForm.show = jest.fn()
+    wrapper.vm.$refs.embedForm.show = vi.fn()
     expect(wrapper.vm.$refs.embedForm.show.mock.calls.length).toBe(0)
     wrapper.vm.showEmbedForm()
     expect(wrapper.vm.$refs.embedForm.show.mock.calls.length).toBe(1)
@@ -102,6 +102,6 @@ describe('SharingOptions', () => {
 
   it('uses the current location is none is given', () => {
     const wrapper = mount(SharingOptions, { })
-    expect(wrapper.vm.url).toBe('http://localhost/')
+    expect(wrapper.vm.url).toBe('http://localhost:3000/')
   })
 })

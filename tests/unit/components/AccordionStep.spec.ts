@@ -1,11 +1,11 @@
 import {mount, shallowMount} from "@vue/test-utils";
 import {BButton} from 'bootstrap-vue'
-import AccordionStep from "@/components/AccordionStep.vue";
-import {AccordionKey} from "@/keys";
+import AccordionStep from "@root/components/AccordionStep.vue";
+import {AccordionKey} from "@root/keys";
 
 import Vue from 'vue'
 
-import type {Accordion, AccordionProvide} from "@/types";
+import type {Accordion, AccordionProvide} from "@root/types";
 
 describe('AccordionStep', () => {
     // Stubs Bootstrap Vue components
@@ -14,19 +14,19 @@ describe('AccordionStep', () => {
     const steps = [step, Symbol("step2")]
 
     let provide: AccordionProvide
-    let mockAccordion: jest.Mocked<Accordion>
+    let mockAccordion: vi.Mocked<Accordion>
 
     beforeAll(() => {
         Vue.component('b-button', BButton)
         mockAccordion = {
             step,
             steps,
-            isActiveStep: jest.fn(),
-            isPreviousStep: jest.fn(),
-            isFirstStep: jest.fn(),
-            isLastStep: jest.fn(),
-            emitAccordionPreviousStepEvent: jest.fn(),
-            emitAccordionNextStepEvent: jest.fn()
+            isActiveStep: vi.fn(),
+            isPreviousStep: vi.fn(),
+            isFirstStep: vi.fn(),
+            isLastStep: vi.fn(),
+            emitAccordionPreviousStepEvent: vi.fn(),
+            emitAccordionNextStepEvent: vi.fn()
         }
         provide = {
             [AccordionKey]: mockAccordion

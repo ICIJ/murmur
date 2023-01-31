@@ -6,15 +6,15 @@ const KEY_DOWN_CODE = 40
 const KEY_MAP = {}
 
 // Wrapper the addEventListener to trigger events
-window.addEventListener = jest.fn((event, cb) => {
+window.addEventListener = vi.fn((event, cb) => {
   KEY_MAP[event] = cb
 })
 
 describe('SelectableDropdown.vue', () => {
   beforeAll(()=>{
     // Removes warning about IntersectionObserver used in vue virtual scroller
-    // but not implemented in jest
-    const mockIntersectionObserver = jest.fn();
+    // but not implemented in jsdom
+    const mockIntersectionObserver = vi.fn();
     mockIntersectionObserver.mockReturnValue({
       observe: () => null,
       unobserve: () => null,
