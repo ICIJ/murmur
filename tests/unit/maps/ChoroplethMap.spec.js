@@ -1,7 +1,20 @@
-import 'isomorphic-fetch'
+import { promises as fs } from 'fs'
+import { join, resolve } from 'path'
 import { zipObjectDeep } from 'lodash'
 import { shallowMount } from '@vue/test-utils'
 import ChoroplethMap from '@root/maps/ChoroplethMap.vue'
+
+vi.mock('d3', async () => {
+  return {
+    ...await vi.importActual('d3'),
+    json: async url => {
+      const pathname = url.split('https://icij.gihub.io/murmur/').pop()
+      const abspath = resolve(__dirname, join('../../../public', pathname))
+      const raw = await fs.readFile(abspath, 'UTF-8')
+      return JSON.parse(raw)
+    }
+  }
+})
 
 describe('ChoroplethMap.vue', () => {
 
@@ -95,7 +108,7 @@ describe('ChoroplethMap.vue', () => {
 
     beforeEach(async () => {
       const propsData = {
-        topojsonUrl: 'https://gist.githubusercontent.com/pirhoo/44bba7823e09f3bc6bf21c33ddad186d/raw/france-departments.topojson',
+        topojsonUrl: '/assets/topojson/france-departments.json',
         topojsonObjects: 'departements',
         topojsonObjectsPath: 'properties.code',
         clickable: true,
