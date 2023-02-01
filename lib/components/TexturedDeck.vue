@@ -2,6 +2,7 @@
 import { clamp } from 'lodash'
 import { defineComponent, PropType } from 'vue'
 import { DeckTexture } from '@root/enums'
+import config from '../config'
 
 type TexturedDeckValue = DeckTexture | number
 
@@ -34,7 +35,14 @@ export default defineComponent({
      */
     black: {
       type: Boolean
-    }
+    },
+    /**
+     * Host where to find the textures (without tailing slash)
+     */
+    backgroundBaseUrl: {
+      type: String,
+      default: () => config.get('textured-deck.background-base-url', window.location.origin)
+    },
   },
   computed: {
     names (): DeckTexture[] {
@@ -56,10 +64,7 @@ export default defineComponent({
       return `texture-${this.textureName}.jpg`
     },
     backgroundUrl (): string {
-      return new URL(`/assets/img/${this.filename}`, this.backgroundBase).href
-    },
-    backgroundBase (): string {
-      return this.$config.get('textured-deck.background-base', window.location.origin)
+      return `${this.backgroundBaseUrl}/assets/img/${this.filename}`
     },
     backgroundSize (): string {
       return this.size

@@ -33,6 +33,7 @@ Vue.component('RepositoryLink', RepositoryLink)
 Vue.component('SampleCard', SampleCard)
 
 Murmur.config.set('project.name', 'Demo Project')
+Murmur.config.set('textured-deck.background-base-url', '')
 
 /* eslint-disable no-new */
 new Vue({
