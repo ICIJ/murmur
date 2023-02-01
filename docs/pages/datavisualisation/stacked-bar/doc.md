@@ -21,11 +21,7 @@ Component do draw dead simple stacked bar charts.
 </div>
 :::
 
-<collapsible-block label="Show the data structure">
-```json
-{{ incidentReports }}
-```
-</collapsible-block>
+<collapsible-block label="Show the data structure" :json="incidentReports" />
 
 Or a more advanced example:
 

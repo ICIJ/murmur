@@ -13,12 +13,14 @@
       </div>
     </div>
     <b-collapse :visible="show" class="collapsible-block__body">
-      <slot></slot>
+      <slot v-if="useSlot" />
+      <pre v-else-if="json"><code class="hljs language-json" v-html="formattedJson"></code></pre>
     </b-collapse>
   </component>
 </template>
 
 <script>
+  import hljs from 'highlight.js'
   import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight'
 
   import { library, default as Fa } from '@root/components/Fa'
@@ -46,6 +48,9 @@
       },
       label: {
         type: String,
+        default: null
+      },
+      json: {
         default: null
       }
     },
@@ -78,6 +83,19 @@
     methods: {
       toggle() {
         this.show = !this.show
+      }
+    },
+    computed: {
+      useSlot() {
+        return !!this.$slots.default && !!this.$slots.default.length
+      },
+      stringifiedJson() {
+        return JSON.stringify(this.json, null, 2)
+      },
+      formattedJson() {
+        const language = 'json'
+        const { value } = hljs.highlight(this.stringifiedJson, { language })
+        return value
       }
     }
   }

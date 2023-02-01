@@ -21,6 +21,7 @@ Component do draw dead simple line charts.
 :::
 
 <collapsible-block label="Show the data structure">
+
 ```json
 [
   {
@@ -121,6 +122,7 @@ Component do draw dead simple line charts.
   }
 ]
 ```
+
 </collapsible-block>
 
 ::: api-table datavisualisations/ColumnChart.vue :::
