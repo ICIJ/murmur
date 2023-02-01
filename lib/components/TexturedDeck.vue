@@ -59,7 +59,7 @@ export default defineComponent({
       return new URL(`/assets/${this.filename}`, this.backgroundBase).href
     },
     backgroundBase (): string {
-      return this.$config.get('textured-deck.backgroundBase', window.location.origin)
+      return this.$config.get('textured-deck.background-base', window.location.origin)
     },
     backgroundSize (): string {
       return this.size
