@@ -15,6 +15,7 @@ import vueDocgenPlugin from './plugins/vue-docgen.ts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/',
   test: {
     globals: true,
     reporter: 'basic',

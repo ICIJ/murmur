@@ -52,14 +52,17 @@ export default defineComponent({
       }
       return `${this.textureIndex}.jpg`
     },
-    url (): string {
-      return new URL(`../assets/images/textures/${this.filename}`, import.meta.url).href
+    backgroundUrl(): string {
+      return new URL(`/assets/${this.filename}`, this.backgroundBase).href
+    },
+    backgroundBase () {
+      return this.$config.get('textured-deck.backgroundBase', window.location.origin)
     },
     backgroundSize (): string {
       return this.size
     },
     backgroundImage (): string {
-      return `url("${this.url}")`
+      return `url("${this.backgroundUrl}")`
     },
     inheritedProps (): object {
       return { ...this.$attrs, ...this.$props, tag: undefined }
