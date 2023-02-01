@@ -56,7 +56,7 @@ export default defineComponent({
       return `texture-${this.textureName}.jpg`
     },
     backgroundUrl (): string {
-      return new URL(`/assets/${this.filename}`, this.backgroundBase).href
+      return new URL(`/assets/img/${this.filename}`, this.backgroundBase).href
     },
     backgroundBase (): string {
       return this.$config.get('textured-deck.background-base', window.location.origin)
