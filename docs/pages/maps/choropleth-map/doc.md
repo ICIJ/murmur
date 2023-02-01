@@ -7,10 +7,7 @@ By default, ChoroplethMap builds a map of the world.
 :::sample-card
 <div class="bg-light p-4">
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
-  <choropleth-map 
-    :data="motorVehiclesPer1000people" 
-    topojson-url="/assets/topojson/world-countries-sans-antarctica.json"
-    hatch-empty />
+  <choropleth-map :data="motorVehiclesPer1000people" hatch-empty />
   <p class="text-right">
     <b-form-checkbox v-model="motorVehiclesInEurope" class="d-inline-block">
       Only in Europe
@@ -38,8 +35,7 @@ You can use a custom function to colorize the map features:
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
   <choropleth-map 
     :data="motorVehiclesPer1000people" 
-    :feature-color-scale="featureColorScale"
-    topojson-url="/assets/topojson/world-countries-sans-antarctica.json" />
+    :feature-color-scale="featureColorScale" />
   <p class="text-right">
     <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
       Source
