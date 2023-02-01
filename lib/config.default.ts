@@ -26,5 +26,7 @@ export default {
   'signup-form.tracker': 'EXTERNAL',
   'signup-form.action': 'https://icij.us15.list-manage.com/subscribe/post?u=0d48a33b1c24d257734cc2a79&id=992ecfdbb2',
   'signup-form.email-field': 'EMAIL',
-  'signup-form.default-groups': ['group[9][1]']
+  'signup-form.default-groups': ['group[9][1]'],
+  'map.topojson.world-countries-sans-antarctica': 'https://icij.gihub.io/murmur/assets/topojson/world-countries-sans-antarctica.json',
+  'map.topojson.france-departements': 'https://icij.gihub.io/murmur/assets/topojson/france-departements.json'
 }
