@@ -26,6 +26,7 @@ describe('StackedColumnChart.vue', () => {
 
     beforeEach(async () => {
       const propsData = {
+        highlightDelay: 2,
         data: [
           { date: 2006, foo: 90, bar: 10 },
           { date: 2007, foo: 80, bar: 10 },
@@ -155,6 +156,7 @@ describe('StackedColumnChart.vue', () => {
 
     it('hightlight the columns for "bar" after a while', async () => {
       const barLegend = wrapper.findAll('.stacked-column-chart__legend__item').at(1)
+      wrapper.setProps({ highlightDelay: 50 })
       barLegend.trigger('mouseover')
       expect(barLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeFalsy()
       await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay / 2))
