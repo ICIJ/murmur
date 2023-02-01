@@ -52,10 +52,10 @@ export default defineComponent({
       }
       return `${this.textureIndex}.jpg`
     },
-    backgroundUrl(): string {
+    backgroundUrl (): string {
       return new URL(`/assets/${this.filename}`, this.backgroundBase).href
     },
-    backgroundBase () {
+    backgroundBase (): string {
       return this.$config.get('textured-deck.backgroundBase', window.location.origin)
     },
     backgroundSize (): string {
