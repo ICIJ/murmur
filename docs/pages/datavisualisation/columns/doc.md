@@ -14,6 +14,7 @@ Component do draw dead simple column charts.
 :::
 
 <collapsible-block label="Show the data structure">
+
 ```json
 [
   {
@@ -63,6 +64,7 @@ Component do draw dead simple column charts.
     "highlight": true
   }
 ]
+
 ```
 </collapsible-block>
 
@@ -86,6 +88,7 @@ Or with discrete series:
 :::
 
 <collapsible-block label="Show the data structure">
+
 ```json
 [
   { "leak": "Paradise Papers", "size": 1400 },
@@ -95,6 +98,7 @@ Or with discrete series:
   { "leak": "Offshore Leaks", "size": 260 }
 ]
 ```
+
 </collapsible-block>
 
 It also works with dynamic height

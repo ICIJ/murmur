@@ -15,6 +15,7 @@ Component do draw dead simple bar charts.
 :::
 
 <collapsible-block label="Show the data structure">
+
 ```json
 [
   {
@@ -35,6 +36,7 @@ Component do draw dead simple bar charts.
   }
 ]
 ```
+
 </collapsible-block>
 
 It's also possible to highlight a value:
@@ -50,6 +52,7 @@ It's also possible to highlight a value:
 :::
 
 <collapsible-block label="Show the data structure">
+
 ```json
 [
   {
@@ -71,6 +74,7 @@ It's also possible to highlight a value:
   }
 ]
 ```
+
 </collapsible-block>
 
 

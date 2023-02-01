@@ -42,6 +42,7 @@ Or without direct-labeling:
 :::
 
 <collapsible-block label="Show the data structure">
+
 ```json
 [
    {
@@ -112,6 +113,7 @@ Or without direct-labeling:
    }
 ]
 ```
+
 </collapsible-block>
 
 You can also set the maximum value and use a different field for column's label:
@@ -126,21 +128,9 @@ You can also set the maximum value and use a different field for column's label:
 </div>
 :::
 
-
-<collapsible-block label="Show the data structure">
-```json
-[
-  { "city": "Washington DC", "developers": 1, "journalists": 6, "devops": 1, "finance": 1 },
-  { "city": "Paris ", "developers": 5, "journalists": 1, "devops": 0, "finance": 0 },
-  { "city": "Madrid ", "developers": 1, "journalists": 0, "devops": 4, "finance": 0 },
-  { "city": "New York City", "developers": 0, "journalists": 3, "devops": 0, "finance": 1 },
-  { "city": "Syndey", "developers": 0, "journalists": 2, "devops": 0, "finance": 1 },
-]
-```
-</collapsible-block>
+<collapsible-block label="Show the data structure" :json="icijStaff" />
 
 It also work with single-value groups:
-
 
 :::sample-card
 <div class="m-4">
@@ -162,6 +152,8 @@ It also work with single-value groups:
   </p>
 </div>
 :::
+
+<collapsible-block label="Show the data structure" :json="leaksSize" />
 
 ::: api-table datavisualisations/StackedColumnChart.vue :::
 
