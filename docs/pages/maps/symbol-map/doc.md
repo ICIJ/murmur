@@ -38,7 +38,6 @@ You can also create a more advanced map with custom marker size and custom color
     class="power-plants-map"
     fit-to-markers
     horizontal-legend
-    topojson-url="/assets/topojson/world-countries-sans-antarctica.json"
     tooltip-placement="rightbottom">
     <template #tooltip="{ country, label, MWe }">
       <div class="text-left p-1">

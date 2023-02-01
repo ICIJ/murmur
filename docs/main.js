@@ -34,6 +34,8 @@ Vue.component('SampleCard', SampleCard)
 
 Murmur.config.set('project.name', 'Demo Project')
 Murmur.config.set('textured-deck.background-base-url', '')
+Murmur.config.set('map.topojson.world-countries-sans-antarctica', '/assets/topojson/world-countries-sans-antarctica.json')
+Murmur.config.set('map.topojson.france-departements', '/assets/topojson/france-departements.json')
 
 /* eslint-disable no-new */
 new Vue({
