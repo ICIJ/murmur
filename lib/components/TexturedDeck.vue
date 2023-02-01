@@ -1,6 +1,6 @@
 <script lang="ts">
+import { clamp } from 'lodash'
 import { defineComponent, PropType } from 'vue'
-import { isString } from 'lodash'
 import { DeckTexture } from '@root/enums'
 
 type TexturedDeckValue = DeckTexture | number
@@ -41,16 +41,19 @@ export default defineComponent({
       return Object.values(DeckTexture)
     },
     textureIndex (): number {
-      if (isString(this.value)) {
-        return Math.max(1, this.names.indexOf(this.value) + 1)
+      if (isNaN(this.value)) {
+        return clamp(this.names.indexOf(this.value), 0, this.names.length - 1)
       }
       return this.value
     },
+    textureName (): string {
+      return this.names[this.textureIndex]
+    },
     filename (): string {
       if (this.black) {
-        return `${this.textureIndex}-black.jpg`
+        return `texture-${this.textureName}-black.jpg`
       }
-      return `${this.textureIndex}.jpg`
+      return `texture-${this.textureName}.jpg`
     },
     backgroundUrl (): string {
       return new URL(`/assets/${this.filename}`, this.backgroundBase).href
