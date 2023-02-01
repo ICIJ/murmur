@@ -84,7 +84,7 @@ export default {
     },
     topojsonUrl: {
       type: String,
-      default: 'https://raw.githubusercontent.com/deldersveld/topojson/master/world-countries-sans-antarctica.json'
+      default: 'https://icij.gihub.io/murmur/assets/topojson/world-countries-sans-antarctica.json'
     },
     transitionDuration: {
       type: Number,

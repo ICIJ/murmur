@@ -72,7 +72,6 @@
     "get-sass-vars": "^3.4.0",
     "gh-pages": "^4.0.0",
     "highlight.js": "^11.2.0",
-    "isomorphic-fetch": "^3.0.0",
     "jsdom": "^21.1.0",
     "json-loader": "^0.5.7",
     "loader-utils": "^2.0.0",

@@ -8,7 +8,7 @@ By default, `SymbolMap` builds a map of the world.
 <div class="bg-white p-4">
   <h4>ICIJ Offices</h4>
   <p class="mb-4">A non-exhaustive list of ICIJ offices and opperations.</p>
-  <symbol-map :data="icijOffices" horizontal-legend zoomable>
+  <symbol-map :data="icijOffices" horizontal-legend zoomable topojson-url="/assets/topojson/world-countries-sans-antarctica.json">
     <template #tooltip="{ category, label }">
       {{ label }} - {{ category }}
     </template>
@@ -23,11 +23,7 @@ By default, `SymbolMap` builds a map of the world.
 
 All you have to do is to pass an array with coordinates:
 
-<collapsible-block label="Show the data structure">
-```json
-{{ icijOffices }}
-```
-</collapsible-block>
+<collapsible-block label="Show the data structure" :json="icijOffices" />
 
 You can also create a more advanced map with custom marker size and custom colors in CSS:
 
@@ -42,6 +38,7 @@ You can also create a more advanced map with custom marker size and custom color
     class="power-plants-map"
     fit-to-markers
     horizontal-legend
+    topojson-url="/assets/topojson/world-countries-sans-antarctica.json"
     tooltip-placement="rightbottom">
     <template #tooltip="{ country, label, MWe }">
       <div class="text-left p-1">
@@ -68,11 +65,7 @@ You can also create a more advanced map with custom marker size and custom color
 </div>
 :::
 
-<collapsible-block label="Show the data structure">
-```json
-{{ powerPlants }}
-```
-</collapsible-block>
+<collapsible-block label="Show the data structure" :json="powerPlants" />
 
 Just like the `ChoroplethMap`, the `SymbolMap` can use a different topoJSON to generate its base layer:
 
