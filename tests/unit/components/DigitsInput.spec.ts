@@ -1,5 +1,5 @@
 import { shallowMount, Wrapper } from "@vue/test-utils"
-import DigitsInput from "@root/components/DigitsInput.vue"
+import DigitsInput from "@lib/components/DigitsInput.vue"
 
 const createContainer = (tag = 'div') => {
   const container = document.createElement(tag)

@@ -62,9 +62,9 @@
 <script>
   import Vue from 'vue'
 
-  import i18n from '@root/i18n'
+  import i18n from '@lib/i18n'
   import HapticCopy from './HapticCopy'
-  import IframeResizer from '@root/utils/iframe-resizer'
+  import IframeResizer from '@lib/utils/iframe-resizer'
   import Fa from './Fa'
 
   /**

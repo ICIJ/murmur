@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import EmbeddableFooter from '@root/components/EmbeddableFooter.vue'
+import EmbeddableFooter from '@lib/components/EmbeddableFooter.vue'
 
 describe('EmbeddableFooter.vue', () => {
 

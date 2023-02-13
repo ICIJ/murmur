@@ -1,5 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils'
-import FollowUsPopover from '@root/components/FollowUsPopover.vue'
+import FollowUsPopover from '@lib/components/FollowUsPopover.vue'
 
 describe('FollowUsPopover.vue', () => {
 

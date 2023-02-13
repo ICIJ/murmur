@@ -1,5 +1,5 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
-import { library, default as Fa } from '@root/components/Fa'
+import { library, default as Fa } from '@lib/components/Fa'
 
 describe('Fa', () => {
 

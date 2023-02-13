@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 
-import SharingOptions from '@root/components/SharingOptions'
+import SharingOptions from '@lib/components/SharingOptions'
 
 describe('SharingOptions', () => {
 

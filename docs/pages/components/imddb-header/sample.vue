@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import { ImddbHeader } from '@root/main'
+  import { ImddbHeader } from '@lib/main'
   import { BDropdownItem } from 'bootstrap-vue/esm/components/dropdown/dropdown-item'
   import { BNavItemDropdown } from 'bootstrap-vue/esm/components/nav/nav-item-dropdown'
 

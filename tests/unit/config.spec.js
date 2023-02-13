@@ -1,6 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import { default as config, Config } from '@root/config'
-import Murmur from '@root/main'
+import { default as config, Config } from '@lib/config'
+import Murmur from '@lib/main'
 
 describe('config.ts', () => {
 
