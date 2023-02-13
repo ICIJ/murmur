@@ -23,6 +23,7 @@ export default defineConfig({
     setupFiles: [ resolve(__dirname, 'tests/unit/setup.js') ]
   },
   build: {
+    target: 'es2015',
     copyPublicDir: false,
     lib: {
       entry: resolve(__dirname, 'lib/main.js'),
