@@ -26,8 +26,8 @@
   import { faAngleUp } from '@fortawesome/free-solid-svg-icons/faAngleUp'
   import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
 
-  import SlideUpDown from '@root/components/SlideUpDown.vue'
-  import { library, default as Fa } from '@root/components/Fa'
+  import SlideUpDown from '@lib/components/SlideUpDown.vue'
+  import { library, default as Fa } from '@lib/components/Fa'
 
   library.add(faAngleDown)
   library.add(faAngleUp)

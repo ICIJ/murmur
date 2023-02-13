@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import Brand from '@root/components/Brand.vue'
+import Brand from '@lib/components/Brand.vue'
 
 describe('Brand.vue', () => {
 

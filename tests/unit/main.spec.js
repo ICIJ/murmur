@@ -1,5 +1,5 @@
 import { createLocalVue } from '@vue/test-utils'
-import Murmur from '@root/main'
+import Murmur from '@lib/main'
 
 describe('main.js', () => {
   it('exposes a static method called `install`', () => {

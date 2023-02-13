@@ -42,7 +42,7 @@ You can now use the `bars` icon in you templates using the Fa component:
 
 <script>
   import { get, uniqBy } from 'lodash'
-  import { library } from '@root/components/Fa'
+  import { library } from '@lib/components/Fa'
 
   export default {
     computed: {

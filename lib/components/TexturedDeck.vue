@@ -1,7 +1,7 @@
 <script lang="ts">
 import { clamp } from 'lodash'
 import { defineComponent, PropType } from 'vue'
-import { DeckTexture } from '@root/enums'
+import { DeckTexture } from '@lib/enums'
 import config from '../config'
 
 type TexturedDeckValue = DeckTexture | number

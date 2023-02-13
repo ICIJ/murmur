@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import SlideUpDown from '@root/components/SlideUpDown'
+import SlideUpDown from '@lib/components/SlideUpDown'
 
 describe('SlideUpDown', () => {
 

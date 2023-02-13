@@ -84,8 +84,8 @@ export default defineConfig({
       '@locales': resolve(__dirname, 'lib/locales'),
       '@package': resolve(__dirname, 'package.json'),
       '@styles': resolve(__dirname, 'lib/styles'),
-      "@root": resolve(__dirname, "./lib"),
-      '$root': resolve(__dirname, 'docs'),
+      "@lib": resolve(__dirname, "./lib"),
+      '$docs': resolve(__dirname, 'docs'),
       '$components': resolve(__dirname, 'docs/components'),
       '$pages': resolve(__dirname, 'docs/pages'),
     }

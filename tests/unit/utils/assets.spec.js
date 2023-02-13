@@ -1,4 +1,4 @@
-import { injectAsset, injectAssets } from '@root/utils/assets'
+import { injectAsset, injectAssets } from '@lib/utils/assets'
 
 describe('assets.js', () => {
 
