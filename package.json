@@ -12,7 +12,7 @@
     "build:docs": "vite build --config vite.docs.config.js",
     "test:unit": "vitest --run",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix lib",
-    "deploy": "node deploy.mjs",
+    "deploy": "node deploy.js",
     "postpublish": "yarn deploy",
     "prepublishOnly": "yarn build:lib",
     "predeploy": "yarn build:docs",
