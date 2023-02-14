@@ -104,7 +104,7 @@ When you want to display a very big list, like the 36,369 towns in France, the v
       multiple 
       scrollerHeight="500px"  
       v-model="selectedFrenchCities" 
-    ></selectable-dropdown>
+    />
     Selected cities: {{ selectedFrenchCities.join(', ') }}
   </div>
 </template>
