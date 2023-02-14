@@ -87,7 +87,7 @@ You might want to display a list and prove uniqueness using the `uid`:
       deactivate-keys 
       multiple 
       v-model="selectedGames" 
-    ></selectable-dropdown>
+    />
     Selected games: {{ selectedGames.join(', ') }}
   </div>
 </template>
