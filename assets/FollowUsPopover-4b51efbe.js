@@ -1,0 +1,1 @@
+const e={displayName:"FollowUsPopover",description:"FollowUsPopover",tags:{},exportName:"default",events:[{name:"update:show",description:"Fired when user click on the `close` button",type:{names:["boolean"]}}]};export{e as default};

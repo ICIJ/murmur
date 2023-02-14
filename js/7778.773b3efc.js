@@ -1,2 +1,0 @@
-(self["webpackChunk_icij_murmur"]=self["webpackChunk_icij_murmur"]||[]).push([[7778],{67778:function(e){e.exports={displayName:"DigitsInput",description:"Create an input for digits.",tags:{},exportName:"default",props:[{name:"length",description:"Number of digits to display",type:{name:"number"},defaultValue:{func:!1,value:"6"}},{name:"v-model",description:"Value of the input",type:{name:"string|number"},defaultValue:{func:!1,value:"''"}}],events:[{name:"input",type:{names:["undefined"]}}]}}}]);
-//# sourceMappingURL=7778.773b3efc.js.map

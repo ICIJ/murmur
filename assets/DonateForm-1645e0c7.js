@@ -1,0 +1,1 @@
+const o={displayName:"DonateForm",description:"A form to encourage donations. We usualy put this form inside a modal",tags:{},exportName:"default",props:[{name:"noTitle",description:"Title of the form.",type:{name:"boolean"}}],slots:[{name:"introduction",description:"Description of the form (bellow the title)."}]};export{o as default};

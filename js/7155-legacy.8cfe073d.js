@@ -1,2 +1,0 @@
-(self["webpackChunk_icij_murmur"]=self["webpackChunk_icij_murmur"]||[]).push([[7155],{47155:function(e){e.exports={displayName:"FollowUsPopover",description:"FollowUsPopover",tags:{},exportName:"default",events:[{name:"update:show",description:"Fired when user click on the `close` button",type:{names:["boolean"]}}]}}}]);
-//# sourceMappingURL=7155-legacy.8cfe073d.js.map
