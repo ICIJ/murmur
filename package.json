@@ -29,7 +29,8 @@
       "import": "./dist/lib/murmur.js",
       "require": "./dist/lib/murmur.umd.cjs"
     },
-    "./lib/": "./lib/"
+    "./lib/": "./lib/",
+    "./dist/": "./dist/"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
