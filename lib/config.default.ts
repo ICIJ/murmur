@@ -27,7 +27,7 @@ export default {
   'signup-form.action': 'https://icij.us15.list-manage.com/subscribe/post?u=0d48a33b1c24d257734cc2a79&id=992ecfdbb2',
   'signup-form.email-field': 'EMAIL',
   'signup-form.default-groups': ['group[9][1]'],
-  'textured-deck.background-base-url': 'https://icij.gihub.io/murmur',
-  'map.topojson.world-countries-sans-antarctica': 'https://icij.gihub.io/murmur/assets/topojson/world-countries-sans-antarctica.json',
-  'map.topojson.france-departements': 'https://icij.gihub.io/murmur/assets/topojson/france-departements.json'
+  'textured-deck.background-base-url': 'https://icij.github.io/murmur',
+  'map.topojson.world-countries-sans-antarctica': 'https://icij.github.io/murmur/assets/topojson/world-countries-sans-antarctica.json',
+  'map.topojson.france-departements': 'https://icij.github.io/murmur/assets/topojson/france-departements.json'
 }
