@@ -7,7 +7,7 @@ vi.mock('d3', async () => {
   return {
     ...await vi.importActual('d3'),
     json: async url => {
-      const pathname = url.split('https://icij.gihub.io/murmur/').pop()
+      const pathname = url.split('https://icij.github.io/murmur/').pop()
       const abspath = resolve(__dirname, join('../../../public', pathname))
       const raw = await fs.readFile(abspath, 'UTF-8')
       return JSON.parse(raw)
