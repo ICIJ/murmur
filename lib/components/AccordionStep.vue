@@ -86,12 +86,14 @@ export default (Vue as VueConstructor<Vue & AccordionMixin>).extend({
      */
     title: {
       type: String,
+      default: ''
     },
     /**
      * Content of the step card
      */
     content: {
       type: String,
+      default: ''
     },
     /**
      * Force card expansion/collapse

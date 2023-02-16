@@ -91,6 +91,7 @@ export default {
      */
     embedUrl: {
       type: String,
+      default: null
     },
     /**
      * Direction of the sharing options. Can be: <em>row</em>, <em>row-reverse</em>,
@@ -131,12 +132,14 @@ export default {
      */
     iframeMinHeight: {
       type: Number,
+      default: 100
     },
     /**
      * Minimum width of the iframe in the embed form.
      */
     iframeMinWidth: {
       type: Number,
+      default: 100
     },
     /**
      * Prevent from reading default value from the <code>meta</code>.

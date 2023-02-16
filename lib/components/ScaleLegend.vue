@@ -16,7 +16,7 @@ export default {
     },
     cursorValue: {
       type: Number,
-      defaut: null
+      default: null
     },
     max: {
       type: Number,

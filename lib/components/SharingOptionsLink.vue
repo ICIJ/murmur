@@ -105,37 +105,43 @@
        * Shared URL
        */
       url: {
-        type: String
+        type: String,
+        default: null
       },
       /**
        * Shared text
        */
       title: {
-        type: String
+        type: String,
+       default: null
       },
       /**
        * Shared description
        */
       description: {
-        type: String
+        type: String,
+        default: null
       },
       /**
        * Shared image
        */
       media: {
-        type: String
+        type: String,
+        default: null
       },
       /**
        * Twitter user
        */
       user: {
-        type: String
+        type: String,
+        default: null
       },
       /**
        * Shared hashtags
        */
       hashtags: {
-        type: String
+        type: String,
+        default: null
       }
     },
     data () {

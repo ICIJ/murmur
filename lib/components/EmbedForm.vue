@@ -109,7 +109,8 @@
        * URL of the iframe code
        */
       url: {
-        type: String
+        type: String,
+        default: null
       }
     },
     data () {

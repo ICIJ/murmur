@@ -54,12 +54,14 @@ export default {
      */
     lineColor: {
       type: String,
+      default: null
     },
     /**
      * Enforce a width for each column's label
      */
     fixedLabelWidth: {
       type: Number,
+      default: null
     },
     /**
      * Enforce the height of the chart (regardless of the width or the social mode)
