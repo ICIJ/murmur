@@ -41,13 +41,15 @@
     <p
       v-if="errorMessage"
       class="alert alert-danger p-2 m-0 mt-2"
-      v-html="errorMessage"
-    />
+    >
+      {{ errorMessage }}
+    </p>
     <p
       v-if="successMessage"
       class="alert alert-success p-2 m-0 mt-2"
-      v-html="successMessage"
-    />
+    >
+      {{ successMessage }}
+    </p>
   </form>
 </template>
 

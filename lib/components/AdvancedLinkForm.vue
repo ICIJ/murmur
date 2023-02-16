@@ -222,8 +222,7 @@ export default defineComponent({
             :href="link"
             class="form-control advanced-link-form__rich__input"
             @click.prevent="selectRich()"
-            v-html="titleOrLink"
-          />
+          >{{ titleOrLink }}</a>
           <b-input-group-append>
             <haptic-copy
               class="btn-secondary"

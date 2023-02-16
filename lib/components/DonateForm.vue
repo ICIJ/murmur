@@ -8,10 +8,12 @@
     </h2>
     <!-- @slot Description of the form (bellow the title). -->
     <slot name="introduction">
+      <!-- eslint-disable vue/no-v-html -->
       <p
         class="donate-form__introduction"
         v-html="$t('donate-form.introduction')"
       />
+      <!-- eslint-enable -->
     </slot>
 
     <div class="donate-form__payment mb-4 text-center">
@@ -32,10 +34,12 @@
             </h3>
             <div class="Article">
               <div>
+                <!-- eslint-disable vue/no-v-html -->
                 <p
                   class="donate-form__payment__highlight text-icij font-weight-bold"
                   v-html="$t('donate-form.benefits.impacts.conversation.highlight')"
                 />
+                <!-- eslint-enable -->
               </div>
             </div>
           </div>
@@ -48,11 +52,13 @@
               {{ $t('donate-form.benefits.impacts.rules.heading') }}
             </h3>
             <div class="Article">
-              <div>
+              <div>  
+                <!-- eslint-disable vue/no-v-html -->
                 <p
                   class="donate-form__payment__highlight text-icij font-weight-bold"
                   v-html="$t('donate-form.benefits.impacts.rules.highlight')"
                 />
+                <!-- eslint-enable -->
               </div>
             </div>
           </div>
@@ -66,10 +72,12 @@
             </h3>
             <div class="Article">
               <div>
+                <!-- eslint-disable vue/no-v-html -->
                 <p
                   class="donate-form__payment__highlight text-icij font-weight-bold"
                   v-html="$t('donate-form.benefits.impacts.world.highlight')"
                 />
+                <!-- eslint-enable -->
               </div>
             </div>
           </div>

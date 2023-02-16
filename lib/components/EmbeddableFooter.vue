@@ -16,7 +16,7 @@
     <div class="embeddable-footer__lead small text-truncate">
       <!-- @slot Main slot to redefine lead text display -->
       <slot :lead="lead">
-        <span v-html="lead" />
+        {{ lead }}
       </slot>
     </div>
     <!-- @slot Overide the sharing button -->
