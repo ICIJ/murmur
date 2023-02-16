@@ -5,6 +5,9 @@ import * as scaleFunctions from 'd3-scale'
 
 export default {
   name: 'ScaleLegend',
+  filters: {
+    formatNumber: d3.format(',')
+  },
   props: {
     width: {
       type: Number,
@@ -44,9 +47,6 @@ export default {
       type: String,
       default: '#fff'
     }
-  },
-  filters: {
-    formatNumber: d3.format(',')
   },
   data () {
     return {
