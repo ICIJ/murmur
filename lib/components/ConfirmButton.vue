@@ -1,23 +1,46 @@
 <template>
-  <component :is="tag" class="confirm-button" @click="toggleConfirmationTooltip" :id="uniqComponentId">
+  <component
+    :is="tag"
+    :id="uniqComponentId"
+    class="confirm-button"
+    @click="toggleConfirmationTooltip"
+  >
     <!-- @slot Main content of the button -->
     <slot>-</slot>
-    <b-tooltip ref="confirmationTooltip" :target="uniqComponentId" triggers="blur" :placement="placement">
+    <b-tooltip
+      ref="confirmationTooltip"
+      :target="uniqComponentId"
+      triggers="blur"
+      :placement="placement"
+    >
       <div class="confirm-button__tooltip">
-        <button class="confirm-button__tooltip__cancel btn btn-sm btn-link text-muted p-0 float-right" v-if="!noCloseButton" @click="cancel">
+        <button
+          v-if="!noCloseButton"
+          class="confirm-button__tooltip__cancel btn btn-sm btn-link text-muted p-0 float-right"
+          @click="cancel"
+        >
           <fa icon="times" />
         </button>
         <p class="confirm-button__tooltip__label mb-2">
           {{ label }}
         </p>
-        <p class="confirm-button__tooltip__description mb-2" v-if="description">
+        <p
+          v-if="description"
+          class="confirm-button__tooltip__description mb-2"
+        >
           {{ description }}
         </p>
         <div class="confirm-button__tooltip__actions text-right">
-          <button class="confirm-button__tooltip__actions__cancel btn btn-sm btn-link text-muted" @click="cancel">
+          <button
+            class="confirm-button__tooltip__actions__cancel btn btn-sm btn-link text-muted"
+            @click="cancel"
+          >
             {{ no }}
           </button>
-          <button class="confirm-button__tooltip__actions__confirm btn btn-sm btn-link text-light font-weight-bold" @click="confirm">
+          <button
+            class="confirm-button__tooltip__actions__confirm btn btn-sm btn-link text-light font-weight-bold"
+            @click="confirm"
+          >
             {{ yes }}
           </button>
         </div>
@@ -123,6 +146,9 @@ export default defineComponent({
       (this.$refs.confirmationTooltip as Vue).$emit(value ? 'open' : 'close')
     }
   },
+  beforeMount () {
+    library.add(faTimes)
+  },
   methods: {
     toggleConfirmationTooltip () : void {
       if ( !this.showTooltip ) {
@@ -154,9 +180,6 @@ export default defineComponent({
        */
       this.$root.$emit('confirmed')
     }
-  },
-  beforeMount () {
-    library.add(faTimes)
   }
 }
 )

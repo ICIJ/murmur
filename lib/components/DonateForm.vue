@@ -1,58 +1,105 @@
 <template>
   <div class="donate-form container-fluid py-2">
-    <h2 class="donate-form__title text-uppercase font-weight-bold text-primary h5" v-if="!noTitle">
+    <h2
+      v-if="!noTitle"
+      class="donate-form__title text-uppercase font-weight-bold text-primary h5"
+    >
       {{ $t('donate-form.support') }}
     </h2>
     <!-- @slot Description of the form (bellow the title). -->
     <slot name="introduction">
-      <p class="donate-form__introduction" v-html="$t('donate-form.introduction')"></p>
+      <p
+        class="donate-form__introduction"
+        v-html="$t('donate-form.introduction')"
+      />
     </slot>
 
     <div class="donate-form__payment mb-4 text-center">
-      <form action="//checkout.fundjournalism.org/memberform" method="get" target="_blank" class="donate-form__payment__form bg-light p-4">
+      <form
+        action="//checkout.fundjournalism.org/memberform"
+        method="get"
+        target="_blank"
+        class="donate-form__payment__form bg-light p-4"
+      >
         <div class="donate-form__payment__levels row">
-          <div @click="selectLevel('conversation')" class="col donate-form__payment__level" :class="{ active: level == 'conversation' }">
-              <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
-                {{ $t('donate-form.benefits.impacts.conversation.heading') }}
-              </h3>
-              <div class="Article">
-                  <div>
-                    <p class="donate-form__payment__highlight text-icij font-weight-bold" v-html="$t('donate-form.benefits.impacts.conversation.highlight')"></p>
-                  </div>
+          <div
+            class="col donate-form__payment__level"
+            :class="{ active: level == 'conversation' }"
+            @click="selectLevel('conversation')"
+          >
+            <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
+              {{ $t('donate-form.benefits.impacts.conversation.heading') }}
+            </h3>
+            <div class="Article">
+              <div>
+                <p
+                  class="donate-form__payment__highlight text-icij font-weight-bold"
+                  v-html="$t('donate-form.benefits.impacts.conversation.highlight')"
+                />
               </div>
+            </div>
           </div>
-          <div @click="selectLevel('rules')" class="col donate-form__payment__level" :class="{ active: level == 'rules' }">
-              <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
-                {{ $t('donate-form.benefits.impacts.rules.heading') }}
-              </h3>
-              <div class="Article">
-                  <div>
-                      <p class="donate-form__payment__highlight text-icij font-weight-bold" v-html="$t('donate-form.benefits.impacts.rules.highlight')"></p>
-                  </div>
+          <div
+            class="col donate-form__payment__level"
+            :class="{ active: level == 'rules' }"
+            @click="selectLevel('rules')"
+          >
+            <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
+              {{ $t('donate-form.benefits.impacts.rules.heading') }}
+            </h3>
+            <div class="Article">
+              <div>
+                <p
+                  class="donate-form__payment__highlight text-icij font-weight-bold"
+                  v-html="$t('donate-form.benefits.impacts.rules.highlight')"
+                />
               </div>
+            </div>
           </div>
-          <div @click="selectLevel('world')" class="col donate-form__payment__level" :class="{ active: level == 'world' }">
-              <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
-                {{ $t('donate-form.benefits.impacts.world.heading') }}
-              </h3>
-              <div class="Article">
-                  <div>
-                      <p class="donate-form__payment__highlight text-icij font-weight-bold" v-html="$t('donate-form.benefits.impacts.world.highlight')"></p>
-                  </div>
+          <div
+            class="col donate-form__payment__level"
+            :class="{ active: level == 'world' }"
+            @click="selectLevel('world')"
+          >
+            <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
+              {{ $t('donate-form.benefits.impacts.world.heading') }}
+            </h3>
+            <div class="Article">
+              <div>
+                <p
+                  class="donate-form__payment__highlight text-icij font-weight-bold"
+                  v-html="$t('donate-form.benefits.impacts.world.highlight')"
+                />
               </div>
+            </div>
           </div>
         </div>
 
         <div>
           <div class="mt-5">
             <span class="donate-form__payment__buttons">
-              <button type="button" class="btn btn-sm" :class="{ 'btn-primary': installmentPeriod === 'monthly' }" @click="installmentPeriod = 'monthly'">
+              <button
+                type="button"
+                class="btn btn-sm"
+                :class="{ 'btn-primary': installmentPeriod === 'monthly' }"
+                @click="installmentPeriod = 'monthly'"
+              >
                 {{ $t('donate-form.frequency.monthly') }}
               </button>
-              <button type="button" class="btn btn-sm" :class="{ 'btn-primary': installmentPeriod === 'yearly' }" @click="installmentPeriod = 'yearly'">
+              <button
+                type="button"
+                class="btn btn-sm"
+                :class="{ 'btn-primary': installmentPeriod === 'yearly' }"
+                @click="installmentPeriod = 'yearly'"
+              >
                 {{ $t('donate-form.frequency.yearly') }}
               </button>
-              <button type="button" class="btn btn-sm" :class="{ 'btn-primary': installmentPeriod === null }" @click="installmentPeriod = null">
+              <button
+                type="button"
+                class="btn btn-sm"
+                :class="{ 'btn-primary': installmentPeriod === null }"
+                @click="installmentPeriod = null"
+              >
                 {{ $t('donate-form.frequency.onetime') }}
               </button>
             </span>
@@ -63,17 +110,43 @@
               <span class="input-group-prepend">
                 <span class="input-group-text">$</span>
               </span>
-              <input class="donate-form__payment__input form-control" name="amount" v-model="amount" @change="amountIsPristine = false" type="number" min="0">
+              <input
+                v-model="amount"
+                class="donate-form__payment__input form-control"
+                name="amount"
+                type="number"
+                min="0"
+                @change="amountIsPristine = false"
+              >
             </label>
           </div>
           <div class="mt-4">
-            <input name="org_id" value="icij" type="hidden">
-            <input name="campaign" v-model="campaign" type="hidden">
-            <input name="installmentPeriod" v-model="installmentPeriod" type="hidden">
-            <button type="submit" class="btn btn-primary rounded-pill text-uppercase font-weight-bold">
+            <input
+              name="org_id"
+              value="icij"
+              type="hidden"
+            >
+            <input
+              v-model="campaign"
+              name="campaign"
+              type="hidden"
+            >
+            <input
+              v-model="installmentPeriod"
+              name="installmentPeriod"
+              type="hidden"
+            >
+            <button
+              type="submit"
+              class="btn btn-primary rounded-pill text-uppercase font-weight-bold"
+            >
               {{ $t('donate-form.submit') }}
             </button>
-            <a target="_blank" href="https://icij.org/donate" class="donate-form__payment__image"></a>
+            <a
+              target="_blank"
+              href="https://icij.org/donate"
+              class="donate-form__payment__image"
+            />
           </div>
         </div>
       </form>
@@ -88,13 +161,22 @@
       </p>
       <div>
         <ul class="donate-form__insider__list">
-          <li class="donate-form__insider__list-item" v-for="(benefit, index) in $t('donate-form.benefits.list')" :key='index' v-html="benefit"></li>
+          <li
+            v-for="(benefit, index) in $t('donate-form.benefits.list')"
+            :key="index"
+            class="donate-form__insider__list-item"
+            v-html="benefit"
+          />
         </ul>
       </div>
       <div>
         <hr class="donate-form__insider__separator">
         <div class="donate-form__insider__more text-center">
-          <a target="_blank" href="https://icij.org/donate" class="btn btn-primary rounded-pill text-uppercase font-weight-bold py-2">
+          <a
+            target="_blank"
+            href="https://icij.org/donate"
+            class="btn btn-primary rounded-pill text-uppercase font-weight-bold py-2"
+          >
             {{ $t('donate-form.benefits.more') }}
           </a>
         </div>
@@ -148,6 +230,23 @@
         suggestedAmount: this.$t('donate-form.suggesteddonation')
       }
     },
+    computed: {
+      firstRange(){
+          const key= keys(this.ranges)[0]
+          return this.ranges[key]
+      },
+      ranges(){
+        return this.labelForChange[this.installmentPeriod || 'yearly']
+      },
+      changeThe () {
+        // Final label
+        let label = null
+        forEach(sortBy(map(keys(this.ranges), Number)), amount => {
+          label = this.amount >= amount ? this.ranges[amount] : label
+        })
+        return label
+      }
+    },
     watch: {
       installmentPeriod () {
         if (!this.amountIsPristine) {
@@ -185,23 +284,6 @@
 
         // Set suggested amount
         this.amount = this.getSuggestedAmount()
-      }
-    },
-    computed: {
-      firstRange(){
-          const key= keys(this.ranges)[0]
-          return this.ranges[key]
-      },
-      ranges(){
-        return this.labelForChange[this.installmentPeriod || 'yearly']
-      },
-      changeThe () {
-        // Final label
-        let label = null
-        forEach(sortBy(map(keys(this.ranges), Number)), amount => {
-          label = this.amount >= amount ? this.ranges[amount] : label
-        })
-        return label
       }
     }
   }

@@ -1,27 +1,43 @@
 <template>
-  <button class="btn haptic-copy" @click.stop="copy" @mouseleave="closeTooltip">
+  <button
+    class="btn haptic-copy"
+    @click.stop="copy"
+    @mouseleave="closeTooltip"
+  >
     <!-- @slot Main content of the button (including the icon) -->
     <slot>
       <font-awesome-layers>
         <transition name="spin">
-          <fa icon="clipboard" class="haptic-copy__icon" v-if="!tooltipTimeout" />
+          <fa
+            v-if="!tooltipTimeout"
+            icon="clipboard"
+            class="haptic-copy__icon"
+          />
         </transition>
         <transition name="spin">
-          <fa icon="clipboard-check" class="haptic-copy__icon" v-if="tooltipTimeout" />
+          <fa
+            v-if="tooltipTimeout"
+            icon="clipboard-check"
+            class="haptic-copy__icon"
+          />
         </transition>
       </font-awesome-layers>
-      <span :class="{ 'sr-only': hideLabel }" class="ml-1 haptic-copy__label">
+      <span
+        :class="{ 'sr-only': hideLabel }"
+        class="ml-1 haptic-copy__label"
+      >
         {{ label || $t('haptic-copy.label') }}
       </span>
     </slot>
     <b-tooltip
-      noninteractive
-      ref="tooltip"
       v-if="!noTooltip && mounted && $el"
+      ref="tooltip"
+      noninteractive
       :placement="tooltipPlacement"
       :target="() => $el"
       :triggers="[]"
-      :container="tooltipContainer">
+      :container="tooltipContainer"
+    >
       {{ tooltipContent }}
     </b-tooltip>
   </button>
@@ -56,6 +72,11 @@
   export default {
     i18n,
     name: 'HapticCopy',
+    components: {
+      BTooltip,
+      FontAwesomeLayers,
+      Fa
+    },
     props: {
       /**
        * Text to copy to the clipboard
@@ -119,10 +140,16 @@
         tooltipTimeout: null
       }
     },
-    components: {
-      BTooltip,
-      FontAwesomeLayers,
-      Fa
+    computed: {
+      tooltipContainer () {
+        // By default we append the tooltip in the root container using its
+        // id (if any) because BootstrapVue doesn't like HTMLElement for some
+        // reasons.
+        if (this.mounted && 'id' in this.$root.$el) {
+          return `#${this.$root.$el.id}`
+        }
+        return null
+      }
     },
     beforeMount () {
       library.add(faClipboard)
@@ -189,17 +216,6 @@
         return new Promise(resolve => {
           this.tooltipTimeout = setTimeout(resolve, delay)
         }).finally(this.$nextTick).then(fn)
-      }
-    },
-    computed: {
-      tooltipContainer () {
-        // By default we append the tooltip in the root container using its
-        // id (if any) because BootstrapVue doesn't like HTMLElement for some
-        // reasons.
-        if (this.mounted && 'id' in this.$root.$el) {
-          return `#${this.$root.$el.id}`
-        }
-        return null
       }
     }
   }

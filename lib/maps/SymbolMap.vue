@@ -9,10 +9,10 @@ import chart from '../mixins/chart'
 
 export default {
   name: 'SymbolMap',
-  mixins: [chart],
   components: {
     OrdinalLegend
   },
+  mixins: [chart],
   props: {
     categoryObjectsPath: {
       type: [String, Array],
@@ -111,12 +111,6 @@ export default {
     }
   },
   topojson: null,
-  async created () {
-    await new Promise(resolve => this.$on('loaded', resolve))
-    await this.loadTopojson()
-    this.draw()
-    this.$on('resized', this.debouncedDraw)
-  },
   watch: {
     data () {
       this.draw()
@@ -130,6 +124,12 @@ export default {
     categoryHighlight () {
       this.setMarkersClasses()
     }
+  },
+  async created () {
+    await new Promise(resolve => this.$on('loaded', resolve))
+    await this.loadTopojson()
+    this.draw()
+    this.$on('resized', this.debouncedDraw)
   },
   methods: {
     debouncedDraw: debounce(function () {
@@ -434,28 +434,49 @@ export default {
 </script>
 
 <template>
-  <div class="symbol-map" :class="mapClass">
-    <slot name="legend" v-bind="{ legendData }">
+  <div
+    class="symbol-map"
+    :class="mapClass"
+  >
+    <slot
+      name="legend"
+      v-bind="{ legendData }"
+    >
       <ordinal-legend 
+        v-if="!hideLegend && legendData" 
         :data="legendData" 
-        :highlight.sync="categoryHighlight" 
+        :highlight.sync="categoryHighlight"
         :horizontal="horizontalLegend"
         :marker-path="markerPath"
         category-objects-path="label"
-        v-if="!hideLegend && legendData">
-        <template #marker="d"><slot name="legend-marker" v-bind="d" /></template>
-        <template #label="d"><slot name="legend-label" v-bind="d" /></template>
+      >
+        <template #marker="d">
+          <slot
+            name="legend-marker"
+            v-bind="d"
+          />
+        </template>
+        <template #label="d">
+          <slot
+            name="legend-label"
+            v-bind="d"
+          />
+        </template>
       </ordinal-legend>
     </slot>
-    <svg class="symbol-map__main"></svg>
+    <svg class="symbol-map__main" />
     <b-tooltip 
+      v-if="tooltipTarget"
+      ref="marker-tooltip"
       :custom-class="tooltipCustomClass"
-      :fallback-placement="tooltipFallbackPlacement"
-      :placement="tooltipPlacement"
-      :target="tooltipTarget" 
-      ref="marker-tooltip" 
-      v-if="tooltipTarget">
-      <slot name="tooltip" v-bind="{ markerCursor, ...markerCursorValue }">
+      :fallback-placement="tooltipFallbackPlacement" 
+      :placement="tooltipPlacement" 
+      :target="tooltipTarget"
+    >
+      <slot
+        name="tooltip"
+        v-bind="{ markerCursor, ...markerCursorValue }"
+      >
         {{ markerLabel(markerCursorValue) }}
       </slot>
     </b-tooltip>

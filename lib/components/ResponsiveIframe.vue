@@ -1,5 +1,5 @@
 <template>
-  <div :id="iframeId"></div>
+  <div :id="iframeId" />
 </template>
 
 <script>

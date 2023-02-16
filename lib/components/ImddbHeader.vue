@@ -13,8 +13,15 @@
     >
       <!-- @slot Redefines brand -->
       <slot name="brand">
-        <a :href="homeUrl" class="navbar-brand imddb-header__brand">
-          <img src="../assets/images/icij@2x.png" height="25" class="mr-3" />
+        <a
+          :href="homeUrl"
+          class="navbar-brand imddb-header__brand"
+        >
+          <img
+            src="../assets/images/icij@2x.png"
+            height="25"
+            class="mr-3"
+          >
           {{ project }}
         </a>
       </slot>
@@ -24,9 +31,12 @@
         aria-label="Toggle navigation"
         @click="toggleNavbar"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" />
       </button>
-      <div class="navbar-collapse" :class="{ collapse: collapseNavbar }">
+      <div
+        class="navbar-collapse"
+        :class="{ collapse: collapseNavbar }"
+      >
         <div class="imddb-header__site-switch mr-auto">
           <!-- @slot Redefines the main navbar block (containing the dropdown) -->
           <slot name="navbar">
@@ -48,7 +58,10 @@
           </slot>
         </div>
         <ul class="navbar-nav">
-          <li class="nav-item" v-if="hasLanguagesDropdown">
+          <li
+            v-if="hasLanguagesDropdown"
+            class="nav-item"
+          >
             <b-nav-item-dropdown @show="$root.$emit('bv::hide::popover')">
               <template slot="button-content">
                 <fa icon="globe" />
@@ -75,15 +88,19 @@
           </li>
           <li class="nav-item mr-lg-3">
             <slot name="donate-link">
-              <a target="_blank" :href="donateUrl" class="nav-link">
+              <a
+                target="_blank"
+                :href="donateUrl"
+                class="nav-link"
+              >
                 {{ $t("imddb-header.navbar.support") }}
               </a>
             </slot>
           </li>
           <li class="nav-item">
             <button
-              class="btn btn-primary btn-block font-weight-bold"
               id="follow-icij"
+              class="btn btn-primary btn-block font-weight-bold"
             >
               {{ $t("imddb-header.navbar.follow") }}
             </button>
@@ -95,7 +112,7 @@
             >
               <follow-us-popover
                 :show.sync="showFollowUsPopover"
-              ></follow-us-popover>
+              />
             </b-popover>
           </li>
         </ul>
@@ -135,9 +152,6 @@ export default {
     headroom,
     FollowUsPopover,
     Fa,
-  },
-  beforeMount() {
-    library.add(faGlobe);
   },
   props: {
     /**
@@ -196,6 +210,20 @@ export default {
       languages: [],
     };
   },
+  computed: {
+    rootElement() {
+      return this.noHeadroom ? "div" : "headroom";
+    },
+    hasLanguagesDropdown() {
+      return !!this.languages.length;
+    },
+    currentLanguage() {
+      return get(find(this.languages, { active: true }), "label", "Language");
+    },
+  },
+  beforeMount() {
+    library.add(faGlobe);
+  },
   mounted() {
     this.setLanguages(config.get("imddb-header.languages.items"));
   },
@@ -210,17 +238,6 @@ export default {
     },
     setLanguages(languages = []) {
       this.$set(this, "languages", languages);
-    },
-  },
-  computed: {
-    rootElement() {
-      return this.noHeadroom ? "div" : "headroom";
-    },
-    hasLanguagesDropdown() {
-      return !!this.languages.length;
-    },
-    currentLanguage() {
-      return get(find(this.languages, { active: true }), "label", "Language");
     },
   },
 };

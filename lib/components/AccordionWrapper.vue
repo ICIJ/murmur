@@ -2,7 +2,7 @@
   <div class="accordion-wrapper">
     <div class="accordion-wrapper__content ml-5">
       <!-- @slot Content with all the steps declarations -->
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

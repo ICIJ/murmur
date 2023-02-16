@@ -1,57 +1,96 @@
 <template>
-  <div class="custom-pagination container-fluid" :class="{ 'custom-pagination--compact': compact, 'custom-pagination--pills': pills }">
-    <div class="row justify-content-center align-items-stretch" :class="{ 'no-gutters': compact && !pills }">
+  <div
+    class="custom-pagination container-fluid"
+    :class="{ 'custom-pagination--compact': compact, 'custom-pagination--pills': pills }"
+  >
+    <div
+      class="row justify-content-center align-items-stretch"
+      :class="{ 'no-gutters': compact && !pills }"
+    >
       <div class="col-auto custom-pagination__pages">
-        <b-pagination @input="updateValue"
-         :total-rows="perPage * numberOfPages"
-         :per-page="perPage"
-         :value="value"
-         :pills="pills"
-         :class="paginationClassList"
-         :size="size"
-         class="m-0"
-         first-number
-         last-number>
+        <b-pagination
+          :total-rows="perPage * numberOfPages"
+          :per-page="perPage"
+          :value="value"
+          :pills="pills"
+          :class="paginationClassList"
+          :size="size"
+          class="m-0"
+          first-number
+          last-number
+          @input="updateValue"
+        >
           <template #prev-text="{ disabled, index, page }">
             <!-- @slot The 'Go to previous page' button content -->
-            <slot name="prev-text" v-bind="{ disabled, index, page }" />
+            <slot
+              name="prev-text"
+              v-bind="{ disabled, index, page }"
+            />
           </template>
           <template #next-text="{ disabled, index, page }">
             <!-- @slot The 'Go to next page' button content -->
-            <slot name="next-text" v-bind="{ disabled, index, page }" />
+            <slot
+              name="next-text"
+              v-bind="{ disabled, index, page }"
+            />
           </template>
           <template #page="{ active, content, disabled, index, page }">
             <!-- @slot Page number button content -->
-            <slot name="page" v-bind="{ active, content, disabled, index, page }" />
+            <slot
+              name="page"
+              v-bind="{ active, content, disabled, index, page }"
+            />
           </template>
           <template #ellipsis-text>
             <!-- @slot The '...' indicator content. Overrides the `ellipsis-text` prop -->
             <slot name="ellipsis-text" />
           </template>
-         </b-pagination>
+        </b-pagination>
       </div>
       <div class="col-auto">
         <div class="custom-pagination__form">
-          <form class="input-group" @submit.prevent="applyJumpFormPage">
+          <form
+            class="input-group"
+            @submit.prevent="applyJumpFormPage"
+          >
             <b-input-group :size="size">
-              <input v-model="currentPageInput" type="number" class="form-control" :placeholder="inputPlaceholder" aria-label="Jump to page" />
-              <div class="input-group-append" v-if="!compact">
-                <button class="btn btn-secondary btn-sm" type="submit">
+              <input
+                v-model="currentPageInput"
+                type="number"
+                class="form-control"
+                :placeholder="inputPlaceholder"
+                aria-label="Jump to page"
+              >
+              <div
+                v-if="!compact"
+                class="input-group-append"
+              >
+                <button
+                  class="btn btn-secondary btn-sm"
+                  type="submit"
+                >
                   <span class="px-1 py-3">
                     Go
                   </span>
                 </button>
               </div>
             </b-input-group>
-         </form>
-         <template v-if="!compact">
-           <small class="float-left mt-1 ml-1 text-danger" id="invalid-number-error" v-if="errors.length">
-             {{ errors[0] }}
-           </small>
-           <small class="float-left mt-1 ml-1 text-muted" v-else>
-             {{ $tc('custom-pagination.total-pages', numberOfPages, { count: numberOfPages }) }}
-           </small>
-         </template>
+          </form>
+          <template v-if="!compact">
+            <small
+              v-if="errors.length"
+              id="invalid-number-error"
+              class="float-left mt-1 ml-1 text-danger"
+            >
+              {{ errors[0] }}
+            </small>
+            <small
+              v-else
+              class="float-left mt-1 ml-1 text-muted"
+            >
+              {{ $tc('custom-pagination.total-pages', numberOfPages, { count: numberOfPages }) }}
+            </small>
+          </template>
         </div>
       </div>
     </div>
@@ -141,21 +180,6 @@
         errors: []
       }
     },
-    methods: {
-      applyJumpFormPage (): void {
-        const number = isNaN(parseInt(this.currentPageInput)) ? 0 : parseInt(this.currentPageInput)
-        this.errors = []
-        if (number > this.numberOfPages || number < 1 ) {
-          this.errors.push(this.invalidNumberError)
-        }
-        if (this.errors.length == 0) {
-          this.$emit('input', parseInt(this.currentPageInput))
-        }
-      },
-      updateValue (value:string): void {
-        this.$emit('input', value)
-      }
-    },
     computed: {
       inputPlaceholder (): string {
         const compact = this.compact ? 'compact-' : ''
@@ -169,6 +193,21 @@
       },
       paginationClassList(): string[] {
         return this.size === Size.sm ? ['float-right', 'mr-1']: []
+      }
+    },
+    methods: {
+      applyJumpFormPage (): void {
+        const number = isNaN(parseInt(this.currentPageInput)) ? 0 : parseInt(this.currentPageInput)
+        this.errors = []
+        if (number > this.numberOfPages || number < 1 ) {
+          this.errors.push(this.invalidNumberError)
+        }
+        if (this.errors.length == 0) {
+          this.$emit('input', parseInt(this.currentPageInput))
+        }
+      },
+      updateValue (value:string): void {
+        this.$emit('input', value)
       }
     }
   })

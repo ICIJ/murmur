@@ -1,20 +1,53 @@
 <template>
-  <form @submit.prevent="subscribe($event)" class="sign-up-form" :class="{ 'sign-up-form--horizontal': horizontal }">
+  <form
+    class="sign-up-form"
+    :class="{ 'sign-up-form--horizontal': horizontal }"
+    @submit.prevent="subscribe($event)"
+  >
     <fieldset :disabled="frozen">
-      <label class="text-uppercase text-muted font-weight-bold" for="input-email" v-if="!noLabel">
+      <label
+        v-if="!noLabel"
+        class="text-uppercase text-muted font-weight-bold"
+        for="input-email"
+      >
         {{ $t("sign-up-form.label") }}
       </label>
-      <div class="sign-up-form__fieldset__group" :class="{ 'input-group': horizontal }">
-        <input v-model="email" name="EMAIL" type="email" class="form-control" :placeholder="$t('sign-up-form.placeholder')" id="input-email" />
-        <div class="sign-up-form__fieldset__group__addon" :class="{ 'input-group-append': horizontal }">
-          <button class="btn text-uppercase font-weight-bold" :class="variantColorClass" type="submit">
+      <div
+        class="sign-up-form__fieldset__group"
+        :class="{ 'input-group': horizontal }"
+      >
+        <input
+          id="input-email"
+          v-model="email"
+          name="EMAIL"
+          type="email"
+          class="form-control"
+          :placeholder="$t('sign-up-form.placeholder')"
+        >
+        <div
+          class="sign-up-form__fieldset__group__addon"
+          :class="{ 'input-group-append': horizontal }"
+        >
+          <button
+            class="btn text-uppercase font-weight-bold"
+            :class="variantColorClass"
+            type="submit"
+          >
             {{ $t("sign-up-form.submit") }}
           </button>
         </div>
       </div>
     </fieldset>
-    <p v-if="errorMessage" class="alert alert-danger p-2 m-0 mt-2" v-html="errorMessage"></p>
-    <p v-if="successMessage" class="alert alert-success p-2 m-0 mt-2" v-html="successMessage"></p>
+    <p
+      v-if="errorMessage"
+      class="alert alert-danger p-2 m-0 mt-2"
+      v-html="errorMessage"
+    />
+    <p
+      v-if="successMessage"
+      class="alert alert-success p-2 m-0 mt-2"
+      v-html="successMessage"
+    />
   </form>
 </template>
 

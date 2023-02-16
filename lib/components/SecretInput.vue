@@ -5,8 +5,8 @@ import { library, default as Fa } from './Fa'
 import HapticCopy from './HapticCopy.vue'  
 
 export default {
-  components: { Fa, HapticCopy },
   name: 'SecretInput',
+  components: { Fa, HapticCopy },
   model: {
     prop: 'visible',
     event: 'input'
@@ -52,17 +52,9 @@ export default {
       type: Boolean
     }
   },
-  beforeMount() {
-    library.add(faEye, faEyeSlash)
-  },
   data () {
     return {
       isVisible: this.visible
-    }
-  },
-  watch: {
-    visible (visible) {
-      this.isVisible = visible
     }
   },
   computed: {
@@ -75,6 +67,14 @@ export default {
     hapticCopyClassList () {
       return `btn-${this.hapticCopyVariant}`
     }
+  },
+  watch: {
+    visible (visible) {
+      this.isVisible = visible
+    }
+  },
+  beforeMount() {
+    library.add(faEye, faEyeSlash)
   },
   methods: {
     toggle () {
@@ -97,26 +97,38 @@ export default {
 </script>
 
 <template>
-  <b-input-group :size="size" class="secret-input">
+  <b-input-group
+    :size="size"
+    class="secret-input"
+  >
     <b-input-group-prepend v-if="!noToggler">
-      <b-button @click="toggle" variant="link" class="secret-input__toggler">
-        <fa fixed-width :icon="togglerIcon" />
+      <b-button
+        variant="link"
+        class="secret-input__toggler"
+        @click="toggle"
+      >
+        <fa
+          fixed-width
+          :icon="togglerIcon"
+        />
       </b-button>
     </b-input-group-prepend>
     <b-form-input 
       class="text-monospace secret-input__input" 
       readonly
-      @click="selectInput"
       :type="inputType"
-      :value="value" />
+      :value="value"
+      @click="selectInput"
+    />
     <b-input-group-append v-if="!noHapticCopy">
       <haptic-copy 
         class="secret-input__copy" 
         hide-label
+        :class="hapticCopyClassList"
+        :text="value"
         @success="selectInput"
         @error="selectInput"
-        :class="hapticCopyClassList"
-        :text="value" />
+      />
     </b-input-group-append>
   </b-input-group>
 </template>

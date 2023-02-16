@@ -54,38 +54,6 @@ export default {
       mounted: false
     }
   },
-  async mounted () {
-    await this.$nextTick()
-    this.setCursorWrapperOffset()
-    this.setColorScaleCanvas()
-    this.mounted = true
-  },
-  watch: {
-    async cursorValue () {
-      await this.$nextTick()
-      this.setCursorWrapperOffset()
-    }
-  },
-  methods: {
-    setCursorWrapperOffset () {
-      const cursor = this.$el.querySelector('.scale-legend__cursor')
-      if (cursor) {
-        const { x: cursorX, width: cursorWidth } = cursor.getBoundingClientRect()
-        const { x: legendX, width: legendWidth } = this.$el.getBoundingClientRect()
-        const left = legendX - cursorX - 6
-        const right = (legendX + legendWidth) - (cursorX + cursorWidth) + 6
-        this.cursorWrapperOffset = Math.max(0, left) || Math.min(0, right)
-      } else {
-        this.cursorWrapperOffset = 0
-      }
-    },
-    setColorScaleCanvas() {
-      for (const x of this.colorScaleWidthRange) {
-        this.colorScaleContext.fillStyle = this.widthScaleColor(x)
-        this.colorScaleContext.fillRect(x, 0, 1, this.height)
-      }
-    },
-  },
   computed: {
     classList () {
       return {
@@ -142,14 +110,52 @@ export default {
         .domain([0, this.width])
         .range([this.min, this.max])
     }
+  },
+  watch: {
+    async cursorValue () {
+      await this.$nextTick()
+      this.setCursorWrapperOffset()
+    }
+  },
+  async mounted () {
+    await this.$nextTick()
+    this.setCursorWrapperOffset()
+    this.setColorScaleCanvas()
+    this.mounted = true
+  },
+  methods: {
+    setCursorWrapperOffset () {
+      const cursor = this.$el.querySelector('.scale-legend__cursor')
+      if (cursor) {
+        const { x: cursorX, width: cursorWidth } = cursor.getBoundingClientRect()
+        const { x: legendX, width: legendWidth } = this.$el.getBoundingClientRect()
+        const left = legendX - cursorX - 6
+        const right = (legendX + legendWidth) - (cursorX + cursorWidth) + 6
+        this.cursorWrapperOffset = Math.max(0, left) || Math.min(0, right)
+      } else {
+        this.cursorWrapperOffset = 0
+      }
+    },
+    setColorScaleCanvas() {
+      for (const x of this.colorScaleWidthRange) {
+        this.colorScaleContext.fillStyle = this.widthScaleColor(x)
+        this.colorScaleContext.fillRect(x, 0, 1, this.height)
+      }
+    },
   }
 }
 </script>
 
 <template>
-  <div class="scale-legend" :class="classList">
+  <div
+    class="scale-legend"
+    :class="classList"
+  >
     <div class="scale-legend__bound scale-legend__bound--min">
-      <slot name="legend-cursor-min" v-bind="{ min }">
+      <slot
+        name="legend-cursor-min"
+        v-bind="{ min }"
+      >
         {{ min | formatNumber }}
       </slot>
     </div>
@@ -157,15 +163,29 @@ export default {
       :height="height"
       :src="colorScaleBase64"
       :width="width"
-      class="scale-legend__scale" />
+      class="scale-legend__scale"
+    >
     <div class="scale-legend__bound scale-legend__bound--max">
-      <slot name="legend-cursor-max" v-bind="{ max }">
+      <slot
+        name="legend-cursor-max"
+        v-bind="{ max }"
+      >
         {{ max | formatNumber }}
       </slot>
     </div>
-    <div class="scale-legend__cursor" :style="{ left: cursorLeft }" v-if="hasCursor">
-      <div class="scale-legend__cursor__wrapper" :style="{ transform: `translateX(${cursorWrapperOffset}px)` }">
-        <slot name="cursor" v-bind="{ value: cursorValue }">
+    <div
+      v-if="hasCursor"
+      class="scale-legend__cursor"
+      :style="{ left: cursorLeft }"
+    >
+      <div
+        class="scale-legend__cursor__wrapper"
+        :style="{ transform: `translateX(${cursorWrapperOffset}px)` }"
+      >
+        <slot
+          name="cursor"
+          v-bind="{ value: cursorValue }"
+        >
           {{ cursorValue | formatNumber }}
         </slot>
       </div>

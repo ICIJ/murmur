@@ -1,9 +1,27 @@
 <template>
-  <div class="content-placeholder" v-once>
-    <div class="content-placeholder__wrapper" :style="{ backgroundSize: size }">
-      <div class="content-placeholder__wrapper__row" :style="{height: row.height}" v-for="(row, r) in formattedRows" :key="r">
-        <div :style="box.style" v-for="(box, b) in row.boxes" :key="b">
-          <div v-if="box.subClass" :class="box.subClass"></div>
+  <div
+    v-once
+    class="content-placeholder"
+  >
+    <div
+      class="content-placeholder__wrapper"
+      :style="{ backgroundSize: size }"
+    >
+      <div
+        v-for="(row, r) in formattedRows"
+        :key="r"
+        class="content-placeholder__wrapper__row"
+        :style="{height: row.height}"
+      >
+        <div
+          v-for="(box, b) in row.boxes"
+          :key="b"
+          :style="box.style"
+        >
+          <div
+            v-if="box.subClass"
+            :class="box.subClass"
+          />
         </div>
       </div>
     </div>

@@ -1,32 +1,49 @@
 <template>
-  <div class="selectable-dropdown show" v-if="!hide" :class="{ 'selectable-dropdown--multiple': multiple, [listClass]: true }">
+  <div
+    v-if="!hide"
+    class="selectable-dropdown show"
+    :class="{ 'selectable-dropdown--multiple': multiple, [listClass]: true }"
+  >
     <recycle-scroller
-    :style="cssProps"
+      v-slot="{ item, active }"
+      :style="cssProps"
       class="scroller"
       :items="items_"
       :key-field="keyField"
       :item-size="itemSize"
-      v-slot="{ item, active }"
     >
-    <span 
-          @click.exact="clickToSelectItem(item)"
-          @click.ctrl="clickToAddItem(item)"
-          @click.shift="clickToSelectRangeToItem(item)"
-          :class="{'recycle_scroller-item--active':active, active: itemActivated(item), [itemClass]: true }"
-          class="selectable-dropdown__item px-3 d-flex">
+      <span 
+        :class="{'recycle_scroller-item--active':active, active: itemActivated(item), [itemClass]: true }"
+        class="selectable-dropdown__item px-3 d-flex"
+        @click.exact="clickToSelectItem(item)"
+        @click.ctrl="clickToAddItem(item)"
+        @click.shift="clickToSelectRangeToItem(item)"
+      >
         <!-- @slot Item content -->
-        <slot name="item" v-bind:item="item">
-          <div class="selectable-dropdown__item__check" v-if="multiple">
-            <fa :icon="indexIcon(item)" class="mr-2" />
+        <slot
+          name="item"
+          :item="item"
+        >
+          <div
+            v-if="multiple"
+            class="selectable-dropdown__item__check"
+          >
+            <fa
+              :icon="indexIcon(item)"
+              class="mr-2"
+            />
           </div>
           <div class="flex-grow-1 text-truncate selectable-dropdown__item__label">
             <!-- @slot Item's label content -->
-            <slot name="item-label" v-bind:item="item">
+            <slot
+              name="item-label"
+              :item="item"
+            >
               {{ serializer(item) }}
             </slot>
           </div>
         </slot>
-    </span>
+      </span>
     </recycle-scroller>
   </div>
 </template>
@@ -50,6 +67,10 @@
 
   export default {
     name: 'SelectableDropdown',
+    components: {
+      Fa,
+      RecycleScroller
+    },
     props: {
       /**
        * The items of the list.
@@ -134,21 +155,38 @@
         default:'inherit'
       }
     },
-    components: {
-      Fa,
-      RecycleScroller
-    },
     data () {
       return {
         activeItems: []
       }
     },
-    mounted () {
-      this.activateItemOrItems()
-      this.toggleKeys()
-    },
-    destroyed () {
-      this.unbindKeys()
+    computed: {
+      cssProps() {
+        return {
+          '--scroller-height':this.scrollerHeight
+        }
+      },
+      keyField(){
+        return typeof this.items_[0] == 'string' ? null : 'recycle_scroller_id'
+      },
+      items_(){ 
+        if(typeof this.items[0] == 'string'){
+          return this.items
+        }
+        return this.items.map(item=>({...item,recycle_scroller_id: `id-${uniqueId()}`})) },
+      firstActiveItemIndex () {
+        return this.activeItems.length ? this.items_.indexOf(this.activeItems[0]) : -1
+      },
+      lastActiveItemIndex () {
+        return this.activeItems.length ? this.items_.indexOf(this.activeItems.slice(-1)) : -1
+      },
+      keysMap () {
+        return {
+          [KEY_UP_CODE]: this.activatePreviousItem,
+          [KEY_DOWN_CODE]: this.activateNextItem,
+          [KEY_ESC_CODE]: this.deactivateItems
+        }
+      }
     },
     watch: {
       hide () {
@@ -170,6 +208,13 @@
           this.activateItemOrItems(items)
         }
       }
+    },
+    mounted () {
+      this.activateItemOrItems()
+      this.toggleKeys()
+    },
+    destroyed () {
+      this.unbindKeys()
     },
     methods: {
       indexIcon (item) {
@@ -288,34 +333,6 @@
           this.unbindKeys()
         } else {
           this.bindKeys()
-        }
-      }
-    },
-    computed: {
-      cssProps() {
-        return {
-          '--scroller-height':this.scrollerHeight
-        }
-      },
-      keyField(){
-        return typeof this.items_[0] == 'string' ? null : 'recycle_scroller_id'
-      },
-      items_(){ 
-        if(typeof this.items[0] == 'string'){
-          return this.items
-        }
-        return this.items.map(item=>({...item,recycle_scroller_id: `id-${uniqueId()}`})) },
-      firstActiveItemIndex () {
-        return this.activeItems.length ? this.items_.indexOf(this.activeItems[0]) : -1
-      },
-      lastActiveItemIndex () {
-        return this.activeItems.length ? this.items_.indexOf(this.activeItems.slice(-1)) : -1
-      },
-      keysMap () {
-        return {
-          [KEY_UP_CODE]: this.activatePreviousItem,
-          [KEY_DOWN_CODE]: this.activateNextItem,
-          [KEY_ESC_CODE]: this.deactivateItems
         }
       }
     }

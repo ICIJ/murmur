@@ -1,28 +1,68 @@
 <template>
-  <div class="column-chart" :style="{'--column-color': columnColor, '--column-highlight-color': columnHighlightColor }" :class="{ 'column-chart--has-highlights': dataHasHighlights, 'column-chart--social-mode': socialMode  }">
-    <svg :width="width" :height="height">
+  <div
+    class="column-chart"
+    :style="{'--column-color': columnColor, '--column-highlight-color': columnHighlightColor }"
+    :class="{ 'column-chart--has-highlights': dataHasHighlights, 'column-chart--social-mode': socialMode }"
+  >
+    <svg
+      :width="width"
+      :height="height"
+    >
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
-        <g class="column-chart__axis column-chart__axis--x" :style="{ transform: `translate(0, ${padded.height}px)` }" v-if="!noXAxis"></g>
-        <g class="column-chart__axis column-chart__axis--y" :style="{ transform: `translate(${padded.left}px, 0)` }" v-if="!noYAxis"></g>
+        <g
+          v-if="!noXAxis"
+          class="column-chart__axis column-chart__axis--x"
+          :style="{ transform: `translate(0, ${padded.height}px)` }"
+        />
+        <g
+          v-if="!noYAxis"
+          class="column-chart__axis column-chart__axis--y"
+          :style="{ transform: `translate(${padded.left}px, 0)` }"
+        />
       </g>
-      <g class="column-chart__columns" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
-        <rect v-for="(bar, index) in bars"
-            :key="index"
-            :class="{ 'column-chart__columns__item--highlight': bar.datum.highlight }"
-            class="column-chart__columns__item"
-            :width="bar.width"
-            :height="bar.height"
-            :x="bar.x"
-            :y="bar.y"
-            @mouseover="shownTooltip = index"
-            @mouseleave="shownTooltip = -1"></rect>
+      <g
+        class="column-chart__columns"
+        :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }"
+      >
+        <rect
+          v-for="(bar, index) in bars"
+          :key="index"
+          :class="{ 'column-chart__columns__item--highlight': bar.datum.highlight }"
+          class="column-chart__columns__item"
+          :width="bar.width"
+          :height="bar.height"
+          :x="bar.x"
+          :y="bar.y"
+          @mouseover="shownTooltip = index"
+          @mouseleave="shownTooltip = -1"
+        />
       </g>
-      <g class="column-chart__tooltips" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }" v-if="!noTooltips">
-        <foreignObject :width="maxTooltipWidth" :height="maxTooltipHeight" v-for="(bar, index) in bars" :key="index" :transform="barTooltipTransform(bar)">
+      <g
+        v-if="!noTooltips"
+        class="column-chart__tooltips"
+        :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }"
+      >
+        <foreignObject
+          v-for="(bar, index) in bars"
+          :key="index"
+          :width="maxTooltipWidth"
+          :height="maxTooltipHeight"
+          :transform="barTooltipTransform(bar)"
+        >
           <transition name="fade">
-            <div class="column-chart__tooltips__item" :class="barTooltipClasses(bar, index)" v-if="index === shownTooltip">
-              <div class="column-chart__tooltips__item__wrapper" xmlns="http://www.w3.org/1999/xhtml">
-                <slot name="tooltip" v-bind="bar">
+            <div
+              v-if="index === shownTooltip"
+              class="column-chart__tooltips__item"
+              :class="barTooltipClasses(bar, index)"
+            >
+              <div
+                class="column-chart__tooltips__item__wrapper"
+                xmlns="http://www.w3.org/1999/xhtml"
+              >
+                <slot
+                  name="tooltip"
+                  v-bind="bar"
+                >
                   <h6 class="column-chart__tooltips__item__wrapper__heading mb-0">
                     {{ bar.datum[timeseriesKey] | d3Formatter(xAxisTickFormat) }}
                   </h6>
@@ -235,10 +275,6 @@ export default {
       return without(keys(this.loadedData[0]), this.timeseriesKey)
     }
   },
-  mounted () {
-    this.$on('resized', this.setSizes)
-    this.setSizes()
-  },
   watch: {
     width () {
       this.setup()
@@ -255,6 +291,10 @@ export default {
     mounted () {
       this.setup()
     }
+  },
+  mounted () {
+    this.$on('resized', this.setSizes)
+    this.setSizes()
   },
   methods: {
     setup () {

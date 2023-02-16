@@ -1,47 +1,78 @@
 <template>
-  <div :style="{ height: `${height}px` }"
-        class="stacked-column-chart d-flex flex-column"
-       :class="{
-         'stacked-column-chart--social-mode': socialMode,
-         'stacked-column-chart--has-highlights': hasHighlights || hasColumnHighlights,
-         'stacked-column-chart--no-direct-labeling': noDirectLabeling,
-        }">
-    <ul class="stacked-column-chart__legend list-inline" v-if="!hideLegend">
-      <li v-for="key in discoveredKeys"
-          :key="key"
-          class="stacked-column-chart__legend__item list-inline-item d-inline-flex"
-          :class="{
-            'stacked-column-chart__legend__item--highlighted': isHighlighted(key)
-          }"
-          @mouseover="delayHighlight(key)"
-          @mouseleave="restoreHighlights()">
-        <span class="stacked-column-chart__legend__item__box" :style="{ 'background-color': colorScale(key) }"></span>
+  <div
+    :style="{ height: `${height}px` }"
+    class="stacked-column-chart d-flex flex-column"
+    :class="{
+      'stacked-column-chart--social-mode': socialMode,
+      'stacked-column-chart--has-highlights': hasHighlights || hasColumnHighlights,
+      'stacked-column-chart--no-direct-labeling': noDirectLabeling,
+    }"
+  >
+    <ul
+      v-if="!hideLegend"
+      class="stacked-column-chart__legend list-inline"
+    >
+      <li
+        v-for="key in discoveredKeys"
+        :key="key"
+        class="stacked-column-chart__legend__item list-inline-item d-inline-flex"
+        :class="{
+          'stacked-column-chart__legend__item--highlighted': isHighlighted(key)
+        }"
+        @mouseover="delayHighlight(key)"
+        @mouseleave="restoreHighlights()"
+      >
+        <span
+          class="stacked-column-chart__legend__item__box"
+          :style="{ 'background-color': colorScale(key) }"
+        />
         {{ groupName(key) }}
       </li>
     </ul>
     <div class="d-flex flex-grow-1 position-relative overflow-hidden">
-      <svg :width="width + 'px'"  :height="height + 'px'" class="stacked-column-chart__left-axis" v-show="noDirectLabeling">
-        <g class="stacked-column-chart__left-axis__canvas" :transform="`translate(${width}, 0)`"></g>
+      <svg
+        v-show="noDirectLabeling"
+        :width="width + 'px'"
+        :height="height + 'px'"
+        class="stacked-column-chart__left-axis"
+      >
+        <g
+          class="stacked-column-chart__left-axis__canvas"
+          :transform="`translate(${width}, 0)`"
+        />
       </svg>
-      <div class="stacked-column-chart__groups d-flex flex-grow-1" :style="paddedStyle">
-        <div class="stacked-column-chart__groups__item flex-grow-1 d-flex flex-column text-center" v-for="(datum, i) in sortedData" :key="i">
+      <div
+        class="stacked-column-chart__groups d-flex flex-grow-1"
+        :style="paddedStyle"
+      >
+        <div
+          v-for="(datum, i) in sortedData"
+          :key="i"
+          class="stacked-column-chart__groups__item flex-grow-1 d-flex flex-column text-center"
+        >
           <div class="stacked-column-chart__groups__item__bars flex-grow-1 d-flex flex-column-reverse px-1 justify-content-start align-items-center">
-            <div v-for="(key, j) in discoveredKeys" :key="j"
-                @mouseover="delayHighlight(key)"
-                @mouseleave="restoreHighlights()"
-                v-b-tooltip.html="{ delay: barTooltipDelay, disabled: noTooltips, title: barTitle(i, key) }"
-                :style="barStyle(i, key)"
-                 class="stacked-column-chart__groups__item__bars__item"
-                :class="{
-                  [`stacked-column-chart__groups__item__bars__item--${key}`]: true,
-                  [`stacked-column-chart__groups__item__bars__item--${j}n`]: true,
-                  'stacked-column-chart__groups__item__bars__item--hidden': isHidden(i, key),
-                  'stacked-column-chart__groups__item__bars__item--highlighted': isHighlighted(key) || isColumnHighlighted(i),
-                  'stacked-column-chart__groups__item__bars__item--value-overflow': hasValueOverflow(i, key),
-                  'stacked-column-chart__groups__item__bars__item--value-pushed': hasValuePushed(i, key),
-                  'stacked-column-chart__groups__item__bars__item--value-hidden': hasValueHidden(i, key)
-                }">
-              <div class="stacked-column-chart__groups__item__bars__item__value" v-show="!noDirectLabeling">
+            <div
+              v-for="(key, j) in discoveredKeys"
+              :key="j"
+              v-b-tooltip.html="{ delay: barTooltipDelay, disabled: noTooltips, title: barTitle(i, key) }"
+              :style="barStyle(i, key)"
+              class="stacked-column-chart__groups__item__bars__item"
+              :class="{
+                [`stacked-column-chart__groups__item__bars__item--${key}`]: true,
+                [`stacked-column-chart__groups__item__bars__item--${j}n`]: true,
+                'stacked-column-chart__groups__item__bars__item--hidden': isHidden(i, key),
+                'stacked-column-chart__groups__item__bars__item--highlighted': isHighlighted(key) || isColumnHighlighted(i),
+                'stacked-column-chart__groups__item__bars__item--value-overflow': hasValueOverflow(i, key),
+                'stacked-column-chart__groups__item__bars__item--value-pushed': hasValuePushed(i, key),
+                'stacked-column-chart__groups__item__bars__item--value-hidden': hasValueHidden(i, key)
+              }"
+              @mouseover="delayHighlight(key)"
+              @mouseleave="restoreHighlights()"
+            >
+              <div
+                v-show="!noDirectLabeling"
+                class="stacked-column-chart__groups__item__bars__item__value"
+              >
                 {{ datum[key] | d3Formatter(yAxisTickFormat) }}
               </div>
             </div>
@@ -70,10 +101,10 @@ import chart from '../mixins/chart'
 
 export default {
   name: 'StackedColumnChart',
-  mixins: [chart],
   directives: {
     'b-tooltip': VBTooltip
   },
+  mixins: [chart],
   props: {
     /**
      * Field of each object containing data (for each group)
@@ -232,34 +263,6 @@ export default {
     }
   },
   resizeObserver: null,
-  mounted () {
-    this.$options.resizeObserver = new ResizeObserver(this.setup)
-    this.$nextTick(() => this.$options.resizeObserver.observe(this.$el))
-  },
-  beforeDestroy () {
-      this.$options.resizeObserver?.unobserve(this.$el)
-      this.$options.resizeObserver = null
-  },
-  watch: {
-    socialMode () {
-      this.setup()
-    },
-    loadedData () {
-      this.setup()
-    },
-    leftAxisLabelsWidth () {
-      this.setup()
-    },
-    leftAxisHeight () {
-      this.setup()
-    },
-    fixedHeight () {
-      this.setup()
-    },
-    highlights () {
-      this.highlightedKeys = this.highlights
-    }
-  },
   computed: {
     sortedData () {
       if (!this.loadedData) {
@@ -318,6 +321,34 @@ export default {
     barTooltipDelay () {
       return this.hasHighlights ? 0 : this.highlightDelay
     }
+  },
+  watch: {
+    socialMode () {
+      this.setup()
+    },
+    loadedData () {
+      this.setup()
+    },
+    leftAxisLabelsWidth () {
+      this.setup()
+    },
+    leftAxisHeight () {
+      this.setup()
+    },
+    fixedHeight () {
+      this.setup()
+    },
+    highlights () {
+      this.highlightedKeys = this.highlights
+    }
+  },
+  mounted () {
+    this.$options.resizeObserver = new ResizeObserver(this.setup)
+    this.$nextTick(() => this.$options.resizeObserver.observe(this.$el))
+  },
+  beforeDestroy () {
+      this.$options.resizeObserver?.unobserve(this.$el)
+      this.$options.resizeObserver = null
   },
   methods: {
     setSizes () {

@@ -1,36 +1,10 @@
-<style lang="scss" scoped>
-  @import '../styles/lib';
-
-  .embed-form {
-    font-size: 0.9rem;
-    overflow: auto;
-
-    .custom-control.btn {
-      .custom-control-label:before, .custom-control-label:after {
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
-
-    &__heading {
-      font-size: 1.1em;
-      text-transform: uppercase;
-    }
-
-    &__code {
-      height: 80px;
-    }
-
-    &__preview {
-      border-left: 1px $gray-400 dashed;
-    }
-  }
-</style>
-
 <template>
   <div class="embed-form">
     <div class="container-fluid">
-      <h4 class="embed-form__heading" v-if="!noTitle">
+      <h4
+        v-if="!noTitle"
+        class="embed-form__heading"
+      >
         {{ $t('embed-form.heading') }}
       </h4>
       <div class="row">
@@ -38,21 +12,38 @@
           <p>
             {{ $t('embed-form.introduction') }}
           </p>
-          <textarea class="form-control embed-form__code mb-2" readonly @click="selectCode" :value="embedCode()"></textarea>
+          <textarea
+            class="form-control embed-form__code mb-2"
+            readonly
+            :value="embedCode()"
+            @click="selectCode"
+          />
 
           <label class="custom-control custom-checkbox btn btn-sm float-left">
-            <input type="checkbox" class="custom-control-input" v-model="responsiveCheck">
+            <input
+              v-model="responsiveCheck"
+              type="checkbox"
+              class="custom-control-input"
+            >
             <span class="custom-control-label font-weight-bold">
               {{ $t('embed-form.responsive-optin') }}
             </span>
           </label>
 
           <div class="text-right">
-            <haptic-copy class="btn-link btn-sm text-uppercase font-weight-bold" :text="embedCode()" @attempt="selectCode()" :label="$t('embed-form.copy')" />
+            <haptic-copy
+              class="btn-link btn-sm text-uppercase font-weight-bold"
+              :text="embedCode()"
+              :label="$t('embed-form.copy')"
+              @attempt="selectCode()"
+            />
           </div>
         </div>
-        <div class="col-7 d-none d-lg-block embed-form__preview" v-if="!noPreview">
-          <span v-html="embedCode(false)"></span>
+        <div
+          v-if="!noPreview"
+          class="col-7 d-none d-lg-block embed-form__preview"
+        >
+          <span v-html="embedCode(false)" />
         </div>
       </div>
     </div>
@@ -70,11 +61,6 @@
   export default {
     i18n,
     name: 'EmbedForm',
-    data () {
-      return {
-        responsiveCheck: false
-      }
-    },
     components: {
       HapticCopy
     },
@@ -126,6 +112,16 @@
         type: String
       }
     },
+    data () {
+      return {
+        responsiveCheck: false
+      }
+    },
+    computed: {
+      currentUrl () {
+        return this.url || window.location.href
+      }
+    },
     methods: {
       iframeCodeFor (url = this.currentUrl, width, height) {
         return `<iframe width="${width}" height="${height}" src="${IframeResizer.deletePymParams(url)}" frameborder="0" allowfullscreen></iframe>`
@@ -141,11 +137,35 @@
         const height = Math.max(this.height, this.minHeight)
         return withPym ? this.pymCodeFor(this.currentUrl) : this.iframeCodeFor(this.currentUrl, width, height)
       }
-    },
-    computed: {
-      currentUrl () {
-        return this.url || window.location.href
-      }
     }
   }
 </script>
+
+<style lang="scss" scoped>
+  @import '../styles/lib';
+
+  .embed-form {
+    font-size: 0.9rem;
+    overflow: auto;
+
+    .custom-control.btn {
+      .custom-control-label:before, .custom-control-label:after {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    &__heading {
+      font-size: 1.1em;
+      text-transform: uppercase;
+    }
+
+    &__code {
+      height: 80px;
+    }
+
+    &__preview {
+      border-left: 1px $gray-400 dashed;
+    }
+  }
+</style>

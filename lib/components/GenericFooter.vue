@@ -4,25 +4,35 @@
       <div class="row">
         <div class="col-md-5">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
-            <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo text-decoration-none">
-              <brand-expansion mode="long" dark />
+            <a
+              href="https://icij.org"
+              target="_blank"
+              class="generic-footer__icij__logo text-decoration-none"
+            >
+              <brand-expansion
+                mode="long"
+                dark
+              />
               <span class="sr-only">International Consortium of Investigative Journalists</span>
             </a>
           </h5>
           <p>
             <!-- @slot Override office's address  -->
             <slot name="address">
-              1800 M Street NW, Front 1 #33019<br />
+              1800 M Street NW, Front 1 #33019<br>
               Washington, D.C. 20033 USA
             </slot>
           </p>
           <p>
             <strong>
-              <a :href="contactEmailMailto" class="">{{ contactEmail }}</a>
+              <a
+                :href="contactEmailMailto"
+                class=""
+              >{{ contactEmail }}</a>
             </strong>
           </p>
           <!-- @slot Additional content on the left side of the footer -->
-          <slot name="left"></slot>
+          <slot name="left" />
         </div>
         <div class="col-md-7">
           <div class="row justify-content-end">
@@ -34,32 +44,50 @@
               <slot name="investigations">
                 <ul class="list-unstyled">
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/uber-files/" target="_blank">
-                       The Uber Files 
+                    <a
+                      href="https://www.icij.org/investigations/uber-files/"
+                      target="_blank"
+                    >
+                      The Uber Files 
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/russia-archive/" target="_blank">
-                       Russia Archive
+                    <a
+                      href="https://www.icij.org/investigations/russia-archive/"
+                      target="_blank"
+                    >
+                      Russia Archive
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/ericsson-list/" target="_blank">
-                        The Ericsson List
+                    <a
+                      href="https://www.icij.org/investigations/ericsson-list/"
+                      target="_blank"
+                    >
+                      The Ericsson List
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/pandora-papers/" target="_blank">
-                        Pandora Papers
+                    <a
+                      href="https://www.icij.org/investigations/pandora-papers/"
+                      target="_blank"
+                    >
+                      Pandora Papers
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/fincen-files/" target="_blank">
+                    <a
+                      href="https://www.icij.org/investigations/fincen-files/"
+                      target="_blank"
+                    >
                       FinCEN Files
                     </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a href="https://www.icij.org/investigations/" target="_blank">
+                    <a
+                      href="https://www.icij.org/investigations/"
+                      target="_blank"
+                    >
                       More investigations
                     </a>
                   </li>
@@ -72,27 +100,42 @@
               </h5>
               <ul class="list-unstyled">
                 <li class="list-unstyled-item">
-                  <a href="https://www.facebook.com/ICIJ.org" target="_blank">
+                  <a
+                    href="https://www.facebook.com/ICIJ.org"
+                    target="_blank"
+                  >
                     Facebook
                   </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a href="https://www.linkedin.com/company/1732242/" target="_blank">
+                  <a
+                    href="https://www.linkedin.com/company/1732242/"
+                    target="_blank"
+                  >
                     LinkedIn
                   </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a href="https://twitter.com/ICIJorg" target="_blank">
+                  <a
+                    href="https://twitter.com/ICIJorg"
+                    target="_blank"
+                  >
                     Twitter
                   </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a href="https://instagram.com/icijorg" target="_blank">
+                  <a
+                    href="https://instagram.com/icijorg"
+                    target="_blank"
+                  >
                     Instagram
                   </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a href="https://www.icij.org/signup/" target="_blank">
+                  <a
+                    href="https://www.icij.org/signup/"
+                    target="_blank"
+                  >
                     Sign-up
                   </a>
                 </li>
@@ -106,8 +149,11 @@
           © <span class="generic-footer__year">{{ year }}</span> — The International Consortium of Investigative Journalists.
         </strong>
         {{ $t('generic-footer.all-rights') }}
-        <br />
-        <span v-if="version" class="text-muted generic-footer__version">
+        <br>
+        <span
+          v-if="version"
+          class="text-muted generic-footer__version"
+        >
           {{ $t('generic-footer.version', { version }) }}
         </span>
       </p>
