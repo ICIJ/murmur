@@ -36,7 +36,7 @@ export default {
     }
   },
   watch: {
-    active (toggler) {
+    active () {
       this.triggerSlide()
     }
   },
