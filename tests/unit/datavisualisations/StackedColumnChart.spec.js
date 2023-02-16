@@ -25,6 +25,8 @@ describe('StackedColumnChart.vue', () => {
     let wrapper
 
     beforeEach(async () => {
+      vi.useFakeTimers()
+
       const propsData = {
         highlightDelay: 2,
         data: [
@@ -36,6 +38,10 @@ describe('StackedColumnChart.vue', () => {
       }
 
       wrapper = mount(StackedColumnChart, { propsData, attachTo: createContainer() })
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
     })
 
     it('is a Vue instance', () => {
@@ -115,14 +121,14 @@ describe('StackedColumnChart.vue', () => {
       const fooLegend = wrapper.findAll('.stacked-column-chart__legend__item').at(0)
       expect(fooLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeFalsy()
       fooLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay + 10)
       expect(fooLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeTruthy()
     })
 
     it('hightlight the columns for "foo"', async () => {
       const fooLegend = wrapper.findAll('.stacked-column-chart__legend__item').at(0)
       fooLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay)
       const fooColumns = wrapper.findAll('.stacked-column-chart__groups__item__bars__item--foo')
       expect(fooColumns.at(0).classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
       expect(fooColumns.at(1).classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
@@ -133,7 +139,7 @@ describe('StackedColumnChart.vue', () => {
     it('hightlight the columns for "bar"', async () => {
       const barLegend = wrapper.findAll('.stacked-column-chart__legend__item').at(1)
       barLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay)
       const budgetBars = wrapper.findAll('.stacked-column-chart__groups__item__bars__item--bar')
       expect(budgetBars.at(0).classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
       expect(budgetBars.at(1).classes('stacked-column-chart__groups__item__bars__item--highlighted')).toBeTruthy()
@@ -149,7 +155,7 @@ describe('StackedColumnChart.vue', () => {
       expect(fooLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeFalsy()
       expect(barLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeTruthy()
       fooLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay)
       expect(fooLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeTruthy()
       expect(barLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeFalsy()
     })
@@ -159,9 +165,9 @@ describe('StackedColumnChart.vue', () => {
       wrapper.setProps({ highlightDelay: 150 })
       barLegend.trigger('mouseover')
       expect(barLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeFalsy()
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay / 2))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay / 2)
       expect(barLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeFalsy()
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay / 2))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay * 2)
       expect(barLegend.classes('stacked-column-chart__legend__item--highlighted')).toBeTruthy()
     })
 
