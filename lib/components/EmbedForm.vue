@@ -63,7 +63,6 @@
   import i18n from '@lib/i18n'
   import HapticCopy from './HapticCopy'
   import IframeResizer from '@lib/utils/iframe-resizer'
-  import Fa from './Fa'
 
   /**
    * Embed Form
@@ -77,8 +76,7 @@
       }
     },
     components: {
-      HapticCopy,
-      Fa
+      HapticCopy
     },
     props: {
       /**
