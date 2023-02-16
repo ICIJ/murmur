@@ -19,6 +19,7 @@ describe('StackedBarChart.vue', () => {
     let wrapper
 
     beforeEach(async () => {
+      vi.useFakeTimers()
 
       const propsData = {
         data: [
@@ -30,6 +31,10 @@ describe('StackedBarChart.vue', () => {
       }
 
       wrapper = mount(StackedBarChart, { propsData })
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
     })
 
     it('is a Vue instance', () => {
@@ -109,14 +114,14 @@ describe('StackedBarChart.vue', () => {
       const budgetLegend = wrapper.findAll('.stacked-bar-chart__legend__item').at(0)
       expect(budgetLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeFalsy()
       budgetLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay)
       expect(budgetLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeTruthy()
     })
 
     it('hightlight the bars for "budget"', async () => {
       const budgetLegend = wrapper.findAll('.stacked-bar-chart__legend__item').at(0)
       budgetLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay)
       const budgetBars = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item--budget')
       expect(budgetBars.at(0).classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
       expect(budgetBars.at(1).classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
@@ -127,7 +132,7 @@ describe('StackedBarChart.vue', () => {
     it('hightlight the bars for "box_office"', async () => {
       const boxOfficeLegend = wrapper.findAll('.stacked-bar-chart__legend__item').at(1)
       boxOfficeLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay)
       const budgetBars = wrapper.findAll('.stacked-bar-chart__groups__item__bars__item--box-office')
       expect(budgetBars.at(0).classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
       expect(budgetBars.at(1).classes('stacked-bar-chart__groups__item__bars__item--highlighted')).toBeTruthy()
@@ -143,7 +148,7 @@ describe('StackedBarChart.vue', () => {
       expect(budgetLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeFalsy()
       expect(boxOfficeLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeTruthy()
       budgetLegend.trigger('mouseover')
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay)
       expect(budgetLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeTruthy()
       expect(boxOfficeLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeFalsy()
     })
@@ -152,9 +157,9 @@ describe('StackedBarChart.vue', () => {
       const boxOfficeLegend = wrapper.findAll('.stacked-bar-chart__legend__item').at(1)
       boxOfficeLegend.trigger('mouseover')
       expect(boxOfficeLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeFalsy()
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay / 2))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay / 2)
       expect(boxOfficeLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeFalsy()
-      await new Promise(r => setTimeout(r, wrapper.vm.highlightDelay / 2))
+      await vi.advanceTimersByTimeAsync(wrapper.vm.highlightDelay * 2)
       expect(boxOfficeLegend.classes('stacked-bar-chart__legend__item--highlighted')).toBeTruthy()
     })
 
