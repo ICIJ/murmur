@@ -96,7 +96,7 @@ export default {
      * Color of each highlighted bar (uses the CSS variable --bar-highlight-color by default)
      */
     barHighlightColor: {
-      type: String,,
+      type: String,
       default: null
     },
     /**
