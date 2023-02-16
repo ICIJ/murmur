@@ -1,6 +1,4 @@
 <script>
-const noop = () => (null)
-
 /**
  * SlideUpDown
  */
@@ -37,15 +35,14 @@ export default {
   },
   watch: {
     active () {
-      this.triggerSlide()
+      return this.triggerSlide()
     }
   },
-  mounted () {
-    this.deferedNextTick(() => {
-      this.mounted = true
-      this.cleanLayout()
-      this.$container.addEventListener("transitionend", this.cleanLayout)
-    })
+  async mounted () {
+    await this.deferedNextTick()
+    this.mounted = true
+    this.cleanLayout()
+    this.$container.addEventListener("transitionend", this.cleanLayout)
   },
   computed: {
     stylePreTransition () {
@@ -83,11 +80,12 @@ export default {
     }
   },
   methods: {
-    triggerSlide () {
+    async triggerSlide () {
       this.state = 'pre'
       this.scrollHeight = this.$container.scrollHeight
       // Defered next tick to let the component render once
-      return this.deferedNextTick(() => this.state = 'active')
+      await this.deferedNextTick()
+      this.state = 'active'
     },
     cleanLayout (e = null) {
       // This method can be triggered by animated child elements in
@@ -97,11 +95,10 @@ export default {
         return this.deferedNextTick()
       }
     },
-    async deferedNextTick (fn = noop) {
+    async deferedNextTick () {
       await new Promise(resolve => setTimeout(resolve, 0))
       await this.$nextTick()
-      await fn()
-    },
+    }
   }
 }
 </script>
