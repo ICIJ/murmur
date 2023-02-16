@@ -8,9 +8,10 @@
     </p>
     <div class="sample-card__body card">
       <slide-up-down :active="collapseCode" class="sample-card__body__render bg-light">
-        <slot>
+        <slot v-if="useSlot"></slot>
+        <template v-else-if="component">
           <component :is="component" />
-        </slot>
+        </template>
       </slide-up-down>
       <div class="sample-card__body__actions border-top row no-gutters">
         <button class="btn btn-sm font-weight-bold btn col" @click="toggleCode()" :class="{ active: !collapseCode }">
@@ -53,7 +54,7 @@
       },
       component: {
         type: [Object, Function],
-        default: () => ({ })
+        default: () => null
       },
       code: {
         type: String,
