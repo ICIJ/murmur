@@ -199,6 +199,7 @@
         if (this.mounted && 'id' in this.$root.$el) {
           return `#${this.$root.$el.id}`
         }
+        return null
       }
     }
   }
