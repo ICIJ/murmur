@@ -84,7 +84,6 @@ export default {
         this.colorScaleContext.fillStyle = this.widthScaleColor(x)
         this.colorScaleContext.fillRect(x, 0, 1, this.height)
       }
-      return this.colorScaleBaseCanvas
     },
   },
   computed: {
