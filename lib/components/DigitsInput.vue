@@ -107,6 +107,7 @@
       joinedValues (): string {
         return filter(this.values, v => !isNaN(v as any)).join('')
       },
+      /* eslint-disable no-undef */
       inputs(): NodeListOf<HTMLElement> | [] {
         if (!this.mounted) {
           return []
