@@ -33,7 +33,8 @@ describe('StackedBarChart.vue', () => {
       wrapper = mount(StackedBarChart, { propsData })
     })
 
-    afterEach(() => {
+    afterEach(async () => {
+      await vi.runAllTimersAsync()
       vi.useRealTimers()
     })
 
