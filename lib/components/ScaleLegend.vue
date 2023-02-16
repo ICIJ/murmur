@@ -104,10 +104,7 @@ export default {
         .node()
     },
     colorScaleContext () {
-      if (this.mounted) {
-        return this.colorScaleBaseCanvas.getContext('2d')
-      }
-      return null
+      return this.colorScaleBaseCanvas.getContext('2d')
     },
     colorScaleBase64 () {
       if (this.mounted) {
