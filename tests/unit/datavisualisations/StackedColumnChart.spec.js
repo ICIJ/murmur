@@ -40,10 +40,11 @@ describe('StackedColumnChart.vue', () => {
       wrapper = mount(StackedColumnChart, { propsData, attachTo: createContainer() })
     })
 
-    afterEach(() => {
+    afterEach(async () => {
+      await vi.runAllTimersAsync()
       vi.useRealTimers()
     })
-
+    
     it('is a Vue instance', () => {
       expect(wrapper.vm).toBeTruthy()
     })
