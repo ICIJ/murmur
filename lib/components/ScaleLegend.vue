@@ -50,12 +50,15 @@ export default {
   },
   data () {
     return {
-      cursorWrapperOffset: 0
+      cursorWrapperOffset: 0,
+      mounted: false
     }
   },
   async mounted () {
     await this.$nextTick()
     this.setCursorWrapperOffset()
+    this.setColorScaleCanvas()
+    this.mounted = true
   },
   watch: {
     async cursorValue () {
@@ -75,7 +78,14 @@ export default {
       } else {
         this.cursorWrapperOffset = 0
       }
-    }
+    },
+    setColorScaleCanvas() {
+      for (const x of this.colorScaleWidthRange) {
+        this.colorScaleContext.fillStyle = this.widthScaleColor(x)
+        this.colorScaleContext.fillRect(x, 0, 1, this.height)
+      }
+      return this.colorScaleBaseCanvas
+    },
   },
   computed: {
     classList () {
@@ -94,17 +104,16 @@ export default {
         .node()
     },
     colorScaleContext () {
-      return this.colorScaleBaseCanvas.getContext('2d')
-    },
-    colorScaleCanvas () {
-      for (const x of this.colorScaleWidthRange) {
-        this.colorScaleContext.fillStyle = this.widthScaleColor(x)
-        this.colorScaleContext.fillRect(x, 0, 1, this.height)
+      if (this.mounted) {
+        return this.colorScaleBaseCanvas.getContext('2d')
       }
-      return this.colorScaleBaseCanvas
+      return null
     },
     colorScaleBase64 () {
-      return this.colorScaleCanvas.toDataURL()
+      if (this.mounted) {
+        return this.colorScaleBaseCanvas.toDataURL()
+      }
+      return null
     },
     colorScaleWidthRange () {
       return d3.range(1, this.width + 1)
