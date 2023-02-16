@@ -85,12 +85,14 @@ export default {
      */
     iframeMinHeight: {
       type: Number,
+      default: 100,
     },
     /**
      * Minimum width for the iframe generated in the embed form.
      */
     iframeMinWidth: {
       type: Number,
+      default: 100,
     },
     /**
      * Target of the ICIJ logo and title links.

@@ -45,12 +45,14 @@ export default defineComponent({
      */
     link: {
       type: String,
+      default: null
     },
     /**
      * Title associated with the link
      */
     title: {
       type: String,
+      default: null
     },
     /**
      * The forms to display
@@ -95,6 +97,7 @@ export default defineComponent({
      */
     activeNavItemClass: {
       type: String,
+      default: null
     },
     /**
      * When set to 'true', disables the fade animation on the tabs.

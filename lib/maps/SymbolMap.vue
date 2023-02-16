@@ -65,7 +65,8 @@ export default {
       type: Boolean
     },
     tooltipCustomClass: {
-      type: String
+      type: String,
+      default: null
     },
     tooltipPlacement: {
       type: String,

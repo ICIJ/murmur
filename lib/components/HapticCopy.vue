@@ -82,13 +82,15 @@
        * Text to copy to the clipboard
        */
       text: {
-        type: String
+        type: String,
+        default: null
       },
       /**
        * Plain text to use as an alternative text for HTML copy (uses `text` by default)
        */
       plain: {
-        type: String
+        type: String,
+        default: null
       },
       /**
        * Hide the button label (still visible for screen reader)
@@ -100,7 +102,8 @@
        * Button label
        */
       label: {
-        type: String
+        type: String,
+        default: null
       },
       /**
        * Delay after which we hide the tooltip

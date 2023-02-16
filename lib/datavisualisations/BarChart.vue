@@ -90,24 +90,28 @@ export default {
      */
     barColor: {
       type: String,
+      default: null
     },
     /**
      * Color of each highlighted bar (uses the CSS variable --bar-highlight-color by default)
      */
     barHighlightColor: {
-      type: String,
+      type: String,,
+      default: null
     },
     /**
      * Enforce a width for each bar's label
      */
     fixedLabelWidth: {
       type: Number,
+      default: null
     },
     /**
      * Enforce a width for each bar's value
      */
     fixedValueWidth: {
       type: Number,
+      default: null
     },
     /**
      * Distance between a bar and its label

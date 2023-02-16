@@ -178,7 +178,8 @@ export default {
      * Version of the app to display in the bottom-right corner of the footer
      */
     version: {
-      type: String
+      type: String,
+      default: null
     }
   },
   computed: {

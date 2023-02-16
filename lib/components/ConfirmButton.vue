@@ -80,7 +80,8 @@ export default defineComponent({
      * A description text to show under the confirmation label
      */
     description: {
-      type: String
+      type: String,
+      default: null
     },
     /**
      * Disable the closing button

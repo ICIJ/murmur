@@ -95,13 +95,15 @@ export default {
      * Color of each column (uses the CSS variable --column-color by default)
      */
     columnColor: {
-      type: String
+      type: String,
+      default: null
     },
     /**
      * Color of each highlighted column (uses the CSS variable --column-color by default)
      */
     columnHighlightColor: {
-      type: String
+      type: String,
+      default: null
     },
     /**
      * Enforce the height of the chart (regardless of the width or the social mode)
@@ -114,7 +116,8 @@ export default {
      * Enforce a width for each column's label
      */
     fixedLabelWidth: {
-      type: Number
+      type: Number,
+      default: null
     },
     /**
      * Name of the series (to get the value from in the data collection objects)
