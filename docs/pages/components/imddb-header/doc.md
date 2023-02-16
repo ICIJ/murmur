@@ -4,24 +4,20 @@ title: IMDDB Header
 
 A component to create header with generic features.
 
-<sample-card title="" description="" :component="sample" :code="code"></sample-card>
+:::sample-card
+<div class="full-width">
+  <imddb-header no-headroom position="relative" />
+</div>
+:::
 
 ::: api-table components/ImddbHeader.vue :::
 
-<script>
-  import ApiTable from '$components/ApiTable.vue'
-  import SampleCard from '$components/SampleCard.vue'
+<style lang="scss">
+  .full-width {
+    overflow: auto;
 
-  import sample from './sample.vue'
-  import code from './sample.vue?highlight=html'
-
-  export default {
-    components: {
-      SampleCard,
-      ApiTable
-    },
-    data () {
-      return { sample, code }
+    .imddb-header {
+      min-width: 990px;
     }
   }
-</script>
+</style>

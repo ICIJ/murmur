@@ -4,24 +4,21 @@ title: Generic Header
 
 A component to create header with generic features.
 
-<sample-card title="" description="" :component="sample" :code="code"></sample-card>
+::: sample-card
+<div class="full-width card m-4">
+  <generic-header no-headroom position="relative" class=""></generic-header>
+</div>
+:::
 
 ::: api-table components/GenericHeader.vue :::
 
-<script>
-  import ApiTable from '$components/ApiTable.vue'
-  import SampleCard from '$components/SampleCard.vue'
+<style lang="scss">
+  .full-width {
+    overflow: auto;
 
-  import sample from './sample.vue'
-  import code from './sample.vue?highlight=html'
-
-  export default {
-    components: {
-      SampleCard,
-      ApiTable
-    },
-    data () {
-      return { sample, code }
+    .generic-header {
+      width: 100vw;
+      max-width: 1000px;
     }
   }
-</script>
+</style>
