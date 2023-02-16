@@ -43,7 +43,9 @@
           v-if="!noPreview"
           class="col-7 d-none d-lg-block embed-form__preview"
         >
+          <!-- eslint-disable vue/no-v-html -->
           <span v-html="embedCode(false)" />
+          <!-- eslint-enable -->
         </div>
       </div>
     </div>
