@@ -12,6 +12,9 @@ export default {
   components: {
     ScaleLegend
   },
+  filters: {
+    formatNumber: d3.format(',')
+  },
   mixins: [chart],
   props: {
     hatchEmpty: {
@@ -71,17 +74,115 @@ export default {
     }
   },
   topojson: null,
+  computed: {
+    featureColorScaleEnd() {
+      if (this.mounted) {
+        const computedStyle = window.getComputedStyle(this.map.node())
+        return computedStyle.getPropertyValue('--primary') || '#852308'
+      }
+      return '#852308'
+    },
+    featureColorScaleStart() {
+      // `socialMode` is always different from null but accessing it will make
+      // this computed property reactive.
+      if (this.mounted && this.socialMode !== null) {
+        const computedStyle = window.getComputedStyle(this.map.node())
+        return computedStyle.getPropertyValue('color') || '#fff'
+      }
+      return '#fff'
+    },
+    featureColor() {
+      return d => {
+        const id = get(d, this.topojsonObjectsPath)
+        if (!(id in this.loadedData)) {
+          return
+        }
+        return this.featureColorScaleFunction(this.loadedData[id])
+      }
+    },
+    featureColorScaleFunction() {
+      if (this.featureColorScale !== null) {
+        return this.featureColorScale
+      }
+      return this.defaultFeatureColorScale
+    },
+    defaultFeatureColorScale() {
+      return d3.scaleLog()
+        .domain([Math.max(1, this.minValue), this.maxValue])
+        .range([this.featureColorScaleStart, this.featureColorScaleEnd])
+    },
+    featurePath() {
+      return d3.geoPath().projection(this.mapProjection)
+    },
+    hasCursor() {
+      return !!this.featureCursor
+    },
+    hasZoom() {
+      return !!this.featureZoom
+    },
+    topojson() {
+      return this.$options.topojson
+    },
+    geojson() {
+      const object = get(this.topojson, ['objects', this.topojsonObjects], null)
+      return feature(this.topojson, object)
+    },
+    mapClass() {
+      return {
+        'choropleth-map--has-cursor': this.hasCursor,
+        'choropleth-map--has-zoom': this.hasZoom,
+        'choropleth-map--hatch-empty': this.hatchEmpty
+      }
+    },
+    mapProjection() {
+      const { height, width } = this.mapRect
+      return geoRobinson().fitSize([width, height], this.geojson)
+    },
+    mapZoom() {
+      return d3.zoom()
+        .scaleExtent([this.zoomMin, this.zoomMax])
+        .translateExtent([[0, 0], [this.mapRect.width, this.mapRect.height]])
+        .on('zoom', this.mapZoomed)
+    },
+    mapHeight() {
+      return this.mapRect.height
+    },
+    mapWidth() {
+      return this.mapRect.width
+    },
+    map() {
+      if (!this.mounted) {
+        return null
+      }
+      return d3.select(this.$el).select('svg')
+    },
+    maxValue() {
+      if (this.max !== null) {
+        return this.max
+      }
+      return max(values(this.loadedData)) || 0
+    },
+    minValue() {
+      if (this.min !== null) {
+        return this.min
+      }
+      return min(values(this.loadedData)) || 0
+    },
+    cursorValue() {
+      return get(this, ['data', this.featureCursor], null)
+    }
+  },
   watch: {
-    socialMode () {
+    socialMode() {
       this.draw()
     },
-    data () {
+    data() {
       this.update()
     },
-    featureZoom () {
+    featureZoom() {
       this.setFeaturesClasses()
     },
-    featureCursor () {
+    featureCursor() {
       this.setFeaturesClasses()
     }
   },
@@ -90,9 +191,6 @@ export default {
     await this.loadTopojson()
     this.draw()
     this.$on('resized', this.debouncedDraw)
-  },
-  filters: {
-    formatNumber: d3.format(',')
   },
   methods: {
     debouncedDraw: debounce(function () {
@@ -226,104 +324,6 @@ export default {
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, zoomIdentity, pointer)
         .end()
-    }
-  },
-  computed: {
-    featureColorScaleEnd () {
-      if (this.mounted) {
-        const computedStyle = window.getComputedStyle(this.map.node())
-        return computedStyle.getPropertyValue('--primary') || '#852308'
-      }
-      return '#852308'
-    },
-    featureColorScaleStart () {
-      // `socialMode` is always different from null but accessing it will make
-      // this computed property reactive.
-      if (this.mounted && this.socialMode !== null) {
-        const computedStyle = window.getComputedStyle(this.map.node())
-        return computedStyle.getPropertyValue('color') || '#fff'
-      }
-      return '#fff'
-    },
-    featureColor () {
-      return d => {
-        const id = get(d, this.topojsonObjectsPath)
-        if (!(id in this.loadedData)) {
-          return
-        }
-        return this.featureColorScaleFunction(this.loadedData[id])
-      }
-    },
-    featureColorScaleFunction () {
-      if (this.featureColorScale !== null) {
-        return this.featureColorScale
-      }
-      return this.defaultFeatureColorScale
-    },
-    defaultFeatureColorScale () {
-      return d3.scaleLog()
-        .domain([Math.max(1, this.minValue), this.maxValue])
-        .range([this.featureColorScaleStart, this.featureColorScaleEnd])
-    },
-    featurePath () {
-      return d3.geoPath().projection(this.mapProjection)
-    },
-    hasCursor () {
-      return !!this.featureCursor
-    },
-    hasZoom () {
-      return !!this.featureZoom
-    },
-    topojson () {
-      return this.$options.topojson
-    },
-    geojson () {
-      const object = get(this.topojson, ['objects', this.topojsonObjects], null)
-      return feature(this.topojson, object)
-    },
-    mapClass () {
-      return {
-        'choropleth-map--has-cursor': this.hasCursor,
-        'choropleth-map--has-zoom': this.hasZoom,
-        'choropleth-map--hatch-empty': this.hatchEmpty
-      }
-    },
-    mapProjection () {
-      const { height, width } = this.mapRect
-      return geoRobinson().fitSize([width, height], this.geojson)
-    },
-    mapZoom () {
-      return d3.zoom()
-        .scaleExtent([this.zoomMin, this.zoomMax])
-        .translateExtent([[0, 0], [this.mapRect.width, this.mapRect.height]])
-        .on('zoom', this.mapZoomed)
-    },
-    mapHeight () {
-      return this.mapRect.height
-    },
-    mapWidth () {
-      return this.mapRect.width
-    },
-    map () {
-      if (!this.mounted) {
-        return null
-      }
-      return d3.select(this.$el).select('svg')
-    },
-    maxValue () {
-      if (this.max !== null) {
-        return this.max
-      }
-      return max(values(this.loadedData)) || 0
-    },
-    minValue () {
-      if (this.min !== null) {
-        return this.min
-      }
-      return min(values(this.loadedData)) || 0
-    },
-    cursorValue () {
-      return get(this, ['data', this.featureCursor], null)
     }
   }
 }

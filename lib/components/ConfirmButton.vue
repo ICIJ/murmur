@@ -68,6 +68,10 @@ import  { TooltipPlacement } from '@lib/enums'
 export default defineComponent({
   
   name: 'ConfirmButton',
+  components: {
+    BTooltip,
+    Fa
+  },
   props: {
     /**
      * Confirmation message visible in the tooltip upon user's click
@@ -131,10 +135,6 @@ export default defineComponent({
       type: String,
       default: 'button'
     }
-  },
-  components: {
-    BTooltip,
-    Fa
   },
   data () {
     return {

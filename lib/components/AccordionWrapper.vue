@@ -16,6 +16,20 @@ const STEP_CHANGE_EVENT: string = 'step-change'
 
 export default defineComponent({
   name: "AccordionWrapper",
+  provide(): AccordionProvide {
+    return {
+      [AccordionKey]: {
+        emitAccordionNextStepEvent: this.emitAccordionNextStepEvent,
+        emitAccordionPreviousStepEvent: this.emitAccordionPreviousStepEvent,
+        isActiveStep: this.isActiveStep,
+        isPreviousStep: this.isPreviousStep,
+        isFirstStep: this.isFirstStep,
+        isLastStep: this.isLastStep,
+        step: this.step,
+        steps: this.steps
+      }
+    }
+  },
   model: {
     prop: 'step',
     event: STEP_CHANGE_EVENT
@@ -35,20 +49,6 @@ export default defineComponent({
       type: Array as PropType<Step[]>,
       required: true
     },
-  },
-  provide(): AccordionProvide {
-    return {
-      [AccordionKey]: {
-        emitAccordionNextStepEvent: this.emitAccordionNextStepEvent,
-        emitAccordionPreviousStepEvent: this.emitAccordionPreviousStepEvent,
-        isActiveStep: this.isActiveStep,
-        isPreviousStep: this.isPreviousStep,
-        isFirstStep: this.isFirstStep,
-        isLastStep: this.isLastStep,
-        step: this.step,
-        steps: this.steps
-      }
-    }
   },
   computed: {
     activeStepIndex(): number {

@@ -112,17 +112,127 @@ export default {
     }
   },
   topojson: null,
+  computed: {
+    featurePath() {
+      return d3.geoPath().projection(this.mapProjection)
+    },
+    hasCursor() {
+      return !!this.markerCursor
+    },
+    hasHighlight() {
+      return !!this.categoryHighlight
+    },
+    topojson() {
+      return this.$options.topojson
+    },
+    geojson() {
+      return this.fitToMarkers ? this.markersGeojson : this.featuresGeojson
+    },
+    featuresGeojson() {
+      const object = get(this.topojson, ['objects', this.topojsonObjects], null)
+      return feature(this.topojson, object)
+    },
+    markersGeojson() {
+      return {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [this.coordinates]
+        }
+      }
+    },
+    coordinates() {
+      return (this.loadedData || []).map(({ longitude, latitude }) => {
+        return [longitude, latitude]
+      })
+    },
+    mapId() {
+      return uniqueId('symbol-map-')
+    },
+    mapClass() {
+      return {
+        'symbol-map--has-cursor': this.hasCursor,
+        'symbol-map--has-highlight': this.hasHighlight,
+        'symbol-map--has-markers-scale': !this.noMarkersScale
+      }
+    },
+    mapProjection() {
+      const { height, width } = this.mapRect
+      const padding = this.mapPadding
+      return geoRobinson()
+        .fitExtent([
+          [padding, padding],
+          [width - padding, height - padding]
+        ], this.geojson)
+    },
+    mapZoom() {
+      return d3.zoom()
+        .scaleExtent([this.zoomMin, this.zoomMax])
+        .translateExtent([[0, 0], [this.mapRect.width, this.mapRect.height]])
+        .on('zoom', this.mapZoomed)
+    },
+    mapHeight() {
+      return this.mapRect.height
+    },
+    mapWidth() {
+      return this.mapRect.width
+    },
+    map() {
+      if (!this.mounted) {
+        return null
+      }
+      return d3.select(this.$el).select('.symbol-map__main')
+    },
+    markerCursorValue() {
+      return find(this.loadedDataWithIds, d => {
+        return get(d, this.markerObjectsPath) === this.markerCursor
+      })
+    },
+    loadedDataWithIds() {
+      return this.loadedData.map(d => {
+        return {
+          ...set({}, this.markerObjectsPath, uniqueId()),
+          ...d
+        }
+      })
+    },
+    categories() {
+      const categories = (this.loadedData || []).map(d => {
+        return get(d, this.categoryObjectsPath)
+      })
+      return uniq(categories).map(String)
+    },
+    legendData() {
+      const categories = groupBy(this.loadedData || [], d => {
+        return get(d, this.categoryObjectsPath)
+      })
+      return Object.entries(categories).map(entry => {
+        const [label, [{ color: firstColor }]] = entry
+        const color = firstColor || this.categoryColor(label)
+        return { label, color }
+      })
+    },
+    hasTooltip() {
+      return !this.hideTooltip && this.loadedData && this.markerCursor
+    },
+    tooltipTarget() {
+      if (this.hasTooltip) {
+        return this.markerId(this.markerCursorValue)
+      }
+      return null
+    }
+  },
   watch: {
-    data () {
+    data() {
       this.draw()
     },
-    socialMode () {
+    socialMode() {
       this.draw()
     },
-    markerCursor () {
+    markerCursor() {
       this.setMarkersClasses()
     },
-    categoryHighlight () {
+    categoryHighlight() {
       this.setMarkersClasses()
     }
   },
@@ -319,116 +429,6 @@ export default {
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, zoomIdentity, pointer)
         .end()
-    }
-  },
-  computed: {
-    featurePath () {
-      return d3.geoPath().projection(this.mapProjection)
-    },
-    hasCursor () {
-      return !!this.markerCursor
-    },
-    hasHighlight () {
-      return !!this.categoryHighlight
-    },
-    topojson () {
-      return this.$options.topojson
-    },
-    geojson () {
-      return this.fitToMarkers ? this.markersGeojson : this.featuresGeojson
-    },
-    featuresGeojson () {
-      const object = get(this.topojson, ['objects', this.topojsonObjects], null)
-      return feature(this.topojson, object)
-    },
-    markersGeojson () {
-      return {
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: [this.coordinates]
-        }
-      }
-    },
-    coordinates () {
-      return (this.loadedData || []).map( ({ longitude, latitude }) => {
-        return [ longitude, latitude ]
-      })
-    },
-    mapId () {
-      return uniqueId('symbol-map-')
-    },
-    mapClass () {
-      return {
-        'symbol-map--has-cursor': this.hasCursor,
-        'symbol-map--has-highlight': this.hasHighlight,
-        'symbol-map--has-markers-scale': !this.noMarkersScale
-      }
-    },
-    mapProjection () {
-      const { height, width } = this.mapRect
-      const padding = this.mapPadding
-      return geoRobinson()
-        .fitExtent([
-          [padding, padding], 
-          [width - padding, height - padding]
-        ], this.geojson)
-    },
-    mapZoom () {
-      return d3.zoom()
-        .scaleExtent([this.zoomMin, this.zoomMax])
-        .translateExtent([[0, 0], [this.mapRect.width, this.mapRect.height]])
-        .on('zoom', this.mapZoomed)
-    },
-    mapHeight () {
-      return this.mapRect.height
-    },
-    mapWidth () {
-      return this.mapRect.width
-    },
-    map () {
-      if (!this.mounted) {
-        return null
-      }
-      return d3.select(this.$el).select('.symbol-map__main')
-    },
-    markerCursorValue () {
-      return find(this.loadedDataWithIds, d => {
-        return get(d, this.markerObjectsPath) === this.markerCursor
-      })
-    },
-    loadedDataWithIds () {
-      return this.loadedData.map(d => {
-        return { 
-          ...set({}, this.markerObjectsPath, uniqueId()), 
-          ...d
-        }
-      })
-    },
-    categories () {
-      const categories = (this.loadedData || []).map(d => {
-        return get(d, this.categoryObjectsPath)
-      })
-      return uniq(categories).map(String)
-    },
-    legendData () {
-      const categories = groupBy(this.loadedData || [], d => {
-        return get(d, this.categoryObjectsPath)
-      })
-      return Object.entries(categories).map(entry => {
-        const [ label, [{ color: firstColor }] ] = entry
-        const color = firstColor || this.categoryColor(label)  
-        return { label, color }
-      })
-    },
-    hasTooltip () {
-      return !this.hideTooltip && this.loadedData && this.markerCursor
-    },
-    tooltipTarget () {
-      if (this.hasTooltip) {
-        return this.markerId(this.markerCursorValue)
-      }
-      return null
     }
   }
 }
