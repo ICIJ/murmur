@@ -60,8 +60,6 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-
   import i18n from '@lib/i18n'
   import HapticCopy from './HapticCopy'
   import IframeResizer from '@lib/utils/iframe-resizer'

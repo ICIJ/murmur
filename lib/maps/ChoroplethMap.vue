@@ -151,10 +151,10 @@ export default {
         [`${pathClass}--cursored`]: this.featureCursor === id
       }
     },
-    featureMouseLeave (event, d) {
+    featureMouseLeave () {
       this.featureCursor = null
     },
-    featureMouseOver (event, d) {
+    featureMouseOver (_, d) {
       const id = get(d, this.topojsonObjectsPath)
       this.featureCursor = id in this.loadedData ? id : null
     },
