@@ -35,7 +35,7 @@
     },
     mounted () {
       injectAssets('https://pym.nprapps.org/pym.v1.min.js').then(() => {
-        new pym.Parent(this.iframeId, this.url, this.options)
+        new window.pym.Parent(this.iframeId, this.url, this.options)
       })
     }
   }
