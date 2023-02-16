@@ -97,10 +97,10 @@ export default {
         return this.deferedNextTick()
       }
     },
-    deferedNextTick (fn = noop) {
-      return new Promise(resolve => {
-        return setTimeout(() => this.$nextTick(resolve), 0)
-      }).then(fn)
+    async deferedNextTick (fn = noop) {
+      await new Promise(resolve => setTimeout(resolve, 0))
+      await this.$nextTick()
+      await fn()
     },
   }
 }
