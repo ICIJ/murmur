@@ -5,12 +5,15 @@ import { vi } from 'vitest'
 
 describe('ScaleLegend.vue', () => {
   let wrapper
+  // Common mocks on computed properties
+  const colorScaleContext = vi.fn(() => ({ fillRect: vi.fn() }))
+  const colorScaleBase64 = vi.fn()
+  const computed = { colorScaleBase64, colorScaleContext }
 
   describe('with a the default scale function', () => {
 
     beforeEach(() => {
       const propsData = { min: 0, max: 150 }
-      const computed = { colorScaleBase64: vi.fn() }
       wrapper = shallowMount(ScaleLegend, { propsData, computed })
     })
 
@@ -75,7 +78,6 @@ describe('ScaleLegend.vue', () => {
         .range(["white", "pink", "red"])
       // Create a scale for value between 0 and 30,000
       const propsData = { min: 0, max: 3e4, width: 150, colorScale }
-      const computed = { colorScaleBase64: vi.fn() }
       wrapper = shallowMount(ScaleLegend, { propsData, computed })
     })
 

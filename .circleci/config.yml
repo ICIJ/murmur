@@ -16,8 +16,6 @@ jobs:
           - v1-dependencies-
       # Install dependencies
       - run: yarn install
-      # Rebuild canvas binary for CircleCI
-      - run: npm rebuild canvas --update-binary
       # Save cache artifacts
       - save_cache:
           paths:
