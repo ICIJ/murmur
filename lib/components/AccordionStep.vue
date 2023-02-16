@@ -1,44 +1,55 @@
 <template>
   <b-card
-      :class="{
+    :class="{
       'accordion-wrapper__content__step--active': isActive,
       'accordion-wrapper__content__step--previous': isPrevious,
     }"
-      class="accordion-wrapper__content__step"
-      no-body
+    class="accordion-wrapper__content__step"
+    no-body
   >
     <h4 class="card-body accordion-wrapper__content__step__heading m-0">
       <!-- @slot Title of the step -->
-      <slot name="title">{{ title }}</slot>
+      <slot name="title">
+        {{ title }}
+      </slot>
     </h4>
     <b-collapse :visible="isActive">
       <div class="accordion-wrapper__content__step__main card-body row no-gutters">
         <!-- @slot Content of the step with props {isFirst:boolean, isLast:boolean, step:Step, nextStep:Function}-->
-        <slot name="content" v-bind="{isFirst, isLast, step, previousStep, nextStep }">
+        <slot
+          name="content"
+          v-bind="{isFirst, isLast, step, previousStep, nextStep }"
+        >
           {{ content }}
         </slot>
       </div>
       <div class="card-footer">
         <!-- @slot Previous step button with props {isFirst:boolean, isLast:boolean, step:Step, nextStep:Function} -->
-        <slot name="previousStepButton" v-bind="{ isFirst, isLast, step, previousStep }">
+        <slot
+          name="previousStepButton"
+          v-bind="{ isFirst, isLast, step, previousStep }"
+        >
           <b-button
-              v-if="!isFirst"
-              class="accordion-wrapper__content__step__back-button"
-              type="button"
-              variant="link"
-              @click="previousStep"
+            v-if="!isFirst"
+            class="accordion-wrapper__content__step__back-button"
+            type="button"
+            variant="link"
+            @click="previousStep"
           >
             Back
           </b-button>
         </slot>
         <!-- @slot Next step button with props {isFirst:boolean, isLast:boolean, step:Step, nextStep:Function} }-->
-        <slot name="nextStepButton" v-bind="{ isFirst, isLast, step, nextStep }">
+        <slot
+          name="nextStepButton"
+          v-bind="{ isFirst, isLast, step, nextStep }"
+        >
           <b-button
-              v-if="!isLast"
-              class="accordion-wrapper__content__step__continue-button"
-              type="button"
-              variant="primary"
-              @click="nextStep"
+            v-if="!isLast"
+            class="accordion-wrapper__content__step__continue-button"
+            type="button"
+            variant="primary"
+            @click="nextStep"
           >
             Continue
           </b-button>
@@ -90,6 +101,23 @@ export default (Vue as VueConstructor<Vue & AccordionMixin>).extend({
       required: false
     }
   },
+  computed: {
+    isActive(): boolean {
+      const fromAccordion = !!this.accordion?.isActiveStep(this.step)
+      const fromSelf = this.active !== undefined ? this.active : false
+      return fromSelf || fromAccordion
+    },
+    isPrevious(): boolean {
+      // see slot props in Accordion.vue
+      return !!this.accordion?.isPreviousStep(this.step)
+    },
+    isFirst(): boolean {
+      return !!this.accordion?.isFirstStep(this.step)
+    },
+    isLast(): boolean {
+      return !!this.accordion?.isLastStep(this.step)
+    }
+  },
   methods: {
     nextStep() {
       this.accordion?.emitAccordionNextStepEvent()
@@ -113,23 +141,6 @@ export default (Vue as VueConstructor<Vue & AccordionMixin>).extend({
        */
       this.$emit("previous-step")
     },
-  },
-  computed: {
-    isActive(): boolean {
-      const fromAccordion = !!this.accordion?.isActiveStep(this.step)
-      const fromSelf = this.active !== undefined ? this.active : false
-      return fromSelf || fromAccordion
-    },
-    isPrevious(): boolean {
-      // see slot props in Accordion.vue
-      return !!this.accordion?.isPreviousStep(this.step)
-    },
-    isFirst(): boolean {
-      return !!this.accordion?.isFirstStep(this.step)
-    },
-    isLast(): boolean {
-      return !!this.accordion?.isLastStep(this.step)
-    }
   }
 })
 </script>

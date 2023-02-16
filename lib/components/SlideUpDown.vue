@@ -33,17 +33,6 @@ export default {
       scrollHeight: 0
     }
   },
-  watch: {
-    active () {
-      return this.triggerSlide()
-    }
-  },
-  async mounted () {
-    await this.deferedNextTick()
-    this.mounted = true
-    this.cleanLayout()
-    this.$container.addEventListener("transitionend", this.cleanLayout)
-  },
   computed: {
     stylePreTransition () {
       return {
@@ -79,6 +68,17 @@ export default {
       return this.$refs.container
     }
   },
+  watch: {
+    active () {
+      return this.triggerSlide()
+    }
+  },
+  async mounted () {
+    await this.deferedNextTick()
+    this.mounted = true
+    this.cleanLayout()
+    this.$container.addEventListener("transitionend", this.cleanLayout)
+  },
   methods: {
     async triggerSlide () {
       this.state = 'pre'
@@ -104,7 +104,11 @@ export default {
 </script>
 
 <template>
-  <component :is="tag" :style="style" ref="container">
+  <component
+    :is="tag"
+    ref="container"
+    :style="style"
+  >
     <slot />
   </component>
 </template>

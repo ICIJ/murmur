@@ -2,14 +2,14 @@
   <div class="digits-input">
     <div class="d-flex digits-input__container">
       <input
+        v-for="d in length"
         :key="d - 1"
+        v-model="values[d - 1]"
         :name="`digit-${d - 1}`"
         :class="`digits-input__container__input--${d - 1}`"
-        @keyup.delete="focusToPreviousWhenEmpty(d - 1)"
         class="digits-input__container__input w-0 form-control"
-        v-for="d in length"
-        v-model="values[d - 1]"
-      />
+        @keyup.delete="focusToPreviousWhenEmpty(d - 1)"
+      >
     </div>
   </div>  
 </template>
@@ -54,10 +54,31 @@
         mounted: false,
         values: String(this.value).split('').slice(0, this.length)
       }
-    },  
-    async mounted () {
-      await this.$nextTick()
-      this.mounted = true
+    },
+    computed: {
+      joinedValues (): string {
+        return filter(this.values, v => !isNaN(v as any)).join('')
+      },
+      /* eslint-disable no-undef */
+      inputs(): NodeListOf<HTMLElement> | [] {
+        if (!this.mounted) {
+          return []
+        }
+        return this.$el.querySelectorAll<HTMLElement>('.digits-input__container__input')
+      },
+      nextInput(): HTMLElement | null {
+        if (this.joinedValues.length == this.length) {
+          return null
+        }
+        // Next input is the first non-empty input or the last input
+        return this.inputs[this.joinedValues.length] || this.lastInput
+      },
+      hasNextInput (): boolean {
+        return !!this.nextInput
+      },
+      lastInput(): HTMLElement | null {
+        return this.inputs[this.inputs.length - 1]
+      }
     },
     watch: {
       values(values: number[] | null[] | string[]): void {
@@ -90,6 +111,10 @@
       value () {
         this.values = String(this.value).split('').slice(0, this.length)
       }
+    },  
+    async mounted () {
+      await this.$nextTick()
+      this.mounted = true
     },
     methods: {
       focusToNextInput () {
@@ -101,31 +126,6 @@
         if (!this.values[d]) {
           this.inputs[d - 1]?.focus()
         }
-      }
-    },
-    computed: {
-      joinedValues (): string {
-        return filter(this.values, v => !isNaN(v as any)).join('')
-      },
-      /* eslint-disable no-undef */
-      inputs(): NodeListOf<HTMLElement> | [] {
-        if (!this.mounted) {
-          return []
-        }
-        return this.$el.querySelectorAll<HTMLElement>('.digits-input__container__input')
-      },
-      nextInput(): HTMLElement | null {
-        if (this.joinedValues.length == this.length) {
-          return null
-        }
-        // Next input is the first non-empty input or the last input
-        return this.inputs[this.joinedValues.length] || this.lastInput
-      },
-      hasNextInput (): boolean {
-        return !!this.nextInput
-      },
-      lastInput(): HTMLElement | null {
-        return this.inputs[this.inputs.length - 1]
       }
     }
   })

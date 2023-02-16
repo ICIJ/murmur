@@ -1,29 +1,56 @@
 <template>
   <div class="follow-us">
-    <button class="btn btn-link text-light follow-us__close" @click="closeSignupPopover">
+    <button
+      class="btn btn-link text-light follow-us__close"
+      @click="closeSignupPopover"
+    >
       <fa icon="times" />
     </button>
-    <sign-up-form class="p-3"></sign-up-form>
+    <sign-up-form class="p-3" />
     <div class="px-3 pb-1 text-uppercase text-muted font-weight-bold">
       {{ $t('follow-us-popover.heading') }}
     </div>
     <div class="p-3 bg-light container-fluid text-center">
       <div class="row w-100">
         <div class="col">
-          <a href="https://twitter.com/ICIJorg" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Twitter">
-            <fa :icon="['fab', 'twitter']" size="lg" />
+          <a
+            href="https://twitter.com/ICIJorg"
+            target="_blank"
+            class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn"
+            title="Twitter"
+          >
+            <fa
+              :icon="['fab', 'twitter']"
+              size="lg"
+            />
             <span class="sr-only">Twitter</span>
           </a>
         </div>
         <div class="col">
-          <a href="https://www.facebook.com/ICIJ.org" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Facebook">
-            <fa :icon="['fab', 'facebook']" size="lg" />
+          <a
+            href="https://www.facebook.com/ICIJ.org"
+            target="_blank"
+            class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn"
+            title="Facebook"
+          >
+            <fa
+              :icon="['fab', 'facebook']"
+              size="lg"
+            />
             <span class="sr-only">Facebook</span>
           </a>
         </div>
         <div class="col">
-          <a href="https://www.linkedin.com/company/1732242/" target="_blank" class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn" title="Linkedin">
-            <fa :icon="['fab', 'linkedin']" size="lg" />
+          <a
+            href="https://www.linkedin.com/company/1732242/"
+            target="_blank"
+            class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn"
+            title="Linkedin"
+          >
+            <fa
+              :icon="['fab', 'linkedin']"
+              size="lg"
+            />
             <span class="sr-only">Linkedin</span>
           </a>
         </div>

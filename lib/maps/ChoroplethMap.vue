@@ -9,10 +9,10 @@ import chart from '../mixins/chart'
 
 export default {
   name: 'ChoroplethMap',
-  mixins: [chart],
   components: {
     ScaleLegend
   },
+  mixins: [chart],
   props: {
     hatchEmpty: {
       type: Boolean
@@ -71,12 +71,6 @@ export default {
     }
   },
   topojson: null,
-  async created () {
-    await new Promise(resolve => this.$on('loaded', resolve))
-    await this.loadTopojson()
-    this.draw()
-    this.$on('resized', this.debouncedDraw)
-  },
   watch: {
     socialMode () {
       this.draw()
@@ -90,6 +84,12 @@ export default {
     featureCursor () {
       this.setFeaturesClasses()
     }
+  },
+  async created () {
+    await new Promise(resolve => this.$on('loaded', resolve))
+    await this.loadTopojson()
+    this.draw()
+    this.$on('resized', this.debouncedDraw)
   },
   filters: {
     formatNumber: d3.format(',')
@@ -330,24 +330,47 @@ export default {
 </script>
 
 <template>
-  <div class="choropleth-map" :class="mapClass">
+  <div
+    class="choropleth-map"
+    :class="mapClass"
+  >
     <svg class="choropleth-map__main">
-      <pattern id="diagonalHatch" width="1" height="1" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-        <rect width="1" height="1" :fill="featureColorScaleEnd" />
-        <line x1="0" y1="0" x2="0" y2="1" :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }" />
+      <pattern
+        id="diagonalHatch"
+        width="1"
+        height="1"
+        patternTransform="rotate(45 0 0)"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect
+          width="1"
+          height="1"
+          :fill="featureColorScaleEnd"
+        />
+        <line
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="1"
+          :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }"
+        />
       </pattern>
     </svg>
     <scale-legend
+      v-if="!hideLegend"
       :color-scale-end="featureColorScaleEnd"
       :color-scale-start="featureColorScaleStart"
       :color-scale="featureColorScaleFunction"
       :cursor-value="cursorValue"
       :max="maxValue"
       :min="minValue"
-      v-if="!hideLegend"
-      class="choropleth-map__legend">
+      class="choropleth-map__legend"
+    >
       <template #cursor="{ value }">
-        <slot name="legend-cursor" v-bind="{ value, identifier: featureCursor }" />
+        <slot
+          name="legend-cursor"
+          v-bind="{ value, identifier: featureCursor }"
+        />
       </template>
     </scale-legend>
   </div>

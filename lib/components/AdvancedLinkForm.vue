@@ -181,8 +181,14 @@ export default defineComponent({
     :class="formClasses"
     @input="$emit('input', $event)"
   >
-    <b-tab :title="$t('advanced-link-form.raw.tab')" v-if="showForm('raw')">
-      <div class="advanced-link-form__raw" :class="{ small }">
+    <b-tab
+      v-if="showForm('raw')"
+      :title="$t('advanced-link-form.raw.tab')"
+    >
+      <div
+        class="advanced-link-form__raw"
+        :class="{ small }"
+      >
         <b-input-group :size="size">
           <b-form-input
             readonly
@@ -200,15 +206,21 @@ export default defineComponent({
         </b-input-group>
       </div>
     </b-tab>
-    <b-tab :title="$t('advanced-link-form.rich.tab')" v-if="showForm('rich')">
-      <div class="advanced-link-form__rich" :class="{ small }">
+    <b-tab
+      v-if="showForm('rich')"
+      :title="$t('advanced-link-form.rich.tab')"
+    >
+      <div
+        class="advanced-link-form__rich"
+        :class="{ small }"
+      >
         <b-input-group :size="size">
           <a
             :href="link"
             class="form-control advanced-link-form__rich__input"
             @click.prevent="selectRich()"
             v-html="titleOrLink"
-          ></a>
+          />
           <b-input-group-append>
             <haptic-copy
               class="btn-secondary"
@@ -225,10 +237,13 @@ export default defineComponent({
       </div>
     </b-tab>
     <b-tab
-      :title="$t('advanced-link-form.markdown.tab')"
       v-if="showForm('markdown')"
+      :title="$t('advanced-link-form.markdown.tab')"
     >
-      <div class="advanced-link-form__markdown" :class="{ small }">
+      <div
+        class="advanced-link-form__markdown"
+        :class="{ small }"
+      >
         <b-input-group :size="size">
           <b-form-input
             readonly
@@ -249,8 +264,14 @@ export default defineComponent({
         </p>
       </div>
     </b-tab>
-    <b-tab :title="$t('advanced-link-form.html.tab')" v-if="showForm('html')">
-      <div class="advanced-link-form__html" :class="{ small }">
+    <b-tab
+      v-if="showForm('html')"
+      :title="$t('advanced-link-form.html.tab')"
+    >
+      <div
+        class="advanced-link-form__html"
+        :class="{ small }"
+      >
         <b-input-group :size="size">
           <b-form-input
             readonly

@@ -10,7 +10,10 @@
       'bar-chart--social-mode': socialMode,
     }"
   >
-    <svg :width="width" :height="height">
+    <svg
+      :width="width"
+      :height="height"
+    >
       <g
         :style="{ transform: `translate(0, ${margin.top}px)` }"
         class="bar-chart__labels"
@@ -31,9 +34,9 @@
         class="bar-chart__bars"
       >
         <g
-          class="bar-chart__bars__item"
           v-for="(bar, i) in bars"
           :key="i"
+          class="bar-chart__bars__item"
           :class="{ 'bar-chart__bars__item--highlight': bar.highlight }"
         >
           <rect
@@ -41,7 +44,7 @@
             :height="bar.height"
             :x="bar.x"
             :y="bar.y"
-          ></rect>
+          />
           <text
             class="bar-chart__bars__item__value"
             :x="bar.width + valueGap"
@@ -212,17 +215,17 @@ export default {
       return (this.barHeight + this.barGap) * this.sortedData.length;
     },
   },
+  watch: {
+    width() {
+      this.initialize();
+    },
+  },
   mounted() {
     window.addEventListener("resize", this.onResize);
     this.onResize();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResize);
-  },
-  watch: {
-    width() {
-      this.initialize();
-    },
   },
   methods: {
     onResize() {

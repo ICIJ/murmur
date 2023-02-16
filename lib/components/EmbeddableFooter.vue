@@ -5,33 +5,41 @@
       target="_blank"
       class="text-white embeddable-footer__brand"
     >
-      <brand :size="40" no-border class="mr-2" color="white" />
+      <brand
+        :size="40"
+        no-border
+        class="mr-2"
+        color="white"
+      />
       {{ title }}
     </a>
     <div class="embeddable-footer__lead small text-truncate">
       <!-- @slot Main slot to redefine lead text display -->
-      <slot v-bind:lead="lead">
-        <span v-html="lead"></span>
+      <slot :lead="lead">
+        <span v-html="lead" />
       </slot>
     </div>
     <!-- @slot Overide the sharing button -->
-    <slot name="sharing-button" v-bind="{ sharingOptionsValues }">
+    <slot
+      name="sharing-button"
+      v-bind="{ sharingOptionsValues }"
+    >
       <button
         class="btn btn-link text-white btn-sm py-0 embeddable-footer__share-btn"
-        @click="showShareOptions = !showShareOptions"
         :class="{ active: showShareOptions }"
+        @click="showShareOptions = !showShareOptions"
       >
         <fa icon="share-alt" />
         <span class="sr-only">{{ $t("embeddable-footer.share") }}</span>
       </button>
     </slot>
     <sharing-options
-      :values="sharingOptionsValues"
       v-if="showShareOptions"
+      :values="sharingOptionsValues"
       direction="column-reverse"
       :iframe-min-height="iframeMinHeight"
       :iframe-min-width="iframeMinWidth"
-    ></sharing-options>
+    />
   </div>
 </template>
 
@@ -52,9 +60,6 @@ import { library, default as Fa } from "./Fa";
 export default {
   i18n,
   name: "EmbeddableFooter",
-  beforeMount() {
-    library.add(faShareAlt);
-  },
   components: {
     Fa,
     SharingOptions,
@@ -106,6 +111,9 @@ export default {
     return {
       showShareOptions: false,
     };
+  },
+  beforeMount() {
+    library.add(faShareAlt);
   },
   mounted() {
     IframeResizer.create();

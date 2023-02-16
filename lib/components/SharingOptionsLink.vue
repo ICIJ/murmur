@@ -74,6 +74,9 @@
    */
   export default {
     name: 'SharingOptionsLink',
+    components: {
+      Fa
+    },
     props: {
       /**
        * Root element type
@@ -135,9 +138,6 @@
         type: String
       }
     },
-    components: {
-      Fa
-    },
     data () {
       return {
         popup: {
@@ -156,14 +156,6 @@
           screenX: 0
         }
       };
-    },
-    render (h) {
-      const click = this.hasPopup() ? preventDefault(this.click) : noop
-      const href = this.href
-      return h(this.tag, { attrs: { href }, on: { click } }, this.$slots.default || [
-        this.renderIcon(h),
-        h('span', { class: 'sr-only' }, this.name)
-      ])
     },
     computed: {
       href () {
@@ -227,6 +219,14 @@
       hasPopup () {
         return this.network !== 'email'
       }
+    },
+    render (h) {
+      const click = this.hasPopup() ? preventDefault(this.click) : noop
+      const href = this.href
+      return h(this.tag, { attrs: { href }, on: { click } }, this.$slots.default || [
+        this.renderIcon(h),
+        h('span', { class: 'sr-only' }, this.name)
+      ])
     }
   }
 </script>

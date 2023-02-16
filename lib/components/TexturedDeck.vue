@@ -80,7 +80,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <component :is="tag" :style="{ backgroundSize, backgroundImage }" v-bind="inheritedProps" class="textured-deck">
+  <component
+    :is="tag"
+    :style="{ backgroundSize, backgroundImage }"
+    v-bind="inheritedProps"
+    class="textured-deck"
+  >
     <slot />
   </component>
 </template>

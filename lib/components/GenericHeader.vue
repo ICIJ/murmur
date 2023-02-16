@@ -1,44 +1,99 @@
 <template>
   <div>
-    <component :is="rootElement" id="generic-header" data-turbolinks-permanent class="navbar navbar-expand-lg navbar-light generic-header" :offset="100" :z-index="1020" :on-unpin="closeFollowUsPopover" :class="{ 'headroom--frozen': !collapseNavbar, 'generic-header--collapsed': collapseNavbar }" :style="{ position: position }">
+    <component
+      :is="rootElement"
+      id="generic-header"
+      data-turbolinks-permanent
+      class="navbar navbar-expand-lg navbar-light generic-header"
+      :offset="100"
+      :z-index="1020"
+      :on-unpin="closeFollowUsPopover"
+      :class="{ 'headroom--frozen': !collapseNavbar, 'generic-header--collapsed': collapseNavbar }"
+      :style="{ position: position }"
+    >
       <!-- @slot Redefines brand -->
       <slot name="brand">
-        <a :href="homeUrl" class="navbar-brand generic-header__brand">
-          <brand-expansion :size="45"  mode="short" class="d-inline-block d-sm-none" />
-          <brand-expansion :size="45"  mode="long" class="d-none d-sm-inline-block" />
+        <a
+          :href="homeUrl"
+          class="navbar-brand generic-header__brand"
+        >
+          <brand-expansion
+            :size="45"
+            mode="short"
+            class="d-inline-block d-sm-none"
+          />
+          <brand-expansion
+            :size="45"
+            mode="long"
+            class="d-none d-sm-inline-block"
+          />
           <span class="sr-only">International Consortium of Investigative Journalists</span>
         </a>
       </slot>
-      <button class="navbar-toggler border-0" type="button" aria-label="Toggle navigation" @click="toggleNavbar">
-        <fa icon="bars" size="xl" class="text-primary" />
+      <button
+        class="navbar-toggler border-0"
+        type="button"
+        aria-label="Toggle navigation"
+        @click="toggleNavbar"
+      >
+        <fa
+          icon="bars"
+          size="xl"
+          class="text-primary"
+        />
       </button>
-      <div class="navbar-collapse" :class="{ collapse: collapseNavbar }">
+      <div
+        class="navbar-collapse"
+        :class="{ collapse: collapseNavbar }"
+      >
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="https://www.icij.org/investigations/" target="_blank" class="nav-link text-uppercase">
+            <a
+              href="https://www.icij.org/investigations/"
+              target="_blank"
+              class="nav-link text-uppercase"
+            >
               {{ $t('generic-header.navbar.investigations') }}
             </a>
           </li>
           <li class="nav-item">
-            <a href="https://www.icij.org/leak/" target="_blank" class="nav-link text-uppercase">
+            <a
+              href="https://www.icij.org/leak/"
+              target="_blank"
+              class="nav-link text-uppercase"
+            >
               {{ $t('generic-header.navbar.leak') }}
             </a>
           </li>
           <li class="nav-item">
-            <a id="follow-us-toggler" class="nav-link text-uppercase">
+            <a
+              id="follow-us-toggler"
+              class="nav-link text-uppercase"
+            >
               {{ $t('generic-header.navbar.follow') }}
             </a>
           </li>
           <li class="nav-item mr-lg-3">
             <slot name="donate-link">
-              <a class="text-uppercase btn btn-primary font-weight-bold" target="_blank" :href="donateUrl">
+              <a
+                class="text-uppercase btn btn-primary font-weight-bold"
+                target="_blank"
+                :href="donateUrl"
+              >
                 {{ $t('generic-header.navbar.support') }}
               </a>
             </slot>
           </li>
         </ul>
-        <b-popover id="follow-us-popover" ref="followUsPopover" container="generic-header" target="follow-us-toggler" placement="bottomleft" :show.sync="showFollowUsPopover">
-          <follow-us-popover :show.sync="showFollowUsPopover"></follow-us-popover>
+        <b-popover
+          id="follow-us-popover"
+          ref="followUsPopover"
+          container="generic-header"
+          target="follow-us-toggler"
+          placement="bottomleft"
+          :show.sync="showFollowUsPopover"
+        >
+          <follow-us-popover :show.sync="showFollowUsPopover" />
         </b-popover>
       </div>
     </component>
@@ -65,9 +120,6 @@
   export default {
     i18n,
     name: 'GenericHeader',
-    beforeMount() {
-      library.add(faBars)
-    },
     components: {
       BModal,
       BPopover,
@@ -118,16 +170,6 @@
         collapseNavbar: true
       }
     },
-    methods: {
-      closeFollowUsPopover ()  {
-        this.showFollowUsPopover = false
-      },
-      toggleNavbar () {
-        this.collapseNavbar = !this.collapseNavbar
-        this.$root.$emit('bv::hide::popover')
-        this.$root.$emit('bv::hide::dropdwon')
-      }
-    },
     computed: {
       rootElement () {
         return this.noHeadroom ? 'div' : 'headroom'
@@ -142,6 +184,19 @@
           color: 'white',
           background: '#A10207'
         }
+      }
+    },
+    beforeMount() {
+      library.add(faBars)
+    },
+    methods: {
+      closeFollowUsPopover ()  {
+        this.showFollowUsPopover = false
+      },
+      toggleNavbar () {
+        this.collapseNavbar = !this.collapseNavbar
+        this.$root.$emit('bv::hide::popover')
+        this.$root.$emit('bv::hide::dropdwon')
       }
     }
   }

@@ -1,5 +1,8 @@
 <template>
-  <div class="sharing-options" :style="style">
+  <div
+    class="sharing-options"
+    :style="style"
+  >
     <sharing-options-link
       network="facebook"
       class="sharing-options__link"
@@ -21,8 +24,8 @@
       v-bind="valuesFor('email')"
     />
     <div
-      class="sharing-options__link sharing-options__link--embed"
       v-show="!noEmbed"
+      class="sharing-options__link sharing-options__link--embed"
     >
       <a @click="showEmbedForm">
         <fa icon="code" />
@@ -30,8 +33,8 @@
       </a>
     </div>
     <b-modal
-      hide-footer
       ref="embedForm"
+      hide-footer
       title="Embed on your website"
       class="text-dark"
     >
@@ -41,7 +44,7 @@
         :url="embedUrl || url"
         :min-height="iframeMinHeight"
         :min-width="iframeMinWidth"
-      ></embed-form>
+      />
     </b-modal>
   </div>
 </template>
@@ -72,9 +75,6 @@ export default {
     EmbedForm,
     SharingOptionsLink,
     Fa,
-  },
-  beforeMount() {
-    library.add(faCode);
   },
   props: {
     /**
@@ -145,32 +145,6 @@ export default {
       type: Boolean,
     },
   },
-  methods: {
-    showEmbedForm() {
-      return this.$refs.embedForm.show();
-    },
-    valuesFor(network) {
-      const values = Object.assign(this.metaValues, this.values);
-      return reduce(
-        this.valuesKeys,
-        (res, key) => {
-          res[key] = get(values, `${network}_${key}`, values[key]);
-          return res;
-        },
-        {}
-      );
-    },
-    defaultValueFor(key, metaSelector = null) {
-      if (this.noMeta || !metaSelector) {
-        return config.get(key);
-      }
-      return get(
-        document.head.querySelector(metaSelector),
-        "content",
-        config.get(key)
-      );
-    },
-  },
   computed: {
     style() {
       return {
@@ -206,6 +180,35 @@ export default {
           'meta[name="twitter:site"]'
         ),
       };
+    },
+  },
+  beforeMount() {
+    library.add(faCode);
+  },
+  methods: {
+    showEmbedForm() {
+      return this.$refs.embedForm.show();
+    },
+    valuesFor(network) {
+      const values = Object.assign(this.metaValues, this.values);
+      return reduce(
+        this.valuesKeys,
+        (res, key) => {
+          res[key] = get(values, `${network}_${key}`, values[key]);
+          return res;
+        },
+        {}
+      );
+    },
+    defaultValueFor(key, metaSelector = null) {
+      if (this.noMeta || !metaSelector) {
+        return config.get(key);
+      }
+      return get(
+        document.head.querySelector(metaSelector),
+        "content",
+        config.get(key)
+      );
     },
   },
 };

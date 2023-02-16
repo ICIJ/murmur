@@ -4,7 +4,10 @@
     :style="{ '--line-color': lineColor }"
     :class="{ 'line-chart--social-mode': socialMode }"
   >
-    <svg :width="width" :height="height">
+    <svg
+      :width="width"
+      :height="height"
+    >
       <g
         class="line-chart__axis line-chart__axis--x"
         :style="{
@@ -22,7 +25,10 @@
         >
       </g>
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
-        <path class="line-chart__line" :d="line" />
+        <path
+          class="line-chart__line"
+          :d="line"
+        />
       </g>
     </svg>
   </div>
@@ -161,13 +167,6 @@ export default {
       });
     },
   },
-  mounted() {
-    window.addEventListener("resize", this.setSizes);
-    this.setSizes();
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.setSizes);
-  },
   watch: {
     socialMode() {
       this.setSizes();
@@ -187,6 +186,13 @@ export default {
     labelHeight() {
       this.update();
     },
+  },
+  mounted() {
+    window.addEventListener("resize", this.setSizes);
+    this.setSizes();
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.setSizes);
   },
   methods: {
     createLine: d3

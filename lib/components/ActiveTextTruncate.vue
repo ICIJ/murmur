@@ -57,15 +57,6 @@
       }
     },
     resizeObserver: null,
-    mounted () {
-      this.$options.resizeObserver = new ResizeObserver(this.setup)
-      // Bind the resize observer after the first rendering
-      this.$nextTick(() => this.$options.resizeObserver?.observe(this.$el))
-    },
-    beforeDestroy () {
-      this.$options.resizeObserver?.unobserve(this.$el)
-      this.$options.resizeObserver = null
-    },
     computed: {
       wrapperElement ():  Element | null {
         const selector = '.active-text-truncate__wrapper'
@@ -125,6 +116,15 @@
         return new RequestAnimationFrameWrapper()
       }
     },
+    mounted () {
+      this.$options.resizeObserver = new ResizeObserver(this.setup)
+      // Bind the resize observer after the first rendering
+      this.$nextTick(() => this.$options.resizeObserver?.observe(this.$el))
+    },
+    beforeDestroy () {
+      this.$options.resizeObserver?.unobserve(this.$el)
+      this.$options.resizeObserver = null
+    },
     methods: {
       setup () {
         this.resizeObserverKey = uniqueId()
@@ -173,19 +173,21 @@
 </script>
 
 <template>
-  <span class="active-text-truncate"
-        :class="{
-          'active-text-truncate--fading': isFading,
-          [`active-text-truncate--${direction}`]: true
-        }"
-        :style="{
-          '--fading-left-width': fadingLeftWidth,
-          '--fading-right-width': fadingRightWidth,
-          '--text-offset-transition-duration': textOffsetTransitionDuration,
-          '--text-offset-transition-delay': textOffsetTransitionDelay,
-          '--text-final-offset': textFinalOffset
-        }"
-        @mouseleave="resetTextLivePosition">
+  <span
+    class="active-text-truncate"
+    :class="{
+      'active-text-truncate--fading': isFading,
+      [`active-text-truncate--${direction}`]: true
+    }"
+    :style="{
+      '--fading-left-width': fadingLeftWidth,
+      '--fading-right-width': fadingRightWidth,
+      '--text-offset-transition-duration': textOffsetTransitionDuration,
+      '--text-offset-transition-delay': textOffsetTransitionDelay,
+      '--text-final-offset': textFinalOffset
+    }"
+    @mouseleave="resetTextLivePosition"
+  >
     <span class="active-text-truncate__wrapper">
       <span class="active-text-truncate__wrapper__text">
         <slot />

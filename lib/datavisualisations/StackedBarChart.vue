@@ -14,8 +14,8 @@
     <div class="d-flex align-items-center">
       <slot name="header-left">
         <ul
-          class="stacked-bar-chart__legend list-inline mx-0 mt-0 mb-2"
           v-if="!hideLegend"
+          class="stacked-bar-chart__legend list-inline mx-0 mt-0 mb-2"
         >
           <li
             v-for="key in discoveredKeys"
@@ -31,7 +31,7 @@
             <span
               class="stacked-bar-chart__legend__item__box"
               :style="{ 'background-color': colorScale(key) }"
-            ></span>
+            />
             {{ groupName(key) }}
           </li>
         </ul>
@@ -40,10 +40,10 @@
     </div>
     <div class="stacked-bar-chart__groups">
       <div
-        :class="{ 'flex-column': labelAbove }"
-        :key="i"
-        class="stacked-bar-chart__groups__item border-bottom flex-fill d-flex align-items-center"
         v-for="(datum, i) in sortedData"
+        :key="i"
+        :class="{ 'flex-column': labelAbove }"
+        class="stacked-bar-chart__groups__item border-bottom flex-fill d-flex align-items-center"
       >
         <div
           class="stacked-bar-chart__groups__item__label mr-1 small"
@@ -56,8 +56,6 @@
         >
           <div
             v-for="(key, j) in discoveredKeys"
-            @mouseover="delayHighlight(key)"
-            @mouseleave="restoreHighlights()"
             :key="j"
             :style="barStyle(i, key)"
             class="stacked-bar-chart__groups__item__bars__item"
@@ -79,6 +77,8 @@
               'stacked-bar-chart__groups__item__bars__item--value-hidden':
                 hasValueHidden(i, key),
             }"
+            @mouseover="delayHighlight(key)"
+            @mouseleave="restoreHighlights()"
           >
             <div class="stacked-bar-chart__groups__item__bars__item__value p-1">
               {{ datum[key] | d3Formatter(xAxisTickFormat) }}
@@ -231,20 +231,6 @@ export default {
       highlightTimeout: null,
     };
   },
-  watch: {
-    relative() {
-      this.$nextTick(this.$forceUpdate);
-    },
-    height() {
-      this.$nextTick(this.$forceUpdate);
-    },
-    sortBy() {
-      this.$nextTick(this.$forceUpdate);
-    },
-    highlights() {
-      this.highlightedKeys = this.highlights;
-    },
-  },
   computed: {
     hasConstraintHeight() {
       return this.fixedHeight !== null || this.socialMode;
@@ -290,6 +276,20 @@ export default {
       return this.socialMode && this.mounted
         ? `${this.$el.offsetWidth * this.baseHeightRatio}px`
         : "auto";
+    },
+  },
+  watch: {
+    relative() {
+      this.$nextTick(this.$forceUpdate);
+    },
+    height() {
+      this.$nextTick(this.$forceUpdate);
+    },
+    sortBy() {
+      this.$nextTick(this.$forceUpdate);
+    },
+    highlights() {
+      this.highlightedKeys = this.highlights;
     },
   },
   methods: {
