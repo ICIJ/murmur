@@ -1,4 +1,10 @@
-A form to encourage donations. We usualy put this form inside a modal (here, with Boostrap Vue).
+---
+title: Donate Form
+description: A form to encourage donations.
+tags: depracted
+---
+
+We usualy put this form inside a modal.
 
 ::: sample-card
 <div class="p-4 text-center">
