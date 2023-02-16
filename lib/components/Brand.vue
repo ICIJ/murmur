@@ -22,6 +22,7 @@ import { isString } from 'lodash'
 
 import type { BrandStyle } from '@lib/types'
 
+
 /**
  * A component to create variations of ICIJ logo
  */
