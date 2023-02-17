@@ -2,7 +2,7 @@
   <footer class="generic-footer">
     <div class="container">
       <div class="row">
-        <div class="col-md-5">
+        <div class="col-12 col-lg-5">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
             <a
               href="https://icij.org"
@@ -34,12 +34,69 @@
           <!-- @slot Additional content on the left side of the footer -->
           <slot name="left" />
         </div>
-        <div class="col-md-7">
+        <div class="col-12 col-lg-7">
           <div class="row justify-content-end">
-            <div class="col-md-5">
+            <div v-if="includeAboutUs" class="col-6 col-lg-4">
+              <h5 class="text-uppercase mb-3">
+                About Us
+              </h5>
+              <ul class="list-unstyled">
+                <li class="list-unstyled-item">
+                  <a
+                    href="https://www.icij.org/investigations/uber-files/"
+                    target="_blank"
+                  >
+                    Our team
+                  </a>
+                </li>
+                <li class="list-unstyled-item">
+                  <a
+                    href="https://www.icij.org/investigations/uber-files/"
+                    target="_blank"
+                  >
+                    Our supporters
+                  </a>
+                </li>
+                <li class="list-unstyled-item">
+                  <a
+                    href="https://www.icij.org/investigations/uber-files/"
+                    target="_blank"
+                  >
+                    ICIJ's Awards
+                  </a>
+                </li>
+                <li class="list-unstyled-item">
+                  <a
+                    href="https://www.icij.org/investigations/uber-files/"
+                    target="_blank"
+                  >
+                    Corportate
+                  </a>
+                </li>
+                <li class="list-unstyled-item">
+                  <a
+                    href="https://www.icij.org/investigations/uber-files/"
+                    target="_blank"
+                  >
+                    Work with us
+                  </a>
+                </li>
+                <li class="list-unstyled-item">
+                  <a
+                    href="https://www.icij.org/investigations/uber-files/"
+                    target="_blank"
+                  >
+                    Journalists
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-6 col-lg-4">
               <h5 class="text-uppercase mb-3">
                 {{ $t('generic-footer.investigations') }}
               </h5>
+
+
               <!-- @slot List of investigations -->
               <slot name="investigations">
                 <ul class="list-unstyled">
@@ -94,7 +151,7 @@
                 </ul>
               </slot>
             </div>
-            <div class="col-md-4">
+            <div class="col-6 col-lg-4">
               <h5 class="text-uppercase mb-3">
                 {{ $t('generic-footer.follow-us') }}
               </h5>
@@ -180,6 +237,13 @@ export default {
     version: {
       type: String,
       default: null
+    },
+    /**
+     * Whether to include the About Us column or not
+     */
+    includeAboutUs: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
