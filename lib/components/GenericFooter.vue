@@ -36,7 +36,7 @@
         </div>
         <div class="col-12 col-lg-7">
           <div class="row justify-content-end">
-            <div v-if="includeAboutUs" class="col-6 col-lg-4">
+            <div v-if="showAboutUs" class="col-6 col-lg-4">
               <h5 class="text-uppercase mb-3">
                 About Us
               </h5>
@@ -239,9 +239,9 @@ export default {
       default: null
     },
     /**
-     * Whether to include the About Us column or not
+     * Whether to show the About Us column or not
      */
-    includeAboutUs: {
+    showAboutUs: {
       type: Boolean,
       default: false
     }
