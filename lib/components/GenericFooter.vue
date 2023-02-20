@@ -43,7 +43,7 @@
               <ul class="list-unstyled">
                 <li class="list-unstyled-item">
                   <a
-                    href="https://www.icij.org/investigations/uber-files/"
+                    href="https://www.icij.org/about/our-team/"
                     target="_blank"
                   >
                     Our team
@@ -51,7 +51,7 @@
                 </li>
                 <li class="list-unstyled-item">
                   <a
-                    href="https://www.icij.org/investigations/uber-files/"
+                    href="https://www.icij.org/about/our-supporters/"
                     target="_blank"
                   >
                     Our supporters
@@ -59,7 +59,7 @@
                 </li>
                 <li class="list-unstyled-item">
                   <a
-                    href="https://www.icij.org/investigations/uber-files/"
+                    href="https://www.icij.org/about/awards/"
                     target="_blank"
                   >
                     ICIJ's Awards
@@ -67,7 +67,7 @@
                 </li>
                 <li class="list-unstyled-item">
                   <a
-                    href="https://www.icij.org/investigations/uber-files/"
+                    href="https://www.icij.org/about/corporate/"
                     target="_blank"
                   >
                     Corportate
@@ -75,7 +75,7 @@
                 </li>
                 <li class="list-unstyled-item">
                   <a
-                    href="https://www.icij.org/investigations/uber-files/"
+                    href="https://www.icij.org/about/work-with-us/"
                     target="_blank"
                   >
                     Work with us
@@ -83,7 +83,7 @@
                 </li>
                 <li class="list-unstyled-item">
                   <a
-                    href="https://www.icij.org/investigations/uber-files/"
+                    href="https://www.icij.org/journalists/"
                     target="_blank"
                   >
                     Journalists
