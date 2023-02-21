@@ -5,10 +5,14 @@
         v-for="d in length"
         :key="d - 1"
         v-model="values[d - 1]"
-        :name="`digit-${d - 1}`"
         :class="`digits-input__container__input--${d - 1}`"
         class="digits-input__container__input w-0 form-control"
         @keyup.delete="focusToPreviousWhenEmpty(d - 1)"
+      >
+      <input 
+        type="hidden"
+        :value="joinedValues" 
+        :name="name"
       >
     </div>
   </div>  
@@ -47,6 +51,13 @@
       value: {
         type: [String, Number],
         default: ''
+      },
+      /**
+       * Name of the input
+       */
+       name: {
+        type: String,
+        default: ''
       }
     },
     data(): DigitsInputData {
@@ -56,7 +67,7 @@
       }
     },
     computed: {
-      joinedValues (): string {
+      joinedValues(): string {
         return filter(this.values, v => !isNaN(v as any)).join('')
       },
       /* eslint-disable no-undef */
@@ -73,7 +84,7 @@
         // Next input is the first non-empty input or the last input
         return this.inputs[this.joinedValues.length] || this.lastInput
       },
-      hasNextInput (): boolean {
+      hasNextInput(): boolean {
         return !!this.nextInput
       },
       lastInput(): HTMLElement | null {
@@ -105,24 +116,24 @@
         }
         this.focusToNextInput()
       },
-      joinedValues () {
+      joinedValues() {
         this.$emit('input', this.joinedValues)
       },
-      value () {
+      value() {
         this.values = String(this.value).split('').slice(0, this.length)
       }
     },  
-    async mounted () {
+    async mounted() {
       await this.$nextTick()
       this.mounted = true
     },
     methods: {
-      focusToNextInput () {
+      focusToNextInput() {
         if (this.hasNextInput) {
           this.nextInput?.focus()
         }
       },
-      focusToPreviousWhenEmpty (d: number) {
+      focusToPreviousWhenEmpty(d: number) {
         if (!this.values[d]) {
           this.inputs[d - 1]?.focus()
         }
