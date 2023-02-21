@@ -15,17 +15,21 @@ describe('DigitsInput', () => {
 
 
     beforeEach(() => {
-      const propsData = { length: 4 }
+      const propsData = { length: 4, name: 'inputName' }
       const attachTo = createContainer()
       wrapper = shallowMount(DigitsInput as any, { propsData, attachTo })
     })
 
-    it('should have 4inputs', () => {
-      expect(wrapper.emitted('input')).toBeFalsy()
+    it('should have 4 visible inputs and a hidden one', () => {
+      const inputs = wrapper.findAll('input');
+      expect(inputs).toHaveLength(5)
+      expect(
+        inputs.filter(input => input.attributes().type === 'hidden')
+      ).toHaveLength(1)
     })
 
     it('should not trigger input event yet', () => {
-      expect(wrapper.findAll('input')).toHaveLength(4)
+      expect(wrapper.emitted('input')).toBeFalsy()
     })
 
     it('should trigger input event when changing the first input', async () => {
@@ -138,6 +142,16 @@ describe('DigitsInput', () => {
       await wrapper.findAll('input').at(3).trigger('keyup.delete')
       const thirdInput = wrapper.findAll('input').at(2).element as HTMLInputElement
       expect(thirdInput).toBe(document.activeElement)
+    })
+
+    it('should set the name passed in prop to the last input', () => {
+      const input = wrapper.findAll('input').at(4);
+      expect(input.attributes().name).toBe('inputName')
+    })
+
+    it('should set the concatenated digits as a value to the last input', async () => {
+      await wrapper.findAll('input').at(0).setValue('2 0 4 8')
+      expect((wrapper.findAll('input').at(4).element as HTMLInputElement).value).toBe('2048')
     })
   })
 })
