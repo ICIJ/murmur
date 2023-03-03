@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import GenericFooter from '@lib/components/GenericFooter.vue'
+import GenericFooter from '@/components/GenericFooter.vue'
 
 describe('GenericFooter.vue', () => {
 

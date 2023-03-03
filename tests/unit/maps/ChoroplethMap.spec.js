@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import { join, resolve } from 'path'
 import { zipObjectDeep } from 'lodash'
 import { shallowMount } from '@vue/test-utils'
-import ChoroplethMap from '@lib/maps/ChoroplethMap.vue'
+import ChoroplethMap from '@/maps/ChoroplethMap.vue'
 
 vi.mock('d3', async () => {
   return {

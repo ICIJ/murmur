@@ -59,7 +59,7 @@ import { library, default as Fa } from './Fa'
 import { defineComponent, PropType } from 'vue'
 import type Vue from 'vue'
 
-import  { TooltipPlacement } from '@lib/enums'
+import  { TooltipPlacement } from '@/enums'
 
 
 /**

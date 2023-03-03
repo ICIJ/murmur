@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import ImddbHeader from '@lib/components/ImddbHeader.vue'
+import ImddbHeader from '@/components/ImddbHeader.vue'
 
 describe('ImddbHeader.vue', () => {
 

@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts">
-import config from '@lib/config'
+import config from '@/config'
 import { defineComponent, PropType } from 'vue'
-import { formatRows } from '@lib/utils/placeholder'
+import { formatRows } from '@/utils/placeholder'
 
-import type { ContentPlaceholderRows, ContentPlaceholderStyledRows } from "@lib/utils/placeholderTypes"
+import type { ContentPlaceholderRows, ContentPlaceholderStyledRows } from "@/utils/placeholderTypes"
 
 /**
  * A component to fill empty spaces with animated placeholders until content is loaded.

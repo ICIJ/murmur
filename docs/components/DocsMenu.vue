@@ -3,7 +3,7 @@
     <div>
       <div class="docs-menu__brand d-none d-md-flex">
         <textured-deck to="/" tag="router-link" value="rock" class="docs-menu__brand__logo">
-          <img src="@lib/assets/images/murmur-white.png" alt="" height="110px" />
+          <img src="@/assets/images/murmur-white.png" alt="" height="110px" />
         </textured-deck>
         <div class="docs-menu__brand__version">
           <a class="small d-block text-white" href="https://www.npmjs.com/package/@icij/murmur" target="_blank">
@@ -31,9 +31,9 @@
   import packageInfo  from '@package'
   import { filterRoutes } from '../routes'
   import DocsMenuSection from './DocsMenuSection'
-  import { library, default as Fa } from '@lib/components/Fa'
-  import BrandExpansion from '@components/BrandExpansion.vue'
-  import TexturedDeck from '@components/TexturedDeck.vue'
+  import { library, default as Fa } from '@/components/Fa'
+  import BrandExpansion from '@/components/BrandExpansion.vue'
+  import TexturedDeck from '@/components/TexturedDeck.vue'
 
   library.add(faPuzzlePiece, faGithub)
 

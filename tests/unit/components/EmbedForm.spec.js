@@ -1,6 +1,6 @@
 import startsWith from 'lodash/startsWith'
 import { shallowMount } from '@vue/test-utils'
-import EmbedForm from '@lib/components/EmbedForm.vue'
+import EmbedForm from '@/components/EmbedForm.vue'
 
 describe('EmbedForm.vue', () => {
 

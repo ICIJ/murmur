@@ -46,11 +46,11 @@
 <script>
 import { faShareAlt } from "@fortawesome/free-solid-svg-icons/faShareAlt";
 
-import i18n from "@lib/i18n";
-import IframeResizer from "@lib/utils/iframe-resizer";
+import i18n from "@/i18n";
+import IframeResizer from "@/utils/iframe-resizer";
 import Brand from "./Brand";
 import SharingOptions from "./SharingOptions";
-import config from "@lib/config";
+import config from "@/config";
 
 import { library, default as Fa } from "./Fa";
 

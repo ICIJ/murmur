@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import SecretInput from '@lib/components/SecretInput.vue'
+import SecretInput from '@/components/SecretInput.vue'
 
 describe('SecretInput.vue', () => {
   // Stubs Bootstrap Vue components

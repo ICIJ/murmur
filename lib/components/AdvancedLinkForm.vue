@@ -1,5 +1,5 @@
 <script lang="ts">
-import i18n from "@lib/i18n";
+import i18n from "@/i18n";
 import { defineComponent } from "vue";
 import {
   BTabs,
@@ -9,7 +9,7 @@ import {
   BFormInput,
 } from "bootstrap-vue";
 import HapticCopy from "./HapticCopy.vue";
-import { Size } from "@lib/enums";
+import { Size } from "@/enums";
 
 type AdvancedLinkedFormClassName = `${"advanced-link-form--"}${string}`;
 interface AdvancedLinkedFormClasses {

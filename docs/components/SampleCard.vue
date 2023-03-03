@@ -33,8 +33,8 @@
 <script>
   import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
 
-  import { library, default as Fa } from '@lib/components/Fa'
-  import SlideUpDown from '@lib/components/SlideUpDown.vue'
+  import { library, default as Fa } from '@/components/Fa'
+  import SlideUpDown from '@/components/SlideUpDown.vue'
 
   export default {
     name: 'SampleCard',

@@ -194,7 +194,7 @@
 </template>
 
 <script>
-  import i18n from '@lib/i18n'
+  import i18n from '@/i18n'
   import keys from 'lodash/keys'
   import map from 'lodash/map'
   import sortBy from 'lodash/sortBy'

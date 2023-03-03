@@ -1,11 +1,11 @@
 import {mount, shallowMount} from "@vue/test-utils";
 import {BButton} from 'bootstrap-vue'
-import AccordionStep from "@lib/components/AccordionStep.vue";
-import {AccordionKey} from "@lib/keys";
+import AccordionStep from "@/components/AccordionStep.vue";
+import {AccordionKey} from "@/keys";
 
 import Vue from 'vue'
 
-import type {Accordion, AccordionProvide} from "@lib/types";
+import type {Accordion, AccordionProvide} from "@/types";
 
 describe('AccordionStep', () => {
     // Stubs Bootstrap Vue components

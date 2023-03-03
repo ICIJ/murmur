@@ -105,7 +105,7 @@
   import { BPopover } from 'bootstrap-vue/esm/components/popover/popover'
   import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 
-  import i18n from '@lib/i18n'
+  import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
   import BrandExpansion from './BrandExpansion.vue'
   import Fa from './Fa.js'
