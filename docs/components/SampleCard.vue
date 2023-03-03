@@ -35,10 +35,12 @@
 
   import { library, default as Fa } from '@/components/Fa'
   import SlideUpDown from '@/components/SlideUpDown.vue'
+  import HapticCopy from '@/components/HapticCopy.vue'
 
   export default {
     name: 'SampleCard',
     components: {
+      HapticCopy,
       SlideUpDown,
       Fa
     },
