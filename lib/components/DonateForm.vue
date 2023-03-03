@@ -26,7 +26,7 @@
         <div class="donate-form__payment__levels row">
           <div
             class="col donate-form__payment__level"
-            :class="{ active: level == 'conversation' }"
+            :class="{ active: level === 'conversation' }"
             @click="selectLevel('conversation')"
           >
             <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
@@ -45,7 +45,7 @@
           </div>
           <div
             class="col donate-form__payment__level"
-            :class="{ active: level == 'rules' }"
+            :class="{ active: level === 'rules' }"
             @click="selectLevel('rules')"
           >
             <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
@@ -64,7 +64,7 @@
           </div>
           <div
             class="col donate-form__payment__level"
-            :class="{ active: level == 'world' }"
+            :class="{ active: level === 'world' }"
             @click="selectLevel('world')"
           >
             <h3 class="donate-form__payment__heading text-uppercase font-weight-bold text-primary h5">
