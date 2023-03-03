@@ -1,5 +1,5 @@
 import noop from 'lodash/noop'
-import { copyText } from '@lib/utils/clipboard'
+import { copyText } from '@/utils/clipboard'
 
 describe('clipboard.js', () => {
 

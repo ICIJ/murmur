@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import OrdinalLegend from '@lib/components/OrdinalLegend.vue'
+import OrdinalLegend from '@/components/OrdinalLegend.vue'
 
 describe('OrdinalLegend.vue', () => {
   let wrapper

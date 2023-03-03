@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 
-import SharingOptionsLink from '@lib/components/SharingOptionsLink'
-import { $popup } from '@lib/components/SharingOptionsLink'
+import SharingOptionsLink from '@/components/SharingOptionsLink'
+import { $popup } from '@/components/SharingOptionsLink'
 
 function mockPopupParent () {
   return {

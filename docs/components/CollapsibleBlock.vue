@@ -23,7 +23,7 @@
   import hljs from 'highlight.js'
   import { faCaretRight } from '@fortawesome/free-solid-svg-icons/faCaretRight'
 
-  import { library, default as Fa } from '@lib/components/Fa'
+  import { library, default as Fa } from '@/components/Fa'
 
   export default {
     name: 'CollapsibleBlock',

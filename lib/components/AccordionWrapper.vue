@@ -9,8 +9,8 @@
 
 <script lang="ts">
 import {defineComponent, PropType} from "vue"
-import {AccordionKey} from "@lib/keys"
-import type {AccordionProvide, Step} from "@lib/types";
+import {AccordionKey} from "@/keys"
+import type {AccordionProvide, Step} from "@/types";
 
 const STEP_CHANGE_EVENT: string = 'step-change'
 

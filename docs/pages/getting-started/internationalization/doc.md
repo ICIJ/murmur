@@ -62,7 +62,7 @@ Here are English locales defined in <repository-link path="lib/locales/en.json">
 </collapsible-block>
 
 <script>
-  import en from '@locales/en.json'
+  import en from '@/locales/en.json'
 
   export default {
     data () {

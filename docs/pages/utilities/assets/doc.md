@@ -123,7 +123,7 @@ Alternativly, if you want to change the topojson on a specify maps, both  `Choro
 
 
 <script>
-  import config from '@lib/config.default'
+  import config from '@/config.default'
 
   export default {
     data () {

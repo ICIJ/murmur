@@ -133,7 +133,7 @@ import { faGlobe } from "@fortawesome/free-solid-svg-icons/faGlobe";
 import find from "lodash/find";
 import get from "lodash/get";
 
-import i18n from "@lib/i18n";
+import i18n from "@/i18n";
 import { library, default as Fa } from "./Fa";
 import FollowUsPopover from "./FollowUsPopover.vue";
 import config from "../config";

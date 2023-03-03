@@ -1,7 +1,7 @@
 import { mount, shallowMount, Wrapper } from "@vue/test-utils";
 
-import type { Step } from "@lib/types";
-import AccordionWrapper from "@lib/components/AccordionWrapper.vue";
+import type { Step } from "@/types";
+import AccordionWrapper from "@/components/AccordionWrapper.vue";
 
 describe('AccordionStep', () => {
     // Stubs Bootstrap Vue components

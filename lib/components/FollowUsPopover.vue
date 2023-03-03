@@ -65,7 +65,7 @@
   import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
   import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
-  import i18n from '@lib/i18n'
+  import i18n from '@/i18n'
   import SignUpForm from './SignUpForm.vue'
   import { library, default as Fa } from './Fa'
 

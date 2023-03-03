@@ -56,7 +56,7 @@ import reduce from "lodash/reduce";
 
 import { faCode } from "@fortawesome/free-solid-svg-icons/faCode";
 
-import i18n from "@lib/i18n";
+import i18n from "@/i18n";
 import EmbedForm from "./EmbedForm.vue";
 import SharingOptionsLink from "./SharingOptionsLink.vue";
 import config from "../config";

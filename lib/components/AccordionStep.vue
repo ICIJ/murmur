@@ -61,8 +61,8 @@
 
 <script lang="ts">
 import Vue, { VueConstructor} from "vue"
-import {AccordionKey} from "@lib/keys"
-import {Accordion, Step} from "@lib/types";
+import {AccordionKey} from "@/keys"
+import {Accordion, Step} from "@/types";
 
 interface AccordionMixin {
   accordion: Accordion
