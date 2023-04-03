@@ -49,7 +49,7 @@ export default defineComponent({
       return Object.values(DeckTexture)
     },
     textureIndex (): number {
-      if (isNaN(this.value)) {
+      if (typeof this.value !== 'number') {
         return clamp(this.names.indexOf(this.value), 0, this.names.length - 1)
       }
       return this.value
