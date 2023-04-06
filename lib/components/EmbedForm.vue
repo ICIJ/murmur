@@ -34,7 +34,7 @@
             <haptic-copy
               class="btn-link btn-sm text-uppercase font-weight-bold"
               :text="embedCode()"
-              :label="$t('embed-form.copy')"
+              :label="$t('embed-form.copy').toString()"
               @attempt="selectCode()"
             />
           </div>
@@ -52,15 +52,25 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
   import i18n from '@/i18n'
-  import HapticCopy from './HapticCopy'
+  import HapticCopy from '@/components/HapticCopy.vue'
   import IframeResizer from '@/utils/iframe-resizer'
-
+  import { defineComponent } from 'vue'
+  interface ComponentInterface {
+    currentUrl: string,
+    responsiveCheck:string,
+    width:string,
+    minWidth:number
+    height:number,
+    minHeight:number,
+    iframeCodeFor:Function,
+    pymCodeFor:Function,
+}
   /**
    * Embed Form
    */
-  export default {
+  export default defineComponent({
     i18n,
     name: 'EmbedForm',
     components: {
@@ -126,22 +136,22 @@
       }
     },
     methods: {
-      iframeCodeFor (url = this.currentUrl, width, height) {
+      iframeCodeFor (this:ComponentInterface,url = this.currentUrl, width:string, height:string) {
         return `<iframe width="${width}" height="${height}" src="${IframeResizer.deletePymParams(url)}" frameborder="0" allowfullscreen></iframe>`
       },
-      pymCodeFor (url = this.currentUrl) {
+      pymCodeFor (this:ComponentInterface, url = this.currentUrl):string {
         return IframeResizer.template(url)
       },
-      selectCode () {
-        this.$el.querySelector('.embed-form__code').select()
+      selectCode ():void {
+        (this.$el.querySelector('.embed-form__code') as HTMLTextAreaElement)?.select()
       },
-      embedCode (withPym = this.responsiveCheck) {
-        const width = isNaN(this.width) ? this.width : Math.max(this.width, this.minWidth)
-        const height = Math.max(this.height, this.minHeight)
+      embedCode (this:ComponentInterface,withPym = this.responsiveCheck ) :string{
+        const width = typeof this.width == "string" ? this.width : Math.max(this.width, this.minWidth).toString()
+        const height = Math.max(this.height, this.minHeight).toString()
         return withPym ? this.pymCodeFor(this.currentUrl) : this.iframeCodeFor(this.currentUrl, width, height)
       }
     }
-  }
+  })
 </script>
 
 <style lang="scss" scoped>
