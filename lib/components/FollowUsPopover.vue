@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
   import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
   import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
   import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
@@ -68,22 +68,23 @@
   import i18n from '@/i18n'
   import SignUpForm from './SignUpForm.vue'
   import { library, default as Fa } from './Fa'
+  import { defineComponent } from 'vue'
 
   /**
    * FollowUsPopover
    */
-  export default {
+  export default defineComponent({
     i18n,
     name: 'FollowUsPopover',
     components: {
       Fa,
       SignUpForm
     },
-    beforeMount () {
+    beforeMount (): void {
       library.add(faTimes, faTwitter, faFacebook, faLinkedin)
     },
     methods: {
-      closeSignupPopover() {
+      closeSignupPopover(): void {
         /**
          * Fired when user click on the `close` button
          *
@@ -93,7 +94,7 @@
         this.$emit('update:show', false)
       }
     }
-  }
+  })
 </script>
 
 <style lang="scss" scoped>
