@@ -43,21 +43,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { faShareAlt } from "@fortawesome/free-solid-svg-icons/faShareAlt";
 
 import i18n from "@/i18n";
 import IframeResizer from "@/utils/iframe-resizer";
-import Brand from "./Brand";
-import SharingOptions from "./SharingOptions";
+import Brand from "@/components/Brand.vue";
+import SharingOptions from "@/components/SharingOptions.vue";
 import config from "@/config";
 
 import { library, default as Fa } from "./Fa";
-
+import { defineComponent } from "vue";
+type EmbeddableFooterData={
+      showShareOptions: boolean,
+    }
 /**
  * EmbeddableFooter
  */
-export default {
+export default defineComponent({
   i18n,
   name: "EmbeddableFooter",
   components: {
@@ -109,18 +112,18 @@ export default {
       default: () => ({}),
     },
   },
-  data() {
+  data(): EmbeddableFooterData{
     return {
       showShareOptions: false,
     };
   },
-  beforeMount() {
+  beforeMount(): void {
     library.add(faShareAlt);
   },
-  mounted() {
+  mounted(): void {
     IframeResizer.create();
   },
-};
+})
 </script>
 
 <style lang="scss" scoped>
