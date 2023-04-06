@@ -10,7 +10,7 @@
               class="generic-footer__icij__logo text-decoration-none"
             >
               <brand-expansion
-                mode="long"
+                :mode="mode"
                 dark
               />
               <span class="sr-only">International Consortium of Investigative Journalists</span>
@@ -218,15 +218,17 @@
   </footer>
 </template>
 
-<script>
+<script lang='ts'>
+import { BrandMode } from '@/enums'
 import i18n from '@/i18n'
+import { defineComponent } from 'vue'
 import config from '../config'
 import BrandExpansion from './BrandExpansion.vue'
 
 /**
  * GenericFooter
  */
-export default {
+export default defineComponent({
   i18n,
   name: 'GenericFooter',
   components: { BrandExpansion },
@@ -246,18 +248,21 @@ export default {
       default: false
     }
   },
+  data(){
+    return {mode: BrandMode.Long}
+  },
   computed: {
-    year () {
+    year (): number {
       return (new Date()).getFullYear()
     },
-    contactEmail () {
+    contactEmail (): string {
       return config.get('contact-email')
     },
-    contactEmailMailto () {
+    contactEmailMailto (): string {
       return `mailto:${this.contactEmail}`
     }
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
