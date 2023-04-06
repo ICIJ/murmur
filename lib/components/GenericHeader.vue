@@ -19,12 +19,12 @@
         >
           <brand-expansion
             :size="45"
-            mode="short"
+            :mode="shortMode"
             class="d-inline-block d-sm-none"
           />
           <brand-expansion
             :size="45"
-            mode="long"
+            :mode="longMode"
             class="d-none d-sm-inline-block"
           />
           <span class="sr-only">International Consortium of Investigative Journalists</span>
@@ -100,24 +100,34 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
   import { BModal } from 'bootstrap-vue/esm/components/modal/modal'
   import { BPopover } from 'bootstrap-vue/esm/components/popover/popover'
   import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 
   import i18n from '@/i18n'
   import { headroom } from 'vue-headroom'
-  import BrandExpansion from './BrandExpansion.vue'
+  import BrandExpansion from '@/components/BrandExpansion.vue'
   import Fa from './Fa.js'
-  import FollowUsPopover from './FollowUsPopover.vue'
-  import config from '../config'
+  import FollowUsPopover from '@/components/FollowUsPopover.vue'
+  import config from '@/config'
 
-  import { library } from './Fa'
+  import { library } from '@/components/Fa'
+  import { defineComponent } from 'vue'
+  import { BrandMode } from '@/enums'
+  import { PropType } from 'vue/types/v3-component-props'
 
+  type BrandOptions = {
+    noBorder: boolean;
+    size: number;
+    color: string;
+    background: string;
+  }
+  
   /**
    * GenericHeader
    */
-  export default {
+  export default defineComponent({
     i18n,
     name: 'GenericHeader',
     components: {
@@ -153,7 +163,7 @@
        * Default options to pass to the brand component
        */
       brandOptions: {
-        type: Object,
+        type: Object as PropType<BrandOptions>,
         default: () => ({})
       },
       /**
@@ -167,17 +177,19 @@
     data () {
       return {
         showFollowUsPopover: false,
-        collapseNavbar: true
+        collapseNavbar: true,
+        shortMode: BrandMode.Short,
+        longMode: BrandMode.Long
       }
     },
     computed: {
-      rootElement () {
+      rootElement (): string {
         return this.noHeadroom ? 'div' : 'headroom'
       },
-      appliedBrandOptions () {
+      appliedBrandOptions (): BrandOptions {
         return Object.assign(this.defaultBrandOptions, this.brandOptions)
       },
-      defaultBrandOptions () {
+      defaultBrandOptions ():BrandOptions {
         return  {
           noBorder: true,
           size: 50,
@@ -186,20 +198,20 @@
         }
       }
     },
-    beforeMount() {
+    beforeMount(): void {
       library.add(faBars)
     },
     methods: {
-      closeFollowUsPopover ()  {
+      closeFollowUsPopover (): void  {
         this.showFollowUsPopover = false
       },
-      toggleNavbar () {
+      toggleNavbar (): void {
         this.collapseNavbar = !this.collapseNavbar
         this.$root.$emit('bv::hide::popover')
         this.$root.$emit('bv::hide::dropdwon')
       }
     }
-  }
+  })
 </script>
 
 <style lang="scss">
