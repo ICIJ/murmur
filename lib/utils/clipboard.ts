@@ -1,7 +1,7 @@
 import Clipboard from 'clipboard'
 
-export function copyText (text: string, container: HTMLElement) {
-  return new Promise(function (resolve: (value?: unknown) => void, reject: (value?: unknown) => void) {
+export function copyText (text: string, container: Element): Promise<void> {
+  return new Promise(function (resolve: (value?:undefined) => void, reject: (value?: Clipboard.Event) => void) {
     const fakeElement = document.createElement('button')
     // Use the document body as container is no valid object is provided
     container = typeof container === 'object' ? container : document.body

@@ -6,7 +6,7 @@
   >
     <!-- @slot Main content of the button (including the icon) -->
     <slot>
-      <font-awesome-layers>
+      <font-awesome-layers functional>
         <transition name="spin">
           <fa
             v-if="!tooltipTimeout"
@@ -43,7 +43,7 @@
   </button>
 </template>
 
-<script>
+<script lang='ts'>
   import { FontAwesomeLayers } from '@fortawesome/vue-fontawesome'
   import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
   import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons/faClipboardCheck'
@@ -53,6 +53,8 @@
   import i18n from '@/i18n'
 
   import { library, default as Fa } from './Fa'
+  import { defineComponent } from 'vue'
+  import { TranslateResult } from 'vue-i18n'
 
   const TOOLTIPS_PLACEMENTS = [
     'top',
@@ -68,8 +70,13 @@
     'lefttop',
     'leftbottom'
   ]
-
-  export default {
+  type HapticCopyData = {
+        mounted: boolean,
+        succeed: boolean,
+        tooltipContent: TranslateResult | string,
+        tooltipTimeout: NodeJS.Timeout | undefined
+      }
+  export default defineComponent({
     i18n,
     name: 'HapticCopy',
     components: {
@@ -120,7 +127,7 @@
       tooltipPlacement: {
         type: String,
         default: 'top',
-        validator: placement => TOOLTIPS_PLACEMENTS.includes(placement)
+        validator: (placement:string) => TOOLTIPS_PLACEMENTS.includes(placement)
       },
       /**
        * Copy HTML content
@@ -135,12 +142,12 @@
         type: Boolean
       }
     },
-    data () {
+    data () : HapticCopyData{
       return {
         mounted: false,
         succeed: false,
         tooltipContent: '',
-        tooltipTimeout: null
+        tooltipTimeout: undefined
       }
     },
     computed: {
@@ -165,13 +172,13 @@
       copyTextOrHtml () {
         return this.html ? this.copyHtml() : this.copyText()
       },
-      copyText () {
+      copyText (): Promise<void> {
         return copyText(this.text, this.$el)
       },
-      copyHtml () {
+      copyHtml (): void {
         return copyHtml(this.text, this.plain || this.text)
       },
-      async copy () {
+      async copy (): Promise<void> {
         try {
           /**
            * Emitted when an attempt to copy text is made
@@ -205,14 +212,15 @@
         this.tooltipContent = this.$te(msg) ? this.$t(msg) : msg
         this.$root.$emit('bv::hide::tooltip')
         await this.$nextTick()
-        this.$refs.tooltip && this.$refs.tooltip.$emit('open')
+        
+        this.$refs.tooltip && (this.$refs.tooltip as Vue).$emit('open')
       },
       async closeTooltip () {
-        this.$refs.tooltip && this.$refs.tooltip.$emit('close')
+        this.$refs.tooltip && (this.$refs.tooltip as Vue).$emit('close')
         // Clear the tooltip after a short delay
         await this.$nextTick()
         this.tooltipContent = ''
-        this.tooltipTimeout = null
+        this.tooltipTimeout = undefined
       },
       nextTimeout (fn = noop, delay = 0) {
         clearTimeout(this.tooltipTimeout)
@@ -221,7 +229,7 @@
         }).finally(this.$nextTick).then(fn)
       }
     }
-  }
+  })
 </script>
 
 <style lang="scss">
