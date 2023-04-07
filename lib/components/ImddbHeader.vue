@@ -121,7 +121,7 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import { BDropdownItem } from "bootstrap-vue/esm/components/dropdown/dropdown-item";
 import { BModal } from "bootstrap-vue/esm/components/modal/modal";
 import { BNavItemDropdown } from "bootstrap-vue/esm/components/nav/nav-item-dropdown";
@@ -137,11 +137,20 @@ import i18n from "@/i18n";
 import { library, default as Fa } from "./Fa";
 import FollowUsPopover from "./FollowUsPopover.vue";
 import config from "../config";
+import { defineComponent } from "vue";
+import { PropType } from "vue/types/v3-component-props";
 
+type CssPosition =  ('absolute' | 'relative' | 'fixed' | 'static') ;
+type ImddHeaderItem = {label:string,href:string, active:boolean}
+interface ImddHeaderData {
+  showFollowUsPopover:boolean,
+  collapseNavbar: boolean,
+  languages:ImddHeaderItem[]
+}
 /**
  * ImddbHeader
  */
-export default {
+export default defineComponent({
   i18n,
   name: "ImddbHeader",
   components: {
@@ -158,8 +167,8 @@ export default {
      * CSS position of the header. Can be <em>absolute</em>, <em>relative</em>, <em>static</em> or <em>fixed</em> (default).
      */
     position: {
-      type: String,
-      default: "fixed",
+      type: String as PropType<CssPosition>,
+      default: "fixed"
     },
     /**
      * Disable Headroom for hiding header until needed.
@@ -185,7 +194,7 @@ export default {
      * An array of objects defining dropdown items. Each item defines a <em>label</em> and a <em>href</em>.
      */
     dropdownItems: {
-      type: Array,
+      type: Array as PropType<ImddHeaderItem[]>,
       default: () => config.get("imddb-header.dropdown.items"),
     },
     /**
@@ -203,7 +212,7 @@ export default {
       default: () => config.get("app.donate-url"),
     },
   },
-  data() {
+  data(): ImddHeaderData {
     return {
       showFollowUsPopover: false,
       collapseNavbar: true,
@@ -211,36 +220,36 @@ export default {
     };
   },
   computed: {
-    rootElement() {
+    rootElement(): string {
       return this.noHeadroom ? "div" : "headroom";
     },
-    hasLanguagesDropdown() {
+    hasLanguagesDropdown(): boolean {
       return !!this.languages.length;
     },
-    currentLanguage() {
+    currentLanguage(): string {
       return get(find(this.languages, { active: true }), "label", "Language");
     },
   },
-  beforeMount() {
+  beforeMount(): void {
     library.add(faGlobe);
   },
-  mounted() {
+  mounted(): void {
     this.setLanguages(config.get("imddb-header.languages.items"));
   },
   methods: {
-    closeFollowUsPopover() {
+    closeFollowUsPopover(): void {
       this.showFollowUsPopover = false;
     },
-    toggleNavbar() {
+    toggleNavbar(): void {
       this.collapseNavbar = !this.collapseNavbar;
       this.$root.$emit("bv::hide::popover");
       this.$root.$emit("bv::hide::dropdwon");
     },
-    setLanguages(languages = []) {
+    setLanguages(languages: ImddHeaderItem[] = []): void {
       this.$set(this, "languages", languages);
     },
   },
-};
+})
 </script>
 
 <style lang="scss">
