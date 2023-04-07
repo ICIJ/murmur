@@ -2,15 +2,18 @@
   <div :id="iframeId" />
 </template>
 
-<script>
-  import { injectAssets } from '../utils/assets'
+<script lang='ts'>
+  import { defineComponent } from 'vue';
+  import { injectAssets } from '@/utils/assets'
 
   var iframeUniqueIdCounter = 0;
+  type StartsWithIcijIframe = `icij-iframe-${string}`;
+  type ResponsiveIframeData = { [iframeId:string] : StartsWithIcijIframe}
 
   /**
    * ResponsiveIframe
    */
-  export default {
+  export default defineComponent({
     name: 'ResponsiveIframe',
     props: {
       /**
@@ -28,15 +31,14 @@
         default: () => ({ })
       },
     },
-    data () {
+    data (): ResponsiveIframeData {
       return {
         iframeId: `icij-iframe-${++iframeUniqueIdCounter}`
       }
     },
-    mounted () {
-      injectAssets('https://pym.nprapps.org/pym.v1.min.js').then(() => {
-        new window.pym.Parent(this.iframeId, this.url, this.options)
-      })
+    async mounted (): Promise<void> {
+      await injectAssets('https://pym.nprapps.org/pym.v1.min.js');
+      new window.pym.Parent(this.iframeId, this.url, this.options);
     }
-  }
+  })
 </script>
