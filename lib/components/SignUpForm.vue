@@ -2,7 +2,7 @@
   <form
     class="sign-up-form"
     :class="{ 'sign-up-form--horizontal': horizontal }"
-    @submit.prevent="subscribe($event)"
+    @submit.prevent="subscribe()"
   >
     <fieldset :disabled="frozen">
       <label
@@ -22,7 +22,7 @@
           name="EMAIL"
           type="email"
           class="form-control"
-          :placeholder="$t('sign-up-form.placeholder')"
+          :placeholder="$t('sign-up-form.placeholder').toString()"
         >
         <div
           class="sign-up-form__fieldset__group__addon"
@@ -53,18 +53,28 @@
   </form>
 </template>
 
-<script>
+
+<script lang='ts'>
 import jsonp from 'jsonp'
 import castArray from 'lodash/castArray'
 import flatten from 'lodash/flatten'
 import last from 'lodash/last'
 import config from '../config'
 import i18n from '@/i18n'
+import { PropType, defineComponent } from 'vue'
 
+type SignUpFormData={
+      email: string,
+      frozen: boolean,
+      response: any,
+      errorMessage: string | null,
+      successMessage: string | null
+}
+type FormDataResult = { result : string, msg:string }
 /**
  * SignUpForm
  */
-export default {
+export default defineComponent({
   i18n,
   name: "SignUpForm",
   props: {
@@ -86,7 +96,7 @@ export default {
      * Malchimp default groups. Can be an array or a commat-separated list of groups.
      */
     defaultGroups: {
-      type: [String, Array],
+      type: [String, Array] as PropType<string|string[]>,
       default: () => config.get('signup-form.default-groups')
     },
     /**
@@ -123,14 +133,14 @@ export default {
       default: 'primary'
     },
   },
-  data () {
+  data () : SignUpFormData{
     return {
       email: '',
       frozen: false,
       response: {},
       errorMessage: null,
       successMessage: null
-    };
+    }
   },
   computed: {
     groups () {
@@ -158,7 +168,7 @@ export default {
     }
   },
   methods: {
-    subscribe () {
+    subscribe ():Promise<void> {
       this.resetMessages()
       this.freeze()
       // Send the data, catch the result no matter what and unfreeze the form
@@ -166,18 +176,18 @@ export default {
     },
     send () {
       return new Promise((resolve, reject) => {
-        jsonp(this.submitUrl, { param: 'c' }, (err, data) => {
+        jsonp(this.submitUrl, { param: 'c' }, (err:any, data:FormDataResult) => {
           return err ? reject(err) : resolve(data)
         })
       })
     },
-    done ({ result, msg }) {
+    done ({ result, msg }:any):void {
       if (result === 'success') {
         this.email = ''
         this.successMessage = msg
       } else {
         // Mailchimp formats errors in list
-        this.errorMessage = last((msg || "Something's wrong").split('0 -'))
+        this.errorMessage = last((msg || "Something's wrong").split('0 -')) ?? null
       }
       this.unfreeze()
     },
@@ -192,7 +202,7 @@ export default {
       this.frozen = false
     }
   }
-};
+})
 </script>
 
 <style lang="scss">
