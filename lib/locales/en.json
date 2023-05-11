@@ -129,5 +129,12 @@
     "compact-placeholder": "Jump to...",
     "total-pages": "No pages | 1 page | {count} pages total",
     "invalid-number-error": "Invalid page number"
+  },
+  "tiny-pagination": {
+    "page": "Page",
+    "aria": "Jump to page",
+    "total": "of {numberOfPages}",
+    "previous": "Previous page",
+    "next": "Next page"
   }
 }

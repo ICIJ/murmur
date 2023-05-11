@@ -1,7 +1,7 @@
 <template>
   <section class="api-table">
     <h3 class="api-table__heading mb-3">
-      API
+      API 
     </h3>
     <div :key="docgen.title" class="api-table__component">
       <b-tabs class="api-table__component__tabs">
