@@ -23,7 +23,7 @@
       class="tiny-pagination__form form-inline"
       @submit.prevent="applyPageForm"
     >
-      <label class="tiny-pagination__form__label mr-1">
+      <label class="tiny-pagination__form__label mr-1" v-show="!compact">
         <!-- @slot Display page label -->
         <slot
           name="page"
@@ -163,6 +163,12 @@ export default defineComponent({
      */
     block: {
       type: Boolean
+    },
+    /**
+     * Compact mode with a grouped nav
+     */
+    compact: {
+      type: Boolean
     }
   },
   data(): TinyPaginationData {
@@ -181,7 +187,8 @@ export default defineComponent({
       return {
         [`tiny-pagination--${this.size}`]: true,
         [`tiny-pagination--no-nav`]: this.noNav,
-        [`tiny-pagination--block`]: this.block
+        [`tiny-pagination--block`]: this.block,
+        [`tiny-pagination--compact`]: this.compact
       }
     },
     hasPrevious(): boolean {
@@ -242,6 +249,14 @@ export default defineComponent({
 
   &--no-nav &__form {
     margin: 0;
+  }
+
+  &--compact &__nav {
+    order: 0;
+  }
+
+  &--compact &__form {
+    order: 10;
   }
 
 

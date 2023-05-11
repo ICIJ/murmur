@@ -35,6 +35,14 @@ Hide navigations buttons:
 </div>
 :::
 
+Use compact mode:
+
+:::sample-card
+<div class="p-2 text-center">
+  <tiny-pagination v-model="currentPage" compact :per-page="10" :total-rows="200" />
+</div>
+:::
+
 Or display as a block (here with some additional background and border):
 
 :::sample-card
