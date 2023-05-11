@@ -36,7 +36,10 @@
         </div>
         <div class="col-12 col-lg-7">
           <div class="row justify-content-end">
-            <div v-if="showAboutUs" class="col-6 col-lg-4">
+            <div
+              v-if="showAboutUs"
+              class="col-6 col-lg-4"
+            >
               <h5 class="text-uppercase mb-3">
                 About Us
               </h5>

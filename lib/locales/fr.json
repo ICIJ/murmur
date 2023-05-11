@@ -106,5 +106,12 @@
     "tooltip": {
       "succeed": "Copié!"
     }
+  },
+  "tiny-pagination": {
+    "page": "Page",
+    "aria": "Allez à la page",
+    "total": "sur {numberOfPages}",
+    "previous": "Page suivante",
+    "next": "Page précédente"
   }
 }
