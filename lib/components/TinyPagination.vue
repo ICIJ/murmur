@@ -23,7 +23,7 @@
       class="tiny-pagination__form form-inline"
       @submit.prevent="applyPageForm"
     >
-      <label class="tiny-pagination__form__label mr-1" v-show="!compact">
+      <label class="tiny-pagination__form__label mr-1 mb-0" v-show="!compact">
         <!-- @slot Display page label -->
         <slot
           name="page"
