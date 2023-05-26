@@ -2,7 +2,7 @@
 import { clamp } from 'lodash'
 import { defineComponent, PropType } from 'vue'
 import { DeckTexture } from '@/enums'
-import config from '../config'
+import config from '@/config'
 
 type TexturedDeckValue = DeckTexture | number
 
