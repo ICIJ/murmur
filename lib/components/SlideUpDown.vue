@@ -4,6 +4,16 @@ import {CSSProperties} from "vue/types/jsx";
 
 type StyleTransition = Pick<CSSProperties,'overflow'|'transition-property'|'transition-duration'|'height' >
 
+enum STATE {
+  PRE = "pre",
+  ACTIVE = 'active',
+  POST = 'post'
+}
+interface SlideUpDownData {
+  state: STATE,
+  mounted: boolean,
+  scrollHeight: number
+}
 /**
  * SlideUpDown
  */
@@ -32,9 +42,9 @@ export default defineComponent( {
       default: 'div'
     }
   },
-  data () {
+  data ():SlideUpDownData {
     return {
-      state: 'post',
+      state: STATE.POST,
       mounted: false,
       scrollHeight: 0
     }
@@ -62,8 +72,8 @@ export default defineComponent( {
     },
     style () {
       switch (this.state) {
-        case 'pre': return this.stylePreTransition
-        case 'active': return this.styleActiveTransition
+        case STATE.PRE: return this.stylePreTransition
+        case STATE.ACTIVE: return this.styleActiveTransition
         default: return this.stylePostTransition
       }
     },
@@ -88,17 +98,17 @@ export default defineComponent( {
   },
   methods: {
     async triggerSlide (): Promise<void> {
-      this.state = 'pre'
+      this.state = STATE.PRE
       this.scrollHeight = this.$container.scrollHeight
       // Defered next tick to let the component render once
       await this.deferredNextTick()
-      this.state = 'active'
+      this.state = STATE.ACTIVE
     },
     cleanLayout (e : Event | null) {
       // This method can be triggered by animated child elements in
       // which case, we should do anything
       if(!e || e.target == this.$container) {
-        this.state = 'post'
+        this.state = STATE.POST
         return this.deferredNextTick()
       }
     },
