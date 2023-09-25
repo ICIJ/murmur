@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
+import {defineComponent} from "vue";
+import {CSSProperties} from "vue/types/jsx";
+
+type StyleTransition = Pick<CSSProperties,'overflow'|'transition-property'|'transition-duration'|'height' >
+
 /**
  * SlideUpDown
  */
-export default {
+export default defineComponent( {
   name: 'SlideUpDown',
   props: {
     /**
@@ -10,6 +15,7 @@ export default {
      */
     active: {
       type: Boolean,
+      default: false
     },
     /**
      * Duration of the animation.
@@ -34,7 +40,7 @@ export default {
     }
   },
   computed: {
-    stylePreTransition () {
+    stylePreTransition (): StyleTransition {
       return {
         'overflow': 'hidden',
         'transition-property': 'height',
@@ -42,7 +48,7 @@ export default {
         'height': this.mounted ?  `${this.$container.scrollHeight}px` : 0,
       }
     },
-    styleActiveTransition () {
+    styleActiveTransition (): StyleTransition {
       return {
         'overflow': 'hidden',
         'transition-property': 'height',
@@ -50,7 +56,7 @@ export default {
         'height': this.mounted ?  `${this.activeHeight}px` : 'auto',
       }
     },
-    stylePostTransition () {
+    stylePostTransition () : StyleTransition {
       // Reset style when the element is active
       return this.active ? { } : this.styleActiveTransition
     },
@@ -61,46 +67,47 @@ export default {
         default: return this.stylePostTransition
       }
     },
-    activeHeight () {
+    activeHeight(): number{
       return this.active ? this.$container.scrollHeight : 0
     },
-    $container () {
-      return this.$refs.container
+    $container(): HTMLElement {
+      return this.$refs.container as HTMLElement
     }
   },
   watch: {
     active () {
+      // @ts-ignore
       return this.triggerSlide()
     }
   },
   async mounted () {
-    await this.deferedNextTick()
+    await this.deferredNextTick()
     this.mounted = true
-    this.cleanLayout()
-    this.$container.addEventListener("transitionend", this.cleanLayout)
+    await this.cleanLayout(null)
+    this.$container.addEventListener("transitionend", (e)=>this.cleanLayout(e))
   },
   methods: {
-    async triggerSlide () {
+    async triggerSlide (): Promise<void> {
       this.state = 'pre'
       this.scrollHeight = this.$container.scrollHeight
       // Defered next tick to let the component render once
-      await this.deferedNextTick()
+      await this.deferredNextTick()
       this.state = 'active'
     },
-    cleanLayout (e = null) {
+    cleanLayout (e : Event | null) {
       // This method can be triggered by animated child elements in
       // which case, we should do anything
       if(!e || e.target == this.$container) {
         this.state = 'post'
-        return this.deferedNextTick()
+        return this.deferredNextTick()
       }
     },
-    async deferedNextTick () {
+    async deferredNextTick () {
       await new Promise(resolve => setTimeout(resolve, 0))
       await this.$nextTick()
     }
   }
-}
+})
 </script>
 
 <template>
