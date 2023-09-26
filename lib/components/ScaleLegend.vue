@@ -1,9 +1,15 @@
-<script>
-import { isFunction, isString } from 'lodash'
+<script lang="ts">
+import { isString, isFunction } from 'lodash'
 import * as d3 from 'd3'
 import * as scaleFunctions from 'd3-scale'
+import {defineComponent} from "vue";
 
-export default {
+type ClassListLegend = {'scale-legend--has-cursor':boolean}
+type ColorScaleFn = (v?:number) => string
+type ColorScale = ColorScaleFn | string
+type WidthScaleFn = (x:number)=>string
+
+export default defineComponent({
   name: 'ScaleLegend',
   filters: {
     formatNumber: d3.format(',')
@@ -30,10 +36,10 @@ export default {
       default: 0
     },
     colorScale: {
-      type: [Function, String],
+      type: [Function as unknown as ColorScaleFn, String],
       default: 'scaleLinear',
-      validator (colorScale) {
-        return isFunction(colorScale) || colorScale in scaleFunctions
+      validator (colorScale : ColorScale ) {
+        return isFunction(colorScale) || (colorScale as string) in scaleFunctions
       }
     },
     colorScaleEnd: {
@@ -55,57 +61,59 @@ export default {
     }
   },
   computed: {
-    classList () {
+    classList () : ClassListLegend{
       return {
         'scale-legend--has-cursor': this.hasCursor
       }
     },
-    cursorLeft () {
+    cursorLeft (): string {
       const left = this.cursorLeftScale(this.cursorValue)
       return isNaN(left) ? '0%' : `${left}%`
     },
-    colorScaleBaseCanvas () {
+    colorScaleBaseCanvas (): HTMLCanvasElement | null {
       return d3.create('canvas')
         .attr('width', this.width)
         .attr('height', this.height)
         .node()
     },
-    colorScaleContext () {
-      return this.colorScaleBaseCanvas.getContext('2d')
+    colorScaleContext ()  : CanvasRenderingContext2D | null{
+      return this.colorScaleBaseCanvas?.getContext('2d') ?? null
     },
-    colorScaleBase64 () {
+    colorScaleBase64 ():string | null {
       if (this.mounted) {
-        return this.colorScaleBaseCanvas.toDataURL()
+        return this.colorScaleBaseCanvas?.toDataURL() ?? null
       }
       return null
     },
-    colorScaleWidthRange () {
+    colorScaleWidthRange () : number[]{
       return d3.range(1, this.width + 1)
     },
-    hasCursor () {
-      return ![null, undefined].includes(this.cursorValue)
+    hasCursor (): boolean {
+      return this.cursorValue == null // double equal also tests undefined
     },
-    colorScaleFunction () {
+    colorScaleFunction () : ColorScaleFn {
       if (isString(this.colorScale)) {
-        return scaleFunctions[this.colorScale]()
+        // @ts-ignore
+        const fn : ()=>any = scaleFunctions[this.colorScale]
+        return fn()
           .domain([this.min, this.max])
           .range([this.colorScaleStart, this.colorScaleEnd])
       }
       return this.colorScale
     },
-    cursorLeftScale () {
+    cursorLeftScale () : d3.ScaleLinear<number, number>{
       return d3.scaleLinear()
         .domain([this.min, this.max])
         .range([0, 100])
         .interpolate(d3.interpolateRound)
     },
-    widthScaleColor () {
-      return x => {
+    widthScaleColor () : WidthScaleFn {
+      return (x:number) => {
         const value = this.widthScale(x)
         return this.colorScaleFunction(value)
       }
     },
-    widthScale () {
+    widthScale (): d3.ScaleLinear<number, number> {
       return d3.scaleLinear()
         .domain([0, this.width])
         .range([this.min, this.max])
@@ -124,7 +132,7 @@ export default {
     this.mounted = true
   },
   methods: {
-    setCursorWrapperOffset () {
+    setCursorWrapperOffset (): void {
       const cursor = this.$el.querySelector('.scale-legend__cursor')
       if (cursor) {
         const { x: cursorX, width: cursorWidth } = cursor.getBoundingClientRect()
@@ -136,14 +144,17 @@ export default {
         this.cursorWrapperOffset = 0
       }
     },
-    setColorScaleCanvas() {
+    setColorScaleCanvas(): void {
+      if(!this.colorScaleContext){
+        return
+      }
       for (const x of this.colorScaleWidthRange) {
-        this.colorScaleContext.fillStyle = this.widthScaleColor(x)
-        this.colorScaleContext.fillRect(x, 0, 1, this.height)
+          this.colorScaleContext.fillStyle = this.widthScaleColor(x)
+          this.colorScaleContext.fillRect(x, 0, 1, this.height)
       }
     },
   }
-}
+})
 </script>
 
 <template>
