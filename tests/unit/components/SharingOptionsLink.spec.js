@@ -1,7 +1,6 @@
-import { mount } from '@vue/test-utils'
+import {mount} from '@vue/test-utils'
 
-import SharingOptionsLink from '@/components/SharingOptionsLink'
-import { $popup } from '@/components/SharingOptionsLink'
+import SharingOptionsLink, {$popup} from '@/components/SharingOptionsLink'
 
 function mockPopupParent () {
   return {
@@ -139,7 +138,7 @@ describe('SharingOptionsLink', () => {
     $popup.instance = { close: vi.fn(), focus: vi.fn() }
     $popup.interval = setInterval(() => null)
     wrapper.vm.cleanExistingPopupInstance()
-    expect($popup.interval).toBe(null)
+    expect($popup.interval).toBe(undefined)
     expect($popup.instance.close).toBeCalled()
   })
 
@@ -149,10 +148,10 @@ describe('SharingOptionsLink', () => {
     const wrapperA = mount(SharingOptionsLink, { propsData })
     const wrapperB = mount(SharingOptionsLink, { propsData })
     wrapperA.vm.cleanExistingPopupInstance()
-    expect($popup.interval).toBe(null)
+    expect($popup.interval).toBe(undefined)
     expect($popup.instance.close).toBeCalled()
     wrapperB.vm.cleanExistingPopupInstance()
-    expect($popup.interval).toBe(null)
+    expect($popup.interval).toBe(undefined)
     expect($popup.instance.close).toBeCalled()
   })
 
@@ -165,21 +164,21 @@ describe('SharingOptionsLink', () => {
     expect($popup.parent.open).toBeCalled()
   })
 
-  it('should clear the popup instance once it been closed', () => {
+  it('should clear the popup instance once it been closed', async () => {
     // Return a fake popup instance
     $popup.parent = mockPopupParent()
     const wrapper = mount(SharingOptionsLink, { propsData })
     wrapper.vm.cleanExistingPopupInstance()
-    wrapper.trigger('click')
+    await wrapper.trigger('click')
     expect($popup.instance).not.toBe(null)
-    expect($popup.interval).not.toBe(null)
+    expect($popup.interval).not.toBe(undefined)
     // Close the popup
     $popup.instance.closed = true
     // Wait for the interval to be called
     vi.advanceTimersByTime(1000)
     // And check again!
     expect($popup.instance).toBe(null)
-    expect($popup.interval).toBe(null)
+    expect($popup.interval).toBe(undefined)
   })
 
 })

@@ -1,13 +1,16 @@
 <script lang="ts">
-import { isString, isFunction } from 'lodash'
+import {isFunction, isString} from 'lodash'
 import * as d3 from 'd3'
 import * as scaleFunctions from 'd3-scale'
 import {defineComponent} from "vue";
 
 type ClassListLegend = {'scale-legend--has-cursor':boolean}
-type ColorScaleFn = (v?:number) => string
+// eslint-disable-next-line no-unused-vars
+type ColorScaleFn = (v ?:number) => string
+
 type ColorScale = ColorScaleFn | string
-type WidthScaleFn = (x:number)=>string
+// eslint-disable-next-line no-unused-vars
+type WidthScaleFn = (x :number) =>string
 
 export default defineComponent({
   name: 'ScaleLegend',
@@ -159,8 +162,8 @@ export default defineComponent({
 
 <template>
   <div
-    class="scale-legend"
     :class="classList"
+    class="scale-legend"
   >
     <div class="scale-legend__bound scale-legend__bound--min">
       <slot
@@ -186,12 +189,12 @@ export default defineComponent({
     </div>
     <div
       v-if="hasCursor"
-      class="scale-legend__cursor"
       :style="{ left: cursorLeft }"
+      class="scale-legend__cursor"
     >
       <div
-        class="scale-legend__cursor__wrapper"
         :style="{ transform: `translateX(${cursorWrapperOffset}px)` }"
+        class="scale-legend__cursor__wrapper"
       >
         <slot
           name="cursor"
