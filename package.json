@@ -104,7 +104,6 @@
   },
   "eslintConfig": {
     "root": true,
-    "vi": true,
     "env": {
       "es2021": true
     },
