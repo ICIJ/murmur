@@ -49,25 +49,30 @@
   </div>
 </template>
 
-<script>
-import { BModal } from "bootstrap-vue/esm/components/modal/modal";
+<script lang="ts">
+import {BModal} from "bootstrap-vue/esm/components/modal/modal";
 import get from "lodash/get";
 import reduce from "lodash/reduce";
 
-import { faCode } from "@fortawesome/free-solid-svg-icons/faCode";
+import {faCode} from "@fortawesome/free-solid-svg-icons/faCode";
 
 import i18n from "@/i18n";
-import EmbedForm from "./EmbedForm.vue";
-import SharingOptionsLink from "./SharingOptionsLink.vue";
-import config from "../config";
-import IframeResizer from "../utils/iframe-resizer";
+import EmbedForm from "@/components/EmbedForm.vue";
+import SharingOptionsLink from "@/components/SharingOptionsLink.vue";
+import config from "@/config";
+import IframeResizer from "@/utils/iframe-resizer";
 
-import { library, default as Fa } from "./Fa";
+import {default as Fa, library} from "./Fa";
+import {defineComponent, PropType} from "vue";
+import {CSSProperties} from "vue/types/jsx";
+
+type MetaValuesMap = {url: string, title: string, description: string, facebook_title: string, facebook_description: string, facebook_media: string, twitter_media: string, twitter_user: string};
+
 
 /**
  * SharingOptions
  */
-export default {
+export default defineComponent({
   i18n,
   name: "SharingOptions",
   components: {
@@ -99,7 +104,7 @@ export default {
      */
     direction: {
       default: "row",
-      validator(value) {
+      validator(value: string) {
         return (
           ["row", "row-reverse", "column", "column-reverse"].indexOf(value) !==
           -1
@@ -119,7 +124,7 @@ export default {
      */
     valuesKeys: {
       default: () => ["url", "title", "description", "media", "user"],
-      type: Array,
+      type: Array as PropType<string[]>,
     },
     /**
      * Disable embed button.
@@ -149,12 +154,12 @@ export default {
     },
   },
   computed: {
-    style() {
+    style() : CSSProperties {
       return {
         "flex-direction": this.direction,
-      };
+      } as CSSProperties;
     },
-    metaValues() {
+    metaValues(): MetaValuesMap {
       return {
         url: this.url,
         title: this.defaultValueFor("sharing-options.title"),
@@ -189,21 +194,22 @@ export default {
     library.add(faCode);
   },
   methods: {
-    showEmbedForm() {
-      return this.$refs.embedForm.show();
+    showEmbedForm(): boolean {
+      //@ts-ignore
+      return this.$refs.embedForm?.show() ?? false;
     },
-    valuesFor(network) {
+    valuesFor(network:string): {[key:string]:string } {
       const values = Object.assign(this.metaValues, this.values);
       return reduce(
         this.valuesKeys,
-        (res, key) => {
+        (res:{[name:string]:string}, key) => {
           res[key] = get(values, `${network}_${key}`, values[key]);
           return res;
         },
         {}
       );
     },
-    defaultValueFor(key, metaSelector = null) {
+    defaultValueFor(key: string, metaSelector?:string): string {
       if (this.noMeta || !metaSelector) {
         return config.get(key);
       }
@@ -214,12 +220,12 @@ export default {
       );
     },
   },
-};
+})
 </script>
 
 <style lang="scss">
-@import "../styles/lib";
-@import "../styles/mixins";
+@import "@/styles/lib";
+@import "@/styles/mixins";
 
 .sharing-options {
   display: flex;

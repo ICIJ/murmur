@@ -1,35 +1,52 @@
-<script>
-  import querystring from 'querystring-es3'
-  import reduce from 'lodash/reduce'
-  import noop from 'lodash/noop'
-  import get from 'lodash/get'
+<script lang="ts">
+import querystring from 'querystring-es3'
+import reduce from 'lodash/reduce'
+import noop from 'lodash/noop'
+import get from 'lodash/get'
 
-  import { faEnvelope } from '@fortawesome/free-solid-svg-icons/faEnvelope'
-  import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
-  import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
-  import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
+import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope'
+import {faTwitter} from '@fortawesome/free-brands-svg-icons/faTwitter'
+import {faFacebook} from '@fortawesome/free-brands-svg-icons/faFacebook'
+import {faLinkedin} from '@fortawesome/free-brands-svg-icons/faLinkedin'
 
-  import Fa from './Fa'
+import Fa from './Fa'
+import {CreateElement, defineComponent, PropType, VNode, VNodeChildren} from 'vue'
+import {IconDefinition} from '@fortawesome/fontawesome-common-types'
 
-  // Popup instance and an interval holder
-  export const $popup = {
+// Popup instance and an interval holder
+type Popup = {
+  instance:Window|null|undefined,
+  interval:undefined |  ReturnType<typeof setTimeout>,
+  parent:Window & typeof globalThis | null}
+  export const $popup : Popup= {
     instance: null,
-    interval: null,
+    interval: undefined,
     parent: typeof window !== 'undefined' ? window : null
   }
 
   // Prevent propagation when an event is fired through the given callback
-  let preventDefault = callback => {
-    return event => {
+  let preventDefault = (callback: Function) => {
+    return (event: Event) => {
       event && event.preventDefault()
       callback()
     }
   }
 
+
+  type SharingPlatform = {
+      base: string
+      icon: IconDefinition
+      args: {
+        [key: string]: string
+      }
+    }
+  type Platform = 'email' | 'facebook' | 'linkedin' | 'twitter'
+// eslint-disable-next-line no-unused-vars
+type SharingPlatforms = { [key in Platform]: SharingPlatform }
   /**
    * @source https://github.com/bradvin/social-share-urls
    */
-  export const networks = {
+  export const networks: SharingPlatforms = {
     email: {
       base: 'mailto:?',
       icon: faEnvelope,
@@ -72,7 +89,7 @@
   /**
    * SharingOptionsLink
    */
-  export default {
+  export default defineComponent({
     name: 'SharingOptionsLink',
     components: {
       Fa
@@ -89,9 +106,9 @@
        * Social network to use
        */
       network: {
-        type: String,
+        type: String as PropType<Platform>,
         required: true,
-        validator (val) {
+        validator (val:string) {
           return Object.keys(networks).includes(val)
         }
       },
@@ -164,75 +181,76 @@
       };
     },
     computed: {
-      href () {
+      href (): string {
         return this.base + querystring.stringify(this.query)
       },
-      base () {
+      base (): string {
         return get(networks, [this.network, 'base'], '')
       },
-      args () {
+      args (): { [key: string]: string; } {
         return get(networks, [this.network, 'args'], {})
       },
-      icon () {
+      icon () : IconDefinition | null{
         return  get(networks, [this.network, 'icon'], null)
       },
-      query () {
+      query () : any {
         return reduce(this.args, (obj, prop, param) => {
+          // @ts-ignore
           if (this.$props[prop]) {
+            // @ts-ignore
             obj[param] = this.$props[prop]
           }
           return obj
         }, {})
       },
-      name () {
+      name (): string {
         return get(networks, [this.network, 'name'], this.network)
       },
-      popupParams () {
+      popupParams (): string {
         return querystring.stringify(this.popup).split('&').join(',')
       }
     },
     methods: {
-      click ()  {
+      click() : void {
         this.cleanExistingPopupInstance ()
         this.openPopup()
       },
-      renderIcon (h) {
+      renderIcon(h:CreateElement): void | VNode | null {
         if (!this.noIcon) {
           return h('fa', { props: { icon: this.icon } })
         }
       },
-      openPopup() {
+      openPopup(): void {
         // Create the popup
-        $popup.instance = $popup.parent.open(this.href, 'sharer', this.popupParams)
-        $popup.instance.focus()
+        $popup.instance = $popup.parent?.open(this.href, 'sharer', this.popupParams)
+        $popup.instance?.focus()
         // Watch for popup closing
         $popup.interval = setInterval(this.cleanExistingPopupInterval, 500)
+        
       },
-      cleanExistingPopupInstance  () {
+      cleanExistingPopupInstance(): void {
         if ($popup.instance && $popup.interval) {
           clearInterval($popup.interval)
-          $popup.interval = null
+          $popup.interval = undefined
           $popup.instance.close()
         }
       },
       cleanExistingPopupInterval () {
         if ( $popup.instance && $popup.instance.closed ) {
           clearInterval($popup.interval)
-          $popup.interval = null
+          $popup.interval = undefined
           $popup.instance = null
         }
       },
-      hasPopup () {
+      hasPopup (): boolean {
         return this.network !== 'email'
       }
     },
-    render (h) {
+    render (h: CreateElement):void | VNode | null {
       const click = this.hasPopup() ? preventDefault(this.click) : noop
       const href = this.href
-      return h(this.tag, { attrs: { href }, on: { click } }, this.$slots.default || [
-        this.renderIcon(h),
-        h('span', { class: 'sr-only' }, this.name)
-      ])
+      const children = this.$slots.default || ([this.renderIcon(h),h('span', { class: 'sr-only' }, this.name)] as VNodeChildren)
+      return h(this.tag, { attrs: { href }, on: { click } }, children)
     }
-  }
+  })
 </script>
