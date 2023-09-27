@@ -187,7 +187,7 @@ type SharingPlatforms = { [key in Platform]: SharingPlatform }
       base (): string {
         return get(networks, [this.network, 'base'], '')
       },
-      args (): { [key: string]: string; } {
+      args() : { [key: string]: string; } {
         return get(networks, [this.network, 'args'], {})
       },
       icon () : IconDefinition | null{
