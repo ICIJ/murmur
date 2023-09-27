@@ -135,7 +135,7 @@ export default defineComponent({
     this.mounted = true
   },
   methods: {
-    setCursorWrapperOffset (): void {
+    setCursorWrapperOffset() : void {
       const cursor = this.$el.querySelector('.scale-legend__cursor')
       if (cursor) {
         const { x: cursorX, width: cursorWidth } = cursor.getBoundingClientRect()
