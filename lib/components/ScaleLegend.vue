@@ -92,7 +92,7 @@ export default defineComponent({
       return d3.range(1, this.width + 1)
     },
     hasCursor (): boolean {
-      return this.cursorValue == null // double equal also tests undefined
+      return this.cursorValue != null // double equal also tests undefined
     },
     colorScaleFunction () : ColorScaleFn {
       if (isString(this.colorScale)) {
