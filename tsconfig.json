@@ -6,6 +6,7 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "checkJs": true,
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -37,6 +38,7 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }
