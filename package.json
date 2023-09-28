@@ -55,6 +55,7 @@
     "vue-virtual-scroller": "^1.0.10"
   },
   "devDependencies": {
+    "@icij/eslint-config": "^1.1.0",
     "@kazupon/vue-i18n-loader": "^0.5.0",
     "@types/d3": "^7.4.0",
     "@types/jsonp": "^0.2.1",
@@ -104,13 +105,12 @@
   },
   "eslintConfig": {
     "root": true,
-    "vi": true,
     "env": {
+      "node": true,
       "es2021": true
     },
     "extends": [
-      "eslint:recommended",
-      "plugin:vue/recommended",
+      "@icij/eslint-config",
       "@vue/typescript"
     ],
     "rules": {
