@@ -172,7 +172,7 @@ export default defineComponent({
       if (number > this.numberOfPages || number < 1) {
         this.errors.push(this.invalidNumberError)
       }
-      if (this.errors.length == 0) {
+      if (this.errors.length === 0) {
         this.$emit('input', parseInt(this.currentPageInput))
       }
     },

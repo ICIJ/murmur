@@ -73,7 +73,7 @@ export default defineComponent({
       return this.$el.querySelectorAll<HTMLElement>('.digits-input__container__input')
     },
     nextInput(): HTMLElement | null {
-      if (this.joinedValues.length == this.length) {
+      if (this.joinedValues.length === this.length) {
         return null
       }
       // Next input is the first non-empty input or the last input
