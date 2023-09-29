@@ -1,16 +1,7 @@
 <template>
   <div class="embeddable-footer p-2 text-nowrap">
-    <a
-      :href="homeUrl"
-      target="_blank"
-      class="text-white embeddable-footer__brand"
-    >
-      <brand
-        :size="40"
-        no-border
-        class="mr-2"
-        color="white"
-      />
+    <a :href="homeUrl" target="_blank" class="text-white embeddable-footer__brand">
+      <brand :size="40" no-border class="mr-2" color="white" />
       {{ title }}
     </a>
     <div class="embeddable-footer__lead small text-truncate">
@@ -20,17 +11,14 @@
       </slot>
     </div>
     <!-- @slot Overide the sharing button -->
-    <slot
-      name="sharing-button"
-      v-bind="{ sharingOptionsValues }"
-    >
+    <slot name="sharing-button" v-bind="{ sharingOptionsValues }">
       <button
         class="btn btn-link text-white btn-sm py-0 embeddable-footer__share-btn"
         :class="{ active: showShareOptions }"
         @click="showShareOptions = !showShareOptions"
       >
         <fa icon="share-alt" />
-        <span class="sr-only">{{ $t("embeddable-footer.share") }}</span>
+        <span class="sr-only">{{ $t('embeddable-footer.share') }}</span>
       </button>
     </slot>
     <sharing-options
@@ -44,29 +32,30 @@
 </template>
 
 <script lang="ts">
-import { faShareAlt } from "@fortawesome/free-solid-svg-icons/faShareAlt";
+import { faShareAlt } from '@fortawesome/free-solid-svg-icons/faShareAlt'
+import { defineComponent } from 'vue'
 
-import i18n from "@/i18n";
-import IframeResizer from "@/utils/iframe-resizer";
-import Brand from "@/components/Brand.vue";
-import SharingOptions from "@/components/SharingOptions.vue";
-import config from "@/config";
+import { library, default as Fa } from './Fa'
 
-import { library, default as Fa } from "./Fa";
-import { defineComponent } from "vue";
-type EmbeddableFooterData={
-      showShareOptions: boolean,
-    }
+import i18n from '@/i18n'
+import IframeResizer from '@/utils/iframe-resizer'
+import Brand from '@/components/Brand.vue'
+import SharingOptions from '@/components/SharingOptions.vue'
+import config from '@/config'
+
+type EmbeddableFooterData = {
+  showShareOptions: boolean
+}
 /**
  * EmbeddableFooter
  */
 export default defineComponent({
   i18n,
-  name: "EmbeddableFooter",
+  name: 'EmbeddableFooter',
   components: {
     Fa,
     SharingOptions,
-    Brand,
+    Brand
   },
   props: {
     /**
@@ -74,61 +63,61 @@ export default defineComponent({
      */
     title: {
       type: String,
-      default: () => config.get("project.name"),
+      default: () => config.get('project.name')
     },
     /**
      * Lead sentence to display next to the title.
      */
     lead: {
       type: String,
-      default: "",
+      default: ''
     },
     /**
      * Minimum height for the iframe generated in the embed form.
      */
     iframeMinHeight: {
       type: Number,
-      default: 100,
+      default: 100
     },
     /**
      * Minimum width for the iframe generated in the embed form.
      */
     iframeMinWidth: {
       type: Number,
-      default: 100,
+      default: 100
     },
     /**
      * Target of the ICIJ logo and title links.
      */
     homeUrl: {
       type: String,
-      default: () => config.get("app.home"),
+      default: () => config.get('app.home')
     },
     /**
      * Sharing option values to bind to the sharing-options component on the bottom-right corner.
      */
     sharingOptionsValues: {
       type: Object,
-      default: () => ({}),
-    },
+      default: () => ({})
+    }
   },
-  data(): EmbeddableFooterData{
+  data(): EmbeddableFooterData {
     return {
-      showShareOptions: false,
-    };
+      showShareOptions: false
+    }
   },
   beforeMount(): void {
-    library.add(faShareAlt);
+    library.add(faShareAlt)
   },
   mounted(): void {
-    IframeResizer.create();
-  },
+    IframeResizer.create()
+  }
 })
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/lib";
-@import "../styles/mixins";
+@import '../styles/lib';
+@import '../styles/mixins';
 
 @include keyframes(slideup) {
   0% {

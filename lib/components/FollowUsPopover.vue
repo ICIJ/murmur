@@ -1,9 +1,6 @@
 <template>
   <div class="follow-us">
-    <button
-      class="btn btn-link text-light follow-us__close"
-      @click="closeSignupPopover"
-    >
+    <button class="btn btn-link text-light follow-us__close" @click="closeSignupPopover">
       <fa icon="times" />
     </button>
     <sign-up-form class="p-3" />
@@ -19,10 +16,7 @@
             class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn"
             title="Twitter"
           >
-            <fa
-              :icon="['fab', 'twitter']"
-              size="lg"
-            />
+            <fa :icon="['fab', 'twitter']" size="lg" />
             <span class="sr-only">Twitter</span>
           </a>
         </div>
@@ -33,10 +27,7 @@
             class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn"
             title="Facebook"
           >
-            <fa
-              :icon="['fab', 'facebook']"
-              size="lg"
-            />
+            <fa :icon="['fab', 'facebook']" size="lg" />
             <span class="sr-only">Facebook</span>
           </a>
         </div>
@@ -47,10 +38,7 @@
             class="d-inline-block text-primary border border-primary rounded-circle bg-white follow-us__social-btn"
             title="Linkedin"
           >
-            <fa
-              :icon="['fab', 'linkedin']"
-              size="lg"
-            />
+            <fa :icon="['fab', 'linkedin']" size="lg" />
             <span class="sr-only">Linkedin</span>
           </a>
         </div>
@@ -59,66 +47,67 @@
   </div>
 </template>
 
-<script lang='ts'>
-  import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
-  import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
-  import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
-  import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
+<script lang="ts">
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
+import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
+import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
+import { defineComponent } from 'vue'
 
-  import i18n from '@/i18n'
-  import SignUpForm from './SignUpForm.vue'
-  import { library, default as Fa } from './Fa'
-  import { defineComponent } from 'vue'
+import SignUpForm from './SignUpForm.vue'
+import { library, default as Fa } from './Fa'
 
-  /**
-   * FollowUsPopover
-   */
-  export default defineComponent({
-    i18n,
-    name: 'FollowUsPopover',
-    components: {
-      Fa,
-      SignUpForm
-    },
-    beforeMount (): void {
-      library.add(faTimes, faTwitter, faFacebook, faLinkedin)
-    },
-    methods: {
-      closeSignupPopover(): void {
-        /**
-         * Fired when user click on the `close` button
-         *
-         * @event update:show
-         * @type {boolean}
-         */
-        this.$emit('update:show', false)
-      }
+import i18n from '@/i18n'
+
+/**
+ * FollowUsPopover
+ */
+export default defineComponent({
+  i18n,
+  name: 'FollowUsPopover',
+  components: {
+    Fa,
+    SignUpForm
+  },
+  beforeMount(): void {
+    library.add(faTimes, faTwitter, faFacebook, faLinkedin)
+  },
+  methods: {
+    closeSignupPopover(): void {
+      /**
+       * Fired when user click on the `close` button
+       *
+       * @event update:show
+       * @type {boolean}
+       */
+      this.$emit('update:show', false)
     }
-  })
+  }
+})
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/lib';
+@import '../styles/lib';
 
-  .follow-us {
-    position: relative;
-    width: 300px;
+.follow-us {
+  position: relative;
+  width: 300px;
 
-    &__social-btn {
-      height: 46px;
-      width: 46px;
-      line-height: 46px;
+  &__social-btn {
+    height: 46px;
+    width: 46px;
+    line-height: 46px;
 
-      i.fab {
-        line-height: inherit;
-        font-size: 1.5em;
-      }
-    }
-
-    &__close {
-      position: absolute;
-      right: $spacer * 0.5;
-      top: $spacer * 0.5;
+    i.fab {
+      line-height: inherit;
+      font-size: 1.5em;
     }
   }
+
+  &__close {
+    position: absolute;
+    right: $spacer * 0.5;
+    top: $spacer * 0.5;
+  }
+}
 </style>

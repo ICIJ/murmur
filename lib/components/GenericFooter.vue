@@ -4,31 +4,21 @@
       <div class="row">
         <div class="col-12 col-lg-5">
           <h5 class="text-uppercase text-white clearfix generic-footer__icij mb-3">
-            <a
-              href="https://icij.org"
-              target="_blank"
-              class="generic-footer__icij__logo text-decoration-none"
-            >
-              <brand-expansion
-                :mode="mode"
-                dark
-              />
+            <a href="https://icij.org" target="_blank" class="generic-footer__icij__logo text-decoration-none">
+              <brand-expansion :mode="mode" dark />
               <span class="sr-only">International Consortium of Investigative Journalists</span>
             </a>
           </h5>
           <p>
             <!-- @slot Override office's address  -->
             <slot name="address">
-              1800 M Street NW, Front 1 #33019<br>
+              1800 M Street NW, Front 1 #33019<br />
               Washington, D.C. 20033 USA
             </slot>
           </p>
           <p>
             <strong>
-              <a
-                :href="contactEmailMailto"
-                class=""
-              >{{ contactEmail }}</a>
+              <a :href="contactEmailMailto" class="">{{ contactEmail }}</a>
             </strong>
           </p>
           <!-- @slot Additional content on the left side of the footer -->
@@ -36,61 +26,26 @@
         </div>
         <div class="col-12 col-lg-7">
           <div class="row justify-content-end">
-            <div
-              v-if="showAboutUs"
-              class="col-6 col-lg-4"
-            >
-              <h5 class="text-uppercase mb-3">
-                About Us
-              </h5>
+            <div v-if="showAboutUs" class="col-6 col-lg-4">
+              <h5 class="text-uppercase mb-3">About Us</h5>
               <ul class="list-unstyled">
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.icij.org/about/our-team/"
-                    target="_blank"
-                  >
-                    Our team
-                  </a>
+                  <a href="https://www.icij.org/about/our-team/" target="_blank"> Our team </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.icij.org/about/our-supporters/"
-                    target="_blank"
-                  >
-                    Our supporters
-                  </a>
+                  <a href="https://www.icij.org/about/our-supporters/" target="_blank"> Our supporters </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.icij.org/about/awards/"
-                    target="_blank"
-                  >
-                    ICIJ's Awards
-                  </a>
+                  <a href="https://www.icij.org/about/awards/" target="_blank"> ICIJ's Awards </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.icij.org/about/corporate/"
-                    target="_blank"
-                  >
-                    Corportate
-                  </a>
+                  <a href="https://www.icij.org/about/corporate/" target="_blank"> Corportate </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.icij.org/about/work-with-us/"
-                    target="_blank"
-                  >
-                    Work with us
-                  </a>
+                  <a href="https://www.icij.org/about/work-with-us/" target="_blank"> Work with us </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.icij.org/journalists/"
-                    target="_blank"
-                  >
-                    Journalists
-                  </a>
+                  <a href="https://www.icij.org/journalists/" target="_blank"> Journalists </a>
                 </li>
               </ul>
             </div>
@@ -99,57 +54,26 @@
                 {{ $t('generic-footer.investigations') }}
               </h5>
 
-
               <!-- @slot List of investigations -->
               <slot name="investigations">
                 <ul class="list-unstyled">
                   <li class="list-unstyled-item">
-                    <a
-                      href="https://www.icij.org/investigations/uber-files/"
-                      target="_blank"
-                    >
-                      The Uber Files 
-                    </a>
+                    <a href="https://www.icij.org/investigations/uber-files/" target="_blank"> The Uber Files </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a
-                      href="https://www.icij.org/investigations/russia-archive/"
-                      target="_blank"
-                    >
-                      Russia Archive
-                    </a>
+                    <a href="https://www.icij.org/investigations/russia-archive/" target="_blank"> Russia Archive </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a
-                      href="https://www.icij.org/investigations/ericsson-list/"
-                      target="_blank"
-                    >
-                      The Ericsson List
-                    </a>
+                    <a href="https://www.icij.org/investigations/ericsson-list/" target="_blank"> The Ericsson List </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a
-                      href="https://www.icij.org/investigations/pandora-papers/"
-                      target="_blank"
-                    >
-                      Pandora Papers
-                    </a>
+                    <a href="https://www.icij.org/investigations/pandora-papers/" target="_blank"> Pandora Papers </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a
-                      href="https://www.icij.org/investigations/fincen-files/"
-                      target="_blank"
-                    >
-                      FinCEN Files
-                    </a>
+                    <a href="https://www.icij.org/investigations/fincen-files/" target="_blank"> FinCEN Files </a>
                   </li>
                   <li class="list-unstyled-item">
-                    <a
-                      href="https://www.icij.org/investigations/"
-                      target="_blank"
-                    >
-                      More investigations
-                    </a>
+                    <a href="https://www.icij.org/investigations/" target="_blank"> More investigations </a>
                   </li>
                 </ul>
               </slot>
@@ -160,44 +84,19 @@
               </h5>
               <ul class="list-unstyled">
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.facebook.com/ICIJ.org"
-                    target="_blank"
-                  >
-                    Facebook
-                  </a>
+                  <a href="https://www.facebook.com/ICIJ.org" target="_blank"> Facebook </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.linkedin.com/company/1732242/"
-                    target="_blank"
-                  >
-                    LinkedIn
-                  </a>
+                  <a href="https://www.linkedin.com/company/1732242/" target="_blank"> LinkedIn </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://twitter.com/ICIJorg"
-                    target="_blank"
-                  >
-                    Twitter
-                  </a>
+                  <a href="https://twitter.com/ICIJorg" target="_blank"> Twitter </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://instagram.com/icijorg"
-                    target="_blank"
-                  >
-                    Instagram
-                  </a>
+                  <a href="https://instagram.com/icijorg" target="_blank"> Instagram </a>
                 </li>
                 <li class="list-unstyled-item">
-                  <a
-                    href="https://www.icij.org/signup/"
-                    target="_blank"
-                  >
-                    Sign-up
-                  </a>
+                  <a href="https://www.icij.org/signup/" target="_blank"> Sign-up </a>
                 </li>
               </ul>
             </div>
@@ -206,14 +105,12 @@
       </div>
       <p class="text-white text-md-right small mt-5">
         <strong>
-          © <span class="generic-footer__year">{{ year }}</span> — The International Consortium of Investigative Journalists.
+          © <span class="generic-footer__year">{{ year }}</span> — The International Consortium of Investigative
+          Journalists.
         </strong>
         {{ $t('generic-footer.all-rights') }}
-        <br>
-        <span
-          v-if="version"
-          class="text-muted generic-footer__version"
-        >
+        <br />
+        <span v-if="version" class="text-muted generic-footer__version">
           {{ $t('generic-footer.version', { version }) }}
         </span>
       </p>
@@ -221,12 +118,14 @@
   </footer>
 </template>
 
-<script lang='ts'>
-import { BrandMode } from '@/enums'
-import i18n from '@/i18n'
+<script lang="ts">
 import { defineComponent } from 'vue'
+
 import config from '../config'
 import BrandExpansion from './BrandExpansion.vue'
+
+import i18n from '@/i18n'
+import { BrandMode } from '@/enums'
 
 /**
  * GenericFooter
@@ -251,17 +150,17 @@ export default defineComponent({
       default: false
     }
   },
-  data(){
-    return {mode: BrandMode.Long}
+  data() {
+    return { mode: BrandMode.Long }
   },
   computed: {
-    year (): number {
-      return (new Date()).getFullYear()
+    year(): number {
+      return new Date().getFullYear()
     },
-    contactEmail (): string {
+    contactEmail(): string {
       return config.get('contact-email')
     },
-    contactEmailMailto (): string {
+    contactEmailMailto(): string {
       return `mailto:${this.contactEmail}`
     }
   }
@@ -269,53 +168,53 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/lib';
+@import '../styles/lib';
 
-  .generic-footer {
-    background: $black;
-    color: $white;
-    padding:$spacer * 4 0;
+.generic-footer {
+  background: $black;
+  color: $white;
+  padding: $spacer * 4 0;
 
-    @include media-breakpoint-down(md) {
-      padding: $spacer;
+  @include media-breakpoint-down(md) {
+    padding: $spacer;
+  }
+
+  a {
+    color: inherit;
+    border-bottom: 0 !important;
+  }
+
+  h5 {
+    font-family: $font-family-sans-serif;
+    font-size: 1.1rem;
+    color: $gray-600;
+  }
+
+  .list-unstyled .list-unstyled-item {
+    line-height: 1.5em;
+    margin: 5px 0;
+  }
+
+  &__icij {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    @include media-breakpoint-down(xs) {
+      display: block;
     }
 
-    a {
-      color: inherit;
-      border-bottom: 0 !important;
-    }
+    &__logo {
+      display: block;
 
-    h5 {
-      font-family: $font-family-sans-serif;
-      font-size: 1.1rem;
-      color: $gray-600;
-    }
-
-    .list-unstyled .list-unstyled-item {
-      line-height: 1.5em;
-      margin: 5px 0;
-    }
-
-    &__icij {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-
-      @include media-breakpoint-down(xs) {
-        display: block;
+      img {
+        height: 54px;
       }
 
-      &__logo {
-        display: block;
-
-        img {
-          height: 54px;
-        }
-
-        @include media-breakpoint-down(xs) {
-          margin-bottom: $spacer;
-        }
+      @include media-breakpoint-down(xs) {
+        margin-bottom: $spacer;
       }
     }
   }
+}
 </style>

@@ -1,23 +1,23 @@
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { CSSProperties } from 'vue/types/jsx'
 
-type StyleTransition = Pick<CSSProperties,'overflow'|'transition-property'|'transition-duration'|'height' >
+type StyleTransition = Pick<CSSProperties, 'overflow' | 'transition-property' | 'transition-duration' | 'height'>
 
 enum STATE {
-  PRE = "pre",
+  PRE = 'pre',
   ACTIVE = 'active',
   POST = 'post'
 }
 interface SlideUpDownData {
-  state: STATE,
-  mounted: boolean,
+  state: STATE
+  mounted: boolean
   scrollHeight: number
 }
 /**
  * SlideUpDown
  */
-export default defineComponent( {
+export default defineComponent({
   name: 'SlideUpDown',
   props: {
     /**
@@ -50,53 +50,56 @@ export default defineComponent( {
     }
   },
   computed: {
-    stylePreTransition() : StyleTransition {
+    stylePreTransition(): StyleTransition {
       return {
-        'overflow': 'hidden',
+        overflow: 'hidden',
         'transition-property': 'height',
-        'transition-duration':  `${this.duration}ms`,
-        'height': this.mounted ?  `${this.containerScrollHeight}px` : 0,
+        'transition-duration': `${this.duration}ms`,
+        height: this.mounted ? `${this.containerScrollHeight}px` : 0
       }
     },
-    styleActiveTransition() : StyleTransition {
+    styleActiveTransition(): StyleTransition {
       return {
-        'overflow': 'hidden',
+        overflow: 'hidden',
         'transition-property': 'height',
-        'transition-duration':  `${this.duration}ms`,
-        'height': this.mounted ?  `${this.activeHeight}px` : 'auto',
+        'transition-duration': `${this.duration}ms`,
+        height: this.mounted ? `${this.activeHeight}px` : 'auto'
       }
     },
-    stylePostTransition() : StyleTransition {
+    stylePostTransition(): StyleTransition {
       // Reset style when the element is active
-      return this.active ? { } : this.styleActiveTransition
+      return this.active ? {} : this.styleActiveTransition
     },
-    style() : StyleTransition {
+    style(): StyleTransition {
       switch (this.state) {
-        case STATE.PRE: return this.stylePreTransition
-        case STATE.ACTIVE: return this.styleActiveTransition
-        default: return this.stylePostTransition
+        case STATE.PRE:
+          return this.stylePreTransition
+        case STATE.ACTIVE:
+          return this.styleActiveTransition
+        default:
+          return this.stylePostTransition
       }
     },
-    activeHeight() : number {
+    activeHeight(): number {
       return this.active ? this.containerScrollHeight : 0
     },
-    containerScrollHeight() : number {
+    containerScrollHeight(): number {
       return this.$container?.scrollHeight ?? 0
     },
-    $container() : HTMLElement | undefined {
+    $container(): HTMLElement | undefined {
       return this.$refs.container as HTMLElement | undefined
     }
   },
   watch: {
-    active() : Promise<void> {
+    active(): Promise<void> {
       return this.triggerSlide()
     }
   },
-  async mounted () {
+  async mounted() {
     await this.deferredNextTick()
     this.mounted = true
     await this.cleanLayout(null)
-    this.$container?.addEventListener("transitionend", (e)=>this.cleanLayout(e))
+    this.$container?.addEventListener('transitionend', (e) => this.cleanLayout(e))
   },
   methods: {
     async triggerSlide(): Promise<void> {
@@ -106,16 +109,16 @@ export default defineComponent( {
       await this.deferredNextTick()
       this.state = STATE.ACTIVE
     },
-    cleanLayout(e : Event | null) {
+    cleanLayout(e: Event | null) {
       // This method can be triggered by animated child elements in
       // which case, we should do anything
-      if(!e || e.target == this.$container) {
+      if (!e || e.target == this.$container) {
         this.state = STATE.POST
         return this.deferredNextTick()
       }
     },
     async deferredNextTick() {
-      await new Promise(resolve => setTimeout(resolve, 0))
+      await new Promise((resolve) => setTimeout(resolve, 0))
       await this.$nextTick()
     }
   }
@@ -123,11 +126,7 @@ export default defineComponent( {
 </script>
 
 <template>
-  <component
-    :is="tag"
-    ref="container"
-    :style="style"
-  >
+  <component :is="tag" ref="container" :style="style">
     <slot />
   </component>
 </template>

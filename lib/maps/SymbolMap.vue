@@ -3,6 +3,7 @@ import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
 import { debounce, find, get, groupBy, isFunction, kebabCase, keys, pickBy, set, uniq, uniqueId } from 'lodash'
 import { feature } from 'topojson'
+
 import config from '../config'
 import OrdinalLegend from '../components/OrdinalLegend.vue'
 import chart from '../mixins/chart'
@@ -49,9 +50,10 @@ export default {
       type: [String, Array],
       default: 'id'
     },
-    markerPath:{
+    markerPath: {
       type: [String, Function],
-      default: 'M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z'
+      default:
+        'M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256z'
     },
     markerColor: {
       type: String,
@@ -104,7 +106,7 @@ export default {
       default: 8
     }
   },
-  data () {
+  data() {
     return {
       mapRect: { width: 0, height: 0 },
       markerCursor: null,
@@ -134,9 +136,9 @@ export default {
     },
     markersGeojson() {
       return {
-        type: "Feature",
+        type: 'Feature',
         geometry: {
-          type: "Polygon",
+          type: 'Polygon',
           coordinates: [this.coordinates]
         }
       }
@@ -159,16 +161,22 @@ export default {
     mapProjection() {
       const { height, width } = this.mapRect
       const padding = this.mapPadding
-      return geoRobinson()
-        .fitExtent([
+      return geoRobinson().fitExtent(
+        [
           [padding, padding],
           [width - padding, height - padding]
-        ], this.geojson)
+        ],
+        this.geojson
+      )
     },
     mapZoom() {
-      return d3.zoom()
+      return d3
+        .zoom()
         .scaleExtent([this.zoomMin, this.zoomMax])
-        .translateExtent([[0, 0], [this.mapRect.width, this.mapRect.height]])
+        .translateExtent([
+          [0, 0],
+          [this.mapRect.width, this.mapRect.height]
+        ])
         .on('zoom', this.mapZoomed)
     },
     mapHeight() {
@@ -184,12 +192,12 @@ export default {
       return d3.select(this.$el).select('.symbol-map__main')
     },
     markerCursorValue() {
-      return find(this.loadedDataWithIds, d => {
+      return find(this.loadedDataWithIds, (d) => {
         return get(d, this.markerObjectsPath) === this.markerCursor
       })
     },
     loadedDataWithIds() {
-      return this.loadedData.map(d => {
+      return this.loadedData.map((d) => {
         return {
           ...set({}, this.markerObjectsPath, uniqueId()),
           ...d
@@ -197,16 +205,16 @@ export default {
       })
     },
     categories() {
-      const categories = (this.loadedData || []).map(d => {
+      const categories = (this.loadedData || []).map((d) => {
         return get(d, this.categoryObjectsPath)
       })
       return uniq(categories).map(String)
     },
     legendData() {
-      const categories = groupBy(this.loadedData || [], d => {
+      const categories = groupBy(this.loadedData || [], (d) => {
         return get(d, this.categoryObjectsPath)
       })
-      return Object.entries(categories).map(entry => {
+      return Object.entries(categories).map((entry) => {
         const [label, [{ color: firstColor }]] = entry
         const color = firstColor || this.categoryColor(label)
         return { label, color }
@@ -236,8 +244,8 @@ export default {
       this.setMarkersClasses()
     }
   },
-  async created () {
-    await new Promise(resolve => this.$on('loaded', resolve))
+  async created() {
+    await new Promise((resolve) => this.$on('loaded', resolve))
     await this.loadTopojson()
     this.draw()
     this.$on('resized', this.debouncedDraw)
@@ -246,7 +254,7 @@ export default {
     debouncedDraw: debounce(function () {
       this.draw()
     }, 10),
-    prepare () {
+    prepare() {
       // Set the map sizes
       this.$set(this, 'mapRect', this.map.node().getBoundingClientRect())
       // Remove any existing country
@@ -254,54 +262,56 @@ export default {
       // Return the map to allow chaining
       return this.map
     },
-    prepareZoom () {
+    prepareZoom() {
       if (this.zoomable) {
         this.map.call(this.mapZoom)
       }
     },
-    categoryColor (category) {
+    categoryColor(category) {
       if (this.mounted) {
-        const index = this.categories.indexOf(category) 
+        const index = this.categories.indexOf(category)
         const style = window.getComputedStyle(this.$el)
         return style.getPropertyValue(`--category-color-${index}n`) || '#000'
       }
-      return  null
+      return null
     },
-    draw () {
+    draw() {
       const map = this.prepare()
       // Bind a group for geojson features to path
-      map.append('g')
+      map
+        .append('g')
         .attr('class', 'symbol-map__main__features')
         .selectAll('.symbol-map__main__features__item')
         .data(this.featuresGeojson.features)
         // Add the path with the correct class
         .enter()
-          .append('path')
-          .attr('class',this.featureClass)
-          .attr('d', this.featurePath)
-          .on('click', this.featureClicked)
-          .style('color', this.featureColor)
+        .append('path')
+        .attr('class', this.featureClass)
+        .attr('d', this.featurePath)
+        .on('click', this.featureClicked)
+        .style('color', this.featureColor)
       // Bind a group for marker paths
-      map.append('g')
+      map
+        .append('g')
         .attr('class', 'symbol-map__main__markers')
         .selectAll('.symbol-map__main__markers__item')
         .data(this.loadedDataWithIds)
         .enter()
-          .append('g')
-          .attr('id', this.markerId)
-          .attr('class', this.markerClass)
-          .attr('transform', this.markerTransform)
-            .append('path')
-            .on('mouseover', this.markerMouseOver)
-            .on('mouseleave', this.markerMouseLeave)
-            .attr('d', this.markerPathFunction)
-            .attr('fill', this.markerColorFunction)
+        .append('g')
+        .attr('id', this.markerId)
+        .attr('class', this.markerClass)
+        .attr('transform', this.markerTransform)
+        .append('path')
+        .on('mouseover', this.markerMouseOver)
+        .on('mouseleave', this.markerMouseLeave)
+        .attr('d', this.markerPathFunction)
+        .attr('fill', this.markerColorFunction)
       this.prepareZoom()
     },
-    featureClass (d) {
-      return keys(pickBy(this.featureClassObject(d), value => value)).join(' ')
+    featureClass(d) {
+      return keys(pickBy(this.featureClassObject(d), (value) => value)).join(' ')
     },
-    featureClassObject (d) {
+    featureClassObject(d) {
       const pathClass = 'symbol-map__main__features__item'
       const id = get(d, this.topojsonObjectsPath, null)
       return {
@@ -309,40 +319,40 @@ export default {
         [`${pathClass}--identifier-${kebabCase(id)}`]: id !== null
       }
     },
-    async loadTopojson () {
+    async loadTopojson() {
       if (!this.$options.topojsonPromise) {
         this.$options.topojsonPromise = d3.json(this.topojsonUrl)
         this.$options.topojson = await this.$options.topojsonPromise
       }
       return this.$options.topojsonPromise
     },
-    mapZoomed ({ transform }) {
+    mapZoomed({ transform }) {
       this.markerCursor = null
       this.map
         .style('--map-scale', transform.k)
         .selectAll('.symbol-map__main__features, .symbol-map__main__markers')
         .attr('transform', transform)
     },
-    markerBoundingClientRect (d) {
+    markerBoundingClientRect(d) {
       const marker = this.map.append('path').attr('d', this.markerPathFunction(d))
       const rect = marker.node().getBoundingClientRect()
       marker.remove()
       return rect
     },
-    markerMouseLeave () {
+    markerMouseLeave() {
       this.markerCursor = null
     },
-    markerMouseOver (_, d) {
+    markerMouseOver(_, d) {
       this.markerCursor = get(d, this.markerObjectsPath)
     },
-    markerClass (d) {
-      return keys(pickBy(this.markerClassObject(d), value => value)).join(' ')
+    markerClass(d) {
+      return keys(pickBy(this.markerClassObject(d), (value) => value)).join(' ')
     },
-    markerId (d) {
+    markerId(d) {
       const id = get(d, this.markerObjectsPath)
       return `${this.mapId}-marker-${id}`
     },
-    markerClassObject (d) {
+    markerClassObject(d) {
       const category = String(get(d, this.categoryObjectsPath))
       const categoryIndex = this.categories.indexOf(category)
       const id = get(d, this.markerObjectsPath)
@@ -356,19 +366,19 @@ export default {
         [`${pathClass}--highlighted`]: this.categoryHighlight === category
       }
     },
-    markerPathFunction (d) {
+    markerPathFunction(d) {
       return isFunction(this.markerPath) ? this.markerPath(d) : this.markerPath
     },
-    markerColorFunction ({ color, ...d }) {
+    markerColorFunction({ color, ...d }) {
       return color || (isFunction(this.markerColor) ? this.markerColor(d) : this.markerColor)
     },
-    markerWidthFunction (d) {
+    markerWidthFunction(d) {
       return isFunction(this.markerWidth) ? this.markerWidth(d) : this.markerWidth
     },
-    markerLabel (d) {
+    markerLabel(d) {
       return get(d, this.labelObjectsPath)
     },
-    markerTransform (d) {
+    markerTransform(d) {
       const { latitude, longitude } = d
       const { height, width } = this.markerBoundingClientRect(d)
       const [x, y] = this.mapProjection([longitude, latitude])
@@ -377,7 +387,7 @@ export default {
       const cy = y - (height / 2) * scale
       return `translate(${cx}, ${cy}) scale(${scale})`
     },
-    async featureClicked (event, d) {
+    async featureClicked(event, d) {
       /**
        * A click on a feature
        * @event click
@@ -396,7 +406,7 @@ export default {
        */
       this.$emit('zoomed', d)
     },
-    resetZoom () {
+    resetZoom() {
       this.map
         .style('--map-scale', 1)
         .transition()
@@ -408,12 +418,10 @@ export default {
        */
       this.$emit('reset')
     },
-    setMarkersClasses () {
-      this.map
-        .selectAll('.symbol-map__main__markers__item')
-        .attr('class', this.markerClass)
+    setMarkersClasses() {
+      this.map.selectAll('.symbol-map__main__markers__item').attr('class', this.markerClass)
     },
-    setFeatureZoom (d, pointer = [0, 0]) {
+    setFeatureZoom(d, pointer = [0, 0]) {
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
       const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
@@ -435,49 +443,34 @@ export default {
 </script>
 
 <template>
-  <div
-    class="symbol-map"
-    :class="mapClass"
-  >
-    <slot
-      name="legend"
-      v-bind="{ legendData }"
-    >
-      <ordinal-legend 
-        v-if="!hideLegend && legendData" 
-        :data="legendData" 
+  <div class="symbol-map" :class="mapClass">
+    <slot name="legend" v-bind="{ legendData }">
+      <ordinal-legend
+        v-if="!hideLegend && legendData"
+        :data="legendData"
         :highlight.sync="categoryHighlight"
         :horizontal="horizontalLegend"
         :marker-path="markerPath"
         category-objects-path="label"
       >
         <template #marker="d">
-          <slot
-            name="legend-marker"
-            v-bind="d"
-          />
+          <slot name="legend-marker" v-bind="d" />
         </template>
         <template #label="d">
-          <slot
-            name="legend-label"
-            v-bind="d"
-          />
+          <slot name="legend-label" v-bind="d" />
         </template>
       </ordinal-legend>
     </slot>
     <svg class="symbol-map__main" />
-    <b-tooltip 
+    <b-tooltip
       v-if="tooltipTarget"
       ref="marker-tooltip"
       :custom-class="tooltipCustomClass"
-      :fallback-placement="tooltipFallbackPlacement" 
-      :placement="tooltipPlacement" 
+      :fallback-placement="tooltipFallbackPlacement"
+      :placement="tooltipPlacement"
       :target="tooltipTarget"
     >
-      <slot
-        name="tooltip"
-        v-bind="{ markerCursor, ...markerCursorValue }"
-      >
+      <slot name="tooltip" v-bind="{ markerCursor, ...markerCursorValue }">
         {{ markerLabel(markerCursorValue) }}
       </slot>
     </b-tooltip>
@@ -485,13 +478,13 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use "sass:math";
+@use 'sass:math';
 @import '../styles/lib';
 
 .symbol-map {
-  $muted-item-opacity: .2;
+  $muted-item-opacity: 0.2;
   $muted-item-filter: grayscale(30%) brightness(10%);
-  $muted-item-transition: opacity .2s, filter .2s;
+  $muted-item-transition: opacity 0.2s, filter 0.2s;
 
   $colors: $primary, $info, $warning, $danger;
   $quantile: 2;
@@ -505,7 +498,7 @@ export default {
       --category-color-#{$j}n: #{mix($end-color, $start-color, $amount)};
     }
   }
-  
+
   &__main {
     color: #ebebeb;
     min-height: 300px;
@@ -525,7 +518,7 @@ export default {
 
     &:deep(.symbol-map__main__markers) {
       shape-rendering: geometricPrecision;
-      
+
       .symbol-map__main__markers__item {
         opacity: 1;
         filter: grayscale(0%) brightness(100%);
@@ -546,7 +539,7 @@ export default {
             fill: var(--category-color-#{$i}n);
           }
         }
-          
+
         .symbol-map--has-markers-scale & path {
           transform: scale(calc(1 / var(--map-scale)));
           transform-origin: center center;

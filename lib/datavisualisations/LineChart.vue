@@ -1,19 +1,10 @@
 <template>
-  <div
-    class="line-chart"
-    :style="{ '--line-color': lineColor }"
-    :class="{ 'line-chart--social-mode': socialMode }"
-  >
-    <svg
-      :width="width"
-      :height="height"
-    >
+  <div class="line-chart" :style="{ '--line-color': lineColor }" :class="{ 'line-chart--social-mode': socialMode }">
+    <svg :width="width" :height="height">
       <g
         class="line-chart__axis line-chart__axis--x"
         :style="{
-          transform: `translate(${margin.left}px, ${
-            margin.top + padded.height
-          }px)`,
+          transform: `translate(${margin.left}px, ${margin.top + padded.height}px)`
         }"
       >
         >
@@ -25,28 +16,24 @@
         >
       </g>
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
-        <path
-          class="line-chart__line"
-          :d="line"
-        />
+        <path class="line-chart__line" :d="line" />
       </g>
     </svg>
   </div>
 </template>
 
 <script>
-import * as d3 from "d3";
-import isFunction from "lodash/isFunction";
-import identity from "lodash/identity";
+import * as d3 from 'd3'
+import isFunction from 'lodash/isFunction'
+import identity from 'lodash/identity'
 
-import chart from "../mixins/chart";
+import chart from '../mixins/chart'
 
 // Call the first argument if it's a function, or return it
-const castCall = (fnOrValue = identity, ...rest) =>
-  isFunction(fnOrValue) ? fnOrValue(...rest) : fnOrValue;
+const castCall = (fnOrValue = identity, ...rest) => (isFunction(fnOrValue) ? fnOrValue(...rest) : fnOrValue)
 
 export default {
-  name: "LineChart",
+  name: 'LineChart',
   mixins: [chart],
   props: {
     /**
@@ -68,14 +55,14 @@ export default {
      */
     fixedHeight: {
       type: Number,
-      default: null,
+      default: null
     },
     /**
      * Name of the series (to get the value from in the data collection objects)
      */
     seriesName: {
       type: String,
-      default: "value",
+      default: 'value'
     },
     /**
      * Argument for x-axis ticks
@@ -83,7 +70,7 @@ export default {
      */
     xAxisTicks: {
       type: [Object, Number, Function],
-      default: null,
+      default: null
     },
     /**
      * Function to apply to format y axis ticks (line value). It can be a
@@ -91,7 +78,7 @@ export default {
      */
     yAxisTickFormat: {
       type: [Function, String],
-      default: identity,
+      default: identity
     },
     /**
      * Argument for y-axis ticks
@@ -99,162 +86,152 @@ export default {
      */
     yAxisTicks: {
       type: [Object, Number, Function],
-      default: 5,
+      default: 5
     },
     /**
      * Key to use for timeseries
      */
     timeseriesKey: {
       type: String,
-      default: "date",
-    },
+      default: 'date'
+    }
   },
   data() {
     return {
       width: 0,
       height: 0,
-      line: null,
-    };
+      line: null
+    }
   },
   computed: {
     labelWidth() {
       if (this.fixedLabelWidth) {
-        return this.fixedLabelWidth;
+        return this.fixedLabelWidth
       }
-      const selector = ".line-chart__axis--y .tick text";
-      const defaultWidth = 100;
-      return this.elementsMaxBBox({ selector, defaultWidth }).width;
+      const selector = '.line-chart__axis--y .tick text'
+      const defaultWidth = 100
+      return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     labelHeight() {
-      const selector = ".line-chart__axis--y .tick";
-      const defaultHeight = 10;
-      return this.elementsMaxBBox({ selector, defaultHeight }).height;
+      const selector = '.line-chart__axis--y .tick'
+      const defaultHeight = 10
+      return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
     bucketHeight() {
-      const selector = ".line-chart__axis--x .tick";
-      const defaultHeight = 10;
-      return this.elementsMaxBBox({ selector, defaultHeight }).height;
+      const selector = '.line-chart__axis--x .tick'
+      const defaultHeight = 10
+      return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
     bucketWidth() {
-      const selector = ".line-chart__axis--x .tick text";
-      const defaultWidth = 0;
-      return this.elementsMaxBBox({ selector, defaultWidth }).width;
+      const selector = '.line-chart__axis--x .tick text'
+      const defaultWidth = 0
+      return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     scale() {
       return {
         x: d3.scaleTime().range([0, this.padded.width]),
-        y: d3.scaleLinear().range([this.padded.height, 0]),
-      };
+        y: d3.scaleLinear().range([this.padded.height, 0])
+      }
     },
     margin() {
-      const left = this.labelWidth + 10;
-      const right = this.bucketWidth / 2;
-      const top = this.labelHeight;
-      const bottom = this.bucketHeight + 10;
-      return { left, right, top, bottom };
+      const left = this.labelWidth + 10
+      const right = this.bucketWidth / 2
+      const top = this.labelHeight
+      const bottom = this.bucketHeight + 10
+      return { left, right, top, bottom }
     },
     padded() {
-      const width = this.width - this.margin.left - this.margin.right;
-      const height = this.height - this.margin.top - this.margin.bottom;
-      return { width, height };
+      const width = this.width - this.margin.left - this.margin.right
+      const height = this.height - this.margin.top - this.margin.bottom
+      return { width, height }
     },
     formattedData() {
       if (!this.loadedData) {
-        return [];
+        return []
       }
       return this.loadedData.map((d) => {
-        d[this.timeseriesKey] = this.parseTime(d[this.timeseriesKey]);
-        d[this.seriesName] = +d[this.seriesName];
-        return d;
-      });
-    },
+        d[this.timeseriesKey] = this.parseTime(d[this.timeseriesKey])
+        d[this.seriesName] = +d[this.seriesName]
+        return d
+      })
+    }
   },
   watch: {
     socialMode() {
-      this.setSizes();
+      this.setSizes()
     },
     width() {
-      this.update();
+      this.update()
     },
     height() {
-      this.update();
+      this.update()
     },
     fixedHeight() {
-      this.update();
+      this.update()
     },
     loadedData() {
-      this.update();
+      this.update()
     },
     labelHeight() {
-      this.update();
-    },
+      this.update()
+    }
   },
   mounted() {
-    window.addEventListener("resize", this.setSizes);
-    this.setSizes();
+    window.addEventListener('resize', this.setSizes)
+    this.setSizes()
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.setSizes);
+    window.removeEventListener('resize', this.setSizes)
   },
   methods: {
     createLine: d3
       .line()
       .x((d) => d.x)
       .y((d) => d.y),
-    parseTime: d3.timeParse("%Y"),
+    parseTime: d3.timeParse('%Y'),
     setSizes() {
-      this.width = this.$el.offsetWidth;
-      this.height =
-        this.fixedHeight !== null
-          ? this.fixedHeight
-          : this.$el.offsetWidth * this.baseHeightRatio;
+      this.width = this.$el.offsetWidth
+      this.height = this.fixedHeight !== null ? this.fixedHeight : this.$el.offsetWidth * this.baseHeightRatio
     },
     update() {
-      this.scale.x.domain(
-        d3.extent(this.formattedData, (d) => d[this.timeseriesKey])
-      );
-      this.scale.y.domain([
-        0,
-        d3.max(this.formattedData, (d) => d[this.seriesName]),
-      ]);
+      this.scale.x.domain(d3.extent(this.formattedData, (d) => d[this.timeseriesKey]))
+      this.scale.y.domain([0, d3.max(this.formattedData, (d) => d[this.seriesName])])
 
       const points = this.formattedData.map((d) => {
         return {
           x: this.scale.x(d[this.timeseriesKey]),
-          y: this.scale.y(d[this.seriesName]),
-        };
-      });
+          y: this.scale.y(d[this.seriesName])
+        }
+      })
 
-      this.line = this.createLine(points);
+      this.line = this.createLine(points)
 
       d3.select(this.$el)
-        .select(".line-chart__axis--x")
+        .select('.line-chart__axis--x')
         .call(
           d3
             .axisBottom(this.scale.x)
             .ticks(this.xAxisTicks)
             .tickFormat((d) => castCall(this.xAxisYearFormat, d.getFullYear()))
-        );
+        )
 
       d3.select(this.$el)
-        .select(".line-chart__axis--y")
+        .select('.line-chart__axis--y')
         .call(
           d3
             .axisLeft(this.scale.y)
-            .tickFormat((d) =>
-              this.$options.filters.d3Formatter(d, this.yAxisTickFormat)
-            )
+            .tickFormat((d) => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
             .ticks(this.yAxisTicks)
         )
-        .selectAll(".tick line")
-        .attr("x2", this.padded.width);
-    },
-  },
-};
+        .selectAll('.tick line')
+        .attr('x2', this.padded.width)
+    }
+  }
+}
 </script>
 
 <style lang="scss">
-@import "../styles/lib";
+@import '../styles/lib';
 
 .line-chart {
   text {

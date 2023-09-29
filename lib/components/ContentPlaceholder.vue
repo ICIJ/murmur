@@ -1,27 +1,14 @@
 <template>
-  <div
-    v-once
-    class="content-placeholder"
-  >
-    <div
-      class="content-placeholder__wrapper"
-      :style="{ backgroundSize: size }"
-    >
+  <div v-once class="content-placeholder">
+    <div class="content-placeholder__wrapper" :style="{ backgroundSize: size }">
       <div
         v-for="(row, r) in formattedRows"
         :key="r"
         class="content-placeholder__wrapper__row"
-        :style="{height: row.height}"
+        :style="{ height: row.height }"
       >
-        <div
-          v-for="(box, b) in row.boxes"
-          :key="b"
-          :style="box.style"
-        >
-          <div
-            v-if="box.subClass"
-            :class="box.subClass"
-          />
+        <div v-for="(box, b) in row.boxes" :key="b" :style="box.style">
+          <div v-if="box.subClass" :class="box.subClass" />
         </div>
       </div>
     </div>
@@ -29,11 +16,11 @@
 </template>
 
 <script lang="ts">
-import config from '@/config'
 import { defineComponent, PropType } from 'vue'
-import { formatRows } from '@/utils/placeholder'
 
-import type { ContentPlaceholderRows, ContentPlaceholderStyledRows } from "@/utils/placeholderTypes"
+import config from '@/config'
+import { formatRows } from '@/utils/placeholder'
+import type { ContentPlaceholderRows, ContentPlaceholderStyledRows } from '@/utils/placeholderTypes'
 
 /**
  * A component to fill empty spaces with animated placeholders until content is loaded.
@@ -57,7 +44,7 @@ export default defineComponent({
     }
   },
   computed: {
-    formattedRows (): ContentPlaceholderStyledRows {
+    formattedRows(): ContentPlaceholderStyledRows {
       return formatRows(this.rows, 'content-placeholder__wrapper__row__box')
     }
   }
@@ -67,12 +54,12 @@ export default defineComponent({
 <style scoped lang="scss">
 @import '../styles/lib';
 
-@keyframes placeHolderShimmer{
-  0%{
-    background-position: 100% 0
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: 100% 0;
   }
-  100%{
-    background-position: -100% 0
+  100% {
+    background-position: -100% 0;
   }
 }
 

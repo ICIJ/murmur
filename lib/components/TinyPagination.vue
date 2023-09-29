@@ -1,67 +1,49 @@
 <template>
-  <div
-    class="tiny-pagination"
-    :class="paginationClassList"
-  >
-    <b-button 
-      class="tiny-pagination__nav" 
-      :size="size" 
+  <div class="tiny-pagination" :class="paginationClassList">
+    <b-button
+      class="tiny-pagination__nav"
+      :size="size"
       :disabled="!hasPrevious"
-      :variant="navVariant" 
+      :variant="navVariant"
       @click="applyPreviousPage"
     >
       <!-- @slot Previous button content -->
-      <slot
-        name="previous"
-        v-bind="{ value, numberOfPages, hasPrevious, hasNext }"
-      >
+      <slot name="previous" v-bind="{ value, numberOfPages, hasPrevious, hasNext }">
         <fa :icon="previousPageIcon" />
         <span class="sr-only">{{ $tc('tiny-pagination.previous') }}</span>
       </slot>
     </b-button>
-    <form
-      class="tiny-pagination__form form-inline"
-      @submit.prevent="applyPageForm"
-    >
-      <label class="tiny-pagination__form__label mr-1 mb-0" v-show="!compact">
+    <form class="tiny-pagination__form form-inline" @submit.prevent="applyPageForm">
+      <label v-show="!compact" class="tiny-pagination__form__label mr-1 mb-0">
         <!-- @slot Display page label -->
-        <slot
-          name="page"
-          v-bind="{ value, numberOfPages }"
-        >
+        <slot name="page" v-bind="{ value, numberOfPages }">
           {{ $t('tiny-pagination.page') }}
         </slot>
       </label>
-      <b-form-input 
+      <b-form-input
         v-model="currentPageInput"
         :size="size"
-        class="tiny-pagination__form__input mr-1" 
-        type="number" 
-        step="1" 
+        class="tiny-pagination__form__input mr-1"
+        type="number"
+        step="1"
         :min="1"
         :max="numberOfPages"
         :aria-label="$tc('tiny-pagination.aria')"
       />
       <!-- @slot Display number of pages -->
-      <slot
-        name="number-of-pages"
-        v-bind="{ value, numberOfPages }"
-      >
+      <slot name="number-of-pages" v-bind="{ value, numberOfPages }">
         {{ $tc('tiny-pagination.total', numberOfPages, { numberOfPages }) }}
       </slot>
     </form>
-    <b-button 
-      class="tiny-pagination__nav" 
-      :size="size" 
+    <b-button
+      class="tiny-pagination__nav"
+      :size="size"
       :disabled="!hasNext"
-      :variant="navVariant" 
+      :variant="navVariant"
       @click="applyNextPage"
     >
       <!-- @slot Next button content -->
-      <slot
-        name="next"
-        v-bind="{ value, numberOfPages, hasPrevious, hasNext }"
-      >
+      <slot name="next" v-bind="{ value, numberOfPages, hasPrevious, hasNext }">
         <fa :icon="nextPageIcon" />
         <span class="sr-only">{{ $tc('tiny-pagination.next') }}</span>
       </slot>
@@ -72,10 +54,12 @@
 <script lang="ts">
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { BButton, BFormInput } from 'bootstrap-vue'
-import i18n from '@/i18n'
 import { defineComponent } from 'vue'
-import { Size } from "@/enums"
+
 import { library, default as Fa } from './Fa'
+
+import i18n from '@/i18n'
+import { Size } from '@/enums'
 
 interface TinyPaginationData {
   currentPageInput: number
@@ -95,29 +79,29 @@ export default defineComponent({
   },
   props: {
     /**
-    * Total items to be stored in pages
-    */
+     * Total items to be stored in pages
+     */
     totalRows: {
       type: Number,
       default: 0
     },
     /**
-    * Sets the quantity of items per page
-    */
+     * Sets the quantity of items per page
+     */
     perPage: {
       type: Number,
       default: 20
     },
     /**
-    * Grabs and syncs the currentPage variable passed down from the parent in v-model
-    */
+     * Grabs and syncs the currentPage variable passed down from the parent in v-model
+     */
     value: {
       type: [Number, String],
       default: 1
     },
     /**
-    * Set the size of the input: 'sm', 'md' (default), or 'lg'.
-    */
+     * Set the size of the input: 'sm', 'md' (default), or 'lg'.
+     */
     size: {
       type: String,
       default: Size.md,
@@ -132,28 +116,28 @@ export default defineComponent({
       default: null
     },
     /**
-    * Hide navigation buttons (next and previous)
-    */
+     * Hide navigation buttons (next and previous)
+     */
     noNav: {
       type: Boolean
     },
     /**
-    * FontAwesome icon of the previous page button
-    */
+     * FontAwesome icon of the previous page button
+     */
     previousPageIcon: {
       type: [String, Array, Object],
       default: 'angle-left'
     },
     /**
-    * FontAwesome icon of the next page button
-    */
+     * FontAwesome icon of the next page button
+     */
     nextPageIcon: {
       type: [String, Array, Object],
       default: 'angle-right'
     },
     /**
-    * Navigation button variants
-    */
+     * Navigation button variants
+     */
     navVariant: {
       type: String,
       default: 'link'
@@ -199,7 +183,7 @@ export default defineComponent({
     }
   },
   watch: {
-    value (value: number|string) {
+    value(value: number | string) {
       this.currentPageInput = +value
     }
   },
@@ -238,13 +222,13 @@ export default defineComponent({
   &--sm {
     font-size: $font-size-sm;
   }
-  
+
   &--lg {
     font-size: $font-size-lg;
   }
 
   &--no-nav &__nav {
-    display: none
+    display: none;
   }
 
   &--no-nav &__form {
@@ -259,9 +243,8 @@ export default defineComponent({
     order: 10;
   }
 
-
   &__form {
-    margin: 0 $spacer * .25;
+    margin: 0 $spacer * 0.25;
     width: 100%;
     display: flex;
     align-items: center;
@@ -273,13 +256,13 @@ export default defineComponent({
       padding-right: 0.2rem;
       text-align: center;
 
-      &[type=number] {
+      &[type='number'] {
         -moz-appearance: textfield;
 
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+          -webkit-appearance: none;
+          margin: 0;
         }
       }
     }

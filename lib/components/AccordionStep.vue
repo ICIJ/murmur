@@ -2,7 +2,7 @@
   <b-card
     :class="{
       'accordion-wrapper__content__step--active': isActive,
-      'accordion-wrapper__content__step--previous': isPrevious,
+      'accordion-wrapper__content__step--previous': isPrevious
     }"
     class="accordion-wrapper__content__step"
     no-body
@@ -16,19 +16,13 @@
     <b-collapse :visible="isActive">
       <div class="accordion-wrapper__content__step__main card-body row no-gutters">
         <!-- @slot Content of the step with props {isFirst:boolean, isLast:boolean, step:Step, nextStep:Function}-->
-        <slot
-          name="content"
-          v-bind="{isFirst, isLast, step, previousStep, nextStep }"
-        >
+        <slot name="content" v-bind="{ isFirst, isLast, step, previousStep, nextStep }">
           {{ content }}
         </slot>
       </div>
       <div class="card-footer">
         <!-- @slot Previous step button with props {isFirst:boolean, isLast:boolean, step:Step, nextStep:Function} -->
-        <slot
-          name="previousStepButton"
-          v-bind="{ isFirst, isLast, step, previousStep }"
-        >
+        <slot name="previousStepButton" v-bind="{ isFirst, isLast, step, previousStep }">
           <b-button
             v-if="!isFirst"
             class="accordion-wrapper__content__step__back-button"
@@ -40,10 +34,7 @@
           </b-button>
         </slot>
         <!-- @slot Next step button with props {isFirst:boolean, isLast:boolean, step:Step, nextStep:Function} }-->
-        <slot
-          name="nextStepButton"
-          v-bind="{ isFirst, isLast, step, nextStep }"
-        >
+        <slot name="nextStepButton" v-bind="{ isFirst, isLast, step, nextStep }">
           <b-button
             v-if="!isLast"
             class="accordion-wrapper__content__step__continue-button"
@@ -60,25 +51,26 @@
 </template>
 
 <script lang="ts">
-import Vue, { VueConstructor} from "vue"
-import {AccordionKey} from "@/keys"
-import {Accordion, Step} from "@/types";
+import Vue, { VueConstructor } from 'vue'
+
+import { AccordionKey } from '@/keys'
+import { Accordion, Step } from '@/types'
 
 interface AccordionMixin {
   accordion: Accordion
 }
 
 export default (Vue as VueConstructor<Vue & AccordionMixin>).extend({
-  name: "AccordionStep",
+  name: 'AccordionStep',
   inject: {
-    accordion: {from: AccordionKey}
+    accordion: { from: AccordionKey }
   },
   props: {
     /**
      * Step name
      */
     step: {
-      type: [String, Object as ()=>Step, Symbol],
+      type: [String, Object as () => Step, Symbol],
       required: true
     },
     /**
@@ -130,7 +122,7 @@ export default (Vue as VueConstructor<Vue & AccordionMixin>).extend({
        * @event next-step
        * @param Mixed New step value.
        */
-      this.$emit("next-step")
+      this.$emit('next-step')
     },
     previousStep() {
       this.accordion?.emitAccordionPreviousStepEvent()
@@ -141,8 +133,8 @@ export default (Vue as VueConstructor<Vue & AccordionMixin>).extend({
        * @event previous-step
        * @param Mixed New step value.
        */
-      this.$emit("previous-step")
-    },
+      this.$emit('previous-step')
+    }
   }
 })
 </script>

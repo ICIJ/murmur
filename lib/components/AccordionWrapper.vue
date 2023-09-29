@@ -8,14 +8,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from "vue"
-import {AccordionKey} from "@/keys"
-import type {AccordionProvide, Step} from "@/types";
+import { defineComponent, PropType } from 'vue'
+
+import { AccordionKey } from '@/keys'
+import type { AccordionProvide, Step } from '@/types'
 
 const STEP_CHANGE_EVENT: string = 'step-change'
 
 export default defineComponent({
-  name: "AccordionWrapper",
+  name: 'AccordionWrapper',
   provide(): AccordionProvide {
     return {
       [AccordionKey]: {
@@ -39,7 +40,7 @@ export default defineComponent({
      * Current active step value. Modified on "step-change" event.
      */
     step: {
-      type: [String, Symbol, Object as ()=> Step],
+      type: [String, Symbol, Object as () => Step],
       required: true
     },
     /**
@@ -48,12 +49,12 @@ export default defineComponent({
     steps: {
       type: Array as PropType<Step[]>,
       required: true
-    },
+    }
   },
   computed: {
     activeStepIndex(): number {
       return this.steps.indexOf(this.step)
-    },
+    }
   },
   methods: {
     isFirstStep(step: Step): boolean {
@@ -79,15 +80,13 @@ export default defineComponent({
     emitAccordionPreviousStepEvent(): void {
       this.$emit(STEP_CHANGE_EVENT, this.steps[this.activeStepIndex - 1] || this.step)
     }
-  },
+  }
 })
 </script>
 
-
 <style lang="scss" scoped>
-@use "sass:math";
+@use 'sass:math';
 @import '@styles/variables.scss';
-
 
 .accordion-wrapper {
   $step-bullet-size: 2rem;
@@ -103,7 +102,8 @@ export default defineComponent({
       opacity: $btn-disabled-opacity;
       transition: $transition-base;
 
-      &--active, &--previous {
+      &--active,
+      &--previous {
         opacity: 1;
       }
 
@@ -131,12 +131,13 @@ export default defineComponent({
         transition: background $transition-base;
       }
 
-      &--active:before, &--previous:before {
+      &--active:before,
+      &--previous:before {
         background: $info;
       }
 
       &:not(:last-of-type):after {
-        content: "";
+        content: '';
         z-index: 0;
         position: absolute;
         top: $spacer * 1.25;
