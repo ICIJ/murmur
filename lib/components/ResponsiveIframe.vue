@@ -4,12 +4,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import type { Parent } from 'pym.js'
 
 import { injectAssets } from '@/utils/assets'
 
 let iframeUniqueIdCounter = 0
 type StartsWithIcijIframe = `icij-iframe-${string}`
-type ResponsiveIframeData = { [iframeId: string]: StartsWithIcijIframe }
+type ResponsiveIframeData = { iframeId: StartsWithIcijIframe; pymParent: null | Parent }
 
 /**
  * ResponsiveIframe
@@ -34,12 +35,13 @@ export default defineComponent({
   },
   data(): ResponsiveIframeData {
     return {
-      iframeId: `icij-iframe-${++iframeUniqueIdCounter}`
+      iframeId: `icij-iframe-${++iframeUniqueIdCounter}`,
+      pymParent: null
     }
   },
   async mounted(): Promise<void> {
     await injectAssets('https://pym.nprapps.org/pym.v1.min.js')
-    new window.pym.Parent(this.iframeId, this.url, this.options)
+    this.pymParent = new window.pym.Parent(this.iframeId, this.url, this.options)
   }
 })
 </script>

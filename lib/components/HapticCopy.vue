@@ -34,13 +34,13 @@ import { faClipboard } from '@fortawesome/free-solid-svg-icons/faClipboard'
 import { faClipboardCheck } from '@fortawesome/free-solid-svg-icons/faClipboardCheck'
 import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
 import noop from 'lodash/noop'
-import { defineComponent } from 'vue'
+import Vue, { defineComponent } from 'vue'
 import { TranslateResult } from 'vue-i18n'
 
-import { library, default as Fa } from './Fa'
+import { default as Fa, library } from './Fa'
 
 import i18n from '@/i18n'
-import { copyText, copyHtml } from '@/utils/clipboard'
+import { copyHtml, copyText } from '@/utils/clipboard'
 
 const TOOLTIPS_PLACEMENTS = [
   'top',
@@ -60,7 +60,7 @@ type HapticCopyData = {
   mounted: boolean
   succeed: boolean
   tooltipContent: TranslateResult | string
-  tooltipTimeout: NodeJS.Timeout | undefined
+  tooltipTimeout: ReturnType<typeof setTimeout> | undefined
 }
 export default defineComponent({
   i18n,
@@ -137,7 +137,7 @@ export default defineComponent({
     }
   },
   computed: {
-    tooltipContainer() {
+    tooltipContainer(): string | null {
       // By default we append the tooltip in the root container using its
       // id (if any) because BootstrapVue doesn't like HTMLElement for some
       // reasons.

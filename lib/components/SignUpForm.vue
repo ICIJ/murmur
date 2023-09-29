@@ -34,7 +34,7 @@ import jsonp from 'jsonp'
 import castArray from 'lodash/castArray'
 import flatten from 'lodash/flatten'
 import last from 'lodash/last'
-import { PropType, defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 import config from '../config'
 
@@ -130,7 +130,7 @@ export default defineComponent({
       if (this.referrer) {
         return this.referrer
       }
-      return window.location != window.parent.location ? document.referrer : document.location.href
+      return window.location !== window.parent.location ? document.referrer : document.location.href
     },
     submitUrl() {
       const url = new URL(this.url)
