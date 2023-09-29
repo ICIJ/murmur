@@ -28,7 +28,7 @@ import get from 'lodash/get'
 import reduce from 'lodash/reduce'
 import { faCode } from '@fortawesome/free-solid-svg-icons/faCode'
 import { defineComponent, PropType } from 'vue'
-import { CSSProperties } from 'vue/types/jsx'
+import type { CSSProperties } from 'vue/types/jsx'
 
 import { default as Fa, library } from './Fa'
 

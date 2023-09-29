@@ -99,10 +99,9 @@ import { headroom } from 'vue-headroom'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons/faGlobe'
 import find from 'lodash/find'
 import get from 'lodash/get'
-import { defineComponent } from 'vue'
-import { PropType } from 'vue/types/v3-component-props'
+import { defineComponent, PropType } from 'vue'
 
-import { library, default as Fa } from './Fa'
+import { default as Fa, library } from './Fa'
 import FollowUsPopover from './FollowUsPopover.vue'
 import config from '../config'
 

@@ -8,7 +8,7 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons/faTwitter'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons/faFacebook'
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 import { CreateElement, defineComponent, PropType, VNode, VNodeChildren } from 'vue'
-import { IconDefinition } from '@fortawesome/fontawesome-common-types'
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 import Fa from './Fa'
 

@@ -1,16 +1,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { CSSProperties } from 'vue/types/jsx'
+import type { CSSProperties } from 'vue/types/jsx'
 
 type StyleTransition = Pick<CSSProperties, 'overflow' | 'transition-property' | 'transition-duration' | 'height'>
-
-enum STATE {
-  PRE = 'pre',
-  ACTIVE = 'active',
-  POST = 'post'
+const STATE = {
+  PRE: 'pre',
+  ACTIVE: 'active',
+  POST: 'post'
 }
 interface SlideUpDownData {
-  state: STATE
+  state: string
   mounted: boolean
   scrollHeight: number
 }
@@ -112,7 +111,7 @@ export default defineComponent({
     cleanLayout(e: Event | null) {
       // This method can be triggered by animated child elements in
       // which case, we should do anything
-      if (!e || e.target == this.$container) {
+      if (!e || e.target === this.$container) {
         this.state = STATE.POST
         return this.deferredNextTick()
       }
