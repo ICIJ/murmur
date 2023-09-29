@@ -2,11 +2,9 @@ import { promises as fs } from 'fs'
 import url from 'url'
 import getSassVars from 'get-sass-vars'
 
-interface ReturnValue {
-  code?: string|object
-}
+import { MdPluginTypes, ReturnValue } from './MdPluginTypes'
 
-export default function () {
+export default function (): MdPluginTypes {
   return {
     enforce: 'post',
     name: 'vite-plugin-sass-vars',
@@ -20,7 +18,7 @@ export default function () {
       const raw = await fs.readFile(parsedId.pathname, 'utf-8')
       const vars = await getSassVars(raw)
       const json = JSON.stringify(vars, null, 2)
-      const code = `export default ${json}` 
+      const code = `export default ${json}`
       return { code }
     }
   }

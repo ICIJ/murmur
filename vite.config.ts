@@ -4,20 +4,20 @@ import vuePlugin from '@vitejs/plugin-vue2'
 import markdownPlugin from 'vite-plugin-md'
 import markdownItHighlightJs from 'markdown-it-highlightjs'
 
-import markdownItApiTablePlugin from './plugins/markdown-it/api-table.js'
-import markdownItSampleCardPlugin from './plugins/markdown-it/sample-card.js'
-import docsPlugin from './plugins/docs.ts'
-import frontMatterPlugin from './plugins/front-matter.ts'
-import highlightPlugin from './plugins/highlight.ts'
-import sassVarsPlugin from './plugins/sass-vars.ts'
-import vueDocgenPlugin from './plugins/vue-docgen.ts'
+import markdownItApiTablePlugin from './plugins/markdown-it/api-table'
+import markdownItSampleCardPlugin from './plugins/markdown-it/sample-card'
+import docsPlugin from './plugins/docs'
+import frontMatterPlugin from './plugins/front-matter'
+import highlightPlugin from './plugins/highlight'
+import sassVarsPlugin from './plugins/sass-vars'
+import vueDocgenPlugin from './plugins/vue-docgen'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
   test: {
     globals: true,
-    reporter: 'basic',
+    reporters: 'basic',
     environment: 'jsdom',
     setupFiles: [resolve(__dirname, 'tests/unit/setup.js')]
   },
@@ -40,7 +40,7 @@ export default defineConfig({
           if (assetInfo.name === 'style.css') {
             return 'lib/murmur.css'
           }
-          return assetInfo.name
+          return assetInfo.name ?? ''
         }
       }
     }
@@ -63,7 +63,9 @@ export default defineConfig({
         typographer: false
       },
       markdownItSetup(md) {
+        // @ts-ignore
         md.use(...markdownItApiTablePlugin())
+        // @ts-ignore
         md.use(...markdownItSampleCardPlugin())
         md.use(markdownItHighlightJs)
       }

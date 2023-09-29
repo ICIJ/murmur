@@ -19,9 +19,12 @@
       "vitest/globals"
     ],
     "paths": {
-      "@/*": [
-        "./lib/*"
-      ]
+      "node_modules": [ "node_modules"],
+      "$package": [ "package.json"],
+      "@/*": [ "lib/*"],
+      "$docs/*": [ "docs/*"],
+      "$components/*": [ "docs/components/*"],
+      "$pages/*": [ "docs/pages/*"]
     },
     "lib": [
       "esnext",
