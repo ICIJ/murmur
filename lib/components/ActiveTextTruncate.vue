@@ -117,10 +117,11 @@ export default defineComponent({
       return new RequestAnimationFrameWrapper()
     }
   },
-  mounted() {
+  async mounted() {
     this.$options.resizeObserver = new ResizeObserver(this.setup)
     // Bind the resize observer after the first rendering
-    this.$nextTick(() => this.$options.resizeObserver?.observe(this.$el))
+    await this.$nextTick()
+    this.$options.resizeObserver?.observe(this.$el)
   },
   beforeDestroy() {
     this.$options.resizeObserver?.unobserve(this.$el)
