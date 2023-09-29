@@ -2,11 +2,9 @@ import { promises as fs } from 'fs'
 import url from 'url'
 import hljs from 'highlight.js'
 
-interface ReturnValue {
-  code?: string
-}
+import { MdPluginTypes, ReturnValue } from './MdPluginTypes'
 
-export default function () {
+export default function (): MdPluginTypes {
   return {
     enforce: 'post',
     name: 'vite-plugin-highlight',

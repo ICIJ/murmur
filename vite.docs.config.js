@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import config from './vite.config.js'
+
+import config from './vite.config.ts'
 
 // https://vitejs.dev/config/
 export default defineConfig({

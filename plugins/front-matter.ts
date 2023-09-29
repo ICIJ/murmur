@@ -4,11 +4,9 @@ import frontMatter from 'front-matter'
 import startCase from 'lodash/startCase'
 import url from 'url'
 
-interface ReturnValue {
-  code?: string | object
-}
+import { MdPluginTypes, ReturnValue } from './MdPluginTypes'
 
-export default function () {
+export default function (): MdPluginTypes {
   return {
     enforce: 'post',
     name: 'vite-plugin-front-matter',
@@ -21,9 +19,9 @@ export default function () {
       }
 
       const title = startCase(dirname(parsedId.pathname).split('/').pop())
-      
+
       let metadata = { title }
-      
+
       if (extname(parsedId.pathname) === '.md') {
         const raw = await fs.readFile(parsedId.pathname, 'utf8')
         const { attributes: frontMatterMetadata } = <any>frontMatter(raw)

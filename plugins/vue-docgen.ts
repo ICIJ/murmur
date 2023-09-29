@@ -1,12 +1,9 @@
 import url from 'url'
 import vueDocs from 'vue-docgen-api'
 
-interface ReturnValue {
-  code?: string,
-  meta?: object
-}
+import { MdPluginTypes, ReturnValue } from './MdPluginTypes'
 
-export default function () {
+export default function (): MdPluginTypes {
   return {
     enforce: 'post',
     name: 'vite-plugin-vue-docgen',
@@ -17,13 +14,13 @@ export default function () {
       if (!isVueDocgen || !parsedId.pathname) {
         return {}
       }
-      
+
       try {
         const api = await vueDocs.parse(parsedId.pathname)
         const buff = Buffer.from(JSON.stringify(api))
         return { code: `export default ${buff}` }
       } catch (_) {
-        const emptyApi = { "props": {}, "slots": {}, "events": {}, "methods": {} }
+        const emptyApi = { props: {}, slots: {}, events: {}, methods: {} }
         const buff = JSON.stringify(emptyApi)
         return { code: `export default ${buff}` }
       }
