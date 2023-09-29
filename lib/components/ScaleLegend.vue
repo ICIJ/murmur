@@ -2,7 +2,7 @@
 import { isFunction, isString } from 'lodash'
 import * as d3 from 'd3'
 import * as scaleFunctions from 'd3-scale'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 
 type ClassListLegend = { 'scale-legend--has-cursor': boolean }
 // eslint-disable-next-line no-unused-vars
@@ -39,7 +39,7 @@ export default defineComponent({
       default: 0
     },
     colorScale: {
-      type: [Function as unknown as ColorScaleFn, String],
+      type: [Function, String] as PropType<ColorScaleFn | string>,
       default: 'scaleLinear',
       validator(colorScale: ColorScale) {
         return isFunction(colorScale) || (colorScale as string) in scaleFunctions

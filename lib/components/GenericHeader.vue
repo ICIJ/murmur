@@ -67,16 +67,13 @@ import { BModal } from 'bootstrap-vue/esm/components/modal/modal'
 import { BPopover } from 'bootstrap-vue/esm/components/popover/popover'
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars'
 import { headroom } from 'vue-headroom'
-import { defineComponent } from 'vue'
-import { PropType } from 'vue/types/v3-component-props'
-
-import Fa from './Fa.js'
+import { defineComponent, PropType } from 'vue'
 
 import i18n from '@/i18n'
+import config from '@/config'
+import Fa, { library } from '@/components/Fa'
 import BrandExpansion from '@/components/BrandExpansion.vue'
 import FollowUsPopover from '@/components/FollowUsPopover.vue'
-import config from '@/config'
-import { library } from '@/components/Fa'
 import { BrandMode } from '@/enums'
 
 type BrandOptions = {

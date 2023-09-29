@@ -1,8 +1,8 @@
 <script lang="ts">
 import { get, isFunction, kebabCase, uniqueId } from 'lodash'
 import * as d3 from 'd3'
-import { defineComponent } from 'vue'
-import { PropType } from 'vue/types/v3-component-props'
+import { defineComponent, PropType } from 'vue'
+
 type Datum = { id: string; color: string; path: string; label: string }
 type Category = 'id' | 'color' | 'path' | 'label'
 export default defineComponent({
