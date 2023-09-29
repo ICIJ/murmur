@@ -113,7 +113,7 @@ export default defineComponent({
       const width = Math.min(Math.max(this.fadingMinWidth, Math.abs(offset)), this.fadingMaxWidth)
       return `${width}px`
     },
-    textLivePostionRequestAnimationFrame(): RequestAnimationFrameWrapper {
+    textLivePositionRequestAnimationFrame(): RequestAnimationFrameWrapper {
       return new RequestAnimationFrameWrapper()
     }
   },
@@ -146,7 +146,7 @@ export default defineComponent({
       this.textLivePosition = parseInt(left)
     },
     startTrackingTextLivePosition(): void {
-      this.textLivePostionRequestAnimationFrame.start(this.trackTextLivePosition)
+      this.textLivePositionRequestAnimationFrame.start(this.trackTextLivePosition)
       /**
        * Emitted when the animation on the text starts.
        * @event start
@@ -154,7 +154,7 @@ export default defineComponent({
       this.$emit('start')
     },
     endTrackingTextLivePosition(): void {
-      this.textLivePostionRequestAnimationFrame.stop()
+      this.textLivePositionRequestAnimationFrame.stop()
       /**
        * Emitted when the animation on the text reaches the end.
        * @event end
@@ -162,7 +162,7 @@ export default defineComponent({
       this.$emit('end')
     },
     resetTextLivePosition(): void {
-      this.textLivePostionRequestAnimationFrame.stop()
+      this.textLivePositionRequestAnimationFrame.stop()
       this.textLivePosition = parseInt(this.textOffsetValues[0])
       /**
        * Emitted when the animation on the text is cancelled.
