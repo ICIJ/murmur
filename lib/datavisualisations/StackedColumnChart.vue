@@ -334,9 +334,10 @@ export default {
       this.highlightedKeys = this.highlights
     }
   },
-  mounted() {
+  async mounted() {
     this.$options.resizeObserver = new ResizeObserver(this.setup)
-    this.$nextTick(() => this.$options.resizeObserver.observe(this.$el))
+    await this.$nextTick()
+    this.$options.resizeObserver?.observe(this.$el)
   },
   beforeDestroy() {
     this.$options.resizeObserver?.unobserve(this.$el)
