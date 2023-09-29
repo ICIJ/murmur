@@ -86,7 +86,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @use 'sass:math';
-@import '@styles/variables.scss';
+@import '../styles/variables.scss';
 
 .accordion-wrapper {
   $step-bullet-size: 2rem;

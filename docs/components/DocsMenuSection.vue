@@ -5,7 +5,11 @@
       {{ name }}
     </h4>
     <b-collapse :visible="active" tag="ul" class="list-unstyled mb-0 pb-4">
-      <li v-for="route in routes" :key="route.name" class="docs-menu__section__item d-flex justify-content-between align-items-center mb-2">
+      <li
+        v-for="route in routes"
+        :key="route.name"
+        class="docs-menu__section__item d-flex justify-content-between align-items-center mb-2"
+      >
         <router-link :to="route.path" class="docs-menu__link">
           <fa :icon="route.icon || icon" class="docs-menu__link__icon mr-1" />
           {{ routeTitle(route) }}
@@ -19,91 +23,87 @@
 </template>
 
 <script>
-  import some from 'lodash/some'
-  import startCase from 'lodash/startCase'
+import some from 'lodash/some'
+import startCase from 'lodash/startCase'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown'
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons/faAngleUp'
+import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
 
-  import { faAngleDown } from '@fortawesome/free-solid-svg-icons/faAngleDown'
-  import { faAngleUp } from '@fortawesome/free-solid-svg-icons/faAngleUp'
-  import { faBook } from '@fortawesome/free-solid-svg-icons/faBook'
+import { default as Fa, library } from '@/components/Fa'
 
-  import SlideUpDown from '@/components/SlideUpDown.vue'
-  import { library, default as Fa } from '@/components/Fa'
+library.add(faAngleDown)
+library.add(faAngleUp)
+library.add(faBook)
 
-  library.add(faAngleDown)
-  library.add(faAngleUp)
-  library.add(faBook)
-
-  export default {
-    name: 'DocsMenuSection',
-    components: {
-      Fa,
-      SlideUpDown
+export default {
+  name: 'DocsMenuSection',
+  components: {
+    Fa
+  },
+  props: {
+    name: {
+      type: String,
+      default: ''
     },
-    data () {
-      return {
-        showMenu: this.hasActiveRoute
-      }
+    routes: {
+      type: Array,
+      default: () => []
     },
-    props: {
-      name: {
-        type: String,
-        default: ''
-      },
-      routes: {
-        type: Array,
-        default: () => ([])
-      },
-      icon: {
-        type: Object,
-        default: () => (faBook)
-      }
+    icon: {
+      type: Object,
+      default: () => faBook
+    }
+  },
+  data() {
+    return {
+      showMenu: this.hasActiveRoute
+    }
+  },
+  computed: {
+    active() {
+      return this.showMenu
     },
-    watch: {
-      $route () {
-        this.showMenu = this.hasActiveRoute
-      }
+    hasActiveRoute() {
+      return some(this.routes, (r) => r.path === this.$route.path)
     },
-    methods: {
-      routeTitle(route) {
-        return route.meta.title || startCase(route.name)
-      },
-      routeHasBadge(route) {
-        return route.meta && route.meta.badge
-      }
+    headingIcon() {
+      return this.showMenu ? faAngleUp : faAngleDown
+    }
+  },
+  watch: {
+    $route() {
+      this.showMenu = this.hasActiveRoute
+    }
+  },
+  methods: {
+    routeTitle(route) {
+      return route.meta.title || startCase(route.name)
     },
-    computed: {
-      active () {
-        return this.showMenu
-      },
-      hasActiveRoute () {
-        return some(this.routes, (r) => r.path === this.$route.path)
-      },
-      headingIcon () {
-        return this.showMenu ? faAngleUp : faAngleDown
-      }
+    routeHasBadge(route) {
+      return route.meta && route.meta.badge
     }
   }
+}
 </script>
 
 <style lang="scss">
-  @import '../styles/variables.scss';
-  @import '@styles/variables.scss';
+@import '../styles/variables.scss';
 
-  .docs-menu__section {
-    padding: 0 $spacer 0 $spacer;
+.docs-menu__section {
+  padding: 0 $spacer 0 $spacer;
 
-    &__heading {
-      font-size: 0.9rem;
-      font-weight: 400;
-      font-family: $font-family-sans-serif;
-      text-transform: uppercase;
-      margin-bottom: $spacer;
-      color: $text-muted;
-      cursor: pointer;
+  &__heading {
+    font-size: 0.9rem;
+    font-weight: 400;
+    font-family: $font-family-sans-serif;
+    text-transform: uppercase;
+    margin-bottom: $spacer;
+    color: $text-muted;
+    cursor: pointer;
 
-      &:hover {
-        color: white;
-      }
+    &:hover {
+      color: white;
     }
   }
+}
 </style>

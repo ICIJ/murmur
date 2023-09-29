@@ -24,7 +24,7 @@ Here are all the variables defined in <repository-link path="lib/styles/variable
 <pre class="bg-dark p-3"><code v-html="rawVariables"></code></pre>
 
 <script>
-import rawVariables from '@styles/variables.scss?highlight=scss'
+import rawVariables from '@/styles/variables.scss?highlight=scss'
 
 export default {
   data () {

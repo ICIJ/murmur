@@ -16,7 +16,7 @@ outlined below should be used in any illustrations.
 <palette-presenter :colors="grays" />
 
 <script>
-  import sassVars from '@styles/variables.scss?sass-vars'
+  import sassVars from '@/styles/variables.scss?sass-vars'
 
   export default {
     computed: {
