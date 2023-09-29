@@ -1,6 +1,7 @@
 <script lang="ts">
 import { clamp } from 'lodash'
 import { defineComponent, PropType } from 'vue'
+
 import { DeckTexture } from '@/enums'
 import config from '@/config'
 
@@ -42,37 +43,37 @@ export default defineComponent({
     backgroundBaseUrl: {
       type: String,
       default: () => config.get('textured-deck.background-base-url', window.location.origin)
-    },
+    }
   },
   computed: {
-    names (): DeckTexture[] {
+    names(): DeckTexture[] {
       return Object.values(DeckTexture)
     },
-    textureIndex (): number {
+    textureIndex(): number {
       if (typeof this.value !== 'number') {
         return clamp(this.names.indexOf(this.value), 0, this.names.length - 1)
       }
       return this.value
     },
-    textureName (): string {
+    textureName(): string {
       return this.names[this.textureIndex]
     },
-    filename (): string {
+    filename(): string {
       if (this.black) {
         return `texture-${this.textureName}-black.jpg`
       }
       return `texture-${this.textureName}.jpg`
     },
-    backgroundUrl (): string {
+    backgroundUrl(): string {
       return `${this.backgroundBaseUrl}/assets/img/${this.filename}`
     },
-    backgroundSize (): string {
+    backgroundSize(): string {
       return this.size
     },
-    backgroundImage (): string {
+    backgroundImage(): string {
       return `url("${this.backgroundUrl}")`
     },
-    inheritedProps (): object {
+    inheritedProps(): object {
       return { ...this.$attrs, ...this.$props, tag: undefined }
     }
   }
@@ -80,20 +81,15 @@ export default defineComponent({
 </script>
 
 <template>
-  <component
-    :is="tag"
-    :style="{ backgroundSize, backgroundImage }"
-    v-bind="inheritedProps"
-    class="textured-deck"
-  >
+  <component :is="tag" :style="{ backgroundSize, backgroundImage }" v-bind="inheritedProps" class="textured-deck">
     <slot />
   </component>
 </template>
 
 <style lang="scss" scoped>
-  .textured-deck {
-    background: #000 no-repeat center center;
-    background-size: cover;
-    color: #fff;
-  }
+.textured-deck {
+  background: #000 no-repeat center center;
+  background-size: cover;
+  color: #fff;
+}
 </style>

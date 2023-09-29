@@ -1,18 +1,8 @@
 <template>
-  <component
-    :is="tag"
-    :id="uniqComponentId"
-    class="confirm-button"
-    @click="toggleConfirmationTooltip"
-  >
+  <component :is="tag" :id="uniqComponentId" class="confirm-button" @click="toggleConfirmationTooltip">
     <!-- @slot Main content of the button -->
     <slot>-</slot>
-    <b-tooltip
-      ref="confirmationTooltip"
-      :target="uniqComponentId"
-      triggers="blur"
-      :placement="placement"
-    >
+    <b-tooltip ref="confirmationTooltip" :target="uniqComponentId" triggers="blur" :placement="placement">
       <div class="confirm-button__tooltip">
         <button
           v-if="!noCloseButton"
@@ -24,17 +14,11 @@
         <p class="confirm-button__tooltip__label mb-2">
           {{ label }}
         </p>
-        <p
-          v-if="description"
-          class="confirm-button__tooltip__description mb-2"
-        >
+        <p v-if="description" class="confirm-button__tooltip__description mb-2">
           {{ description }}
         </p>
         <div class="confirm-button__tooltip__actions text-right">
-          <button
-            class="confirm-button__tooltip__actions__cancel btn btn-sm btn-link text-muted"
-            @click="cancel"
-          >
+          <button class="confirm-button__tooltip__actions__cancel btn btn-sm btn-link text-muted" @click="cancel">
             {{ no }}
           </button>
           <button
@@ -54,19 +38,17 @@ import noop from 'lodash/noop'
 import uniqueId from 'lodash/uniqueId'
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes'
 import { BTooltip } from 'bootstrap-vue/esm/components/tooltip/tooltip'
-
-import { library, default as Fa } from './Fa'
 import { defineComponent, PropType } from 'vue'
 import type Vue from 'vue'
 
-import  { TooltipPlacement } from '@/enums'
+import { library, default as Fa } from './Fa'
 
+import { TooltipPlacement } from '@/enums'
 
 /**
  * ConfirmButton
  */
 export default defineComponent({
-  
   name: 'ConfirmButton',
   components: {
     BTooltip,
@@ -136,23 +118,23 @@ export default defineComponent({
       default: 'button'
     }
   },
-  data () {
+  data() {
     return {
       showTooltip: false,
       uniqComponentId: uniqueId('murmur-confirm-button-')
     }
   },
   watch: {
-    showTooltip (value: boolean) {
-      (this.$refs.confirmationTooltip as Vue).$emit(value ? 'open' : 'close')
+    showTooltip(value: boolean) {
+      ;(this.$refs.confirmationTooltip as Vue).$emit(value ? 'open' : 'close')
     }
   },
-  beforeMount () {
+  beforeMount() {
     library.add(faTimes)
   },
   methods: {
-    toggleConfirmationTooltip () : void {
-      if ( !this.showTooltip ) {
+    toggleConfirmationTooltip(): void {
+      if (!this.showTooltip) {
         this.$root.$emit('bv::hide::tooltip')
       }
       this.showTooltip = !this.showTooltip
@@ -163,8 +145,8 @@ export default defineComponent({
        */
       this.$root.$emit('toggled', this.showTooltip)
     },
-    cancel (): void  {
-      (this.$refs.confirmationTooltip as Vue).$emit('close')
+    cancel(): void {
+      ;(this.$refs.confirmationTooltip as Vue).$emit('close')
       this.cancelled()
       /**
        * Emitted when the confirmation is cancelled.
@@ -172,7 +154,7 @@ export default defineComponent({
        */
       this.$root.$emit('cancelled')
     },
-    confirm () : void  {
+    confirm(): void {
       this.showTooltip = false
       this.confirmed()
       /**
@@ -182,31 +164,31 @@ export default defineComponent({
       this.$root.$emit('confirmed')
     }
   }
-}
-)
+})
 </script>
 
 <style lang="scss">
-  @import '../styles/lib';
+@import '../styles/lib';
 
-  .confirm-button {
+.confirm-button {
+  &__tooltip {
+    min-width: calc(#{$tooltip-max-width} - #{$tooltip-padding-x * 2});
+    text-align: left;
 
-    &__tooltip {
-      min-width: calc(#{$tooltip-max-width} - #{$tooltip-padding-x * 2});
-      text-align: left;
+    &__label,
+    &__cancel {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
 
-      &__label, &__cancel {
-        font-weight: bold;
-        font-size: 1.2em;
-      }
+    &__actions {
+      margin-bottom: $tooltip-padding-x - $tooltip-padding-y;
 
-      &__actions {
-        margin-bottom: $tooltip-padding-x - $tooltip-padding-y;
-
-        &__confirm, &__cancel {
-          text-transform: uppercase;
-        }
+      &__confirm,
+      &__cancel {
+        text-transform: uppercase;
       }
     }
   }
+}
 </style>

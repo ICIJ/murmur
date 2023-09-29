@@ -1,13 +1,10 @@
 <template>
   <div
     class="column-chart"
-    :style="{'--column-color': columnColor, '--column-highlight-color': columnHighlightColor }"
+    :style="{ '--column-color': columnColor, '--column-highlight-color': columnHighlightColor }"
     :class="{ 'column-chart--has-highlights': dataHasHighlights, 'column-chart--social-mode': socialMode }"
   >
-    <svg
-      :width="width"
-      :height="height"
-    >
+    <svg :width="width" :height="height">
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
         <g
           v-if="!noXAxis"
@@ -20,10 +17,7 @@
           :style="{ transform: `translate(${padded.left}px, 0)` }"
         />
       </g>
-      <g
-        class="column-chart__columns"
-        :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }"
-      >
+      <g class="column-chart__columns" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
         <rect
           v-for="(bar, index) in bars"
           :key="index"
@@ -55,14 +49,8 @@
               class="column-chart__tooltips__item"
               :class="barTooltipClasses(bar, index)"
             >
-              <div
-                class="column-chart__tooltips__item__wrapper"
-                xmlns="http://www.w3.org/1999/xhtml"
-              >
-                <slot
-                  name="tooltip"
-                  v-bind="bar"
-                >
+              <div class="column-chart__tooltips__item__wrapper" xmlns="http://www.w3.org/1999/xhtml">
+                <slot name="tooltip" v-bind="bar">
                   <h6 class="column-chart__tooltips__item__wrapper__heading mb-0">
                     {{ bar.datum[timeseriesKey] | d3Formatter(xAxisTickFormat) }}
                   </h6>
@@ -85,6 +73,7 @@ import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
 import keys from 'lodash/keys'
 import without from 'lodash/without'
+
 import chart from '../mixins/chart'
 
 export default {
@@ -209,13 +198,13 @@ export default {
     }
   },
   computed: {
-    sortedData () {
+    sortedData() {
       if (!this.loadedData) {
         return []
       }
       return !this.sortBy ? this.loadedData : sortBy(this.sortedData, this.sortBy)
     },
-    labelWidth () {
+    labelWidth() {
       if (this.fixedLabelWidth) {
         return this.fixedLabelWidth
       }
@@ -223,17 +212,17 @@ export default {
       const defaultWidth = 100
       return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
-    labelHeight () {
+    labelHeight() {
       const selector = '.column-chart__axis--y .tick text'
       const defaultHeight = 10
       return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
-    bucketHeight () {
+    bucketHeight() {
       const selector = '.column-chart__axis--x .tick text'
       const defaultHeight = 10
       return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
-    margin () {
+    margin() {
       return {
         left: this.noYAxis ? 0 : this.labelWidth + 10,
         right: 0,
@@ -241,37 +230,36 @@ export default {
         bottom: this.noXAxis ? 0 : this.bucketHeight + 10
       }
     },
-    padded () {
+    padded() {
       const width = this.width - this.margin.left - this.margin.right
       const height = this.height - this.margin.top - this.margin.bottom
       return { width, height }
     },
-    scale () {
-      const x = d3.scaleBand()
-        .domain(this.sortedData.map(d => d[this.timeseriesKey]))
+    scale() {
+      const x = d3
+        .scaleBand()
+        .domain(this.sortedData.map((d) => d[this.timeseriesKey]))
         .range([0, this.padded.width])
-        .padding(.35)
+        .padding(0.35)
 
-      const maxValue = this.maxValue || d3.max(this.sortedData, d => d[this.seriesName])
+      const maxValue = this.maxValue || d3.max(this.sortedData, (d) => d[this.seriesName])
 
-      const y = d3.scaleLinear()
-        .domain([0, maxValue])
-        .range([this.padded.height, 0])
+      const y = d3.scaleLinear().domain([0, maxValue]).range([this.padded.height, 0])
 
       return { x, y }
     },
-    bars () {
-      return this.sortedData.map(datum => {
+    bars() {
+      return this.sortedData.map((datum) => {
         return {
           datum,
           width: Math.abs(this.scale.x.bandwidth()),
           height: Math.abs(this.padded.height - this.scale.y(datum[this.seriesName])),
           x: this.scale.x(datum[this.timeseriesKey]),
-          y: this.scale.y(datum[this.seriesName]),
+          y: this.scale.y(datum[this.seriesName])
         }
-      });
+      })
     },
-    discreteKeys () {
+    discreteKeys() {
       if (!this.loadedData) {
         return []
       }
@@ -279,28 +267,28 @@ export default {
     }
   },
   watch: {
-    width () {
+    width() {
       this.setup()
     },
-    fixedHeight () {
+    fixedHeight() {
       this.setSizes()
     },
-    socialMode () {
+    socialMode() {
       this.setup()
     },
-    loadedData () {
+    loadedData() {
       this.setup()
     },
-    mounted () {
+    mounted() {
       this.setup()
     }
   },
-  mounted () {
+  mounted() {
     this.$on('resized', this.setSizes)
     this.setSizes()
   },
   methods: {
-    setup () {
+    setup() {
       this.initialize()
       this.update()
     },
@@ -314,25 +302,31 @@ export default {
       d3.axisBottom().scale(this.scale.x)
     },
     update() {
-      d3.select(this.$el).select(".column-chart__axis--x")
-        .call(d3.axisBottom(this.scale.x)
-          .tickFormat(d => this.$options.filters.d3Formatter(d, this.xAxisTickFormat))
-        ).select(".domain").remove()
+      d3.select(this.$el)
+        .select('.column-chart__axis--x')
+        .call(d3.axisBottom(this.scale.x).tickFormat((d) => this.$options.filters.d3Formatter(d, this.xAxisTickFormat)))
+        .select('.domain')
+        .remove()
 
-      d3.select(this.$el).select(".column-chart__axis--y")
-        .call(d3.axisLeft(this.scale.y)
-          .tickFormat(d => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
-          .ticks(this.yAxisTicks)
-        ).selectAll(".tick line").attr("x2", this.padded.width)
+      d3.select(this.$el)
+        .select('.column-chart__axis--y')
+        .call(
+          d3
+            .axisLeft(this.scale.y)
+            .tickFormat((d) => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
+            .ticks(this.yAxisTicks)
+        )
+        .selectAll('.tick line')
+        .attr('x2', this.padded.width)
     },
-    barTooltipTransform ({ x = 0, y = 0, width = 0 } = {}) {
+    barTooltipTransform({ x = 0, y = 0, width = 0 } = {}) {
       const flipX = x > this.padded.width / 2
       const flipY = y < this.padded.height / 2
       const tooltipX = x + (flipX ? -this.maxTooltipWidth : width)
       const tooltipY = y + (flipY ? 0 : -this.maxTooltipHeight)
       return `translate(${tooltipX}, ${tooltipY})`
     },
-    barTooltipClasses ({ x = 0, y = 0 } = {}) {
+    barTooltipClasses({ x = 0, y = 0 } = {}) {
       const flipX = x > this.padded.width / 2
       const flipY = y < this.padded.height / 2
       return {
@@ -345,108 +339,107 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '../styles/lib';
+@import '../styles/lib';
 
-  .column-chart {
+.column-chart {
+  &--has-highlights &__columns__item:not(&__columns__item--highlight):not(:hover) {
+    opacity: 0.7;
+    filter: grayscale(30%);
+  }
 
-    &--has-highlights &__columns__item:not(&__columns__item--highlight):not(:hover) {
-      opacity: 0.7;
-      filter: grayscale(30%);
+  text {
+    font-family: $font-family-base;
+    font-size: $font-size-sm;
+    fill: currentColor;
+  }
+
+  &__columns__item {
+    fill: var(--column-color, var(--dark, $dark));
+
+    &--highlight {
+      fill: var(--column-highlight-color, var(--primary, $primary));
+    }
+  }
+
+  &__axis {
+    .domain {
+      display: none;
     }
 
-    text {
-      font-family: $font-family-base;
-      font-size: $font-size-sm;
-      fill: currentColor;
+    .tick line {
+      stroke: $border-color;
     }
 
-    &__columns__item {
-      fill: var(--column-color, var(--dark, $dark));
-
-      &--highlight {
-        fill: var(--column-highlight-color, var(--primary, $primary));
-      }
+    &--x .tick line {
+      display: none;
     }
+  }
 
-    &__axis {
+  &__tooltips {
+    pointer-events: none;
 
-      .domain {
-        display: none;
+    &__item {
+      display: flex;
+      text-align: center;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-start;
+      height: 100%;
+      position: relative;
+
+      &.fade-enter-active,
+      &.fade-leave-active {
+        transition: $transition-fade;
       }
 
-      .tick line {
-        stroke: $border-color;
+      &.fade-enter,
+      &.fade-leave-to {
+        opacity: 0;
       }
 
-      &--x .tick line {
-        display: none;
+      &--flip-x {
+        justify-content: flex-end;
       }
-    }
 
-    &__tooltips {
-      pointer-events: none;
+      &--flip-y {
+        align-items: flex-start;
+      }
 
+      &:after {
+        content: '';
+        border: ($tooltip-arrow-width * 0.5) solid transparent;
+        position: absolute;
+        transform: translateX(1px);
+      }
 
-      &__item {
-        display: flex;
-        text-align: center;
-        flex-direction: row;
-        align-items: flex-end;
-        justify-content: flex-start;
-        height: 100%;
-        position: relative;
+      &--flip-x:after {
+        border-left-color: rgba($tooltip-bg, $tooltip-opacity);
+        transform: translateX(-1px);
+      }
 
-        &.fade-enter-active, &.fade-leave-active {
-          transition: $transition-fade;
-        }
+      &:not(&--flip-x):after {
+        border-right-color: rgba($tooltip-bg, $tooltip-opacity);
+      }
 
-        &.fade-enter, &.fade-leave-to {
-          opacity: 0;
-        }
+      &--flip-y {
+        align-items: flex-start;
+      }
 
-        &--flip-x {
-          justify-content: flex-end;
-        }
+      &--flip-y:after {
+        border-top-color: rgba($tooltip-bg, $tooltip-opacity);
+      }
 
-        &--flip-y {
-          align-items: flex-start;
-        }
+      &:not(&--flip-y):after {
+        border-bottom-color: rgba($tooltip-bg, $tooltip-opacity);
+      }
 
-        &:after {
-          content: "";
-          border: ($tooltip-arrow-width * 0.5) solid transparent;
-          position: absolute;
-          transform: translateX(1px);
-        }
-
-        &--flip-x:after {
-          border-left-color: rgba($tooltip-bg, $tooltip-opacity);
-          transform: translateX(-1px);
-        }
-
-        &:not(&--flip-x):after {
-          border-right-color: rgba($tooltip-bg, $tooltip-opacity);
-        }
-
-        &--flip-y {
-          align-items: flex-start;
-        }
-
-        &--flip-y:after {
-          border-top-color: rgba($tooltip-bg, $tooltip-opacity);
-        }
-
-        &:not(&--flip-y):after {
-          border-bottom-color: rgba($tooltip-bg, $tooltip-opacity);
-        }
-
-        &__wrapper {
-          background: rgba($tooltip-bg, $tooltip-opacity);
-          color: $tooltip-color;
-          margin: 0 $tooltip-arrow-width;
-          padding: .2rem .4rem;
-        }
+      &__wrapper {
+        background: rgba($tooltip-bg, $tooltip-opacity);
+        color: $tooltip-color;
+        margin: 0 $tooltip-arrow-width;
+        padding: 0.2rem 0.4rem;
       }
     }
   }
+}
 </style>

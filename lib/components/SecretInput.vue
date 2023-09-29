@@ -2,7 +2,7 @@
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
 import { library, default as Fa } from './Fa'
-import HapticCopy from './HapticCopy.vue'  
+import HapticCopy from './HapticCopy.vue'
 
 export default {
   name: 'SecretInput',
@@ -52,24 +52,24 @@ export default {
       type: Boolean
     }
   },
-  data () {
+  data() {
     return {
       isVisible: this.visible
     }
   },
   computed: {
-    inputType () {
+    inputType() {
       return this.isVisible ? 'text' : 'password'
     },
-    togglerIcon () {
+    togglerIcon() {
       return this.isVisible ? ['far', 'eye-slash'] : ['far', 'eye']
     },
-    hapticCopyClassList () {
+    hapticCopyClassList() {
       return `btn-${this.hapticCopyVariant}`
     }
   },
   watch: {
-    visible (visible) {
+    visible(visible) {
       this.isVisible = visible
     }
   },
@@ -77,17 +77,17 @@ export default {
     library.add(faEye, faEyeSlash)
   },
   methods: {
-    toggle () {
+    toggle() {
       this.isVisible = !this.isVisible
       /**
        * Emitted when the visibility of the input changes.
-       * 
+       *
        * @event input
        * @type {Boolean}
        */
       this.$emit('input', this.isVisible)
     },
-    selectInput () {
+    selectInput() {
       if (this.isVisible) {
         this.$el.querySelector('.secret-input__input').select()
       }
@@ -97,32 +97,22 @@ export default {
 </script>
 
 <template>
-  <b-input-group
-    :size="size"
-    class="secret-input"
-  >
+  <b-input-group :size="size" class="secret-input">
     <b-input-group-prepend v-if="!noToggler">
-      <b-button
-        variant="link"
-        class="secret-input__toggler"
-        @click="toggle"
-      >
-        <fa
-          fixed-width
-          :icon="togglerIcon"
-        />
+      <b-button variant="link" class="secret-input__toggler" @click="toggle">
+        <fa fixed-width :icon="togglerIcon" />
       </b-button>
     </b-input-group-prepend>
-    <b-form-input 
-      class="text-monospace secret-input__input" 
+    <b-form-input
+      class="text-monospace secret-input__input"
       readonly
       :type="inputType"
       :value="value"
       @click="selectInput"
     />
     <b-input-group-append v-if="!noHapticCopy">
-      <haptic-copy 
-        class="secret-input__copy" 
+      <haptic-copy
+        class="secret-input__copy"
         hide-label
         :class="hapticCopyClassList"
         :text="value"
@@ -134,14 +124,13 @@ export default {
 </template>
 
 <style scoped lang="scss">
-  @import '../styles/lib.scss';
+@import '../styles/lib.scss';
 
-  .secret-input {
-
-    &__toggler {
-      background: $input-disabled-bg;
-      border: $input-border-width solid $input-border-color;
-      border-right: 0;
-    }
+.secret-input {
+  &__toggler {
+    background: $input-disabled-bg;
+    border: $input-border-width solid $input-border-color;
+    border-right: 0;
   }
+}
 </style>

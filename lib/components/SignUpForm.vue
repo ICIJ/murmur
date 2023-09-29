@@ -1,21 +1,10 @@
 <template>
-  <form
-    class="sign-up-form"
-    :class="{ 'sign-up-form--horizontal': horizontal }"
-    @submit.prevent="subscribe()"
-  >
+  <form class="sign-up-form" :class="{ 'sign-up-form--horizontal': horizontal }" @submit.prevent="subscribe()">
     <fieldset :disabled="frozen">
-      <label
-        v-if="!noLabel"
-        class="text-uppercase text-muted font-weight-bold"
-        for="input-email"
-      >
-        {{ $t("sign-up-form.label") }}
+      <label v-if="!noLabel" class="text-uppercase text-muted font-weight-bold" for="input-email">
+        {{ $t('sign-up-form.label') }}
       </label>
-      <div
-        class="sign-up-form__fieldset__group"
-        :class="{ 'input-group': horizontal }"
-      >
+      <div class="sign-up-form__fieldset__group" :class="{ 'input-group': horizontal }">
         <input
           id="input-email"
           v-model="email"
@@ -23,60 +12,48 @@
           type="email"
           class="form-control"
           :placeholder="$t('sign-up-form.placeholder').toString()"
-        >
-        <div
-          class="sign-up-form__fieldset__group__addon"
-          :class="{ 'input-group-append': horizontal }"
-        >
-          <button
-            class="btn text-uppercase font-weight-bold"
-            :class="variantColorClass"
-            type="submit"
-          >
-            {{ $t("sign-up-form.submit") }}
+        />
+        <div class="sign-up-form__fieldset__group__addon" :class="{ 'input-group-append': horizontal }">
+          <button class="btn text-uppercase font-weight-bold" :class="variantColorClass" type="submit">
+            {{ $t('sign-up-form.submit') }}
           </button>
         </div>
       </div>
     </fieldset>
-    <p
-      v-if="errorMessage"
-      class="alert alert-danger p-2 m-0 mt-2"
-    >
+    <p v-if="errorMessage" class="alert alert-danger p-2 m-0 mt-2">
       {{ errorMessage }}
     </p>
-    <p
-      v-if="successMessage"
-      class="alert alert-success p-2 m-0 mt-2"
-    >
+    <p v-if="successMessage" class="alert alert-success p-2 m-0 mt-2">
       {{ successMessage }}
     </p>
   </form>
 </template>
 
-
-<script lang='ts'>
+<script lang="ts">
 import jsonp from 'jsonp'
 import castArray from 'lodash/castArray'
 import flatten from 'lodash/flatten'
 import last from 'lodash/last'
-import config from '../config'
-import i18n from '@/i18n'
 import { PropType, defineComponent } from 'vue'
 
-type SignUpFormData={
-      email: string,
-      frozen: boolean,
-      response: any,
-      errorMessage: string | null,
-      successMessage: string | null
+import config from '../config'
+
+import i18n from '@/i18n'
+
+type SignUpFormData = {
+  email: string
+  frozen: boolean
+  response: any
+  errorMessage: string | null
+  successMessage: string | null
 }
-type FormDataResult = { result : string, msg:string }
+type FormDataResult = { result: string; msg: string }
 /**
  * SignUpForm
  */
 export default defineComponent({
   i18n,
-  name: "SignUpForm",
+  name: 'SignUpForm',
   props: {
     /**
      * Mailchimp URL to send the data to.
@@ -86,7 +63,7 @@ export default defineComponent({
       default: () => config.get('signup-form.action')
     },
     /**
-     * Malchimp email field parameter 
+     * Malchimp email field parameter
      */
     emailField: {
       type: String,
@@ -96,7 +73,7 @@ export default defineComponent({
      * Malchimp default groups. Can be an array or a commat-separated list of groups.
      */
     defaultGroups: {
-      type: [String, Array] as PropType<string|string[]>,
+      type: [String, Array] as PropType<string | string[]>,
       default: () => config.get('signup-form.default-groups')
     },
     /**
@@ -131,9 +108,9 @@ export default defineComponent({
     variant: {
       type: String,
       default: 'primary'
-    },
+    }
   },
-  data () : SignUpFormData{
+  data(): SignUpFormData {
     return {
       email: '',
       frozen: false,
@@ -143,24 +120,24 @@ export default defineComponent({
     }
   },
   computed: {
-    groups () {
-      return flatten(castArray(this.defaultGroups).map(g => g.split(',')))
+    groups() {
+      return flatten(castArray(this.defaultGroups).map((g) => g.split(',')))
     },
-    url () {
+    url() {
       return this.action.replace('/post?', '/post-json?').concat('&c=?')
     },
-    parentReferrer () {
+    parentReferrer() {
       if (this.referrer) {
         return this.referrer
       }
       return window.location != window.parent.location ? document.referrer : document.location.href
     },
-    submitUrl () {
+    submitUrl() {
       const url = new URL(this.url)
       url.searchParams.set('SIGNUP', this.tracker)
       url.searchParams.set('MMERGE24', this.parentReferrer)
       url.searchParams.set(this.emailField, this.email)
-      this.groups.map(group => url.searchParams.set(group, '1'))
+      this.groups.map((group) => url.searchParams.set(group, '1'))
       return url.href
     },
     variantColorClass() {
@@ -168,20 +145,20 @@ export default defineComponent({
     }
   },
   methods: {
-    subscribe ():Promise<void> {
+    subscribe(): Promise<void> {
       this.resetMessages()
       this.freeze()
       // Send the data, catch the result no matter what and unfreeze the form
       return this.send().then(this.done, this.done)
     },
-    send () {
+    send() {
       return new Promise((resolve, reject) => {
-        jsonp(this.submitUrl, { param: 'c' }, (err:any, data:FormDataResult) => {
+        jsonp(this.submitUrl, { param: 'c' }, (err: any, data: FormDataResult) => {
           return err ? reject(err) : resolve(data)
         })
       })
     },
-    done ({ result, msg }:any):void {
+    done({ result, msg }: any): void {
       if (result === 'success') {
         this.email = ''
         this.successMessage = msg
@@ -191,14 +168,14 @@ export default defineComponent({
       }
       this.unfreeze()
     },
-    resetMessages () {
+    resetMessages() {
       this.errorMessage = null
       this.successMessage = null
     },
-    freeze () {
+    freeze() {
       this.frozen = true
     },
-    unfreeze () {
+    unfreeze() {
       this.frozen = false
     }
   }
@@ -206,20 +183,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-  @import '../styles/lib.scss';
+@import '../styles/lib.scss';
 
-  .sign-up-form {
+.sign-up-form {
+  .sign-up-form__fieldset__group__addon .btn {
+    font-size: 0.9em;
+  }
 
+  &:not(&--horizontal) {
     .sign-up-form__fieldset__group__addon .btn {
-      font-size: 0.9em;
-    }
-
-    &:not(&--horizontal) {
-
-      .sign-up-form__fieldset__group__addon .btn {
-        display: block;
-        width: 100%;
-      }
+      display: block;
+      width: 100%;
     }
   }
+}
 </style>

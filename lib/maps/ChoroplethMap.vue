@@ -3,6 +3,7 @@ import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
 import { debounce, get, kebabCase, keys, max, min, pickBy, values } from 'lodash'
 import { feature } from 'topojson'
+
 import config from '../config'
 import ScaleLegend from '../components/ScaleLegend'
 import chart from '../mixins/chart'
@@ -64,9 +65,9 @@ export default {
     zoomMax: {
       type: Number,
       default: 8
-    },
+    }
   },
-  data () {
+  data() {
     return {
       mapRect: { width: 0, height: 0 },
       featureCursor: null,
@@ -92,7 +93,7 @@ export default {
       return '#fff'
     },
     featureColor() {
-      return d => {
+      return (d) => {
         const id = get(d, this.topojsonObjectsPath)
         if (!(id in this.loadedData)) {
           return
@@ -107,7 +108,8 @@ export default {
       return this.defaultFeatureColorScale
     },
     defaultFeatureColorScale() {
-      return d3.scaleLog()
+      return d3
+        .scaleLog()
         .domain([Math.max(1, this.minValue), this.maxValue])
         .range([this.featureColorScaleStart, this.featureColorScaleEnd])
     },
@@ -139,9 +141,13 @@ export default {
       return geoRobinson().fitSize([width, height], this.geojson)
     },
     mapZoom() {
-      return d3.zoom()
+      return d3
+        .zoom()
         .scaleExtent([this.zoomMin, this.zoomMax])
-        .translateExtent([[0, 0], [this.mapRect.width, this.mapRect.height]])
+        .translateExtent([
+          [0, 0],
+          [this.mapRect.width, this.mapRect.height]
+        ])
         .on('zoom', this.mapZoomed)
     },
     mapHeight() {
@@ -186,8 +192,8 @@ export default {
       this.setFeaturesClasses()
     }
   },
-  async created () {
-    await new Promise(resolve => this.$on('loaded', resolve))
+  async created() {
+    await new Promise((resolve) => this.$on('loaded', resolve))
     await this.loadTopojson()
     this.draw()
     this.$on('resized', this.debouncedDraw)
@@ -196,7 +202,7 @@ export default {
     debouncedDraw: debounce(function () {
       this.draw()
     }, 10),
-    prepare () {
+    prepare() {
       // Set the map sizes
       this.$set(this, 'mapRect', this.map.node().getBoundingClientRect())
       // Remove any existing country
@@ -204,41 +210,41 @@ export default {
       // Return the map to allow chaining
       return this.map
     },
-    prepareZoom () {
+    prepareZoom() {
       if (this.zoomable) {
         this.map.call(this.mapZoom)
       }
     },
-    draw () {
+    draw() {
       // Bind geojson features to path
       this.prepare()
         .append('g')
-          .attr('class', 'choropleth-map__main__features')
-          .selectAll('.choropleth-map__main__features__item')
-          .data(this.geojson.features)
-          // Add the path with the correct class
-          .enter()
-            .append('path')
-            .attr('class',this.featureClass)
-            .attr('d', this.featurePath)
-            .on('mouseover', this.featureMouseOver)
-            .on('mouseleave', this.featureMouseLeave)
-            .on('click', this.mapClicked)
-            .style('color', this.featureColor)
+        .attr('class', 'choropleth-map__main__features')
+        .selectAll('.choropleth-map__main__features__item')
+        .data(this.geojson.features)
+        // Add the path with the correct class
+        .enter()
+        .append('path')
+        .attr('class', this.featureClass)
+        .attr('d', this.featurePath)
+        .on('mouseover', this.featureMouseOver)
+        .on('mouseleave', this.featureMouseLeave)
+        .on('click', this.mapClicked)
+        .style('color', this.featureColor)
       this.prepareZoom()
     },
-    update () {
+    update() {
       // Bind geojson features to path
       this.map
         .selectAll('.choropleth-map__main__features__item')
         .data(this.geojson.features)
-        .attr('class',this.featureClass)
+        .attr('class', this.featureClass)
         .style('color', this.featureColor)
     },
-    featureClass (d) {
-      return keys(pickBy(this.featureClassObject(d), value => value)).join(' ')
+    featureClass(d) {
+      return keys(pickBy(this.featureClassObject(d), (value) => value)).join(' ')
     },
-    featureClassObject (d) {
+    featureClassObject(d) {
       const pathClass = 'choropleth-map__main__features__item'
       const id = get(d, this.topojsonObjectsPath)
       return {
@@ -249,27 +255,27 @@ export default {
         [`${pathClass}--cursored`]: this.featureCursor === id
       }
     },
-    featureMouseLeave () {
+    featureMouseLeave() {
       this.featureCursor = null
     },
-    featureMouseOver (_, d) {
+    featureMouseOver(_, d) {
       const id = get(d, this.topojsonObjectsPath)
       this.featureCursor = id in this.loadedData ? id : null
     },
-    async loadTopojson () {
+    async loadTopojson() {
       if (!this.$options.topojsonPromise) {
         this.$options.topojsonPromise = d3.json(this.topojsonUrl)
         this.$options.topojson = await this.$options.topojsonPromise
       }
       return this.$options.topojsonPromise
     },
-    mapZoomed ({ transform }) {
+    mapZoomed({ transform }) {
       this.map
         .style('--map-scale', transform.k)
         .selectAll('.choropleth-map__main__features__item')
         .attr('transform', transform)
     },
-    async mapClicked (event, d) {
+    async mapClicked(event, d) {
       /**
        * A click on a feature
        * @event click
@@ -291,7 +297,7 @@ export default {
        */
       this.$emit('zoomed', d)
     },
-    resetZoom () {
+    resetZoom() {
       this.map
         .style('--map-scale', 1)
         .transition()
@@ -304,12 +310,10 @@ export default {
        */
       this.$emit('reset')
     },
-    setFeaturesClasses () {
-      this.map
-        .selectAll('.choropleth-map__main__features__item')
-        .attr('class', this.featureClass)
+    setFeaturesClasses() {
+      this.map.selectAll('.choropleth-map__main__features__item').attr('class', this.featureClass)
     },
-    setFeatureZoom (d, pointer = [0, 0]) {
+    setFeatureZoom(d, pointer = [0, 0]) {
       this.featureZoom = get(d, this.topojsonObjectsPath)
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
@@ -330,30 +334,11 @@ export default {
 </script>
 
 <template>
-  <div
-    class="choropleth-map"
-    :class="mapClass"
-  >
+  <div class="choropleth-map" :class="mapClass">
     <svg class="choropleth-map__main">
-      <pattern
-        id="diagonalHatch"
-        width="1"
-        height="1"
-        patternTransform="rotate(45 0 0)"
-        patternUnits="userSpaceOnUse"
-      >
-        <rect
-          width="1"
-          height="1"
-          :fill="featureColorScaleEnd"
-        />
-        <line
-          x1="0"
-          y1="0"
-          x2="0"
-          y2="1"
-          :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }"
-        />
+      <pattern id="diagonalHatch" width="1" height="1" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+        <rect width="1" height="1" :fill="featureColorScaleEnd" />
+        <line x1="0" y1="0" x2="0" y2="1" :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }" />
       </pattern>
     </svg>
     <scale-legend
@@ -367,10 +352,7 @@ export default {
       class="choropleth-map__legend"
     >
       <template #cursor="{ value }">
-        <slot
-          name="legend-cursor"
-          v-bind="{ value, identifier: featureCursor }"
-        />
+        <slot name="legend-cursor" v-bind="{ value, identifier: featureCursor }" />
       </template>
     </scale-legend>
   </div>

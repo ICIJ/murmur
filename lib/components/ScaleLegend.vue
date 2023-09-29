@@ -1,16 +1,16 @@
 <script lang="ts">
-import {isFunction, isString} from 'lodash'
+import { isFunction, isString } from 'lodash'
 import * as d3 from 'd3'
 import * as scaleFunctions from 'd3-scale'
-import {defineComponent} from "vue";
+import { defineComponent } from 'vue'
 
-type ClassListLegend = {'scale-legend--has-cursor':boolean}
+type ClassListLegend = { 'scale-legend--has-cursor': boolean }
 // eslint-disable-next-line no-unused-vars
-type ColorScaleFn = (v ?:number) => string
+type ColorScaleFn = (v?: number) => string
 
 type ColorScale = ColorScaleFn | string
 // eslint-disable-next-line no-unused-vars
-type WidthScaleFn = (x :number) =>string
+type WidthScaleFn = (x: number) => string
 
 export default defineComponent({
   name: 'ScaleLegend',
@@ -41,13 +41,13 @@ export default defineComponent({
     colorScale: {
       type: [Function as unknown as ColorScaleFn, String],
       default: 'scaleLinear',
-      validator (colorScale : ColorScale ) {
+      validator(colorScale: ColorScale) {
         return isFunction(colorScale) || (colorScale as string) in scaleFunctions
       }
     },
     colorScaleEnd: {
       type: String,
-      default () {
+      default() {
         const computedStyle = window.getComputedStyle(document.body)
         return computedStyle.getPropertyValue('--primary') || '#000'
       }
@@ -57,149 +57,115 @@ export default defineComponent({
       default: '#fff'
     }
   },
-  data () {
+  data() {
     return {
       cursorWrapperOffset: 0,
       mounted: false
     }
   },
   computed: {
-    classList () : ClassListLegend{
+    classList(): ClassListLegend {
       return {
         'scale-legend--has-cursor': this.hasCursor
       }
     },
-    cursorLeft (): string {
+    cursorLeft(): string {
       const left = this.cursorLeftScale(this.cursorValue)
       return isNaN(left) ? '0%' : `${left}%`
     },
-    colorScaleBaseCanvas (): HTMLCanvasElement | null {
-      return d3.create('canvas')
-        .attr('width', this.width)
-        .attr('height', this.height)
-        .node()
+    colorScaleBaseCanvas(): HTMLCanvasElement | null {
+      return d3.create('canvas').attr('width', this.width).attr('height', this.height).node()
     },
-    colorScaleContext ()  : CanvasRenderingContext2D | null{
+    colorScaleContext(): CanvasRenderingContext2D | null {
       return this.colorScaleBaseCanvas?.getContext('2d') ?? null
     },
-    colorScaleBase64 ():string | null {
+    colorScaleBase64(): string | null {
       if (this.mounted) {
         return this.colorScaleBaseCanvas?.toDataURL() ?? null
       }
       return null
     },
-    colorScaleWidthRange () : number[]{
+    colorScaleWidthRange(): number[] {
       return d3.range(1, this.width + 1)
     },
-    hasCursor (): boolean {
+    hasCursor(): boolean {
       return this.cursorValue != null // double equal also tests undefined
     },
-    colorScaleFunction () : ColorScaleFn {
+    colorScaleFunction(): ColorScaleFn {
       if (isString(this.colorScale)) {
         // @ts-ignore
-        const fn : ()=>any = scaleFunctions[this.colorScale]
-        return fn()
-          .domain([this.min, this.max])
-          .range([this.colorScaleStart, this.colorScaleEnd])
+        const fn: () => any = scaleFunctions[this.colorScale]
+        return fn().domain([this.min, this.max]).range([this.colorScaleStart, this.colorScaleEnd])
       }
       return this.colorScale
     },
-    cursorLeftScale () : d3.ScaleLinear<number, number>{
-      return d3.scaleLinear()
-        .domain([this.min, this.max])
-        .range([0, 100])
-        .interpolate(d3.interpolateRound)
+    cursorLeftScale(): d3.ScaleLinear<number, number> {
+      return d3.scaleLinear().domain([this.min, this.max]).range([0, 100]).interpolate(d3.interpolateRound)
     },
-    widthScaleColor () : WidthScaleFn {
-      return (x:number) => {
+    widthScaleColor(): WidthScaleFn {
+      return (x: number) => {
         const value = this.widthScale(x)
         return this.colorScaleFunction(value)
       }
     },
-    widthScale (): d3.ScaleLinear<number, number> {
-      return d3.scaleLinear()
-        .domain([0, this.width])
-        .range([this.min, this.max])
+    widthScale(): d3.ScaleLinear<number, number> {
+      return d3.scaleLinear().domain([0, this.width]).range([this.min, this.max])
     }
   },
   watch: {
-    async cursorValue () {
+    async cursorValue() {
       await this.$nextTick()
       this.setCursorWrapperOffset()
     }
   },
-  async mounted () {
+  async mounted() {
     await this.$nextTick()
     this.setCursorWrapperOffset()
     this.setColorScaleCanvas()
     this.mounted = true
   },
   methods: {
-    setCursorWrapperOffset() : void {
+    setCursorWrapperOffset(): void {
       const cursor = this.$el.querySelector('.scale-legend__cursor')
       if (cursor) {
         const { x: cursorX, width: cursorWidth } = cursor.getBoundingClientRect()
         const { x: legendX, width: legendWidth } = this.$el.getBoundingClientRect()
         const left = legendX - cursorX - 6
-        const right = (legendX + legendWidth) - (cursorX + cursorWidth) + 6
+        const right = legendX + legendWidth - (cursorX + cursorWidth) + 6
         this.cursorWrapperOffset = Math.max(0, left) || Math.min(0, right)
       } else {
         this.cursorWrapperOffset = 0
       }
     },
     setColorScaleCanvas(): void {
-      if(!this.colorScaleContext){
+      if (!this.colorScaleContext) {
         return
       }
       for (const x of this.colorScaleWidthRange) {
-          this.colorScaleContext.fillStyle = this.widthScaleColor(x)
-          this.colorScaleContext.fillRect(x, 0, 1, this.height)
+        this.colorScaleContext.fillStyle = this.widthScaleColor(x)
+        this.colorScaleContext.fillRect(x, 0, 1, this.height)
       }
-    },
+    }
   }
 })
 </script>
 
 <template>
-  <div
-    :class="classList"
-    class="scale-legend"
-  >
+  <div :class="classList" class="scale-legend">
     <div class="scale-legend__bound scale-legend__bound--min">
-      <slot
-        name="legend-cursor-min"
-        v-bind="{ min }"
-      >
+      <slot name="legend-cursor-min" v-bind="{ min }">
         {{ min | formatNumber }}
       </slot>
     </div>
-    <img
-      :height="height"
-      :src="colorScaleBase64"
-      :width="width"
-      class="scale-legend__scale"
-    >
+    <img :height="height" :src="colorScaleBase64" :width="width" class="scale-legend__scale" />
     <div class="scale-legend__bound scale-legend__bound--max">
-      <slot
-        name="legend-cursor-max"
-        v-bind="{ max }"
-      >
+      <slot name="legend-cursor-max" v-bind="{ max }">
         {{ max | formatNumber }}
       </slot>
     </div>
-    <div
-      v-if="hasCursor"
-      :style="{ left: cursorLeft }"
-      class="scale-legend__cursor"
-    >
-      <div
-        :style="{ transform: `translateX(${cursorWrapperOffset}px)` }"
-        class="scale-legend__cursor__wrapper"
-      >
-        <slot
-          name="cursor"
-          v-bind="{ value: cursorValue }"
-        >
+    <div v-if="hasCursor" :style="{ left: cursorLeft }" class="scale-legend__cursor">
+      <div :style="{ transform: `translateX(${cursorWrapperOffset}px)` }" class="scale-legend__cursor__wrapper">
+        <slot name="cursor" v-bind="{ value: cursorValue }">
           {{ cursorValue | formatNumber }}
         </slot>
       </div>
@@ -214,7 +180,8 @@ export default defineComponent({
   position: relative;
   display: inline-block;
 
-  &__bound, &__cursor {
+  &__bound,
+  &__cursor {
     position: absolute;
     bottom: 100%;
     font-size: 0.8rem;
@@ -239,7 +206,7 @@ export default defineComponent({
     left: 50%;
 
     &:after {
-      content: "";
+      content: '';
       border: 5px solid transparent;
       border-top-color: var(--dark, currentColor);
       position: absolute;
