@@ -7,6 +7,9 @@ import Fa, { library } from './Fa'
 
 import type { Variant } from '@/types'
 
+/**
+ * A component to wrap an HTML element with a range picker overlay.
+ */
 export default defineComponent({
   name: 'RangePicker',
   components: {
