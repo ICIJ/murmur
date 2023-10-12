@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, VNode, DirectiveBinding, PropType } from 'vue'
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons/faEllipsisVertical'
+import { faGripLinesVertical } from '@fortawesome/free-solid-svg-icons/faGripLinesVertical'
 import { clamp, get, has, invoke, round } from 'lodash'
 
 import Fa, { library } from './Fa'
@@ -171,7 +171,7 @@ export default defineComponent({
     }
   },
   beforeMount() {
-    library.add(faEllipsisVertical)
+    library.add(faGripLinesVertical)
   },
   methods: {
     snapValue(value: number): number {
@@ -232,10 +232,10 @@ export default defineComponent({
     <div class="range-picker__bounds" :style="boundsStyle">
       <div v-draggable.relative class="range-picker__bounds__overlay" :style="overlayStyle" @dragged="dragBounds"></div>
       <button v-draggable :style="startBoundStyle" class="range-picker__bounds__start btn" @dragged="dragStartBound">
-        <fa icon="fa-ellipsis-vertical" fixed-width />
+        <fa icon="fa-grip-lines-vertical" fixed-width />
       </button>
       <button v-draggable class="range-picker__bounds__end btn" :style="endBoundStyle" @dragged="dragEndBound">
-        <fa icon="fa-ellipsis-vertical" fixed-width />
+        <fa icon="fa-grip-lines-vertical" fixed-width />
       </button>
     </div>
   </div>
@@ -299,7 +299,7 @@ export default defineComponent({
       top: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
-      font-size: 0.8rem;
+      font-size: 0.6rem;
       width: 1.2rem;
       height: 1.2rem;
       line-height: 1.2rem;
