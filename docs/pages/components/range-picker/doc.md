@@ -1,5 +1,5 @@
 ---
-title: RangePicker
+title: Range Picker
 description: A component to wrap an HTML element with a range picker overlay.
 ---
 
