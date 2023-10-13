@@ -110,7 +110,7 @@ export default defineComponent({
       default: 0.01
     },
     /**
-     * Sets the visual variant/style of the component. Expected to be one
+     * Variant style of the component. Expected to be one
      * of the predefined Bootstrap theme (e.g., 'primary', 'secondary', etc).
      */
     variant: {
