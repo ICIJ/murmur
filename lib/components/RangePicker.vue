@@ -118,7 +118,7 @@ export default defineComponent({
       default: 'primary'
     },
     /**
-     * Determines whether the edges of the range should be rounded. If
+     * Rounds corner edges of the range boundaries. If
      * true, the component will have rounded corners.
      */
     rounded: {
