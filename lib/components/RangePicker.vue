@@ -71,7 +71,7 @@ export default defineComponent({
       required: true
     },
     /**
-     * Defines an offset from the left side of the component
+     * Offset from the left side of the component
      * where the dragging for the start value begins.
      */
     startOffset: {
