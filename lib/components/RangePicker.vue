@@ -270,7 +270,7 @@ export default defineComponent({
     border-radius: inherit;
 
     &__overlay {
-      cursor: move;
+      cursor: col-resize;
       pointer-events: all;
       position: absolute;
       top: 0;
@@ -307,6 +307,10 @@ export default defineComponent({
       background: var(--bg);
       color: var(--fg);
       transform: translate(-50%, -50%);
+
+      &.btn:not(:disabled):not(.disabled) {
+        cursor: col-resize;
+      }
 
       &:hover,
       &:active {
