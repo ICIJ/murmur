@@ -63,7 +63,7 @@ export default defineComponent({
   },
   props: {
     /**
-     * Represents the initial values of the range bounds. Should contain two numbers
+     * Initial values of the range bounds. Should contain two numbers.
      * indicating the start and end of the range.
      */
     value: {
