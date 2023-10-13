@@ -18,7 +18,7 @@ export default defineComponent({
   directives: {
     draggable: {
       inserted(el: HTMLElement, binding: DirectiveBinding, vnode: VNode): void {
-        let startX: number, initialMouseX: number
+        let startX: number, initialClientX: number
         const relative = binding.modifiers?.relative ?? false
 
         // Emit an event to the parent component
@@ -31,29 +31,44 @@ export default defineComponent({
         }
 
         // Handle the dragging of the element
-        function mousemove(event: MouseEvent) {
-          const clientX = event.clientX
+        function move(event: MouseEvent | TouchEvent) {
+          const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX
           const offset = relative ? el.offsetWidth : 0
           const maxX = (vnode.context as any).rangeWidth() - offset
-          const data = clamp(startX + clientX - initialMouseX, 0, maxX)
+          const data = clamp(startX + clientX - initialClientX, 0, maxX)
           emitEvent({ name: 'dragged', data })
           return false
         }
 
         // Clean up listeners once the dragging ends
-        function mouseup() {
-          document.removeEventListener('mousemove', mousemove)
-          document.removeEventListener('mouseup', mouseup)
+        function end(event: MouseEvent | TouchEvent) {
+          if (event instanceof MouseEvent) {
+            document.removeEventListener('mousemove', move)
+            document.removeEventListener('mouseup', end)
+          } else {
+            document.removeEventListener('touchmove', move)
+            document.removeEventListener('touchend', end)
+          }
         }
 
-        // Register the drag event handlers
-        el.addEventListener('mousedown', (event: MouseEvent) => {
+        // Register listeners when dragging start
+        function start(event: MouseEvent | TouchEvent) {
           startX = el.offsetLeft
-          initialMouseX = event.clientX
-          document.addEventListener('mousemove', mousemove)
-          document.addEventListener('mouseup', mouseup)
+          if (event instanceof MouseEvent) {
+            initialClientX = event.clientX
+            document.addEventListener('mousemove', move)
+            document.addEventListener('mouseup', end)
+          } else {
+            initialClientX = event.touches[0].clientX
+            document.addEventListener('touchmove', move)
+            document.addEventListener('touchend', end)
+          }
           return false
-        })
+        }
+
+        // Register the drag and touch event handlers
+        el.addEventListener('mousedown', start)
+        el.addEventListener('touchstart', start)
       }
     }
   },
