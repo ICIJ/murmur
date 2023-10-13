@@ -1,1 +1,0 @@
-const e={displayName:"ResponsiveIframe",description:"ResponsiveIframe",tags:{},exportName:"default",props:[{name:"url",description:"URL of the generated iframe code.",type:{name:"string"},required:!0},{name:"options",description:"Option to pass to the constructor of the pymParent instance",type:{name:"object"},defaultValue:{func:!1,value:"{}"}}]};export{e as default};
