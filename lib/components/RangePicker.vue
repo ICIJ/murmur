@@ -269,7 +269,8 @@ export default defineComponent({
     border-radius: $border-radius;
   }
 
-  &--hover &__bounds:hover:after {
+  &--hover:hover &__bounds:after {
+    pointer-events: none;
     content: '';
     z-index: -1;
     width: 100%;

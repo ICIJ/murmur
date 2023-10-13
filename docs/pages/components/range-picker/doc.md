@@ -29,7 +29,7 @@ Or in combination with a column chart
 
 :::sample-card
 <div class="bg-light p-5">
-  <range-picker :snap="1 / dataPerYear.length" variant="dark" v-model="rangeYears" class="py-2">
+  <range-picker :snap="1 / dataPerYear.length" variant="dark" v-model="rangeYears" class="py-2" hover>
     <column-chart :bar-padding=0 :bar-margin=20 :highlights="higlightedYears" :data="dataPerYear" :fixed-height="200" no-y-axis no-tooltips />
   </range-picker>
 </div>
