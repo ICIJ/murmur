@@ -102,7 +102,7 @@ export default defineComponent({
       default: 0.0001
     },
     /**
-     * Specifies the minimum allowed distance between the two range bounds to ensure they
+     * Minimum distance between the two range bounds to ensure they
      * don't get too close to each other.
      */
     minDistance: {
