@@ -17,7 +17,7 @@ You can add offsets (in pixels), a snap fraction or a variant (using Bootstrap t
 
 :::sample-card
 <div class="bg-light p-5">
-  <range-picker v-model="range" :start-offset=30 :end-offset=30 :snap=.1 :precision=2 variant="info">
+  <range-picker v-model="range" :start-offset=30 :end-offset=30 :snap=.1 :precision=2 variant="info" hover rounded>
     <div class="bg-white p-3 text-center text-uppercase">
       <b-badge>{{ range[0] * 100 }}%</b-badge> - <b-badge>{{ range[1] * 100 }}%</b-badge>
     </div>

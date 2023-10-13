@@ -39,6 +39,14 @@ describe('RangePicker.vue', () => {
     expect(wrapper.classes()).toContain('range-picker--rounded')
   })
 
+  it('sets the hover class if hover prop is true', async () => {
+    const wrapper = shallowMount(RangePicker, {
+      propsData: { value: [0.1, 0.9], hover: true }
+    })
+
+    expect(wrapper.classes()).toContain('range-picker--hover')
+  })
+
   it('does not allow bounds closer than minDistance', async () => {
     const wrapper = shallowMount(RangePicker, {
       propsData: { value: [0.1, 0.11], minDistance: 0.05 }

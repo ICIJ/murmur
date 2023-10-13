@@ -71,6 +71,12 @@ export default defineComponent({
       required: true
     },
     /**
+     * Enables hover styling on rows.
+     */
+    hover: {
+      type: Boolean as PropType<boolean>
+    },
+    /**
      * Offset from the left side of the component
      * where the dragging for the start value begins.
      */
@@ -160,6 +166,7 @@ export default defineComponent({
     classList(): { [key: string]: boolean } {
       return {
         [`range-picker--${this.variant}`]: !!this.variant,
+        'range-picker--hover': this.hover,
         'range-picker--rounded': this.rounded
       }
     }
@@ -260,6 +267,17 @@ export default defineComponent({
 
   &--rounded {
     border-radius: $border-radius;
+  }
+
+  &--hover &__bounds:hover:after {
+    content: '';
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: var(--bg);
+    opacity: 0.1;
+    border-radius: inherit;
   }
 
   &__bounds {
