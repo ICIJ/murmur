@@ -201,7 +201,7 @@ export default {
      */
     barMargin: {
       type: Number,
-      default: 20
+      default: 0
     }
   },
   data() {
