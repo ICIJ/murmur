@@ -94,7 +94,7 @@ export default defineComponent({
       default: 4
     },
     /**
-     * Determines the increments in which values should snap. For instance,
+     * Snap increment value. For instance,
      * if snap is 0.1, values will snap to 0, 0.1, 0.2, and so on.
      */
     snap: {
