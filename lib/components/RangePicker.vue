@@ -79,7 +79,7 @@ export default defineComponent({
       default: 0
     },
     /**
-     * Defines an offset from the right side of the component where
+     * Offset from the right side of the component where
      * the dragging for the end value ends.
      */
     endOffset: {
