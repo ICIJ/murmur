@@ -21,7 +21,7 @@
         <rect
           v-for="(bar, index) in bars"
           :key="index"
-          :class="{ 'column-chart__columns__item--highlight': bar.datum.highlight }"
+          :class="{ 'column-chart__columns__item--highlight': highlighted(bar.datum) }"
           class="column-chart__columns__item"
           :width="bar.width"
           :height="bar.height"
@@ -202,6 +202,13 @@ export default {
     barMargin: {
       type: Number,
       default: 0
+    },
+    /**
+     * A list of highlighted key
+     */
+    highlights: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -347,6 +354,9 @@ export default {
         'column-chart__tooltips__item--flip-x': flipX,
         'column-chart__tooltips__item--flip-y': flipY
       }
+    },
+    highlighted(datum) {
+      return datum.highlight || this.highlights.includes(datum[this.timeseriesKey])
     }
   }
 }
