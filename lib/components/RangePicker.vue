@@ -87,7 +87,7 @@ export default defineComponent({
       default: 0
     },
     /**
-     * Specifies the number of decimal places to which values should be rounded.
+     * Number of decimal places to which values should be rounded.
      */
     precision: {
       type: Number as PropType<number>,
