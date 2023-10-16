@@ -366,5 +366,12 @@ describe('ColumnChart.vue', () => {
       const y = wrapper.vm.bars[2].y
       expect(thirdTooltip.attributes('transform')).toBe(`translate(${x}, ${y})`)
     })
+
+    it('should emit a "select" event when clicking on an item', async () => {
+      wrapper.findAll('.column-chart__columns__item').at(0).trigger('click')
+
+      expect(wrapper.emitted().select).toBeTruthy()
+      expect(wrapper.emitted().select[0][0]).toBe(wrapper.vm.bars[0].datum)
+    })
   })
 })

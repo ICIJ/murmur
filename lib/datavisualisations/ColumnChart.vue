@@ -27,6 +27,7 @@
           :height="bar.height"
           :x="bar.x"
           :y="bar.y"
+          @click="select(bar)"
           @mouseover="shownTooltip = index"
           @mouseleave="shownTooltip = -1"
         />
@@ -321,6 +322,14 @@ export default {
     initialize() {
       d3.axisLeft().scale(this.scale.y)
       d3.axisBottom().scale(this.scale.x)
+    },
+    select({ datum }) {
+      /**
+       * Fired when a column is selected
+       * @event click
+       * @param Mixed New step value.
+       */
+      this.$emit('select', datum)
     },
     update() {
       d3.select(this.$el)
