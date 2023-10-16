@@ -127,7 +127,7 @@ It also works with dynamic height
       Height: 
       <b-form-select class="ml-2" size="sm" v-model="fixedHeight" :options="[150, 300, 450]" />
     </span>
-    Source: ICIJ - {{ clicked }}
+    Source: ICIJ
   </p>
 </div>
 :::
