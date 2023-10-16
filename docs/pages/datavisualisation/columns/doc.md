@@ -111,7 +111,8 @@ It also works with dynamic height
   </p>
   <column-chart 
     series-name="size" 
-    timeseries-key="leak" 
+    timeseries-key="leak"
+    @select="clicked = $event"
     :fixed-height="fixedHeight"
     :data="discreteData" 
     :y-axis-tick-format="humanReadableGb" 
@@ -126,7 +127,7 @@ It also works with dynamic height
       Height: 
       <b-form-select class="ml-2" size="sm" v-model="fixedHeight" :options="[150, 300, 450]" />
     </span>
-    Source: ICIJ
+    Source: ICIJ - {{ clicked }}
   </p>
 </div>
 :::
@@ -138,6 +139,7 @@ It also works with dynamic height
   export default {
     data () {
       return {
+        clicked: null,
         fixedHeight: 300,
         dataUrl: "https://gist.githubusercontent.com/pirhoo/259a1a5159db4a665d0c043fac71beef/raw/e74087b06cd12be2b2d3a8ca995730e38719cd4b/colums-incidents.json",
         discreteData: [
