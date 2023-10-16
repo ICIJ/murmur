@@ -117,6 +117,13 @@ export default {
       default: 'value'
     },
     /**
+     * Hide x axis ticks when no enough space
+     */
+    xAxisTickCollapse: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Function to apply to format x axis ticks
      */
     xAxisTickFormat: {
@@ -131,10 +138,10 @@ export default {
       default: identity
     },
     /**
-     * Number of y axis ticks
+     * Definition of y axis ticks
      */
     yAxisTicks: {
-      type: Number,
+      type: [Number, Object],
       default: 5
     },
     /**
@@ -244,6 +251,11 @@ export default {
       const defaultHeight = 10
       return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
+    bucketWidth() {
+      const selector = '.column-chart__axis--x .tick text'
+      const defaultWidth = 100
+      return this.elementsMaxBBox({ selector, defaultWidth }).width
+    },
     margin() {
       return {
         left: this.noYAxis ? 0 : this.labelWidth + 10,
@@ -286,6 +298,32 @@ export default {
         return []
       }
       return without(keys(this.loadedData[0]), this.timeseriesKey)
+    },
+    xAxisHiddenTicks() {
+      if (!this.xAxisTickCollapse) {
+        return 0
+      }
+      return d3.range(1, this.sortedData.length).find(mod => {
+        const bucketWidth = this.bucketWidth * 1.5
+        return this.width / (bucketWidth / mod) >= this.sortedData.length
+      })
+    },
+    xAxisTickValues() {
+      return this.sortedData.map((datum, i) => {
+        return (i + 1) % this.xAxisHiddenTicks ? null : datum[this.timeseriesKey]
+      })
+    },
+    xAxis() {
+      return d3
+        .axisBottom(this.scale.x)
+        .tickFormat((d) => this.$options.filters.d3Formatter(d, this.xAxisTickFormat))
+        .tickValues(this.xAxisTickValues)
+    },
+    yAxis() {
+      return d3
+        .axisLeft(this.scale.y)
+        .tickFormat((d) => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
+        .ticks(this.yAxisTicks)
     }
   },
   watch: {
@@ -311,7 +349,6 @@ export default {
   },
   methods: {
     setup() {
-      this.initialize()
       this.update()
     },
     setSizes() {
@@ -334,20 +371,15 @@ export default {
     update() {
       d3.select(this.$el)
         .select('.column-chart__axis--x')
-        .call(d3.axisBottom(this.scale.x).tickFormat((d) => this.$options.filters.d3Formatter(d, this.xAxisTickFormat)))
-        .select('.domain')
-        .remove()
+          .call(this.xAxis)
+          .select('.domain')
+            .remove()
 
       d3.select(this.$el)
         .select('.column-chart__axis--y')
-        .call(
-          d3
-            .axisLeft(this.scale.y)
-            .tickFormat((d) => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
-            .ticks(this.yAxisTicks)
-        )
-        .selectAll('.tick line')
-        .attr('x2', this.padded.width)
+          .call(this.yAxis)
+          .selectAll('.tick line')
+          .attr('x2', this.padded.width)
     },
     barTooltipTransform({ x = 0, y = 0, width = 0 } = {}) {
       const flipX = x > this.padded.width / 2
