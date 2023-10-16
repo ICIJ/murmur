@@ -6,7 +6,7 @@ Component do draw dead simple column charts.
   <p class="text-muted">
     Incidents were reported as routine events that did not require public disclosure. After the U.S. Food and Drug Administration tightened enforcement of its reporting rules in 2017, reports of injuries soared.
   </p>
-  <column-chart :data="dataUrl" class="my-4"></column-chart>
+  <column-chart :data="dataUrl" class="my-4" x-axis-tick-collapse></column-chart>
   <p class="text-muted small">
     Note: 2018 data includes January to June. Source: U.S. Food and Drug Administration, ICIJ analysis
   </p>
