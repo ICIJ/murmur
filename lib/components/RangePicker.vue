@@ -191,7 +191,7 @@ export default defineComponent({
     }
   },
   watch: {
-    value([start, end]) {
+    value([start = null, end = null] = []) {
       this.start = start
       this.end = end
     }
