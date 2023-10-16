@@ -47,6 +47,22 @@ describe('RangePicker.vue', () => {
     expect(wrapper.classes()).toContain('range-picker--hover')
   })
 
+  it('sets the disabled class if value prop is empty', async () => {
+    const wrapper = shallowMount(RangePicker, {
+      propsData: { value: [] }
+    })
+
+    expect(wrapper.classes()).toContain('range-picker--disabled')
+  })
+
+  it('hides the bounds if value prop is empty', async () => {
+    const wrapper = shallowMount(RangePicker, {
+      propsData: { value: [] }
+    })
+
+    expect(wrapper.find('.range-picker__bounds').isVisible()).toBeFalsy()
+  })
+
   it('does not allow bounds closer than minDistance', async () => {
     const wrapper = shallowMount(RangePicker, {
       propsData: { value: [0.1, 0.11], minDistance: 0.05 }

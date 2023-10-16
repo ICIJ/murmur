@@ -154,6 +154,9 @@ export default defineComponent({
     }
   },
   computed: {
+    disabled() {
+      return this.value.length < 2
+    },
     overlayStyle(): { left: string; right: string } {
       return {
         left: `${this.start * 100}%`,
@@ -182,6 +185,7 @@ export default defineComponent({
       return {
         [`range-picker--${this.variant}`]: !!this.variant,
         'range-picker--hover': this.hover,
+        'range-picker--disabled': this.disabled,
         'range-picker--rounded': this.rounded
       }
     }
@@ -251,7 +255,7 @@ export default defineComponent({
 <template>
   <div class="range-picker" :class="classList">
     <slot />
-    <div class="range-picker__bounds" :style="boundsStyle">
+    <div v-show="!disabled" class="range-picker__bounds" :style="boundsStyle">
       <div v-draggable.relative class="range-picker__bounds__overlay" :style="overlayStyle" @dragged="dragBounds"></div>
       <button v-draggable :style="startBoundStyle" class="range-picker__bounds__start btn" @dragged="dragStartBound">
         <fa icon="fa-grip-lines-vertical" fixed-width />

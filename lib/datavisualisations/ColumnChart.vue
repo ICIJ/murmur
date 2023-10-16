@@ -273,9 +273,9 @@ export default {
       return this.sortedData.map((datum) => {
         return {
           datum,
-          width: Math.max(1, Math.abs(this.scale.x.bandwidth()) - (this.barMargin)),
+          width: Math.max(1, Math.abs(this.scale.x.bandwidth()) - this.barMargin),
           height: Math.abs(this.padded.height - this.scale.y(datum[this.seriesName])),
-          x: this.scale.x(datum[this.timeseriesKey]) + (this.barMargin / 2),
+          x: this.scale.x(datum[this.timeseriesKey]) + this.barMargin / 2,
           y: this.scale.y(datum[this.seriesName])
         }
       })
