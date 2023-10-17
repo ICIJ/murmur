@@ -67,23 +67,23 @@ describe('ColumnChart.vue', () => {
     })
 
     it('creates five columns', () => {
-      expect(wrapper.findAll('.column-chart__columns__item')).toHaveLength(5)
+      expect(wrapper.findAll('.column-chart__columns__item__bar')).toHaveLength(5)
     })
 
     it('creates the first column with minimum height', () => {
-      const column = wrapper.findAll('.column-chart__columns__item').at(0)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(0)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(0)
     })
 
     it('creates the third column with medium height', () => {
-      const column = wrapper.findAll('.column-chart__columns__item').at(2)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(2)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height / 2)
     })
 
     it('creates the last column with maximum height', () => {
-      const column = wrapper.findAll('.column-chart__columns__item').at(4)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(4)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height)
     })
@@ -132,17 +132,17 @@ describe('ColumnChart.vue', () => {
     })
 
     it('creates two columns', () => {
-      expect(wrapper.findAll('.column-chart__columns__item')).toHaveLength(2)
+      expect(wrapper.findAll('.column-chart__columns__item__bar')).toHaveLength(2)
     })
 
     it('creates the first column with medium height', () => {
-      const column = wrapper.findAll('.column-chart__columns__item').at(0)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(0)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height / 2)
     })
 
     it('creates the second column with maximum height', () => {
-      const column = wrapper.findAll('.column-chart__columns__item').at(1)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(1)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height)
     })
@@ -209,17 +209,17 @@ describe('ColumnChart.vue', () => {
     })
 
     it('creates ten columns', () => {
-      expect(wrapper.findAll('.column-chart__columns__item')).toHaveLength(10)
+      expect(wrapper.findAll('.column-chart__columns__item__bar')).toHaveLength(10)
     })
 
     it('creates the first column with medium height', () => {
-      const column = wrapper.findAll('.column-chart__columns__item').at(0)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(0)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(0)
     })
 
     it('creates the last column with maximum height', () => {
-      const column = wrapper.findAll('.column-chart__columns__item').at(9)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(9)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height)
     })
@@ -278,7 +278,7 @@ describe('ColumnChart.vue', () => {
       wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
 
-      const column = wrapper.findAll('.column-chart__columns__item').at(2)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(2)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height * 0.9)
     })
@@ -291,7 +291,7 @@ describe('ColumnChart.vue', () => {
       wrapper.vm.setSizes()
       await wrapper.vm.$nextTick()
 
-      const column = wrapper.findAll('.column-chart__columns__item').at(2)
+      const column = wrapper.findAll('.column-chart__columns__item__bar').at(2)
       const height = parseFloat(column.attributes('height'))
       expect(height).toBe(wrapper.vm.padded.height / 2)
     })
@@ -304,14 +304,14 @@ describe('ColumnChart.vue', () => {
     })
 
     it('should have one tooltip visible after the mouse overs a column', async () => {
-      wrapper.findAll('.column-chart__columns__item').at(0).trigger('mouseover')
+      wrapper.findAll('.column-chart__columns__item__bar').at(0).trigger('mouseover')
       await wrapper.vm.$nextTick()
       const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item')
       expect(visibleTooltips).toHaveLength(1)
     })
 
     it('should hide the tooltip after the mouse leaves a column', async () => {
-      const firstColumn = wrapper.findAll('.column-chart__columns__item').at(0)
+      const firstColumn = wrapper.findAll('.column-chart__columns__item__bar').at(0)
 
       firstColumn.trigger('mouseover')
       await wrapper.vm.$nextTick()
@@ -368,7 +368,7 @@ describe('ColumnChart.vue', () => {
     })
 
     it('should emit a "select" event when clicking on an item', async () => {
-      wrapper.findAll('.column-chart__columns__item').at(0).trigger('click')
+      wrapper.findAll('.column-chart__columns__item__bar').at(0).trigger('click')
 
       expect(wrapper.emitted().select).toBeTruthy()
       expect(wrapper.emitted().select[0][0]).toBe(wrapper.vm.bars[0].datum)

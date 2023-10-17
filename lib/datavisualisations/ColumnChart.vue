@@ -2,7 +2,12 @@
   <div
     class="column-chart"
     :style="{ '--column-color': columnColor, '--column-highlight-color': columnHighlightColor }"
-    :class="{ 'column-chart--has-highlights': dataHasHighlights, 'column-chart--social-mode': socialMode }"
+    :class="{ 
+      'column-chart--has-highlights': dataHasHighlights,
+      'column-chart--hover': hover,
+      'column-chart--stripped': stripped,
+      'column-chart--social-mode': socialMode
+    }"
   >
     <svg :width="width" :height="height">
       <g :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
@@ -14,19 +19,28 @@
         <g v-if="!noYAxis" class="column-chart__axis column-chart__axis--y" />
       </g>
       <g class="column-chart__columns" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
-        <rect
+        <g
           v-for="(bar, index) in bars"
           :key="index"
-          :class="{ 'column-chart__columns__item--highlight': highlighted(bar.datum) }"
           class="column-chart__columns__item"
-          :width="bar.width"
-          :height="bar.height"
-          :x="bar.x"
-          :y="bar.y"
+          :class="{ 'column-chart__columns__item--highlight': highlighted(bar.datum) }"
+          :style="{ transform: `translate(${bar.x}px, 0px)` }"
           @click="select(bar)"
-          @mouseover="shownTooltip = index"
-          @mouseleave="shownTooltip = -1"
-        />
+        >
+          <rect
+            class="column-chart__columns__item__placeholder"
+            :width="bar.width"
+            :height="padded.height"
+          />
+          <rect
+            class="column-chart__columns__item__bar"
+            :width="bar.width"
+            :height="bar.height"
+            :y="bar.y"
+            @mouseover="shownTooltip = index"
+            @mouseleave="shownTooltip = -1"
+          />
+        </g>
       </g>
       <g
         v-if="!noTooltips"
@@ -66,6 +80,7 @@ import { iteratee, identity, keys, sortBy, without } from 'lodash'
 import * as d3 from 'd3'
 
 import chart from '../mixins/chart'
+import { Prop } from 'vue/types/v3-component-props'
 
 export default defineComponent({
   name: 'ColumnChart',
@@ -214,6 +229,18 @@ export default defineComponent({
     highlights: {
       type: Array as PropType<string[]>,
       default: () => []
+    },
+    /**
+     * Show a "placeholder" behind every bar
+     */
+    stripped: {
+      type: Boolean as PropType<boolean>
+    },
+    /**
+     * Show a "placeholder" behind every bar on hover
+     */
+    hover: {
+      type: Boolean as PropType<boolean>
     }
   },
   data() {
@@ -408,8 +435,11 @@ export default defineComponent({
 @import '../styles/lib';
 
 .column-chart {
+  --highlight-opacity: 0.7;
+  --placeholder-opacity: 0.1;
+
   &--has-highlights &__columns__item:not(&__columns__item--highlight):not(:hover) {
-    opacity: 0.7;
+    opacity: var(--highlight-opacity);
     filter: grayscale(30%);
   }
 
@@ -424,6 +454,15 @@ export default defineComponent({
 
     &--highlight {
       fill: var(--column-highlight-color, var(--primary, $primary));
+    }
+
+    &__placeholder {
+      opacity: 0;
+
+      .column-chart--stripped &,
+      .column-chart--hover .column-chart__columns__item:hover & {
+        opacity: var(--placeholder-opacity);
+      }
     }
   }
 
