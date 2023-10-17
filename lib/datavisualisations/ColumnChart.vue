@@ -283,7 +283,7 @@ export default defineComponent({
           datum,
           width: Math.max(1, Math.abs(this.scaleX.bandwidth()) - this.barMargin),
           height: Math.abs(this.padded.height - this.scaleY(datum[this.seriesName])),
-          x: this.scaleX(datum[this.timeseriesKey]) ?? 0 + this.barMargin / 2,
+          x: (this.scaleX(datum[this.timeseriesKey]) ?? 0) + this.barMargin / 2,
           y: this.scaleY(datum[this.seriesName]) ?? 0
         }
       })
