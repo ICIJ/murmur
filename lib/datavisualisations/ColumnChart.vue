@@ -62,11 +62,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
+import { iteratee, identity, keys, sortBy, without } from 'lodash'
 import * as d3 from 'd3'
-import identity from 'lodash/identity'
-import sortBy from 'lodash/sortBy'
-import keys from 'lodash/keys'
-import without from 'lodash/without'
 
 import chart from '../mixins/chart'
 
@@ -272,12 +269,12 @@ export default defineComponent({
     scaleX(): d3.ScaleBand<string> {
       return d3
         .scaleBand()
-        .domain(this.sortedData.map((d) => d[this.timeseriesKey]))
+        .domain(this.sortedData.map(iteratee(this.timeseriesKey)))
         .range([0, this.padded.width])
         .padding(this.barPadding)
     },
     scaleY(): d3.ScaleLinear<number, number> {
-      const maxValue = this.maxValue || d3.max(this.sortedData, (d) => d[this.seriesName])
+      const maxValue = this.maxValue ?? d3.max(this.sortedData, iteratee(this.seriesName))
       return d3.scaleLinear().domain([0, maxValue]).range([this.padded.height, 0])
     },
     bars(): any[] {
@@ -310,11 +307,11 @@ export default defineComponent({
       return hiddenTicks ?? this.sortedData.length
     },
     xAxisTickValues(): string[] {
-      if (this.xAxisTicks) {
-        return this.xAxisTicks
-      }
-      return this.sortedData.map((datum, i) => {
-        return (i + 1) % this.xAxisHiddenTicks ? null : datum[this.timeseriesKey]
+      // Etheir use the explicit `xAxisTicks` prop or use the data
+      const ticks = this.xAxisTicks ?? this.sortedData.map(iteratee(this.timeseriesKey))
+      // Then filter out ticks according to `this.xAxisHiddenTicks`
+      return ticks.map((tick, i) => {
+        return (i + 1) % this.xAxisHiddenTicks ? null : tick
       })
     },
     xAxis(): d3.Axis<string> {
