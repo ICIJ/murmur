@@ -41,11 +41,7 @@
           :transform="barTooltipTransform(bar)"
         >
           <transition name="fade">
-            <div
-              v-if="index === shownTooltip"
-              class="column-chart__tooltips__item"
-              :class="barTooltipClasses(bar, index)"
-            >
+            <div v-if="index === shownTooltip" class="column-chart__tooltips__item" :class="barTooltipClasses(bar)">
               <div class="column-chart__tooltips__item__wrapper" xmlns="http://www.w3.org/1999/xhtml">
                 <slot name="tooltip" v-bind="bar">
                   <h6 class="column-chart__tooltips__item__wrapper__heading mb-0">
