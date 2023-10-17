@@ -124,6 +124,13 @@ export default defineComponent({
       default: identity
     },
     /**
+     * Definition of x axis ticks
+     */
+    xAxisTicks: {
+      type: Array as PropType<string[] | null>,
+      default: null
+    },
+    /**
      * Function to apply to format y axis ticks
      */
     yAxisTickFormat: {
@@ -303,6 +310,9 @@ export default defineComponent({
       return hiddenTicks ?? this.sortedData.length
     },
     xAxisTickValues(): string[] {
+      if (this.xAxisTicks) {
+        return this.xAxisTicks
+      }
       return this.sortedData.map((datum, i) => {
         return (i + 1) % this.xAxisHiddenTicks ? null : datum[this.timeseriesKey]
       })
@@ -350,7 +360,7 @@ export default defineComponent({
       this.height = this.fixedHeight !== null ? this.fixedHeight : this.width * this.baseHeightRatio
       this.update()
     },
-    select({ datum }) {
+    select({ datum }: { datum: any }) {
       /**
        * Fired when a column is selected
        * @event click
