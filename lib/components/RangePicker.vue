@@ -279,7 +279,7 @@ export default defineComponent({
 
   @each $color, $value in $theme-colors {
     &--#{$color} {
-      --bg: var(--#{color}, #{$value});
+      --bg: var(--#{$color}, #{$value});
       --fg: #{color-yiq($value)};
     }
   }
@@ -308,7 +308,7 @@ export default defineComponent({
     border-radius: inherit;
 
     &__overlay {
-      cursor: col-resize;
+      cursor: move;
       pointer-events: all;
       position: absolute;
       top: 0;
