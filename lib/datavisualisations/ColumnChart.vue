@@ -314,13 +314,13 @@ export default defineComponent({
     xAxis(): d3.Axis<string> {
       return d3
         .axisBottom(this.scaleX)
-        .tickFormat((d) => this.$options.filters.d3Formatter(d, this.xAxisTickFormat))
+        .tickFormat((d) => this.$options.filters?.d3Formatter(d, this.xAxisTickFormat))
         .tickValues(this.xAxisTickValues)
     },
     yAxis(): d3.Axis<d3.NumberValue> {
       return d3
         .axisLeft(this.scaleY)
-        .tickFormat((d) => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
+        .tickFormat((d) => this.$options.filters?.d3Formatter(d, this.yAxisTickFormat))
         .ticks(this.yAxisTicks)
     }
   },
@@ -367,11 +367,19 @@ export default defineComponent({
       this.$emit('select', datum)
     },
     update() {
-      d3.select(this.$el).select('.column-chart__axis--x').call(this.xAxis).select('.domain').remove()
+      if (!this.$el) {
+        return
+      }
+
+      d3.select(this.$el)
+        .select('.column-chart__axis--x')
+        .call(this.xAxis as any)
+        .select('.domain')
+        .remove()
 
       d3.select(this.$el)
         .select('.column-chart__axis--y')
-        .call(this.yAxis)
+        .call(this.yAxis as any)
         .selectAll('.tick line')
         .attr('x2', this.padded.width)
     },
