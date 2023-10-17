@@ -11,11 +11,7 @@
           class="column-chart__axis column-chart__axis--x"
           :style="{ transform: `translate(0, ${padded.height}px)` }"
         />
-        <g
-          v-if="!noYAxis"
-          class="column-chart__axis column-chart__axis--y"
-          :style="{ transform: `translate(${padded.left}px, 0)` }"
-        />
+        <g v-if="!noYAxis" class="column-chart__axis column-chart__axis--y" />
       </g>
       <g class="column-chart__columns" :style="{ transform: `translate(${margin.left}px, ${margin.top}px)` }">
         <rect
@@ -68,7 +64,8 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, PropType } from 'vue'
 import * as d3 from 'd3'
 import identity from 'lodash/identity'
 import sortBy from 'lodash/sortBy'
@@ -77,7 +74,7 @@ import without from 'lodash/without'
 
 import chart from '../mixins/chart'
 
-export default {
+export default defineComponent({
   name: 'ColumnChart',
   mixins: [chart],
   props: {
@@ -85,137 +82,137 @@ export default {
      * Color of each column (uses the CSS variable --column-color by default)
      */
     columnColor: {
-      type: String,
+      type: String as PropType<string>,
       default: null
     },
     /**
      * Color of each highlighted column (uses the CSS variable --column-color by default)
      */
     columnHighlightColor: {
-      type: String,
+      type: String as PropType<string>,
       default: null
     },
     /**
      * Enforce the height of the chart (regardless of the width or the social mode)
      */
     fixedHeight: {
-      type: Number,
+      type: Number as PropType<number>,
       default: null
     },
     /**
      * Enforce a width for each column's label
      */
     fixedLabelWidth: {
-      type: Number,
+      type: Number as PropType<number>,
       default: null
     },
     /**
      * Name of the series (to get the value from in the data collection objects)
      */
     seriesName: {
-      type: String,
+      type: String as PropType<string>,
       default: 'value'
     },
     /**
      * Hide x axis ticks when no enough space
      */
     xAxisTickCollapse: {
-      type: Boolean,
+      type: Boolean as PropType<boolean> as PropType<boolean>,
       default: false
     },
     /**
      * Function to apply to format x axis ticks
      */
     xAxisTickFormat: {
-      type: [Function, String],
+      type: [Function, String] as PropType<Function | string>,
       default: identity
     },
     /**
      * Function to apply to format y axis ticks
      */
     yAxisTickFormat: {
-      type: [Function, String],
+      type: [Function, String] as PropType<Function | string>,
       default: identity
     },
     /**
      * Definition of y axis ticks
      */
     yAxisTicks: {
-      type: [Number, Object],
+      type: [Number, Object] as PropType<number | object>,
       default: 5
     },
     /**
      * Sort columns by one or several keys.
      */
     sortBy: {
-      type: [Array, String],
+      type: [Array, String] as PropType<string | string[]>,
       default: null
     },
     /**
      * Key to use for timeseries
      */
     timeseriesKey: {
-      type: String,
+      type: String as PropType<string>,
       default: 'date'
     },
     /**
      * Set max value instead of extracting it from the data.
      */
     maxValue: {
-      type: Number,
+      type: Number as PropType<number>,
       default: null
     },
     /**
      * Set the maximum width of a tooltip
      */
     maxTooltipWidth: {
-      type: Number,
+      type: Number as PropType<number>,
       default: 200
     },
     /**
      * Set the maximum height of a tooltip
      */
     maxTooltipHeight: {
-      type: Number,
+      type: Number as PropType<number>,
       default: 200
     },
     /**
      * Hide bar tooltips
      */
     noTooltips: {
-      type: Boolean
+      type: Boolean as PropType<boolean>
     },
     /**
      * Hide x axis
      */
     noXAxis: {
-      type: Boolean
+      type: Boolean as PropType<boolean>
     },
     /**
      * Hide y axis
      */
     noYAxis: {
-      type: Boolean
+      type: Boolean as PropType<boolean>
     },
     /**
      * Bar padding as a portion of each bar width
      */
     barPadding: {
-      type: Number,
+      type: Number as PropType<number>,
       default: 0.35
     },
     /**
      * Bar margin in pixel
      */
     barMargin: {
-      type: Number,
+      type: Number as PropType<number>,
       default: 0
     },
     /**
      * A list of highlighted key
      */
     highlights: {
-      type: Array,
+      type: Array as PropType<string[]>,
       default: () => []
     }
   },
@@ -227,13 +224,13 @@ export default {
     }
   },
   computed: {
-    sortedData() {
+    sortedData(): any[] {
       if (!this.loadedData) {
         return []
       }
       return !this.sortBy ? this.loadedData : sortBy(this.sortedData, this.sortBy)
     },
-    labelWidth() {
+    labelWidth(): number {
       if (this.fixedLabelWidth) {
         return this.fixedLabelWidth
       }
@@ -241,22 +238,22 @@ export default {
       const defaultWidth = 100
       return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
-    labelHeight() {
+    labelHeight(): number {
       const selector = '.column-chart__axis--y .tick text'
       const defaultHeight = 10
       return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
-    bucketHeight() {
+    bucketHeight(): number {
       const selector = '.column-chart__axis--x .tick text'
       const defaultHeight = 10
       return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
-    bucketWidth() {
+    bucketWidth(): number {
       const selector = '.column-chart__axis--x .tick text'
       const defaultWidth = 100
       return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
-    margin() {
+    margin(): { left: number; right: number; top: number; bottom: number } {
       return {
         left: this.noYAxis ? 0 : this.labelWidth + 10,
         right: 0,
@@ -264,64 +261,65 @@ export default {
         bottom: this.noXAxis ? 0 : this.bucketHeight + 10
       }
     },
-    padded() {
+    padded(): { width: number; height: number } {
       const width = this.width - this.margin.left - this.margin.right
       const height = this.height - this.margin.top - this.margin.bottom
       return { width, height }
     },
-    scale() {
-      const x = d3
+    scaleX(): d3.ScaleBand<string> {
+      return d3
         .scaleBand()
         .domain(this.sortedData.map((d) => d[this.timeseriesKey]))
         .range([0, this.padded.width])
         .padding(this.barPadding)
-
-      const maxValue = this.maxValue || d3.max(this.sortedData, (d) => d[this.seriesName])
-
-      const y = d3.scaleLinear().domain([0, maxValue]).range([this.padded.height, 0])
-
-      return { x, y }
     },
-    bars() {
-      return this.sortedData.map((datum) => {
+    scaleY(): d3.ScaleLinear<number, number> {
+      const maxValue = this.maxValue || d3.max(this.sortedData, (d) => d[this.seriesName])
+      return d3.scaleLinear().domain([0, maxValue]).range([this.padded.height, 0])
+    },
+    bars(): any[] {
+      return this.sortedData.map((datum: any) => {
         return {
           datum,
-          width: Math.max(1, Math.abs(this.scale.x.bandwidth()) - this.barMargin),
-          height: Math.abs(this.padded.height - this.scale.y(datum[this.seriesName])),
-          x: this.scale.x(datum[this.timeseriesKey]) + this.barMargin / 2,
-          y: this.scale.y(datum[this.seriesName])
+          width: Math.max(1, Math.abs(this.scaleX.bandwidth()) - this.barMargin),
+          height: Math.abs(this.padded.height - this.scaleY(datum[this.seriesName])),
+          x: this.scaleX(datum[this.timeseriesKey]) ?? 0 + this.barMargin / 2,
+          y: this.scaleY(datum[this.seriesName]) ?? 0
         }
       })
     },
-    discreteKeys() {
+    discreteKeys(): string[] {
       if (!this.loadedData) {
         return []
       }
       return without(keys(this.loadedData[0]), this.timeseriesKey)
     },
-    xAxisHiddenTicks() {
+    xAxisHiddenTicks(): number {
       if (!this.xAxisTickCollapse) {
         return 0
       }
-      return d3.range(1, this.sortedData.length).find(mod => {
+
+      const hiddenTicks = d3.range(1, this.sortedData.length).find((mod) => {
         const bucketWidth = this.bucketWidth * 1.5
         return this.width / (bucketWidth / mod) >= this.sortedData.length
       })
+
+      return hiddenTicks ?? this.sortedData.length
     },
-    xAxisTickValues() {
+    xAxisTickValues(): string[] {
       return this.sortedData.map((datum, i) => {
         return (i + 1) % this.xAxisHiddenTicks ? null : datum[this.timeseriesKey]
       })
     },
-    xAxis() {
+    xAxis(): d3.Axis<string> {
       return d3
-        .axisBottom(this.scale.x)
+        .axisBottom(this.scaleX)
         .tickFormat((d) => this.$options.filters.d3Formatter(d, this.xAxisTickFormat))
         .tickValues(this.xAxisTickValues)
     },
-    yAxis() {
+    yAxis(): d3.Axis<d3.NumberValue> {
       return d3
-        .axisLeft(this.scale.y)
+        .axisLeft(this.scaleY)
         .tickFormat((d) => this.$options.filters.d3Formatter(d, this.yAxisTickFormat))
         .ticks(this.yAxisTicks)
     }
@@ -352,8 +350,8 @@ export default {
       this.update()
     },
     setSizes() {
-      this.width = this.$el.offsetWidth
-      this.height = this.fixedHeight !== null ? this.fixedHeight : this.$el.offsetWidth * this.baseHeightRatio
+      this.width = (this.$el as HTMLElement)?.offsetWidth ?? 0
+      this.height = this.fixedHeight !== null ? this.fixedHeight : this.width * this.baseHeightRatio
       this.update()
     },
     initialize() {
@@ -369,19 +367,15 @@ export default {
       this.$emit('select', datum)
     },
     update() {
-      d3.select(this.$el)
-        .select('.column-chart__axis--x')
-          .call(this.xAxis)
-          .select('.domain')
-            .remove()
+      d3.select(this.$el).select('.column-chart__axis--x').call(this.xAxis).select('.domain').remove()
 
       d3.select(this.$el)
         .select('.column-chart__axis--y')
-          .call(this.yAxis)
-          .selectAll('.tick line')
-          .attr('x2', this.padded.width)
+        .call(this.yAxis)
+        .selectAll('.tick line')
+        .attr('x2', this.padded.width)
     },
-    barTooltipTransform({ x = 0, y = 0, width = 0 } = {}) {
+    barTooltipTransform({ x = 0, y = 0, width = 0 } = {}): string {
       const flipX = x > this.padded.width / 2
       const flipY = y < this.padded.height / 2
       const tooltipX = x + (flipX ? -this.maxTooltipWidth : width)
@@ -396,11 +390,11 @@ export default {
         'column-chart__tooltips__item--flip-y': flipY
       }
     },
-    highlighted(datum) {
+    highlighted(datum: any): boolean {
       return datum.highlight || this.highlights.includes(datum[this.timeseriesKey])
     }
   }
-}
+})
 </script>
 
 <style lang="scss">
