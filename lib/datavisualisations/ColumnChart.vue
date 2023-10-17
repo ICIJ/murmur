@@ -350,10 +350,6 @@ export default defineComponent({
       this.height = this.fixedHeight !== null ? this.fixedHeight : this.width * this.baseHeightRatio
       this.update()
     },
-    initialize() {
-      d3.axisLeft().scale(this.scale.y)
-      d3.axisBottom().scale(this.scale.x)
-    },
     select({ datum }) {
       /**
        * Fired when a column is selected
