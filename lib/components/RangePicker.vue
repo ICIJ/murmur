@@ -279,7 +279,7 @@ export default defineComponent({
 
   @each $color, $value in $theme-colors {
     &--#{$color} {
-      --bg: #{$value};
+      --bg: var(--#{color}, #{$value});
       --fg: #{color-yiq($value)};
     }
   }
