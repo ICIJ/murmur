@@ -1,0 +1,1 @@
+const o={displayName:"FollowUsPopover",description:"FollowUsPopover",tags:{},exportName:"default",events:[{name:"update:show",description:"Fired when user click on the `close` button",type:{names:["boolean"]}}],sourceFiles:["/home/promera/Repositories/murmur/lib/components/FollowUsPopover.vue"]};export{o as default};
