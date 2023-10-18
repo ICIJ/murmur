@@ -2,7 +2,7 @@
   <div
     class="column-chart"
     :style="{ '--column-color': columnColor, '--column-highlight-color': columnHighlightColor }"
-    :class="{ 
+    :class="{
       'column-chart--has-highlights': dataHasHighlights,
       'column-chart--hover': hover,
       'column-chart--stripped': stripped,
@@ -27,11 +27,7 @@
           :style="{ transform: `translate(${bar.x}px, 0px)` }"
           @click="select(bar)"
         >
-          <rect
-            class="column-chart__columns__item__placeholder"
-            :width="bar.width"
-            :height="padded.height"
-          />
+          <rect class="column-chart__columns__item__placeholder" :width="bar.width" :height="padded.height" />
           <rect
             class="column-chart__columns__item__bar"
             :width="bar.width"
@@ -80,7 +76,6 @@ import { iteratee, identity, keys, sortBy, without } from 'lodash'
 import * as d3 from 'd3'
 
 import chart from '../mixins/chart'
-import { Prop } from 'vue/types/v3-component-props'
 
 export default defineComponent({
   name: 'ColumnChart',
@@ -266,11 +261,17 @@ export default defineComponent({
       return this.elementsMaxBBox({ selector, defaultWidth }).width
     },
     labelHeight(): number {
+      if (this.noYAxis) {
+        return 0
+      }
       const selector = '.column-chart__axis--y .tick text'
       const defaultHeight = 10
       return this.elementsMaxBBox({ selector, defaultHeight }).height
     },
     bucketHeight(): number {
+      if (this.noXAxis) {
+        return 0
+      }
       const selector = '.column-chart__axis--x .tick text'
       const defaultHeight = 10
       return this.elementsMaxBBox({ selector, defaultHeight }).height
