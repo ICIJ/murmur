@@ -303,7 +303,7 @@ describe('ColumnChart.vue', () => {
       expect(visibleTooltips).toHaveLength(0)
     })
 
-    it.only('should have one tooltip visible after the mouse overs a column', async () => {
+    it('should have one tooltip visible after the mouse overs a column', async () => {
       wrapper.findAll('.column-chart__columns__item').at(0).trigger('mouseover')
       await wrapper.vm.$nextTick()
       const visibleTooltips = wrapper.findAll('.column-chart__tooltips__item__wrapper')
