@@ -22,7 +22,7 @@ export default defineComponent({
         const relative = binding.modifiers?.relative ?? false
 
         // Emit an event to the parent component
-        function emitEvent({ name, data }: { name: string; data: any }) {
+        function emitEvent({ name, data = null }: { name: string; data?: any }) {
           const handlers = get(vnode, 'data.on') ?? get(vnode, 'componentOptions.listeners')
 
           if (has(handlers, name)) {
@@ -42,6 +42,7 @@ export default defineComponent({
 
         // Clean up listeners once the dragging ends
         function end(event: MouseEvent | TouchEvent) {
+          emitEvent({ name: 'ended' })
           if (event instanceof MouseEvent) {
             document.removeEventListener('mousemove', move)
             document.removeEventListener('mouseup', end)
@@ -53,6 +54,7 @@ export default defineComponent({
 
         // Register listeners when dragging start
         function start(event: MouseEvent | TouchEvent) {
+          emitEvent({ name: 'started' })
           startX = el.offsetLeft
           if (event instanceof MouseEvent) {
             initialClientX = event.clientX
@@ -150,7 +152,9 @@ export default defineComponent({
   data() {
     return {
       start: this.value[0] ?? 0,
-      end: this.value[1] ?? 1
+      end: this.value[1] ?? 1,
+      moving: false,
+      resizing: false
     }
   },
   computed: {
@@ -186,7 +190,9 @@ export default defineComponent({
         [`range-picker--${this.variant}`]: !!this.variant,
         'range-picker--hover': this.hover,
         'range-picker--disabled': this.disabled,
-        'range-picker--rounded': this.rounded
+        'range-picker--rounded': this.rounded,
+        'range-picker--resizing': this.resizing,
+        'range-picker--moving': this.moving
       }
     }
   },
@@ -200,6 +206,12 @@ export default defineComponent({
     library.add(faGripLinesVertical)
   },
   methods: {
+    toggleMoving(value?: boolean) {
+      this.moving = value ?? !this.moving
+    },
+    toggleResizing(value?: boolean) {
+      this.resizing = value ?? !this.resizing
+    },
     snapValue(value: number): number {
       return round(value / this.snap) * this.snap
     },
@@ -254,13 +266,36 @@ export default defineComponent({
 
 <template>
   <div class="range-picker" :class="classList">
-    <slot />
+    <div class="range-picker__wrapper">
+      <slot />
+    </div>
     <div v-show="!disabled" class="range-picker__bounds" :style="boundsStyle">
-      <div v-draggable.relative class="range-picker__bounds__overlay" :style="overlayStyle" @dragged="dragBounds"></div>
-      <button v-draggable :style="startBoundStyle" class="range-picker__bounds__start btn" @dragged="dragStartBound">
+      <div
+        v-draggable.relative
+        class="range-picker__bounds__overlay"
+        :style="overlayStyle"
+        @dragged="dragBounds"
+        @started="toggleMoving(true)"
+        @ended="toggleMoving(false)"
+      ></div>
+      <button
+        v-draggable
+        :style="startBoundStyle"
+        class="range-picker__bounds__start btn"
+        @dragged="dragStartBound"
+        @started="toggleResizing(true)"
+        @ended="toggleResizing(false)"
+      >
         <fa icon="fa-grip-lines-vertical" fixed-width />
       </button>
-      <button v-draggable class="range-picker__bounds__end btn" :style="endBoundStyle" @dragged="dragEndBound">
+      <button
+        v-draggable
+        class="range-picker__bounds__end btn"
+        :style="endBoundStyle"
+        @dragged="dragEndBound"
+        @started="toggleResizing(true)"
+        @ended="toggleResizing(false)"
+      >
         <fa icon="fa-grip-lines-vertical" fixed-width />
       </button>
     </div>
@@ -300,6 +335,28 @@ export default defineComponent({
     border-radius: inherit;
   }
 
+  &--moving &__wrapper,
+  &--resizing &__wrapper{
+    &,
+    * {
+      pointer-events: none;
+    }
+  }
+
+  &--moving,
+  &__bounds__overlay,
+  &--moving &__bounds__start.btn:not(:disabled):not(.disabled),
+  &--moving &__bounds__end.btn:not(:disabled):not(.disabled) {
+    cursor: move;
+  }
+
+  &--resizing,
+  &--resizing &__bounds__overlay,
+  &__bounds__start.btn:not(:disabled):not(.disabled),
+  &__bounds__end.btn:not(:disabled):not(.disabled) {
+    cursor: col-resize;
+  }
+
   &__bounds {
     pointer-events: none;
     position: absolute;
@@ -308,7 +365,6 @@ export default defineComponent({
     border-radius: inherit;
 
     &__overlay {
-      cursor: move;
       pointer-events: all;
       position: absolute;
       top: 0;
@@ -345,10 +401,6 @@ export default defineComponent({
       background: var(--bg);
       color: var(--fg);
       transform: translate(-50%, -50%);
-
-      &.btn:not(:disabled):not(.disabled) {
-        cursor: col-resize;
-      }
 
       &:hover,
       &:active {
