@@ -26,16 +26,11 @@
           :class="{ 'column-chart__columns__item--highlight': highlighted(bar.datum) }"
           :style="{ transform: `translate(${bar.x}px, 0px)` }"
           @click="select(bar)"
+          @mouseover="shownTooltip = index"
+          @mouseleave="shownTooltip = -1"
         >
           <rect class="column-chart__columns__item__placeholder" :width="bar.width" :height="padded.height" />
-          <rect
-            class="column-chart__columns__item__bar"
-            :width="bar.width"
-            :height="bar.height"
-            :y="bar.y"
-            @mouseover="shownTooltip = index"
-            @mouseleave="shownTooltip = -1"
-          />
+          <rect class="column-chart__columns__item__bar" :width="bar.width" :height="bar.height" :y="bar.y" />
         </g>
       </g>
       <g
