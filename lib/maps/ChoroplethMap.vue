@@ -341,7 +341,7 @@ export default {
       this.featureZoom = get(d, this.topojsonObjectsPath)
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
-      const scale = Math.min(8, 0.9 / Math.max((x) / width, (y1 - y0) / height))
+      const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
       const zoomIdentity = d3.zoomIdentity
         .translate(width / 2, height / 2)
         .scale(scale)
