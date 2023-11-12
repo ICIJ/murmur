@@ -10,6 +10,14 @@ import chart from '../mixins/chart'
 
 export default {
   name: 'ChoroplethMap',
+  provide() {
+    const parent = {}
+    Object.defineProperty(parent, "map", { enumerable: true, get: () => this.map })
+    Object.defineProperty(parent, "mapProjection", { enumerable: true, get: () => this.mapProjection })
+    Object.defineProperty(parent, "mapRect", { enumerable: true, get: () => this.mapRect })
+    Object.defineProperty(parent, "mapTransform", { enumerable: true, get: () => this.mapTransform })
+    return { parent }
+  },
   components: {
     ScaleLegend
   },
@@ -77,12 +85,14 @@ export default {
   },
   data() {
     return {
+      mapTransform: { k: 1, x: 0, y: 0 },
       mapRect: { width: 0, height: 0 },
       featureCursor: null,
-      featureZoom: null
+      featureZoom: null,
+      topojson: null,
+      topojsonPromise: null
     }
   },
-  topojson: null,
   computed: {
     featureColorScaleEnd() {
       if (this.mounted) {
@@ -138,9 +148,6 @@ export default {
     hasZoom() {
       return !!this.featureZoom
     },
-    topojson() {
-      return this.$options.topojson
-    },
     geojson() {
       const object = get(this.topojson, ['objects', this.topojsonObjects], null)
       return feature(this.topojson, object)
@@ -195,6 +202,9 @@ export default {
     },
     cursorValue() {
       return get(this, ['data', this.featureCursor], null)
+    },
+    isReady() {
+      return this.loadedData && this.mounted && this.topojson
     }
   },
   watch: {
@@ -225,7 +235,7 @@ export default {
       // Set the map sizes
       this.$set(this, 'mapRect', this.map.node().getBoundingClientRect())
       // Remove any existing country
-      this.map.selectAll('g').remove()
+      this.map.selectAll('g.choropleth-map__main__features').remove()
       // Return the map to allow chaining
       return this.map
     },
@@ -242,7 +252,7 @@ export default {
     draw() {
       // Bind geojson features to path
       this.prepare()
-        .append('g')
+        .insert('g', ':first-child')
         .attr('class', 'choropleth-map__main__features')
         .selectAll('.choropleth-map__main__features__item')
         .data(this.geojson.features)
@@ -287,15 +297,15 @@ export default {
       this.featureCursor = id in this.loadedData ? id : null
     },
     async loadTopojson() {
-      if (!this.$options.topojsonPromise) {
-        this.$options.topojsonPromise = d3.json(this.topojsonUrl)
-        this.$options.topojson = await this.$options.topojsonPromise
+      if (!this.topojsonPromise) {
+        this.topojsonPromise = d3.json(this.topojsonUrl)
+        this.topojson = await this.topojsonPromise
       }
-      return this.$options.topojsonPromise
+      return this.topojsonPromise
     },
     mapZoomed({ transform }) {
+      this.mapTransform = transform
       this.map
-        .style('--map-scale', transform.k)
         .selectAll('.choropleth-map__main__features__item')
         .attr('transform', transform)
     },
@@ -322,8 +332,8 @@ export default {
       this.$emit('zoomed', d)
     },
     resetZoom() {
+      this.mapTransform = { k: 1, x: 0, y: 0 }
       this.map
-        .style('--map-scale', 1)
         .transition()
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, d3.zoomIdentity)
@@ -342,12 +352,14 @@ export default {
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
       const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
+      const translateX = -(x0 + x1) / 2
+      const translateY = -(y0 + y1) / 2
       const zoomIdentity = d3.zoomIdentity
         .translate(width / 2, height / 2)
         .scale(scale)
-        .translate(-(x0 + x1) / 2, -(y0 + y1) / 2)
+        .translate(translateX, translateY)
+      this.mapTransform = { k: scale, x: translateX, y: translateY }
       return this.map
-        .style('--map-scale', scale)
         .transition()
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, zoomIdentity, pointer)
@@ -357,10 +369,10 @@ export default {
       const zoomScale = clamp(zoom, this.minZoom, this.maxZoom)
       const { height, width } = this.mapRect
       const [x, y] = this.mapProjection(this.mapCenter)
-      const translate = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
-      const zoomIdentity = d3.zoomIdentity.translate(translate[0], translate[1]).scale(zoomScale)
+      const [translateX, translateY] = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
+      const zoomIdentity = d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale)
+      this.mapTransform = { k: scale, x: translateX, y: translateY }
       return this.map
-        .style('--map-scale', zoomScale)
         .transition()
         .duration(transitionDuration)
         .call(this.mapZoom.transform, zoomIdentity)
@@ -371,15 +383,16 @@ export default {
 </script>
 
 <template>
-  <div class="choropleth-map" :class="mapClass">
+  <div class="choropleth-map" :class="mapClass" :style="{ '--map-scale': mapTransform.k }">
     <svg class="choropleth-map__main">
       <pattern id="diagonalHatch" width="1" height="1" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
         <rect width="1" height="1" :fill="featureColorScaleEnd" />
         <line x1="0" y1="0" x2="0" y2="1" :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }" />
       </pattern>
+      <slot v-if="isReady" />
     </svg>
     <scale-legend
-      v-if="!hideLegend && loadedData && mounted"
+      v-if="!hideLegend && isReady"
       :color-scale-end="featureColorScaleEnd"
       :color-scale-start="featureColorScaleStart"
       :color-scale="featureColorScaleFunction"
@@ -399,6 +412,7 @@ export default {
 @import '../styles/lib';
 
 .choropleth-map {
+  --map-scale: 1;
   position: relative;
 
   &__main {

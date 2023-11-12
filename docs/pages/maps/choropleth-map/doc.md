@@ -53,7 +53,7 @@ identify a location):
     :data="wineStockByDepartment"
     clickable
     zoomable
-    topojson-url="/assets/topojson/france-departments.json"
+    topojson-url="./assets/topojson/france-departments.json"
     topojson-objects="departements"
     topojson-objects-path="properties.code">
     <template #legend-cursor="{ value, identifier }">      
@@ -61,7 +61,9 @@ identify a location):
         <span v-html="`${value.toLocaleString()} hl`"></span>
       </div>
     </template>
-  </choropleth-map>
+    <choropleth-map-annotation :latitude="44.836151" :longitude="-0.580816" placement="righttop" class="text-center">
+      Bordeaux<br /><img src="/assets/img/arrow-bottom.svg" width="16px" />
+    </choropleth-map-annotation>
   <p class="text-right">
     <a href="https://www.data.gouv.fr/fr/datasets/campagnes-viti-vinicoles-depuis-2011/">
       Source
