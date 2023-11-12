@@ -22,11 +22,7 @@ By default, ChoroplethMap builds a map of the world.
 All you have to do is to pass an object with ISO3 code as keys and the value for
 each country:
 
-<collapsible-block label="Show the data structure">
-```json
-{{ motorVehiclesPer1000people }}
-```
-</collapsible-block>
+<collapsible-block label="Show the data structure" :json="motorVehiclesPer1000people" />
 
 You can use a custom function to colorize the map features:
 
@@ -75,11 +71,7 @@ identify a location):
 </div>
 :::
 
-<collapsible-block label="Show the data structure">
-```json
-{{ wineStockByDepartment }}
-```
-</collapsible-block>
+<collapsible-block label="Show the data structure" :json="wineStockByDepartment" />
 
 
 
