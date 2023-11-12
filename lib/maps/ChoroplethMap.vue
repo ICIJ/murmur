@@ -342,7 +342,7 @@ export default {
       </pattern>
     </svg>
     <scale-legend
-      v-if="!hideLegend"
+      v-if="!hideLegend && loadedData && mounted"
       :color-scale-end="featureColorScaleEnd"
       :color-scale-start="featureColorScaleStart"
       :color-scale="featureColorScaleFunction"
