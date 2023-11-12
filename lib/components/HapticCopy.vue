@@ -56,12 +56,14 @@ const TOOLTIPS_PLACEMENTS = [
   'lefttop',
   'leftbottom'
 ]
+
 type HapticCopyData = {
   mounted: boolean
   succeed: boolean
   tooltipContent: TranslateResult | string
   tooltipTimeout: ReturnType<typeof setTimeout> | undefined
 }
+
 export default defineComponent({
   i18n,
   name: 'HapticCopy',
