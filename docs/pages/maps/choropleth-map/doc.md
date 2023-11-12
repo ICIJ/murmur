@@ -7,11 +7,12 @@ By default, ChoroplethMap builds a map of the world.
 :::sample-card
 <div class="bg-light p-4">
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
-  <choropleth-map :data="motorVehiclesPer1000people" hatch-empty />
+  <choropleth-map 
+      :data="motorVehiclesPer1000people" 
+      :transition-duration="0"
+      zoomable
+      hatch-empty />
   <p class="text-right">
-    <b-form-checkbox v-model="motorVehiclesInEurope" class="d-inline-block">
-      Only in Europe
-    </b-form-checkbox> | 
     <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
       Source
     </a>
@@ -86,24 +87,12 @@ export default {
         .domain([100, 300, 700])
         .range(["#ffffcc","#c2e699","#78c679", "#238443"]);
       return scale
-    },
-    motorVehiclesPer1000people () {
-      if (this.motorVehiclesInEurope) {
-        return this.motorVehiclesPer1000peopleInEurope
-      }
-      return this.motorVehiclesPer1000peopleInWorld
-    },
-    motorVehiclesPer1000peopleInEurope () {
-      return pick(this.motorVehiclesPer1000peopleInWorld, this.europeanCountries)
-    },
-    europeanCountries () {
-      return ["AUT","BEL","BGR","HRV","CYP","CZE","DNK","EST","FIN","FRA","DEU","GRC","HUN","IRL","ITA","LVA","LTU","LUX","MLT","NLD","POL","PRT","ROU","SVK","SVN","ESP","SWE","GBR"]
     }
   },
   data () {
     return {   
       motorVehiclesInEurope: false,   
-      motorVehiclesPer1000peopleInWorld: {
+      motorVehiclesPer1000people: {
         "SMR": 1263,
         "MCO": 899,
         "USA": 797,

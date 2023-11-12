@@ -1,7 +1,7 @@
 <script>
 import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
-import { debounce, get, kebabCase, keys, max, min, pickBy, values } from 'lodash'
+import { debounce, clamp, get, kebabCase, keys, max, min, pickBy, values } from 'lodash'
 import { feature } from 'topojson'
 
 import config from '../config'
@@ -65,6 +65,14 @@ export default {
     zoomMax: {
       type: Number,
       default: 8
+    },
+    zoom: {
+      type: Number,
+      default: null
+    },
+    center: {
+      type: Array,
+      default: null
     }
   },
   data() {
@@ -113,6 +121,14 @@ export default {
         .domain([Math.max(1, this.minValue), this.maxValue])
         .range([this.featureColorScaleStart, this.featureColorScaleEnd])
     },
+    initialFeaturePath() {
+      return d3.geoPath().projection(this.initialMapProjection)
+    },
+    initialMapProjection() {
+      let p = this.mapProjection
+      p = this.center ? p.center(this.center) : p
+      return p
+    },
     featurePath() {
       return d3.geoPath().projection(this.mapProjection)
     },
@@ -139,6 +155,9 @@ export default {
     mapProjection() {
       const { height, width } = this.mapRect
       return geoRobinson().fitSize([width, height], this.geojson)
+    },
+    mapCenter() {
+      return this.mapProjection.center()
     },
     mapZoom() {
       return d3
@@ -211,8 +230,13 @@ export default {
       return this.map
     },
     prepareZoom() {
+      // User can zoom on the map
       if (this.zoomable) {
         this.map.call(this.mapZoom)
+      }
+      // An intial zoom value is given
+      if (this.zoom) {
+        this.setZoom(this.zoom)
       }
     },
     draw() {
@@ -226,7 +250,7 @@ export default {
         .enter()
         .append('path')
         .attr('class', this.featureClass)
-        .attr('d', this.featurePath)
+        .attr('d', this.initialFeaturePath)
         .on('mouseover', this.featureMouseOver)
         .on('mouseleave', this.featureMouseLeave)
         .on('click', this.mapClicked)
@@ -317,7 +341,7 @@ export default {
       this.featureZoom = get(d, this.topojsonObjectsPath)
       const { height, width } = this.mapRect
       const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
-      const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
+      const scale = Math.min(8, 0.9 / Math.max((x) / width, (y1 - y0) / height))
       const zoomIdentity = d3.zoomIdentity
         .translate(width / 2, height / 2)
         .scale(scale)
@@ -327,6 +351,19 @@ export default {
         .transition()
         .duration(this.transitionDuration)
         .call(this.mapZoom.transform, zoomIdentity, pointer)
+        .end()
+    },
+    setZoom(zoom, transitionDuration = this.transitionDuration) {
+      const zoomScale = clamp(zoom, this.minZoom, this.maxZoom)
+      const { height, width } = this.mapRect
+      const [x, y] = this.mapProjection(this.mapCenter)
+      const translate = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
+      const zoomIdentity = d3.zoomIdentity.translate(translate[0], translate[1]).scale(zoomScale)
+      return this.map
+        .style('--map-scale', zoomScale)
+        .transition()
+        .duration(transitionDuration)
+        .call(this.mapZoom.transform, zoomIdentity)
         .end()
     }
   }
