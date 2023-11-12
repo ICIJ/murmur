@@ -64,6 +64,7 @@ identify a location):
     <choropleth-map-annotation :latitude="44.836151" :longitude="-0.580816" placement="righttop" class="text-center">
       Bordeaux<br /><img src="/assets/img/arrow-bottom.svg" width="16px" />
     </choropleth-map-annotation>
+  </choropleth-map>
   <p class="text-right">
     <a href="https://www.data.gouv.fr/fr/datasets/campagnes-viti-vinicoles-depuis-2011/">
       Source
@@ -74,9 +75,24 @@ identify a location):
 
 <collapsible-block label="Show the data structure" :json="wineStockByDepartment" />
 
+Or with a custom projection:
 
+:::sample-card
+<div class="bg-light p-4">
+  <div class="border border-dark bg-secondary shadow rounded-circle overflow-hidden mx-auto" style="width: 300px; height: 300px;">
+    <choropleth-map hide-legend graticule :projection="geoOrthographic" spherical>
+      <choropleth-map-annotation :latitude="35.167406" :longitude="33.435499" :height="15" :width="15" class="text-center">
+        <div class="border border-primary" style="height: 15px; width: 15px"></div>
+      </choropleth-map-annotation>
+    </choropleth-map>
+  </div>
+</div>
+:::
+
+::: api-table maps/ChoroplethMap.vue :::
 
 <script>
+import { geoOrthographic } from 'd3-geo'
 import { pick } from 'lodash'
 import * as d3 from 'd3'
 
@@ -91,6 +107,7 @@ export default {
   },
   data () {
     return {   
+      geoOrthographic,
       motorVehiclesInEurope: false,   
       motorVehiclesPer1000people: {
         "SMR": 1263,
@@ -387,5 +404,3 @@ export default {
   }
 }
 </script>
-
-::: api-table maps/ChoroplethMap.vue :::

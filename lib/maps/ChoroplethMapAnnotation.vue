@@ -43,13 +43,14 @@ export default {
      */
     placement: {
       type: String,
-      default: PLACEMENTS.RIGHT,
-      validator: (placement) => values(PLACEMENTS).includes(placement)
+      default: null,
+      validator: (p) => p === null || values(PLACEMENTS).includes(p)
     }
   },
   computed: {
     classList() {
       return {
+        'choropleth-map-annotation--center': this.isCenter,
         'choropleth-map-annotation--right': this.isRight,
         'choropleth-map-annotation--left': this.isLeft,
         'choropleth-map-annotation--top': this.isTop,
@@ -125,6 +126,9 @@ export default {
         PLACEMENTS.LEFTBOTTOM,
         PLACEMENTS.RIGHTBOTTOM
       ].includes(this.placement)
+    },
+    isCenter() {
+      return !this.isLeft && !this.isRight && !this.isTop && !this.isBottom
     }
   }
 }
@@ -153,6 +157,7 @@ export default {
 
   &__wrapper {
     height: 100%;
+    width: 100%;
     display: flex;
     text-align: center;
     justify-content: center;
