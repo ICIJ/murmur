@@ -2,12 +2,13 @@ import { promises as fs } from 'fs'
 import { join, resolve } from 'path'
 import { zipObjectDeep } from 'lodash'
 import { shallowMount } from '@vue/test-utils'
+
 import ChoroplethMap from '@/maps/ChoroplethMap.vue'
 
 vi.mock('d3', async () => {
   return {
-    ...await vi.importActual('d3'),
-    json: async url => {
+    ...(await vi.importActual('d3')),
+    json: async (url) => {
       const pathname = url.split('https://icij.github.io/murmur/').pop()
       const abspath = resolve(__dirname, join('../../../public', pathname))
       const raw = await fs.readFile(abspath, 'UTF-8')
@@ -17,9 +18,7 @@ vi.mock('d3', async () => {
 })
 
 describe('ChoroplethMap.vue', () => {
-
   describe('a map of the world', () => {
-
     let wrapper
 
     beforeEach(async () => {
@@ -75,13 +74,13 @@ describe('ChoroplethMap.vue', () => {
       wrapper.setData({ featureCursor: 'KGZ' })
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
       feature.element.dispatchEvent(new Event('mouseleave'))
-      expect(wrapper.vm.featureCursor).toBe(null)
+      expect(wrapper.vm.featureCursor).toBeNull()
     })
 
     it('doesnt actve the cursor when mouse is over a feature without data', () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-usa')
       feature.element.dispatchEvent(new Event('mouseover'))
-      expect(wrapper.vm.featureCursor).toBe(null)
+      expect(wrapper.vm.featureCursor).toBeNull()
     })
 
     it('set a class to the component when a cursor is active', async () => {
@@ -101,9 +100,7 @@ describe('ChoroplethMap.vue', () => {
     })
   })
 
-
   describe('a clickable map of france with data on 3 departments', () => {
-
     let wrapper
 
     beforeEach(async () => {
@@ -114,9 +111,9 @@ describe('ChoroplethMap.vue', () => {
         clickable: true,
         transitionDuration: 0,
         data: {
-          "01": 100,
-          "02": 150,
-          "03": 200
+          '01': 100,
+          '02': 150,
+          '03': 200
         }
       }
       wrapper = shallowMount(ChoroplethMap, { propsData })
@@ -160,7 +157,7 @@ describe('ChoroplethMap.vue', () => {
     it('adds a class to a feature upon click', async () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       feature.element.dispatchEvent(new Event('click'))
-      await new Promise(resolve => wrapper.vm.$on('zoomed', resolve))
+      await new Promise((resolve) => wrapper.vm.$on('zoomed', resolve))
       expect(feature.classes('choropleth-map__main__features__item--zoomed')).toBeTruthy()
     })
 
@@ -168,7 +165,7 @@ describe('ChoroplethMap.vue', () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       feature.element.dispatchEvent(new Event('click'))
       feature.element.dispatchEvent(new Event('click'))
-      await new Promise(resolve => wrapper.vm.$on('zoomed', resolve))
+      await new Promise((resolve) => wrapper.vm.$on('zoomed', resolve))
       expect(feature.classes('choropleth-map__main__features__item--zoomed')).toBeFalsy()
     })
 
