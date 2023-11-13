@@ -77,12 +77,10 @@ Or with a custom projection:
 
 :::sample-card
 <div class="bg-light p-4">
-  <div class="border border-dark bg-secondary shadow rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px;">
-    <choropleth-map hide-legend graticule :projection="geoOrthographic" spherical height="150px" :zoom="1">
-      <choropleth-map-annotation :latitude="35.167406" :longitude="33.435499" :height="15" :width="15" class="text-center">
-        <div class="border border-primary" style="height: 15px; width: 15px"></div>
-      </choropleth-map-annotation>
-    </choropleth-map>
+  <choropleth-map class="shadow rounded-circle overflow-auto border border-dark mx-auto" hide-legend graticule :projection="geoOrthographic" spherical :center="[33.435499, 35.167406]" :zoom="1" height="150px" style="width:150px">
+    <choropleth-map-annotation :latitude="35.167406" :longitude="33.435499" :height="15" :width="15" class="text-center">
+      <div class="border border-primary" style="height: 15px; width: 15px"></div>
+    </choropleth-map-annotation>
   </div>
 </div>
 :::

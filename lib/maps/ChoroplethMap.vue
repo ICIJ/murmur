@@ -86,10 +86,6 @@ export default {
       type: Array,
       default: null
     },
-    rotate: {
-      type: Array,
-      default: null
-    },
     projection: {
       type: Function,
       default: geoRobinson
@@ -113,12 +109,16 @@ export default {
     }
   },
   computed: {
+    sphericalCenter() {
+      const [lng, lat] = this.center
+      return [-lng, -lat]
+    },
     featureColorScaleEnd() {
       if (this.mounted) {
         const computedStyle = window.getComputedStyle(this.map.node())
-        return computedStyle.getPropertyValue('--primary') || '#852308'
+        return computedStyle.getPropertyValue('--primary') || '#f00'
       }
-      return '#852308'
+      return '#f00'
     },
     featureColorScaleStart() {
       // `socialMode` is always different from null but accessing it will make
@@ -160,10 +160,14 @@ export default {
       return this.initialFeaturePath(this.graticuleLines)
     },
     initialMapProjection() {
-      let p = this.mapProjection
-      p = this.center ? p.center(this.center) : p
-      p = this.rotate ? p.rotate(this.rotate) : p
-      return p
+      if (this.center && !this.spherical) {
+        return this.mapProjection.center(this.center)
+      }
+      if (this.center && this.spherical) {
+        const { height, width } = this.mapRect
+        return this.mapProjection.rotate(this.sphericalCenter).fitSize([width, height], this.geojson)
+      }
+      return this.mapProjection
     },
     featurePath() {
       return d3.geoPath().projection(this.mapProjection)
@@ -202,8 +206,11 @@ export default {
         ])
         .on('zoom', this.mapZoomed)
     },
+    mapSphericalZoom() {
+      return d3.zoom(this.map).scaleExtent([this.zoomMin, this.zoomMax]).on('zoom', this.mapSphericalZoomed)
+    },
     mapRotate() {
-      return d3.drag().on('drag', this.mapRotated)
+      return d3.drag(this.map).on('drag', this.mapRotated)
     },
     mapHeight() {
       return this.mapRect.height
@@ -239,6 +246,9 @@ export default {
         return this.min
       }
       return min(values(this.loadedData)) || 0
+    },
+    transformOrigin() {
+      return this.spherical ? '50% 50%' : '0 0'
     },
     cursorValue() {
       return get(this, ['data', this.featureCursor], null)
@@ -283,7 +293,7 @@ export default {
     prepareZoom() {
       // User can zoom on the map
       if (this.zoomable && this.spherical) {
-        this.map.call(this.mapRotate)
+        this.map.call(this.mapRotate).call(this.mapSphericalZoom)
       } else if (this.zoomable) {
         this.map.call(this.mapZoom)
       }
@@ -304,6 +314,7 @@ export default {
       this.map
         .insert('g', ':first-child')
         .attr('class', 'choropleth-map__main__graticule')
+        .attr('transform-origin', this.transformOrigin)
         .append('path')
         .attr('d', this.initialGraticulePath)
         .attr('fill', 'none')
@@ -313,6 +324,7 @@ export default {
       this.map
         .insert('g', ':first-child')
         .attr('class', 'choropleth-map__main__features')
+        .attr('transform-origin', this.transformOrigin)
         .selectAll('.choropleth-map__main__features__item')
         // Bind geojson features to path
         .data(this.geojson.features)
@@ -361,6 +373,12 @@ export default {
         this.topojson = await this.topojsonPromise
       }
       return this.topojsonPromise
+    },
+    mapSphericalZoomed({ transform: { k } }) {
+      const transform = `scale(${k})`
+      this.mapTransform = { ...this.mapTransform, k }
+      this.map.selectAll('.choropleth-map__main__features').attr('transform', transform)
+      this.map.selectAll('.choropleth-map__main__graticule').attr('transform', transform)
     },
     mapZoomed({ transform }) {
       this.mapTransform = transform
@@ -436,11 +454,18 @@ export default {
     setZoom(zoom, transitionDuration = this.transitionDuration) {
       const zoomScale = clamp(zoom, this.minZoom, this.maxZoom)
       const { height, width } = this.mapRect
-      const [x, y] = this.mapProjection(this.mapCenter)
-      const [translateX, translateY] = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
-      const zoomIdentity = d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale)
-      this.mapTransform = { k: zoomScale, x: translateX, y: translateY }
-      return this.map.transition().duration(transitionDuration).call(this.mapZoom.transform, zoomIdentity).end()
+      if (this.spherical) {
+        const [x, y] = this.mapProjection(this.mapCenter)
+        const zoomIdentity = d3.zoomIdentity.scale(zoomScale)
+        this.mapTransform = { ...this.mapTransform, k: zoomScale }
+        return this.map.transition().duration(transitionDuration).call(this.mapZoom.transform, zoomIdentity).end()
+      } else {
+        const [x, y] = this.mapProjection(this.mapCenter)
+        const [translateX, translateY] = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
+        const zoomIdentity = d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale)
+        this.mapTransform = { k: zoomScale, x: translateX, y: translateY }
+        return this.map.transition().duration(transitionDuration).call(this.mapZoom.transform, zoomIdentity).end()
+      }
     }
   }
 }
