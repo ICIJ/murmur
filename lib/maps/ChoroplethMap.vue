@@ -96,6 +96,10 @@ export default {
     },
     graticule: {
       type: Boolean
+    },
+    height: {
+      type: String,
+      default: '300px'
     }
   },
   data() {
@@ -210,6 +214,7 @@ export default {
     mapStyle() {
       const { k = 0, x = 0, y = 0, rotateX = 0, rotateY = 0 } = this.mapTransform
       return { 
+        '--map-height': this.height,
         '--map-scale': k,
         '--map-translate-x': x,
         '--map-translate-y': y,
@@ -473,8 +478,7 @@ export default {
 
   &__main {
     color: #fff;
-    min-height: 300px;
-    height: 100%;
+    height: var(--map-height, 300px);
     width: 100%;
 
     .chart--social-mode & {
