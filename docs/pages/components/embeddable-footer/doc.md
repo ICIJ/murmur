@@ -16,6 +16,18 @@ Main slot is displayed as "lead" text:
 </div>
 :::
 
+A title slot can also be provider:
+
+::: sample-card
+<div class="p-4">
+  <embeddable-footer class="position-relative card">
+    <template #title>
+      <span class="small">Demo<br />Project</span>
+    </template>
+  </embeddable-footer>
+</div>
+:::
+
 This can be used for more complex structures:
 
 ::: sample-card
