@@ -288,21 +288,28 @@ export default {
         this.map.call(this.mapZoom)
       }
       // An intial zoom value is given
-      this.setZoom(this.zoom ?? 1, 0)
+      if (this.zoom) {
+        this.setZoom(this.zoom, 0)
+      }
     },
     draw() {
       this.prepare()
-
       if (this.graticule) {
-        this.map
-          .insert('g', ':first-child')
-          .attr('class', 'choropleth-map__main__graticule')
-          .append('path')
-          .attr('d', this.initialGraticulePath)
-          .attr('fill', 'none')
-          .attr('stroke', 'currentColor')
+        this.drawGraticule()
       }
-
+      this.drawFeatures()
+      this.prepareZoom()
+    },
+    drawGraticule() {
+      this.map
+        .insert('g', ':first-child')
+        .attr('class', 'choropleth-map__main__graticule')
+        .append('path')
+        .attr('d', this.initialGraticulePath)
+        .attr('fill', 'none')
+        .attr('stroke', 'currentColor')
+    },
+    drawFeatures() {
       this.map
         .insert('g', ':first-child')
         .attr('class', 'choropleth-map__main__features')
@@ -318,8 +325,6 @@ export default {
         .on('mouseleave', this.featureMouseLeave)
         .on('click', this.mapClicked)
         .style('color', this.featureColor)
-
-      this.prepareZoom()
     },
     update() {
       // Bind geojson features to path
@@ -442,7 +447,7 @@ export default {
 </script>
 
 <template>
-  <div class="choropleth-map" :class="mapClass" :style="mapStyle">
+  <div class="choropleth-map" :class="mapClass" :style="mapStyle" @click="draw">
     <svg class="choropleth-map__main">
       <pattern id="diagonalHatch" width="1" height="1" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
         <rect width="1" height="1" :fill="featureColorScaleEnd" />
@@ -478,7 +483,8 @@ export default {
 
   &__main {
     color: #fff;
-    height: var(--map-height, 300px);
+    min-height: var(--map-height, 300px);
+    height: 100%;
     width: 100%;
 
     .chart--social-mode & {

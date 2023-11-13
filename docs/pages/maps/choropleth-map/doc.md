@@ -7,9 +7,7 @@ By default, ChoroplethMap builds a map of the world.
 :::sample-card
 <div class="bg-light p-4">
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
-  <choropleth-map 
-      :data="motorVehiclesPer1000people"
-      hatch-empty />
+  <choropleth-map  :data="motorVehiclesPer1000people" hatch-empty />
   <p class="text-right">
     <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
       Source
@@ -79,8 +77,8 @@ Or with a custom projection:
 
 :::sample-card
 <div class="bg-light p-4">
-  <div class="border border-dark bg-secondary shadow rounded-circle overflow-hidden mx-auto" style="width: 100px; height: 100px;">
-    <choropleth-map hide-legend graticule :projection="geoOrthographic" spherical height="100px">
+  <div class="border border-dark bg-secondary shadow rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px;">
+    <choropleth-map hide-legend graticule :projection="geoOrthographic" spherical height="150px" :zoom="1">
       <choropleth-map-annotation :latitude="35.167406" :longitude="33.435499" :height="15" :width="15" class="text-center">
         <div class="border border-primary" style="height: 15px; width: 15px"></div>
       </choropleth-map-annotation>
