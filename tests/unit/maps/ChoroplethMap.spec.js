@@ -13,6 +13,15 @@ vi.mock('d3', async () => {
       const abspath = resolve(__dirname, join('../../../public', pathname))
       const raw = await fs.readFile(abspath, 'UTF-8')
       return JSON.parse(raw)
+    },
+    zoom() {
+      const zoom = {
+        scaleExtent: () => zoom,
+        translateExtent: () => zoom,
+        transform: () => null,
+        on: () => zoom
+      }
+      return zoom
     }
   }
 })
