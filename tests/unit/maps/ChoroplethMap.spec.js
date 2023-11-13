@@ -51,13 +51,13 @@ describe('ChoroplethMap.vue', () => {
     it('has a feature for KGZ with the end color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(133, 35, 8)')
+      expect(color).toBe('rgb(255, 0, 0)')
     })
 
     it('has a feature for SRV with the middle color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-srb')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(184, 126, 111)')
+      expect(color).toBe('rgb(255, 106, 106)')
     })
 
     it('has a feature for FRA with the start color of the scale', () => {
@@ -148,13 +148,13 @@ describe('ChoroplethMap.vue', () => {
     it('has a feature for 02 with the middle color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-02')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(184, 126, 111)')
+      expect(color).toBe('rgb(255, 106, 106)')
     })
 
     it('has a feature for 03 with the end color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-03')
       const color = window.getComputedStyle(feature.element).color
-      expect(color).toBe('rgb(133, 35, 8)')
+      expect(color).toBe('rgb(255, 0, 0)')
     })
 
     it('zooms on the map when a feature is clicked', async () => {
