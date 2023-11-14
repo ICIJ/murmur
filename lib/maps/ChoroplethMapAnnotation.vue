@@ -40,6 +40,12 @@ export default {
     scale: {
       type: Boolean
     },
+    color: {
+      type: String
+    },
+    dropShadow: {
+      type: String
+    },
     geoDistanceThreshold: {
       type: Number,
       // The Earth's circumference can be divided into 360 degrees, or 2π radians.
@@ -149,8 +155,10 @@ export default {
     },
     wrapperStyle() {
       return {
-        transform: this.scale ? null : `scale(${1 / this.mapK})`,
-        transformOrigin: this.wrapperTransformOrigin
+        '--color': this.color,
+        '--drop-shadow': this.dropShadow,
+        '--scale': this.scale ? null : 1 / this.mapK,
+        '--transform-origin': this.wrapperTransformOrigin
       }
     },
     wrapperTransformOrigin() {
@@ -201,19 +209,26 @@ export default {
 @import '../styles/lib';
 
 .choropleth-map-annotation {
+  --color: #{$body-color};
+  --drop-shadow: 0 0 1px #fff;
+  --scale: 1;
+  --transform-origin: 'center center';
+
   pointer-events: none;
-  color: $body-color;
   font-size: 1rem;
   line-height: 1;
-  filter: drop-shadow(0 0 1px #fff);
 
   &__wrapper {
+    color: var(--color);
     height: 100%;
     width: 100%;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
+    transform: scale(var(--scale));
+    transform-origin: var(--transform-origin);
+    filter: drop-shadow(var(--drop-shadow));
 
     .choropleth-map-annotation--right & {
       justify-content: start;

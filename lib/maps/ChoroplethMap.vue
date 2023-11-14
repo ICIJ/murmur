@@ -524,9 +524,8 @@ export default {
       <g class="choropleth-map__main__tracked" :transform-origin="transformOrigin">
         <g class="choropleth-map__main__graticule"></g>
         <g class="choropleth-map__main__features"></g>
-        <slot v-if="isReady" name="tracked" />
+        <slot v-if="isReady" />
       </g>
-      <slot v-if="isReady" />
     </svg>
     <scale-legend
       v-if="!hideLegend && isReady"
