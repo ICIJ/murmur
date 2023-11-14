@@ -59,9 +59,11 @@ identify a location):
         <span v-html="`${value.toLocaleString()} hl`"></span>
       </div>
     </template>
-    <choropleth-map-annotation :latitude="44.836151" :longitude="-0.580816" placement="righttop" class="text-center">
-      Bordeaux<br /><img src="/assets/img/arrow-bottom.svg" width="16px" />
-    </choropleth-map-annotation>
+    <template #tracked>
+      <choropleth-map-annotation :latitude="44.836151" :longitude="-0.580816" placement="righttop" class="text-center">
+        Bordeaux<br /><img src="/assets/img/arrow-bottom.svg" width="16px" />
+      </choropleth-map-annotation>
+    </template>
   </choropleth-map>
   <p class="text-right">
     <a href="https://www.data.gouv.fr/fr/datasets/campagnes-viti-vinicoles-depuis-2011/">
@@ -77,10 +79,12 @@ Or with a custom projection:
 
 :::sample-card
 <div class="bg-light p-4">
-  <choropleth-map class="shadow rounded-circle overflow-auto border border-dark mx-auto" hide-legend graticule :projection="geoOrthographic" spherical :center="[33.435499, 35.167406]" :zoom="1" height="150px" style="width:150px">
-    <choropleth-map-annotation :latitude="35.167406" :longitude="33.435499" :height="15" :width="15" class="text-center">
-      <div class="border border-primary" style="height: 15px; width: 15px"></div>
-    </choropleth-map-annotation>
+  <choropleth-map class="shadow rounded-circle overflow-auto border border-dark mx-auto" hide-legend graticule :projection="geoOrthographic" spherical :center="[33.435499, 35.167406]" :zoom="1.5" height="150px" style="width:150px">
+    <template #tracked>
+      <choropleth-map-annotation :latitude="35.167406" :longitude="33.435499" :height="15" :width="15" class="text-center">
+        <div class="border border-primary" style="height: 15px; width: 15px"></div>
+      </choropleth-map-annotation>
+    </template>
   </div>
 </div>
 :::

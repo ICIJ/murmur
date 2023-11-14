@@ -36,6 +36,9 @@ export default {
       type: Number,
       default: 150
     },
+    scale: {
+      type: Boolean
+    },
     /**
      * Placement of the annotation. Can be: top, topleft, topright, right,<br />
      * righttop, rightbottom, bottom, bottomleft, bottomright, left, lefttop,
@@ -61,29 +64,29 @@ export default {
       const [x, y] = this.parent.mapProjection([this.longitude, this.latitude])
       return { x, y }
     },
+    mapK() {
+      return this.parent.mapTransform.k
+    },
     translateX() {
       if (this.isRight) {
-        return this.parent.mapTransform.x
+        return 0
       }
       if (this.isLeft) {
-        return this.parent.mapTransform.x - this.width * this.scale
+        return 0 - this.width
       }
-      return this.parent.mapTransform.x - this.width / 2  * this.scale
+      return 0 - (this.width) / 2
     },
     translateY() {
       if (this.isTop) {
-        return this.parent.mapTransform.y - this.height  * this.scale
+        return 0 - this.height
       }
       if (this.isBottom) {
-        return this.parent.mapTransform.y
+        return 0
       }
-      return this.parent.mapTransform.y - this.height / 2 * this.scale
-    },
-    scale() {
-      return this.parent.mapTransform.k
+      return 0 - (this.height) / 2
     },
     transform() {
-      return `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+      return `translate(${this.translateX}, ${this.translateY})`
     },
     x() {
       return this.position.x
@@ -129,6 +132,31 @@ export default {
     },
     isCenter() {
       return !this.isLeft && !this.isRight && !this.isTop && !this.isBottom
+    },
+    wrapperStyle() {
+      return { 
+        transform: this.scale ? null : `scale(${1 / this.mapK})`,
+        transformOrigin: this.wrapperTransformOrigin
+      }
+    },
+    wrapperTransformOrigin() {
+      return `${this.wrapperTransformOriginX} ${this.wrapperTransformOriginY}`
+    },
+    wrapperTransformOriginX() {
+      if (this.isRight) {
+        return 'left'
+      } else if (this.isLeft) {
+        return 'right'
+      }
+      return 'center'
+    },
+    wrapperTransformOriginY() {
+      if (this.isTop) {
+        return 'bottom'
+      } else if (this.isBottom) {
+        return 'top'
+      }
+      return 'center'
     }
   }
 }
@@ -137,7 +165,7 @@ export default {
 <template>
   <g class="choropleth-map-annotation" :class="classList">
     <foreignObject :x="x" :y="y" :transform="transform" :width="width" :height="height">
-      <div class="choropleth-map-annotation__wrapper">
+      <div class="choropleth-map-annotation__wrapper" :style="wrapperStyle">
         <div class="choropleth-map-annotation__wrapper__content">
           <slot />
         </div>
@@ -150,6 +178,7 @@ export default {
 @import '../styles/lib';
 
 .choropleth-map-annotation {
+  pointer-events: none;
   color: $body-color;
   font-size: 1rem;
   line-height: 1;

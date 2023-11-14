@@ -110,8 +110,12 @@ export default {
   },
   computed: {
     sphericalCenter() {
-      const [lng, lat] = this.center
+      const [lng = 0, lat = 0] = this.center ?? [0, 0]
       return [-lng, -lat]
+    },
+    planarCenter() {
+      const [lng = 0, lat = 0] = this.center ?? [0, 0]
+      return [lng, lat]
     },
     featureColorScaleEnd() {
       if (this.mounted) {
@@ -154,20 +158,20 @@ export default {
         .range([this.featureColorScaleStart, this.featureColorScaleEnd])
     },
     initialFeaturePath() {
-      return d3.geoPath().projection(this.initialMapProjection)
+      return this.featurePath.projection(this.initialMapProjection)
     },
     initialGraticulePath() {
       return this.initialFeaturePath(this.graticuleLines)
     },
     initialMapProjection() {
-      if (this.center && !this.spherical) {
-        return this.mapProjection.center(this.center)
-      }
-      if (this.center && this.spherical) {
+      if (this.spherical) {
         const { height, width } = this.mapRect
-        return this.mapProjection.rotate(this.sphericalCenter).fitSize([width, height], this.geojson)
+        return this.mapProjection
+          .rotate(this.sphericalCenter)
+          .fitHeight(height, this.geojson)
+          .translate([width / 2, height / 2])
       }
-      return this.mapProjection
+      return this.mapProjection.center(this.planarCenter)
     },
     featurePath() {
       return d3.geoPath().projection(this.mapProjection)
@@ -220,7 +224,7 @@ export default {
     },
     mapStyle() {
       const { k = 0, x = 0, y = 0, rotateX = 0, rotateY = 0 } = this.mapTransform
-      return { 
+      return {
         '--map-height': this.height,
         '--map-scale': k,
         '--map-translate-x': x,
@@ -283,10 +287,10 @@ export default {
     }, 10),
     prepare() {
       // Set the map sizes
-      this.$set(this, 'mapRect', this.map.node().getBoundingClientRect())
+      this.$set(this, 'mapRect', this.$el.getBoundingClientRect())
       // Remove any existing country
-      this.map.selectAll('g.choropleth-map__main__features').remove()
-      this.map.selectAll('g.choropleth-map__main__graticule').remove()
+      this.map.selectAll('.choropleth-map__main__features > *').remove()
+      this.map.selectAll('.choropleth-map__main__graticule > *').remove()
       // Return the map to allow chaining
       return this.map
     },
@@ -312,8 +316,7 @@ export default {
     },
     drawGraticule() {
       this.map
-        .insert('g', ':first-child')
-        .attr('class', 'choropleth-map__main__graticule')
+        .select('.choropleth-map__main__graticule')
         .attr('transform-origin', this.transformOrigin)
         .append('path')
         .attr('d', this.initialGraticulePath)
@@ -322,8 +325,7 @@ export default {
     },
     drawFeatures() {
       this.map
-        .insert('g', ':first-child')
-        .attr('class', 'choropleth-map__main__features')
+        .select('.choropleth-map__main__features')
         .attr('transform-origin', this.transformOrigin)
         .selectAll('.choropleth-map__main__features__item')
         // Bind geojson features to path
@@ -367,36 +369,15 @@ export default {
       const id = get(d, this.topojsonObjectsPath)
       this.featureCursor = id in this.loadedData ? id : null
     },
+    setFeaturesClasses() {
+      this.map.selectAll('.choropleth-map__main__features__item').attr('class', this.featureClass)
+    },
     async loadTopojson() {
       if (!this.topojsonPromise) {
         this.topojsonPromise = d3.json(this.topojsonUrl)
         this.topojson = await this.topojsonPromise
       }
       return this.topojsonPromise
-    },
-    mapSphericalZoomed({ transform: { k } }) {
-      const transform = `scale(${k})`
-      this.mapTransform = { ...this.mapTransform, k }
-      this.map.selectAll('.choropleth-map__main__features').attr('transform', transform)
-      this.map.selectAll('.choropleth-map__main__graticule').attr('transform', transform)
-    },
-    mapZoomed({ transform }) {
-      this.mapTransform = transform
-      this.map.selectAll('.choropleth-map__main__features').attr('transform', transform)
-      this.map.selectAll('.choropleth-map__main__graticule').attr('transform', transform)
-    },
-    mapRotated(event) {
-      const sensitivity = 75
-      const [rotateX, rotateY] = this.mapProjection.rotate()
-      const k = sensitivity / this.mapProjection.scale()
-      const yaw = rotateX + event.dx * k
-      const pitch = rotateY - event.dy * k
-      const projection = this.mapProjection.rotate([yaw, pitch])
-      const featuresPaths = this.initialFeaturePath.projection(projection)
-      const graticulePaths = featuresPaths(this.graticuleLines)
-      this.mapTransform = {...this.mapTransform, rotateX, rotateY }
-      this.map.selectAll("g.choropleth-map__main__features path").attr("d", featuresPaths)
-      this.map.selectAll("g.choropleth-map__main__graticule path").attr("d", graticulePaths)
     },
     async mapClicked(event, d) {
       /**
@@ -420,18 +401,37 @@ export default {
        */
       this.$emit('zoomed', d)
     },
+    mapSphericalZoomed({ transform: { k } }) {
+      const transform = `scale(${k})`
+      this.mapTransform = { ...this.mapTransform, k }
+      this.map.selectAll('.choropleth-map__main__tracked').attr('transform', transform)
+    },
+    mapZoomed({ transform }) {
+      this.mapTransform = transform
+      this.map.selectAll('.choropleth-map__main__tracked').attr('transform', transform)
+    },
+    mapRotated(event) {
+      const sensitivity = 75
+      const [rotateX, rotateY] = this.mapProjection.rotate()
+      const k = sensitivity / this.mapProjection.scale()
+      const yaw = rotateX + event.dx * k
+      const pitch = rotateY - event.dy * k
+      const projection = this.mapProjection.rotate([yaw, pitch])
+      const featuresPaths = this.initialFeaturePath.projection(projection)
+      const graticulePaths = featuresPaths(this.graticuleLines)
+      this.mapTransform = { ...this.mapTransform, rotateX, rotateY }
+      this.map.selectAll('g.choropleth-map__main__features path').attr('d', featuresPaths)
+      this.map.selectAll('g.choropleth-map__main__graticule path').attr('d', graticulePaths)
+    },
     resetZoom() {
       this.mapTransform = { k: 1, x: 0, y: 0 }
-      this.map.transition().duration(this.transitionDuration).call(this.mapZoom.transform, d3.zoomIdentity)
+      this.applyZoomIdentity(d3.zoomIdentity)
       this.featureZoom = null
       /**
        * The zomm on the map was reset to its initial <slot ate></slot>
        * @event reset
        */
       this.$emit('reset')
-    },
-    setFeaturesClasses() {
-      this.map.selectAll('.choropleth-map__main__features__item').attr('class', this.featureClass)
     },
     setFeatureZoom(d, pointer = [0, 0]) {
       this.featureZoom = get(d, this.topojsonObjectsPath)
@@ -445,27 +445,29 @@ export default {
         .scale(scale)
         .translate(translateX, translateY)
       this.mapTransform = { k: scale, x: translateX, y: translateY }
-      return this.map
-        .transition()
-        .duration(this.transitionDuration)
-        .call(this.mapZoom.transform, zoomIdentity, pointer)
-        .end()
+      return this.applyZoomIdentity(zoomIdentity, pointer)
     },
     setZoom(zoom, transitionDuration = this.transitionDuration) {
       const zoomScale = clamp(zoom, this.minZoom, this.maxZoom)
       const { height, width } = this.mapRect
       if (this.spherical) {
-        const [x, y] = this.mapProjection(this.mapCenter)
         const zoomIdentity = d3.zoomIdentity.scale(zoomScale)
         this.mapTransform = { ...this.mapTransform, k: zoomScale }
-        return this.map.transition().duration(transitionDuration).call(this.mapZoom.transform, zoomIdentity).end()
+        return this.applyZoomIdentity(zoomIdentity, null, transitionDuration)
       } else {
         const [x, y] = this.mapProjection(this.mapCenter)
         const [translateX, translateY] = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
         const zoomIdentity = d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale)
         this.mapTransform = { k: zoomScale, x: translateX, y: translateY }
-        return this.map.transition().duration(transitionDuration).call(this.mapZoom.transform, zoomIdentity).end()
+        return this.applyZoomIdentity(zoomIdentity, null, transitionDuration)
       }
+    },
+    applyZoomIdentity(zoomIdentity, pointer = null, transitionDuration = this.transitionDuration) {
+      return this.map
+        .transition()
+        .duration(transitionDuration)
+        .call(this.mapZoom.transform, zoomIdentity, pointer)
+        .end()
     }
   }
 }
@@ -473,11 +475,16 @@ export default {
 
 <template>
   <div class="choropleth-map" :class="mapClass" :style="mapStyle" @click="draw">
-    <svg class="choropleth-map__main">
+    <svg class="choropleth-map__main" :viewbox="`0 0 ${mapRect.width} ${mapRect.height}`">
       <pattern id="diagonalHatch" width="1" height="1" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
         <rect width="1" height="1" :fill="featureColorScaleEnd" />
         <line x1="0" y1="0" x2="0" y2="1" :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }" />
       </pattern>
+      <g class="choropleth-map__main__tracked" :transform-origin="transformOrigin">
+        <g class="choropleth-map__main__graticule"></g>
+        <g class="choropleth-map__main__features"></g>
+        <slot v-if="isReady" name="tracked" />
+      </g>
       <slot v-if="isReady" />
     </svg>
     <scale-legend
@@ -502,15 +509,13 @@ export default {
 
 .choropleth-map {
   --map-scale: 1;
-  --map-translate-x: 0;
-  --map-translate-y: 0;
   position: relative;
 
   &__main {
-    color: #fff;
     min-height: var(--map-height, 300px);
     height: 100%;
     width: 100%;
+    color: #fff;
 
     .chart--social-mode & {
       color: $dark;
