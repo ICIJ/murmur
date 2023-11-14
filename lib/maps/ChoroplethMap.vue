@@ -20,10 +20,10 @@ export default {
   mixins: [chart],
   provide() {
     const parent = {}
-    Object.defineProperty(parent, 'map', { enumerable: true, get: () => this.map })
-    Object.defineProperty(parent, 'mapProjection', { enumerable: true, get: () => this.mapProjection })
-    Object.defineProperty(parent, 'mapRect', { enumerable: true, get: () => this.mapRect })
-    Object.defineProperty(parent, 'mapTransform', { enumerable: true, get: () => this.mapTransform })
+    const props = ['mapProjection', 'mapRect', 'mapTransform', 'rotatingMapProjection']
+    for (const prop of props) {
+      Object.defineProperty(parent, prop, { enumerable: true, get: () => this[prop] })
+    }
     return { parent }
   },
   props: {
@@ -96,6 +96,14 @@ export default {
     height: {
       type: String,
       default: '300px'
+    },
+    color: {
+      type: String,
+      default: '#fff'
+    },
+    socialColor: {
+      type: String,
+      default: '#000'
     }
   },
   data() {
@@ -197,6 +205,13 @@ export default {
       const { height, width } = this.mapRect
       return this.projection().fitSize([width, height], this.geojson)
     },
+    rotatingMapProjection() {
+      const { rotateX = null, rotateY = null } = this.mapTransform
+      if (rotateX !== null && rotateY !== null) {
+        return this.mapProjection.rotate([rotateX, rotateY])
+      }
+      return this.mapProjection
+    },
     mapCenter() {
       return this.mapProjection.center()
     },
@@ -226,6 +241,8 @@ export default {
       const { k = 0, x = 0, y = 0, rotateX = 0, rotateY = 0 } = this.mapTransform
       return {
         '--map-height': this.height,
+        '--map-color': this.color,
+        '--map-social-color': this.socialColor,
         '--map-scale': k,
         '--map-translate-x': x,
         '--map-translate-y': y,
@@ -302,17 +319,20 @@ export default {
         this.map.call(this.mapZoom)
       }
       // An intial zoom value is given
-      if (this.zoom) {
-        this.setZoom(this.zoom, 0)
+      if (this.zoom || this.spherical) {
+        this.applyZoom(this.zoom ?? 1, 0)
       }
     },
     draw() {
       this.prepare()
+      this.maybeDrawGraticule()
+      this.drawFeatures()
+      this.prepareZoom()
+    },
+    maybeDrawGraticule() {
       if (this.graticule) {
         this.drawGraticule()
       }
-      this.drawFeatures()
-      this.prepareZoom()
     },
     drawGraticule() {
       this.map
@@ -324,15 +344,15 @@ export default {
         .attr('stroke', 'currentColor')
     },
     drawFeatures() {
-      this.map
+      const features = this.map
         .select('.choropleth-map__main__features')
         .attr('transform-origin', this.transformOrigin)
         .selectAll('.choropleth-map__main__features__item')
-        // Bind geojson features to path
         .data(this.geojson.features)
-        // Add the path with the correct class
         .enter()
         .append('path')
+
+      features
         .attr('class', this.featureClass)
         .attr('d', this.initialFeaturePath)
         .on('mouseover', this.featureMouseOver)
@@ -391,9 +411,9 @@ export default {
         return
       }
       if (this.featureZoom === get(d, this.topojsonObjectsPath)) {
-        return this.resetZoom(event, d)
+        return this.reapplyZoom(event, d)
       }
-      await this.setFeatureZoom(d, d3.pointer(event, this.map.node()))
+      await this.applyFeatureZoom(d, d3.pointer(event, this.map.node()))
       /**
        * A zoom on a feature ended
        * @event zoomed
@@ -403,64 +423,34 @@ export default {
     },
     mapSphericalZoomed({ transform: { k } }) {
       const transform = `scale(${k})`
-      this.mapTransform = { ...this.mapTransform, k }
-      this.map.selectAll('.choropleth-map__main__tracked').attr('transform', transform)
+      this.applyTransformToTrackedElements(transform)
     },
     mapZoomed({ transform }) {
       this.mapTransform = transform
-      this.map.selectAll('.choropleth-map__main__tracked').attr('transform', transform)
+      this.applyTransformToTrackedElements(transform)
     },
     mapRotated(event) {
+      const { yaw, pitch } = this.calculateRotation(event)
+      this.applyRotation(yaw, pitch)
+    },
+    calculateRotation(event) {
       const sensitivity = 75
-      const [rotateX, rotateY] = this.mapProjection.rotate()
       const k = sensitivity / this.mapProjection.scale()
+      const [rotateX, rotateY] = this.mapProjection.rotate()
       const yaw = rotateX + event.dx * k
       const pitch = rotateY - event.dy * k
-      const projection = this.mapProjection.rotate([yaw, pitch])
-      const featuresPaths = this.initialFeaturePath.projection(projection)
-      const graticulePaths = featuresPaths(this.graticuleLines)
+
+      return { yaw, pitch }
+    },
+    applyTransformToTrackedElements(transform) {
+      this.map.selectAll('.choropleth-map__main__tracked').attr('transform', transform)
+    },
+    applyRotation(rotateX, rotateY) {
       this.mapTransform = { ...this.mapTransform, rotateX, rotateY }
+      const featuresPaths = this.initialFeaturePath.projection(this.rotatingMapProjection)
+      const graticulePaths = featuresPaths(this.graticuleLines)
       this.map.selectAll('g.choropleth-map__main__features path').attr('d', featuresPaths)
       this.map.selectAll('g.choropleth-map__main__graticule path').attr('d', graticulePaths)
-    },
-    resetZoom() {
-      this.mapTransform = { k: 1, x: 0, y: 0 }
-      this.applyZoomIdentity(d3.zoomIdentity)
-      this.featureZoom = null
-      /**
-       * The zomm on the map was reset to its initial <slot ate></slot>
-       * @event reset
-       */
-      this.$emit('reset')
-    },
-    setFeatureZoom(d, pointer = [0, 0]) {
-      this.featureZoom = get(d, this.topojsonObjectsPath)
-      const { height, width } = this.mapRect
-      const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
-      const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
-      const translateX = -(x0 + x1) / 2
-      const translateY = -(y0 + y1) / 2
-      const zoomIdentity = d3.zoomIdentity
-        .translate(width / 2, height / 2)
-        .scale(scale)
-        .translate(translateX, translateY)
-      this.mapTransform = { k: scale, x: translateX, y: translateY }
-      return this.applyZoomIdentity(zoomIdentity, pointer)
-    },
-    setZoom(zoom, transitionDuration = this.transitionDuration) {
-      const zoomScale = clamp(zoom, this.minZoom, this.maxZoom)
-      const { height, width } = this.mapRect
-      if (this.spherical) {
-        const zoomIdentity = d3.zoomIdentity.scale(zoomScale)
-        this.mapTransform = { ...this.mapTransform, k: zoomScale }
-        return this.applyZoomIdentity(zoomIdentity, null, transitionDuration)
-      } else {
-        const [x, y] = this.mapProjection(this.mapCenter)
-        const [translateX, translateY] = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
-        const zoomIdentity = d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale)
-        this.mapTransform = { k: zoomScale, x: translateX, y: translateY }
-        return this.applyZoomIdentity(zoomIdentity, null, transitionDuration)
-      }
     },
     applyZoomIdentity(zoomIdentity, pointer = null, transitionDuration = this.transitionDuration) {
       return this.map
@@ -468,6 +458,57 @@ export default {
         .duration(transitionDuration)
         .call(this.mapZoom.transform, zoomIdentity, pointer)
         .end()
+    },
+    reapplyZoom() {
+      this.mapTransform = { k: 1, x: 0, y: 0 }
+      this.applyZoomIdentity(d3.zoomIdentity)
+      this.featureZoom = null
+      this.emitResetEvent()
+    },
+    emitResetEvent() {
+      /**
+       * The zomm on the map was reset to its initial <slot ate></slot>
+       * @event reset
+       */
+      this.$emit('reset')
+    },
+    calculateFeatureZoomIdentity(d) {
+      const { height, width } = this.mapRect
+      const [[x0, y0], [x1, y1]] = this.featurePath.bounds(d)
+      const scale = Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height))
+      const translateX = -(x0 + x1) / 2
+      const translateY = -(y0 + y1) / 2
+      return d3.zoomIdentity
+        .translate(width / 2, height / 2)
+        .scale(scale)
+        .translate(translateX, translateY)
+    },
+    applyFeatureZoom(d, pointer = [0, 0]) {
+      const zoomIdentity = this.calculateFeatureZoomIdentity(d)
+      this.featureZoom = get(d, this.topojsonObjectsPath)
+      this.mapTransform = { k: zoomIdentity.k, x: zoomIdentity.x, y: zoomIdentity.y }
+      return this.applyZoomIdentity(zoomIdentity, pointer)
+    },
+    applyZoom(zoom, transitionDuration = this.transitionDuration) {
+      const zoomScale = clamp(zoom, this.minZoom, this.maxZoom)
+      if (this.spherical) {
+        return this.setSphericalZoom(zoomScale, transitionDuration)
+      } else {
+        return this.setPlanarZoom(zoomScale, transitionDuration)
+      }
+    },
+    setSphericalZoom(zoomScale, transitionDuration) {
+      const zoomIdentity = d3.zoomIdentity.scale(zoomScale)
+      this.mapTransform = { ...this.mapTransform, k: zoomScale }
+      return this.applyZoomIdentity(zoomIdentity, null, transitionDuration)
+    },
+    setPlanarZoom(zoomScale, transitionDuration) {
+      const { height, width } = this.mapRect
+      const [x, y] = this.mapProjection(this.mapCenter)
+      const [translateX, translateY] = [width / 2 - zoomScale * x, height / 2 - zoomScale * y]
+      const zoomIdentity = d3.zoomIdentity.translate(translateX, translateY).scale(zoomScale)
+      this.mapTransform = { k: zoomScale, x: translateX, y: translateY }
+      return this.applyZoomIdentity(zoomIdentity, null, transitionDuration)
     }
   }
 }
@@ -509,16 +550,19 @@ export default {
 
 .choropleth-map {
   --map-scale: 1;
+  --map-color: #fff;
+  --map-social-color: #000;
+
   position: relative;
 
   &__main {
     min-height: var(--map-height, 300px);
     height: 100%;
     width: 100%;
-    color: #fff;
+    color: var(--map-color);
 
     .chart--social-mode & {
-      color: $dark;
+      color: var(--map-social-color);
     }
 
     &:deep(.choropleth-map__main__graticule) {

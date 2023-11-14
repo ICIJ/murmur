@@ -1,5 +1,6 @@
 <script>
 import { values } from 'lodash'
+import { geoDistance } from 'd3-geo'
 
 const PLACEMENTS = {
   TOP: 'top',
@@ -39,6 +40,13 @@ export default {
     scale: {
       type: Boolean
     },
+    geoDistanceThreshold: {
+      type: Number,
+      // The Earth's circumference can be divided into 360 degrees, or 2π radians.
+      // Therefore, 1.57 radians is approximately a quarter of π (since π≈3.14), which corresponds to
+      // a quarter of the Earth's circumference.
+      default: 1.57
+    },
     /**
      * Placement of the annotation. Can be: top, topleft, topright, right,<br />
      * righttop, rightbottom, bottom, bottomleft, bottomright, left, lefttop,
@@ -60,8 +68,14 @@ export default {
         'choropleth-map-annotation--bottom': this.isBottom
       }
     },
+    center() {
+      return [this.longitude, this.latitude]
+    },
+    projection() {
+      return this.parent.rotatingMapProjection
+    },
     position() {
-      const [x, y] = this.parent.mapProjection([this.longitude, this.latitude])
+      const [x, y] = this.projection(this.center)
       return { x, y }
     },
     mapK() {
@@ -134,7 +148,7 @@ export default {
       return !this.isLeft && !this.isRight && !this.isTop && !this.isBottom
     },
     wrapperStyle() {
-      return { 
+      return {
         transform: this.scale ? null : `scale(${1 / this.mapK})`,
         transformOrigin: this.wrapperTransformOrigin
       }
@@ -157,6 +171,15 @@ export default {
         return 'top'
       }
       return 'center'
+    },
+    isVisible() {
+      try {
+        const { width, height } = this.parent.mapRect
+        const mapCenter = this.projection.invert([width / 2, height / 2])
+        return geoDistance(this.center, mapCenter) <= this.geoDistanceThreshold
+      } catch (_) {
+        return true
+      }
     }
   }
 }
@@ -165,7 +188,7 @@ export default {
 <template>
   <g class="choropleth-map-annotation" :class="classList">
     <foreignObject :x="x" :y="y" :transform="transform" :width="width" :height="height">
-      <div class="choropleth-map-annotation__wrapper" :style="wrapperStyle">
+      <div class="choropleth-map-annotation__wrapper" :style="wrapperStyle" v-show="isVisible">
         <div class="choropleth-map-annotation__wrapper__content">
           <slot />
         </div>
