@@ -76,14 +76,15 @@ identify a location):
 Or with a custom projection:
 
 :::sample-card
-<div class="bg-light p-4">
+<div class="bg-dark p-4">
   <div>
     <choropleth-map 
       :center="[33.435499, 35.167406]" 
       :projection="geoOrthographic" 
       :zoom-min="0.9"
-      color="#3c3c3c" 
-      outline-color="#000"
+      color="#aaf" 
+      outline-color="#fff"
+      graticule-color="#333"
       graticule hide-legend outline spherical zoomable
     >
       <choropleth-map-annotation 
@@ -95,7 +96,7 @@ Or with a custom projection:
         drop-shadow="none"
         scale 
       >
-        <div class="border border-primary" style="height: 15px; width: 15px"></div>
+        <div class="border border-warning" style="height: 15px; width: 15px"></div>
       </choropleth-map-annotation>
     </div>
   </div>

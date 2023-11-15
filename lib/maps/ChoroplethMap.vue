@@ -41,6 +41,10 @@ export default {
       type: String,
       default: 'currentColor'
     },
+    graticuleColor: {
+      type: String,
+      default: 'currentColor'
+    },
     max: {
       type: Number,
       default: null
@@ -350,8 +354,7 @@ export default {
         .select('.choropleth-map__main__graticule')
         .append('path')
         .attr('d', this.initialGraticulePath)
-        .attr('fill', 'none')
-        .attr('stroke', 'currentColor')
+        .attr('stroke', this.graticuleColor)
     },
     drawFeatures() {
       const features = this.map
@@ -531,9 +534,9 @@ export default {
         <line x1="0" y1="0" x2="0" y2="1" :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }" />
       </pattern>
       <g class="choropleth-map__main__tracked" :transform-origin="transformOrigin">
-        <g v-if="outline" class="choropleth-map__main__outline"></g>
         <g v-if="graticule" class="choropleth-map__main__graticule"></g>
         <g class="choropleth-map__main__features"></g>
+        <g v-if="outline" class="choropleth-map__main__outline"></g>
         <slot v-if="isReady" />
       </g>
     </svg>
@@ -574,12 +577,10 @@ export default {
       color: var(--map-social-color);
     }
 
-    &:deep(.choropleth-map__main__outline) {
-      fill: transparent;
-    }
-
     &:deep(.choropleth-map__main__outline),
     &:deep(.choropleth-map__main__graticule) {
+      fill: transparent;
+      pointer-events: none;
       stroke-width: calc(1px / var(--map-scale, 1));
     }
 
