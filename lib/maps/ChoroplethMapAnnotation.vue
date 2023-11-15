@@ -2,7 +2,7 @@
 import { values } from 'lodash'
 import { geoDistance } from 'd3-geo'
 
-const PLACEMENTS = {
+export const PLACEMENTS = {
   TOP: 'top',
   TOPLEFT: 'topleft',
   TOPRIGHT: 'topright',
@@ -181,12 +181,15 @@ export default {
       return 'center'
     },
     isVisible() {
+      return this.geoDistanceFromCenter <= this.geoDistanceThreshold
+    },
+    geoDistanceFromCenter() {
       try {
         const { width, height } = this.parent.mapRect
         const mapCenter = this.projection.invert([width / 2, height / 2])
-        return geoDistance(this.center, mapCenter) <= this.geoDistanceThreshold
+        return geoDistance(this.center, mapCenter)
       } catch (_) {
-        return true
+        return 0
       }
     }
   }
