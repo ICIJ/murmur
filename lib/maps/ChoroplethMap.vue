@@ -172,7 +172,7 @@ export default {
     },
     defaultFeatureColorScale() {
       return d3
-        .scaleLog()
+        .scaleSequential()
         .domain([Math.max(1, this.minValue), this.maxValue])
         .range([this.featureColorScaleStart, this.featureColorScaleEnd])
     },

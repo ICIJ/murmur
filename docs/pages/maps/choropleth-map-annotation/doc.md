@@ -53,7 +53,7 @@ And combine annotation with different placements:
 :::
 
 <script>
-import { scaleLinear } from 'd3'
+import { scaleSequential } from 'd3'
 import { iteratee } from 'lodash'
 import { geoOrthographic } from 'd3-geo'
 
@@ -76,7 +76,7 @@ export default {
         { latitude: -34.035875, longitude: 151.194191, label: 'Sydney, Australia' },
         { latitude: 38.9072, longitude: -77.0369, label: 'Washington DC, USA' }
       ],
-      swimmingPoolsColorScale: scaleLinear([0, 7], ["#fff","#00f"]),
+      swimmingPoolsColorScale: scaleSequential([0, 7], ["#fff","#00f"]),
       swimmingPoolsByArrondissement: {
         '1':	1,
         '4':	1,

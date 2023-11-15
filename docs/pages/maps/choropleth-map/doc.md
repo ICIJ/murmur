@@ -8,7 +8,7 @@ By default, ChoroplethMap builds a map of the world.
 :::sample-card
 <div class="bg-light p-4">
   <h4 class="mb-4">Motor vehicles per 1000 people</h4>
-  <choropleth-map  :data="motorVehiclesPer1000people" hatch-empty />
+  <choropleth-map  :data="motorVehiclesPer1000people" hatch-empty zoomable />
   <p class="text-right">
     <a href="https://en.wikipedia.org/wiki/List_of_countries_by_vehicles_per_capita">
       Source
