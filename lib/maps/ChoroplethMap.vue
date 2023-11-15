@@ -37,6 +37,10 @@ export default {
       type: Function,
       default: null
     },
+    outlineColor: {
+      type: String,
+      default: 'currentColor'
+    },
     max: {
       type: Number,
       default: null
@@ -89,6 +93,9 @@ export default {
     projection: {
       type: Function,
       default: geoRobinson
+    },
+    outline: {
+      type: Boolean
     },
     graticule: {
       type: Boolean
@@ -306,8 +313,9 @@ export default {
       // Set the map sizes
       this.$set(this, 'mapRect', this.$el.getBoundingClientRect())
       // Remove any existing country
-      this.map.selectAll('.choropleth-map__main__features > *').remove()
+      this.map.selectAll('.choropleth-map__main__outline > *').remove()
       this.map.selectAll('.choropleth-map__main__graticule > *').remove()
+      this.map.selectAll('.choropleth-map__main__features > *').remove()
       // Return the map to allow chaining
       return this.map
     },
@@ -320,24 +328,26 @@ export default {
       }
       // An intial zoom value is given
       if (this.zoom || this.spherical) {
-        this.applyZoom(this.zoom ?? 1, 0)
+        this.applyZoom(this.zoom ?? this.zoomMin, 0)
       }
     },
     draw() {
       this.prepare()
-      this.maybeDrawGraticule()
+      this.drawOutline()
+      this.drawGraticule()
       this.drawFeatures()
       this.prepareZoom()
     },
-    maybeDrawGraticule() {
-      if (this.graticule) {
-        this.drawGraticule()
-      }
+    drawOutline() {
+      this.map
+        .select('.choropleth-map__main__outline')
+        .append('path')
+        .attr('d', this.initialFeaturePath({ type: 'Sphere' }))
+        .attr('stroke', this.outlineColor)
     },
     drawGraticule() {
       this.map
         .select('.choropleth-map__main__graticule')
-        .attr('transform-origin', this.transformOrigin)
         .append('path')
         .attr('d', this.initialGraticulePath)
         .attr('fill', 'none')
@@ -346,7 +356,6 @@ export default {
     drawFeatures() {
       const features = this.map
         .select('.choropleth-map__main__features')
-        .attr('transform-origin', this.transformOrigin)
         .selectAll('.choropleth-map__main__features__item')
         .data(this.geojson.features)
         .enter()
@@ -522,7 +531,8 @@ export default {
         <line x1="0" y1="0" x2="0" y2="1" :style="{ stroke: featureColorScaleStart, strokeWidth: 1 }" />
       </pattern>
       <g class="choropleth-map__main__tracked" :transform-origin="transformOrigin">
-        <g class="choropleth-map__main__graticule"></g>
+        <g v-if="outline" class="choropleth-map__main__outline"></g>
+        <g v-if="graticule" class="choropleth-map__main__graticule"></g>
         <g class="choropleth-map__main__features"></g>
         <slot v-if="isReady" />
       </g>
@@ -564,6 +574,11 @@ export default {
       color: var(--map-social-color);
     }
 
+    &:deep(.choropleth-map__main__outline) {
+      fill: transparent;
+    }
+
+    &:deep(.choropleth-map__main__outline),
     &:deep(.choropleth-map__main__graticule) {
       stroke-width: calc(1px / var(--map-scale, 1));
     }
