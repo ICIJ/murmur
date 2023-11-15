@@ -21,42 +21,66 @@ export default {
   name: 'ChoroplethMapAnnotation',
   inject: ['parent'],
   props: {
+    /**
+     * Latutuyde of the annotation.
+     */
     latitude: {
       type: Number,
       required: true
     },
+    /**
+     * Longitude of the annotation.
+     */
     longitude: {
       type: Number,
       required: true
     },
+    /**
+     * Maximum height of the annotation container.
+     */
     height: {
       type: Number,
       default: 150
     },
+    /**
+     * Maximum width of the annotation container.
+     */
     width: {
       type: Number,
       default: 150
     },
+    /**
+     * If true the annotation will scale with the map zoom.
+     */
     scale: {
       type: Boolean
     },
+    /**
+     * Text color of the annotation.
+     */
     color: {
       type: String
     },
+    /**
+     * Override the default drop-shadow filter applied to the annotation.
+     */
     dropShadow: {
       type: String
     },
+    /**
+     * Radian distance from the center of the Earth after which the annotation is hidden.
+     * The Earth's circumference can be divided into 360 degrees, or 2π radians.
+     * Therefore, 1.57 radians is approximately a quarter of π (since π≈3.14), which corresponds to
+     * a quarter of the Earth's circumference.
+     */
     geoDistanceThreshold: {
       type: Number,
-      // The Earth's circumference can be divided into 360 degrees, or 2π radians.
-      // Therefore, 1.57 radians is approximately a quarter of π (since π≈3.14), which corresponds to
-      // a quarter of the Earth's circumference.
       default: 1.57
     },
     /**
      * Placement of the annotation. Can be: top, topleft, topright, right,<br />
      * righttop, rightbottom, bottom, bottomleft, bottomright, left, lefttop,
-     * and leftbottom.
+     * and leftbottom. If `null`, the annotation will be centered.
      */
     placement: {
       type: String,

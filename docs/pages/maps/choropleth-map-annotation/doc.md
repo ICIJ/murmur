@@ -2,6 +2,7 @@
 title: Choropleth Annotation
 ---
 
+This component must be used as child of a `ChoroplethMap` component.
 You can use them with complex layout, including spherical projections:
 
 :::sample-card
@@ -51,6 +52,9 @@ And combine annotation with different placements:
   </choropleth-map>
 </div>
 :::
+
+
+::: api-table maps/ChoroplethMapAnnotation.vue :::
 
 <script>
 import { scaleSequential } from 'd3'

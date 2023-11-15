@@ -27,91 +27,164 @@ export default {
     return { parent }
   },
   props: {
+    /**
+     * Covers the empty values with a hatched pattern.
+     */
     hatchEmpty: {
       type: Boolean
     },
+    /**
+     * Hide the legend of the map.
+     */
     hideLegend: {
       type: Boolean
     },
+    /**
+     * Change the scale function used to get calculate a feature color.
+     */
     featureColorScale: {
       type: Function,
       default: null
     },
+    /**
+     * Change the color of the outline.
+     */
     outlineColor: {
       type: String,
       default: 'currentColor'
     },
+    /**
+     * Change the color of the graticule.
+     */
     graticuleColor: {
       type: String,
       default: 'currentColor'
     },
+    /**
+     * Maximum value to use in the color scale.
+     */
     max: {
       type: Number,
       default: null
     },
+    /**
+     * Minimum value to use in the color scale.
+     */
     min: {
       type: Number,
       default: null
     },
+    /**
+     * If true the map should be clickable (and zoom on a given feature).
+     */
     clickable: {
       type: Boolean
     },
+    /**
+     * Field in the topojson containing all the feature objects.
+     */
     topojsonObjects: {
       type: String,
       default: 'countries1'
     },
+    /**
+     * Field in the topojson objects containing the id of a feature. This field supports dot notation for nested values.
+     */
     topojsonObjectsPath: {
       type: [String, Array],
       default: 'id'
     },
+    /**
+     * URL of the topojson.
+     */
     topojsonUrl: {
       type: String,
       default: () => config.get('map.topojson.world-countries-sans-antarctica')
     },
+    /**
+     * Duration of the transitions.
+     */
     transitionDuration: {
       type: Number,
       default: 750
     },
+    /**
+     * If true the user will be able to navigate in the map with drag and mouse wheel.
+     */
     zoomable: {
       type: Boolean
     },
+    /**
+     * Set to true if your projection is spherical.
+     */
     spherical: {
       type: Boolean
     },
+    /**
+     * Minium zoom value.
+     */
     zoomMin: {
       type: Number,
       default: 1
     },
+    /**
+     * Maximum zoom value.
+     */
     zoomMax: {
       type: Number,
       default: 8
     },
+    /**
+     * Initial zoom value.
+     */
     zoom: {
       type: Number,
       default: null
     },
+    /**
+     * Initial center of the map.
+     */
     center: {
       type: Array,
       default: null
     },
+    /**
+     * Projection object from d3 to draw the features.
+     * @see https://d3js.org/d3-geo/projection
+     */
     projection: {
       type: Function,
       default: geoRobinson
     },
+    /**
+     * If true the map will display an sphere outline arround the world.
+     */
     outline: {
       type: Boolean
     },
+    /**
+     * If true the map will display a graticule grid (representing parallels and meridians).
+     */
     graticule: {
       type: Boolean
     },
+    /**
+     * Maximum height used by the map.
+     */
     height: {
       type: String,
       default: '300px'
     },
+    /**
+     * Neutral color of the map's features.
+     */
     color: {
       type: String,
       default: '#fff'
     },
+    /**
+     * Neutral color of the map's features in social mode.
+     */
     socialColor: {
       type: String,
       default: '#000'
