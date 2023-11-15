@@ -1,4 +1,5 @@
 ---
+title: Choropleth
 badge: unstable
 ---
 
@@ -108,12 +109,12 @@ Or with a custom projection:
 <script>
 import { geoOrthographic } from 'd3-geo'
 import { pick } from 'lodash'
-import * as d3 from 'd3'
+import { scaleThreshold } from 'd3'
 
 export default {
   computed: {
     featureColorScale () {
-      const scale = d3.scaleThreshold()
+      const scale = scaleThreshold()
         .domain([100, 300, 700])
         .range(["#ffffcc","#c2e699","#78c679", "#238443"]);
       return scale

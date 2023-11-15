@@ -1,4 +1,5 @@
 ---
+title: Symbol
 badge: unstable
 ---
 

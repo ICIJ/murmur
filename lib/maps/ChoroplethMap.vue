@@ -435,6 +435,7 @@ export default {
     },
     mapSphericalZoomed({ transform: { k } }) {
       const transform = `scale(${k})`
+      this.mapTransform = { ...this.mapTransform, k}
       this.applyTransformToTrackedElements(transform)
     },
     mapZoomed({ transform }) {

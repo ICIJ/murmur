@@ -4,7 +4,7 @@
       <fa :icon="headingIcon" class="float-right" />
       {{ name }}
     </h4>
-    <b-collapse :visible="active" tag="ul" class="list-unstyled mb-0 pb-4">
+    <b-collapse :visible="active" tag="ul" class="list-unstyled mb-0 pb-0">
       <li
         v-for="route in routes"
         :key="route.name"
