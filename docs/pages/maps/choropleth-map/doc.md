@@ -125,7 +125,6 @@ export default {
       geoOrthographic,
       motorVehiclesInEurope: false,   
       motorVehiclesPer1000people: {
-        "SMR": 1263,
         "MCO": 899,
         "USA": 797,
         "LIE": 750,
