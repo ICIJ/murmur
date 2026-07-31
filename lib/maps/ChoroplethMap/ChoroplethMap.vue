@@ -13,7 +13,7 @@ import { json } from 'd3-fetch'
 import { pointer as d3Pointer, select } from 'd3-selection'
 import type { Selection } from 'd3-selection'
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from 'd3-zoom'
-import { feature } from 'topojson'
+import { feature } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 
 import {

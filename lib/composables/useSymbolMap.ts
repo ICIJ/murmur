@@ -1,7 +1,7 @@
 import { geoRobinson } from 'd3-geo-projection'
 import { geoPath } from 'd3-geo'
 import type { GeoPath, GeoProjection } from 'd3-geo'
-import { feature } from 'topojson'
+import { feature } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 import get from 'lodash/get'
 import uniq from 'lodash/uniq'
