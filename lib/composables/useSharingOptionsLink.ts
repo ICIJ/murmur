@@ -1,4 +1,3 @@
-import querystring from 'querystring-es3'
 import reduce from 'lodash/reduce'
 import get from 'lodash/get'
 import { computed, onUnmounted, reactive, toValue, type Component, type MaybeRefOrGetter } from 'vue'
@@ -170,7 +169,7 @@ export function useSharingOptionsLink(
   })
 
   const href = computed((): string => {
-    return base.value + querystring.stringify(query.value)
+    return base.value + new URLSearchParams(query.value).toString()
   })
 
   // NOTE: latent quirk preserved from the original — no network entry carries a
@@ -181,7 +180,7 @@ export function useSharingOptionsLink(
 
   // window.open expects a comma-separated feature string, not a query string.
   const popupParams = computed((): string => {
-    return querystring.stringify(popup).split('&').join(',')
+    return new URLSearchParams(popup as unknown as Record<string, string>).toString().split('&').join(',')
   })
 
   // The email network opens the default mail client, not a popup window.
