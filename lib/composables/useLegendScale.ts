@@ -1,11 +1,21 @@
 import isString from 'lodash/isString'
 import { range } from 'd3-array'
 import { interpolateRound } from 'd3-interpolate'
-import { scaleLinear } from 'd3-scale'
+import { scaleLinear, scaleLog, scalePow, scaleRadial, scaleSqrt } from 'd3-scale'
 import type { ScaleLinear } from 'd3-scale'
-import * as scaleFunctions from 'd3-scale'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
+
+// The continuous numeric d3-scale factories that share this composable's
+// domain()/range() shape — the only scale kinds `colorScale` supports by
+// name. Anything else must be passed as a ready-made scale function instead.
+const SCALE_FACTORIES: Record<string, () => any> = {
+  scaleLinear,
+  scaleLog,
+  scalePow,
+  scaleRadial,
+  scaleSqrt
+}
 
 /**
  * Maps a numeric value to a CSS color string. This is the shape returned by
@@ -42,8 +52,11 @@ export interface UseLegendScaleOptions {
    */
   cursorValue: MaybeRefOrGetter<number | null | undefined>
   /**
-   * Either a ready-made color scale function, or the name of a d3-scale
-   * factory (e.g. `'scaleLinear'`) to build a two-stop scale from.
+   * Either a ready-made color scale function, or the name of one of the
+   * supported continuous d3-scale factories (`'scaleLinear'`, `'scaleLog'`,
+   * `'scalePow'`, `'scaleRadial'`, `'scaleSqrt'`) to build a two-stop scale
+   * from. Any other factory name must be passed as a ready-made function
+   * instead (e.g. `scaleSequential(...)`).
    */
   colorScale: MaybeRefOrGetter<ColorScaleFn | string>
   /**
@@ -135,7 +148,7 @@ export function useLegendScale(options: UseLegendScaleOptions): UseLegendScale {
   const colorScaleFunction = computed((): ColorScaleFn => {
     const scale = toValue(colorScale)
     if (isString(scale)) {
-      const factory = (scaleFunctions as unknown as Record<string, () => any>)[scale]
+      const factory = SCALE_FACTORIES[scale]
       return factory()
         .domain([toValue(min), toValue(max)])
         .range([toValue(colorScaleStart), toValue(colorScaleEnd)])
