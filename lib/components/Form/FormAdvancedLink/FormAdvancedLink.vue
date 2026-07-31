@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { uniqueId } from 'lodash'
+import uniqueId from 'lodash/uniqueId'
 import { ButtonVariant } from 'bootstrap-vue-next'
 
 import AdvancedLinkFormTab from './FormAdvancedLinkTab.vue'

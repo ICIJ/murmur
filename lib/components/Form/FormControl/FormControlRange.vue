@@ -5,7 +5,7 @@ import {
   ref,
   computed
 } from 'vue'
-import { clamp } from 'lodash'
+import clamp from 'lodash/clamp'
 
 import type { ButtonVariant } from 'bootstrap-vue-next'
 import AppIcon from '@/components/App/AppIcon.vue'

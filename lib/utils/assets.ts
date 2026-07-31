@@ -1,4 +1,5 @@
-import { memoize, flatten } from 'lodash'
+import memoize from 'lodash/memoize'
+import flatten from 'lodash/flatten'
 
 let assetUniqueIdCounter = 0
 

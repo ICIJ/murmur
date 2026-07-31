@@ -68,7 +68,7 @@
 
 <script setup lang="ts">
 import { computed, ref, inject, useTemplateRef, type Component } from 'vue'
-import { uniqueId } from 'lodash'
+import uniqueId from 'lodash/uniqueId'
 import IPhCircleNotch from '~icons/ph/circle-notch'
 import type { TextColorVariant, ButtonVariant, PopoverPlacement, Size } from 'bootstrap-vue-next'
 

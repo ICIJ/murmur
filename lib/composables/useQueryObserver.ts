@@ -1,5 +1,6 @@
 import { computed, onScopeDispose, reactive, toRef, watch } from 'vue'
-import { first, get } from 'lodash'
+import first from 'lodash/first'
+import get from 'lodash/get'
 
 type ElementMap = Record<string, HTMLElement[]>
 type ObserverMap = Record<string, MutationObserver>

@@ -1,4 +1,4 @@
-import { filter } from 'lodash'
+import filter from 'lodash/filter'
 import { computed, ref, toValue, watch } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter, Ref } from 'vue'
 

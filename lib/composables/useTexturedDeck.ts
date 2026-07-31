@@ -1,4 +1,4 @@
-import { clamp } from 'lodash'
+import clamp from 'lodash/clamp'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, CSSProperties, MaybeRefOrGetter } from 'vue'
 

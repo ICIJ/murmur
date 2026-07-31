@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import get from 'lodash/get'
 import identity from 'lodash/identity'
+import isArray from 'lodash/isArray'
 import kebabCase from 'lodash/kebabCase'
 import { ComponentPublicInstance, computed, nextTick, ref, toRef, watch } from 'vue'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useStackedChart } from '@/composables/useStackedChart'
-import { isArray } from 'lodash'
 
 defineOptions({
   name: 'StackedBarChart'
