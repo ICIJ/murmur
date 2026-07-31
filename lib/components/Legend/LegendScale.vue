@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import * as d3 from 'd3'
+import { create } from 'd3-selection'
+import { format } from 'd3-format'
 import {
   ref,
   computed,
@@ -78,8 +79,7 @@ onMounted(async () => {
 })
 
 const colorScaleBaseCanvas = computed((): HTMLCanvasElement | null => {
-  return d3
-    .create('canvas')
+  return create('canvas')
     .attr('width', props.width)
     .attr('height', props.height)
     .node()
@@ -96,7 +96,7 @@ const colorScaleBase64 = computed((): string | undefined => {
   return undefined
 })
 
-const formatNumber = d3.format(',')
+const formatNumber = format(',')
 
 function setCursorWrapperOffset(): void {
   const cursor = el.value?.querySelector('.scale-legend__cursor')

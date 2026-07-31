@@ -1,4 +1,5 @@
-import * as d3 from 'd3'
+import { max, sum } from 'd3-array'
+import { scaleOrdinal } from 'd3-scale'
 import keysFn from 'lodash/keys'
 import sortByFn from 'lodash/sortBy'
 import without from 'lodash/without'
@@ -139,20 +140,19 @@ export function useStackedChart(options: UseStackedChartOptions): UseStackedChar
   })
 
   const colorScale = computed((): (key: string) => string => {
-    return d3
-      .scaleOrdinal()
+    return scaleOrdinal()
       .domain(discoveredKeys.value)
       .range(toValue(barColors)) as unknown as (key: string) => string
   })
 
   function totalRowValue(i: number | string): number {
-    return d3.sum(discoveredKeys.value, (key: string) => {
+    return sum(discoveredKeys.value, (key: string) => {
       return sortedData.value[i as number][key]
     })
   }
 
   const maxStackValue = computed((): number | undefined => {
-    return d3.max(toValue(loadedData) || [], (_datum: any, i: number) => {
+    return max(toValue(loadedData) || [], (_datum: any, i: number) => {
       return totalRowValue(i)
     })
   })

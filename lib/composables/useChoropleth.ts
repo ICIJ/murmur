@@ -1,4 +1,5 @@
-import * as d3 from 'd3'
+import { scaleSequential } from 'd3-scale'
+import type { ScaleSequential } from 'd3-scale'
 import get from 'lodash/get'
 import maxFn from 'lodash/max'
 import minFn from 'lodash/min'
@@ -62,7 +63,7 @@ export interface UseChoropleth {
   /**
    * The default sequential scale, from the start color to the end color.
    */
-  defaultFeatureColorScale: ComputedRef<d3.ScaleSequential<string>>
+  defaultFeatureColorScale: ComputedRef<ScaleSequential<string>>
   /**
    * The active scale function: the custom one when provided, the default otherwise.
    */
@@ -126,8 +127,7 @@ export function useChoropleth(options: UseChoroplethOptions): UseChoropleth {
   })
 
   const defaultFeatureColorScale = computed(() => {
-    return d3
-      .scaleSequential()
+    return scaleSequential()
       .domain([Math.max(1, minValue.value), maxValue.value])
       .range([toValue(colorScaleStart), toValue(colorScaleEnd)] as any)
   })

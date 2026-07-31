@@ -1,5 +1,8 @@
 import isString from 'lodash/isString'
-import * as d3 from 'd3'
+import { range } from 'd3-array'
+import { interpolateRound } from 'd3-interpolate'
+import { scaleLinear } from 'd3-scale'
+import type { ScaleLinear } from 'd3-scale'
 import * as scaleFunctions from 'd3-scale'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
@@ -69,7 +72,7 @@ export interface UseLegendScale {
    * Maps a canvas pixel column to the value it represents on the `[min, max]`
    * domain.
    */
-  widthScale: ComputedRef<d3.ScaleLinear<number, number>>
+  widthScale: ComputedRef<ScaleLinear<number, number>>
   /**
    * Maps a canvas pixel column directly to the color painted there, composing
    * {@link widthScale} with {@link colorScaleFunction}.
@@ -141,9 +144,8 @@ export function useLegendScale(options: UseLegendScaleOptions): UseLegendScale {
   })
 
   // Map canvas pixel columns to values on the domain.
-  const widthScale = computed((): d3.ScaleLinear<number, number> => {
-    return d3
-      .scaleLinear()
+  const widthScale = computed((): ScaleLinear<number, number> => {
+    return scaleLinear()
       .domain([0, toValue(width)])
       .range([toValue(min), toValue(max)])
   })
@@ -153,7 +155,7 @@ export function useLegendScale(options: UseLegendScaleOptions): UseLegendScale {
   })
 
   const colorScaleWidthRange = computed((): number[] => {
-    return d3.range(1, toValue(width) + 1)
+    return range(1, toValue(width) + 1)
   })
 
   const hasCursor = computed((): boolean => {
@@ -161,12 +163,11 @@ export function useLegendScale(options: UseLegendScaleOptions): UseLegendScale {
   })
 
   // Map the cursor value to a [0, 100] percentage, rounding to integers.
-  const cursorLeftScale = computed((): d3.ScaleLinear<number, number> => {
-    return d3
-      .scaleLinear()
+  const cursorLeftScale = computed((): ScaleLinear<number, number> => {
+    return scaleLinear()
       .domain([toValue(min), toValue(max)])
       .range([0, 100])
-      .interpolate(d3.interpolateRound)
+      .interpolate(interpolateRound)
   })
 
   const cursorLeft = computed((): string => {

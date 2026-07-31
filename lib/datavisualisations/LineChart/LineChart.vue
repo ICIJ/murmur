@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import * as d3 from 'd3'
+import { select } from 'd3-selection'
+import type { CurveFactory } from 'd3-shape'
 import identity from 'lodash/identity'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useLineChart } from '@/composables/useLineChart'
@@ -77,7 +78,7 @@ export interface LineChartProps {
    * D3 curve factory for line interpolation (e.g. d3.curveStep, d3.curveMonotoneX).
    * Defaults to d3.curveLinear.
    */
-  curve?: d3.CurveFactory
+  curve?: CurveFactory
   /**
    * Enable social mode for optimal display when sharing on social media.
    */
@@ -236,10 +237,10 @@ function setSizes() {
 // Render the axes imperatively from the composable's d3 axis generators; the
 // line paths themselves are bound declaratively in the template.
 function update() {
-  d3.select(el.value)
+  select(el.value)
     .select('.line-chart__axis--x')
     .call(xAxis.value as any)
-  d3.select(el.value)
+  select(el.value)
     .select('.line-chart__axis--y')
     .call(yAxis.value as any)
     .selectAll('.tick line')

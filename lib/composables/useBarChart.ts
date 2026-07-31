@@ -1,4 +1,6 @@
-import * as d3 from 'd3'
+import { max } from 'd3-array'
+import { scaleLinear } from 'd3-scale'
+import type { ScaleLinear } from 'd3-scale'
 import sortByFn from 'lodash/sortBy'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
@@ -116,7 +118,7 @@ export interface UseBarChart {
   /**
    * The linear scale mapping a datum value to a bar width in pixels.
    */
-  scale: ComputedRef<{ x: d3.ScaleLinear<number, number> }>
+  scale: ComputedRef<{ x: ScaleLinear<number, number> }>
   /**
    * The geometry of every bar, in source-data order (after sorting).
    */
@@ -196,11 +198,10 @@ export function useBarChart(options: UseBarChartOptions): UseBarChart {
 
   // The value labels sit to the right of each bar, so the scale stops short of
   // the padded width by the room reserved for the widest value.
-  const scale = computed((): { x: d3.ScaleLinear<number, number> } => {
-    const x = d3
-      .scaleLinear()
+  const scale = computed((): { x: ScaleLinear<number, number> } => {
+    const x = scaleLinear()
       // @ts-expect-error D3 api
-      .domain([0, d3.max(sortedData.value, (d: BarChartDatum) => d.value)])
+      .domain([0, max(sortedData.value, (d: BarChartDatum) => d.value)])
       .range([0, Math.max(0, padded.value.width - toValue(valueWidth))])
     return { x }
   })

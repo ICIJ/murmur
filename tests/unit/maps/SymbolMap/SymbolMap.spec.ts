@@ -3,9 +3,9 @@ import { join, resolve } from 'path'
 import { shallowMount } from '@vue/test-utils'
 import SymbolMap from '@/maps/SymbolMap/SymbolMap.vue'
 
-vi.mock('d3', async () => {
+vi.mock('d3-fetch', async () => {
   return {
-    ...(await vi.importActual('d3')),
+    ...(await vi.importActual('d3-fetch')),
     json: async (url) => {
       const pathname = url.split('https://icij.github.io/murmur/').pop()
       const abspath = resolve(__dirname, join('../../../../public', pathname))

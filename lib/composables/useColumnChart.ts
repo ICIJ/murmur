@@ -1,4 +1,8 @@
-import * as d3 from 'd3'
+import { max, range, sum } from 'd3-array'
+import { axisBottom, axisLeft } from 'd3-axis'
+import type { Axis } from 'd3-axis'
+import { scaleBand, scaleLinear } from 'd3-scale'
+import type { NumberValue, ScaleBand, ScaleLinear } from 'd3-scale'
 import iteratee from 'lodash/iteratee'
 import sortByFn from 'lodash/sortBy'
 import { computed, toValue } from 'vue'
@@ -109,14 +113,14 @@ export interface UseColumnChart {
   sortedData: ComputedRef<object[]>
   margin: ComputedRef<ColumnChartMargin>
   padded: ComputedRef<ColumnChartPadded>
-  scaleX: ComputedRef<d3.ScaleBand<string>>
-  scaleY: ComputedRef<d3.ScaleLinear<number, number>>
+  scaleX: ComputedRef<ScaleBand<string>>
+  scaleY: ComputedRef<ScaleLinear<number, number>>
   waterfallTotalValue: ComputedRef<number>
   bars: ComputedRef<ColumnChartBar[]>
   xAxisHiddenTicks: ComputedRef<number>
   xAxisTickValues: ComputedRef<string[]>
-  xAxis: ComputedRef<d3.Axis<string>>
-  yAxis: ComputedRef<d3.Axis<d3.NumberValue>>
+  xAxis: ComputedRef<Axis<string>>
+  yAxis: ComputedRef<Axis<NumberValue>>
 }
 
 /**
@@ -200,33 +204,31 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
     return { width: widthP, height: heightP }
   })
 
-  const scaleX = computed((): d3.ScaleBand<string> => {
+  const scaleX = computed((): ScaleBand<string> => {
     const domain = sortedData.value.map(iteratee(toValue(timeseriesKey)))
     if (toValue(waterfall) && toValue(waterfallTotal)) {
       domain.push(toValue(waterfallTotalLabel))
     }
-    return d3
-      .scaleBand()
+    return scaleBand()
       .domain(domain)
       .range([0, padded.value.width])
       .padding(toValue(barPadding))
   })
 
   const waterfallTotalValue = computed((): number => {
-    return d3.sum(sortedData.value, iteratee(toValue(seriesName))) ?? 0
+    return sum(sortedData.value, iteratee(toValue(seriesName))) ?? 0
   })
 
-  const scaleY = computed((): d3.ScaleLinear<number, number> => {
+  const scaleY = computed((): ScaleLinear<number, number> => {
     let resolvedMax: number
     if (toValue(waterfall)) {
       resolvedMax = toValue(maxValue) ?? waterfallTotalValue.value
     }
     else {
       resolvedMax
-        = toValue(maxValue) ?? d3.max(sortedData.value, iteratee(toValue(seriesName))) ?? 0
+        = toValue(maxValue) ?? max(sortedData.value, iteratee(toValue(seriesName))) ?? 0
     }
-    return d3
-      .scaleLinear()
+    return scaleLinear()
       .domain([0, resolvedMax])
       .range([padded.value.height, 0])
   })
@@ -290,7 +292,7 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
       return 0
     }
 
-    const hiddenTicks = d3.range(1, sortedData.value.length).find((mod) => {
+    const hiddenTicks = range(1, sortedData.value.length).find((mod) => {
       const bucketWidthT = toValue(bucketWidth) * 1.5
       return toValue(width) / (bucketWidthT / mod) >= sortedData.value.length
     })
@@ -313,9 +315,8 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
     return filtered
   })
 
-  const xAxis = computed((): d3.Axis<string> => {
-    return d3
-      .axisBottom(scaleX.value)
+  const xAxis = computed((): Axis<string> => {
+    return axisBottom(scaleX.value)
       .tickFormat((d: any) => {
         // The waterfall total label is a literal, never run through the formatter.
         if (toValue(waterfall) && toValue(waterfallTotal) && d === toValue(waterfallTotalLabel)) {
@@ -326,9 +327,8 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
       .tickValues(xAxisTickValues.value)
   })
 
-  const yAxis = computed((): d3.Axis<d3.NumberValue> => {
-    return d3
-      .axisLeft(scaleY.value)
+  const yAxis = computed((): Axis<NumberValue> => {
+    return axisLeft(scaleY.value)
       .tickFormat((d: any) => d3Formatter(d, toValue(yAxisTickFormat)))
       .ticks(toValue(yAxisTicks) as number)
   })
