@@ -6,9 +6,13 @@ import kebabCase from 'lodash/kebabCase'
 import keys from 'lodash/keys'
 import pickBy from 'lodash/pickBy'
 
-import * as d3 from 'd3'
+import { drag } from 'd3-drag'
 import { geoRobinson } from 'd3-geo-projection'
 import type { GeoProjection } from 'd3-geo'
+import { json } from 'd3-fetch'
+import { pointer as d3Pointer, select } from 'd3-selection'
+import type { Selection } from 'd3-selection'
+import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from 'd3-zoom'
 import { feature } from 'topojson'
 import type { GeometryCollection, Topology } from 'topojson-specification'
 
@@ -281,8 +285,7 @@ const mapClass = computed(() => {
 })
 
 const mapZoom = computed(() => {
-  return d3
-    .zoom()
+  return d3Zoom()
     .scaleExtent([props.zoomMin, props.zoomMax])
     .translateExtent([
       [0, 0],
@@ -292,14 +295,13 @@ const mapZoom = computed(() => {
 })
 
 const mapSphericalZoom = computed(() => {
-  return d3
-    .zoom(map.value as any)
+  return d3Zoom(map.value as any)
     .scaleExtent([props.zoomMin, props.zoomMax])
     .on('zoom', mapSphericalZoomed)
 })
 
 const mapRotate = computed(() => {
-  return d3.drag(map.value as any).on('drag', mapRotated)
+  return drag(map.value as any).on('drag', mapRotated)
 })
 
 // The zoom behavior actually bound to the selection (see prepareZoom): spherical
@@ -356,8 +358,8 @@ const mapStyle = computed(() => {
 })
 
 const map = computed(
-  (): d3.Selection<SVGElement, unknown, null, undefined> | null => {
-    const selection = d3.select(resizable.value).select<SVGElement>('svg')
+  (): Selection<SVGElement, unknown, null, undefined> | null => {
+    const selection = select(resizable.value).select<SVGElement>('svg')
     if (!selection) {
       throw new Error('Empty SVG selection')
     }
@@ -508,7 +510,7 @@ async function loadTopojson() {
     if (!props.topojsonUrl?.length) {
       throw new Error('Empty topojsonUrl')
     }
-    topojsonPromise.value = d3.json(props.topojsonUrl)
+    topojsonPromise.value = json(props.topojsonUrl)
     topojson.value = await topojsonPromise.value
   }
   return topojsonPromise.value
@@ -529,7 +531,7 @@ async function mapClicked(event: MouseEvent, d: number) {
     return resetZoom(event, d)
   }
   // TODO CD: it was a promise, should it be one?
-  setFeatureZoom(d, d3.pointer(event, map.value?.node()))
+  setFeatureZoom(d, d3Pointer(event, map.value?.node()))
   /**
    * A zoom on a feature ended
    * @event zoomed
@@ -607,7 +609,7 @@ function resetZoom(_event: MouseEvent, _d: number) {
     ?.style('--map-scale', 1)
     .transition()
     .duration(props.transitionDuration)
-    .call((activeZoomBehavior.value as any)?.transform, d3.zoomIdentity)
+    .call((activeZoomBehavior.value as any)?.transform, d3ZoomIdentity)
   featureZoom.value = null
   emitResetEvent()
 }
@@ -633,7 +635,7 @@ function setFeatureZoom(d: any, pointer = [0, 0]) {
     8,
     0.9 / Math.max((x1 - x0) / mapWidth.value, (y1 - y0) / mapHeight.value)
   )
-  const zoomIdentity = d3.zoomIdentity
+  const zoomIdentity = d3ZoomIdentity
     .translate(mapWidth.value / 2, mapHeight.value / 2)
     .scale(scale)
     .translate(-(x0 + x1) / 2, -(y0 + y1) / 2)
@@ -659,7 +661,7 @@ function applyZoom(
 }
 
 function setSphericalZoom(zoomScale: number, transitionDuration: number) {
-  const zoomIdentity = d3.zoomIdentity.scale(zoomScale)
+  const zoomIdentity = d3ZoomIdentity.scale(zoomScale)
   mapTransform.value = { ...mapTransform.value, k: zoomScale }
   return applyZoomIdentity(zoomIdentity, null, transitionDuration)
 }
@@ -670,7 +672,7 @@ function setPlanarZoom(zoomScale: number, transitionDuration: number) {
     mapWidth.value / 2 - zoomScale * x,
     mapHeight.value / 2 - zoomScale * y
   ]
-  const zoomIdentity = d3.zoomIdentity
+  const zoomIdentity = d3ZoomIdentity
     .translate(translateX, translateY)
     .scale(zoomScale)
   mapTransform.value = {

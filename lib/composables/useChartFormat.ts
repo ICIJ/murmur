@@ -1,4 +1,4 @@
-import * as d3 from 'd3'
+import { format } from 'd3-format'
 import isFunction from 'lodash/isFunction'
 import isString from 'lodash/isString'
 import some from 'lodash/some'
@@ -73,7 +73,7 @@ export function useChartFormat(options: UseChartFormatOptions): UseChartFormat {
       return formatter(value)
     }
     else if (isString(formatter)) {
-      return d3.format(formatter)(value)
+      return format(formatter)(value)
     }
     return value
   }

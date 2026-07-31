@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import * as d3 from 'd3'
+import { axisLeft } from 'd3-axis'
+import { scaleLinear } from 'd3-scale'
+import { select } from 'd3-selection'
 import get from 'lodash/get'
 import identity from 'lodash/identity'
 import {
@@ -190,15 +192,13 @@ const hasColumnHighlights = computed(() => {
 })
 
 const leftScale = computed(() => {
-  return d3
-    .scaleLinear()
+  return scaleLinear()
     .domain([0, maxRowValue.value])
     .range([leftAxisHeight.value, 0])
 })
 
 const leftAxis = computed(() => {
-  return d3
-    .axisLeft(leftScale.value)
+  return axisLeft(leftScale.value)
     .tickFormat(d => d3Formatter(d, props.yAxisTickFormat))
     .tickSize(Math.max(0, width.value - leftAxisLabelsWidth.value))
     .tickPadding(props.yAxisTickPadding)
@@ -216,8 +216,7 @@ const leftAxisLabelsWidth = computed(() => {
 })
 
 const leftAxisCanvas = computed(() => {
-  return d3
-    .select(el.value)
+  return select(el.value)
     .select('.stacked-column-chart__left-axis__canvas')
 })
 

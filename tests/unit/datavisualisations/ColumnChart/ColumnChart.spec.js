@@ -1,10 +1,10 @@
-import * as d3 from 'd3'
+import * as d3Fetch from 'd3-fetch'
 import { mount, flushPromises } from '@vue/test-utils'
 import ColumnChart from '@/datavisualisations/ColumnChart/ColumnChart.vue'
 
-vi.mock('d3', async () => {
+vi.mock('d3-fetch', async () => {
   return {
-    ...(await vi.importActual('d3'))
+    ...(await vi.importActual('d3-fetch'))
   }
 })
 
@@ -139,7 +139,7 @@ describe('ColumnChart.vue', () => {
 
     beforeAll(async () => {
       // eslint-disable-next-line no-import-assign
-      d3.json = vi.fn().mockResolvedValue([
+      d3Fetch.json = vi.fn().mockResolvedValue([
         { date: 2019, value: 50 },
         { date: 2020, value: 100 }
       ])
@@ -237,7 +237,7 @@ describe('ColumnChart.vue', () => {
 
     beforeAll(() => {
       // eslint-disable-next-line no-import-assign
-      d3.csv = vi.fn().mockReturnValue([
+      d3Fetch.csv = vi.fn().mockReturnValue([
         { date: 2000, indicator: 0, highlight: false },
         { date: 2001, indicator: 10, highlight: false },
         { date: 2002, indicator: 20, highlight: false },
@@ -326,7 +326,7 @@ describe('ColumnChart.vue', () => {
 
     beforeAll(() => {
       // eslint-disable-next-line no-import-assign
-      d3.json = vi.fn().mockResolvedValue([
+      d3Fetch.json = vi.fn().mockResolvedValue([
         { date: 2019, value: 30 },
         { date: 2020, value: 60 },
         { date: 2021, value: 90 }

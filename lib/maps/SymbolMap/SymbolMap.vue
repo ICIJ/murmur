@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import * as d3 from 'd3'
-import type { GeoPermissibleObjects } from 'd3'
+import type { GeoPermissibleObjects } from 'd3-geo'
+import { json } from 'd3-fetch'
+import { pointer as d3Pointer, select } from 'd3-selection'
+import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from 'd3-zoom'
 import debounce from 'lodash/debounce'
 import find from 'lodash/find'
 import get from 'lodash/get'
@@ -277,8 +279,7 @@ const mapClass = computed(() => {
 })
 
 const mapZoom = computed(() => {
-  return d3
-    .zoom()
+  return d3Zoom()
     .scaleExtent([props.zoomMin, props.zoomMax])
     .translateExtent([
       [0, 0],
@@ -288,8 +289,7 @@ const mapZoom = computed(() => {
 })
 
 const map = computed(() => {
-  const selection = d3
-    .select(el.value)
+  const selection = select(el.value)
     .select<SVGElement>('.symbol-map__main')
   if (!selection) {
     throw new Error('Empty SVG selection')
@@ -409,7 +409,7 @@ async function loadTopojson() {
     if (!props.topojsonUrl?.length) {
       throw new Error('Empty topojsonUrl')
     }
-    topojsonPromise.value = d3.json(props.topojsonUrl) as any
+    topojsonPromise.value = json(props.topojsonUrl) as any
     topojson.value = await topojsonPromise.value
   }
   return topojsonPromise.value
@@ -511,7 +511,7 @@ async function featureClicked(
   if (featureZoom.value === get(d, props.topojsonObjectsPath)) {
     return resetZoom(event, d as any)
   }
-  setFeatureZoom(d, d3.pointer(event, map.value?.node()))
+  setFeatureZoom(d, d3Pointer(event, map.value?.node()))
   /**
    * A zoom on a feature ended
    * @event zoomed
@@ -525,7 +525,7 @@ function resetZoom(_event: MouseEvent, _d: number) {
     ?.style('--map-scale', 1)
     .transition()
     .duration(props.transitionDuration)
-    .call((mapZoom.value as any).transform, d3.zoomIdentity)
+    .call((mapZoom.value as any).transform, d3ZoomIdentity)
   featureZoom.value = null
 
   /**
@@ -555,7 +555,7 @@ function setFeatureZoom(d: GeoPermissibleObjects, pointer = [0, 0]) {
   )
   const x = -(x0 + x1) / 2
   const y = -(y0 + y1) / 2
-  const zoomIdentity = d3.zoomIdentity
+  const zoomIdentity = d3ZoomIdentity
     .translate(width / 2, height / 2)
     .scale(scale)
     .translate(x, y)

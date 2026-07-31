@@ -1,5 +1,5 @@
 import isFunction from 'lodash/isFunction'
-import * as d3 from 'd3'
+import { select } from 'd3-selection'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 
@@ -72,8 +72,7 @@ export function useLegendMarker(
   // Measure the default marker by rendering it once in a detached SVG, then
   // remove it; the resulting box drives the shared `viewBox` for every marker.
   const markerBoundingClientRect = computed((): DOMRect | undefined => {
-    const svg = d3
-      .select('body')
+    const svg = select('body')
       .append('svg')
       .attr('width', 2046)
       .attr('height', 2046)

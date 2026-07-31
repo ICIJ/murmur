@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ComponentPublicInstance, computed, getCurrentInstance, ref, toRef, watch } from 'vue'
 import identity from 'lodash/identity'
-import * as d3 from 'd3'
+import { select as d3Select } from 'd3-selection'
 
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useColumnChart } from '@/composables/useColumnChart'
@@ -301,15 +301,15 @@ function update() {
     return
   }
 
-  d3.select('.column-chart__axis > *').remove()
+  d3Select('.column-chart__axis > *').remove()
 
-  d3.select(el.value)
+  d3Select(el.value)
     .select('.column-chart__axis--x')
     .call(xAxis.value as any)
     .select('.domain')
     .remove()
 
-  d3.select(el.value)
+  d3Select(el.value)
     .select('.column-chart__axis--y')
     .call(yAxis.value as any)
     .selectAll('.tick line')

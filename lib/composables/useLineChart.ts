@@ -1,4 +1,12 @@
-import * as d3 from 'd3'
+import { extent, max } from 'd3-array'
+import { axisBottom, axisLeft } from 'd3-axis'
+import type { Axis } from 'd3-axis'
+import { schemeCategory10 } from 'd3-scale-chromatic'
+import { scaleLinear, scaleOrdinal, scaleTime } from 'd3-scale'
+import type { NumberValue, ScaleLinear, ScaleOrdinal, ScaleTime } from 'd3-scale'
+import { line as createLine } from 'd3-shape'
+import type { CurveFactory, Line } from 'd3-shape'
+import { timeParse } from 'd3-time-format'
 import { computed, toRaw, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 import type { LoadedData } from '@/composables/useChartData'
@@ -58,13 +66,13 @@ export interface UseLineChartOptions {
    */
   timeseriesKey: MaybeRefOrGetter<string>
   /**
-   * Explicit stroke colors for each line; falls back to `d3.schemeCategory10`.
+   * Explicit stroke colors for each line; falls back to `schemeCategory10`.
    */
   lineColors: MaybeRefOrGetter<string[]>
   /**
    * Optional d3 curve factory for line interpolation (defaults to linear).
    */
-  curve: MaybeRefOrGetter<d3.CurveFactory | undefined>
+  curve: MaybeRefOrGetter<CurveFactory | undefined>
   /**
    * The `d3Formatter` helper exposed by `useChart`, used to format y-axis ticks.
    */
@@ -93,14 +101,14 @@ export interface UseLineChartOptions {
 export interface UseLineChart {
   isMultiLine: ComputedRef<boolean>
   activeKeys: ComputedRef<string[]>
-  colorScale: ComputedRef<d3.ScaleOrdinal<string, string>>
+  colorScale: ComputedRef<ScaleOrdinal<string, string>>
   formattedData: ComputedRef<Record<string, any>[]>
-  scaleX: ComputedRef<d3.ScaleTime<number, number>>
-  scaleY: ComputedRef<d3.ScaleLinear<number, number>>
+  scaleX: ComputedRef<ScaleTime<number, number>>
+  scaleY: ComputedRef<ScaleLinear<number, number>>
   lines: ComputedRef<LineChartSeries[]>
   line: ComputedRef<string | null>
-  xAxis: ComputedRef<d3.Axis<Date | d3.NumberValue>>
-  yAxis: ComputedRef<d3.Axis<d3.NumberValue>>
+  xAxis: ComputedRef<Axis<Date | NumberValue>>
+  yAxis: ComputedRef<Axis<NumberValue>>
 }
 
 // Call the first argument if it's a function, or return it untouched. Mirrors
@@ -110,7 +118,7 @@ function castCall(fnOrValue: any, ...rest: any[]) {
 }
 
 // d3 parses a bare year ("%Y") into a Date positioned at the start of that year.
-const parseTime = d3.timeParse('%Y')
+const parseTime = timeParse('%Y')
 
 /**
  * Owns the pure d3 geometry of the `LineChart` component: it normalizes the data
@@ -161,12 +169,11 @@ export function useLineChart(options: UseLineChartOptions): UseLineChart {
     return isMultiLine.value ? toValue(keys) : [toValue(seriesName)]
   })
 
-  const colorScale = computed((): d3.ScaleOrdinal<string, string> => {
+  const colorScale = computed((): ScaleOrdinal<string, string> => {
     const colors = toValue(lineColors)
-    return d3
-      .scaleOrdinal<string>()
+    return scaleOrdinal<string>()
       .domain(activeKeys.value)
-      .range(colors.length ? colors : d3.schemeCategory10)
+      .range(colors.length ? colors : schemeCategory10)
   })
 
   const formattedData = computed((): Record<string, any>[] => {
@@ -187,28 +194,25 @@ export function useLineChart(options: UseLineChartOptions): UseLineChart {
     })
   })
 
-  const scaleX = computed((): d3.ScaleTime<number, number> => {
+  const scaleX = computed((): ScaleTime<number, number> => {
     const timeKey = toValue(timeseriesKey)
-    return d3
-      .scaleTime()
+    return scaleTime()
       .range([0, toValue(padded).width])
-      .domain(d3.extent(formattedData.value, (d: any) => d[timeKey]) as [Date, Date])
+      .domain(extent(formattedData.value, (d: any) => d[timeKey]) as [Date, Date])
   })
 
-  const scaleY = computed((): d3.ScaleLinear<number, number> => {
+  const scaleY = computed((): ScaleLinear<number, number> => {
     // Y domain covers every active series.
-    const maxY = d3.max(activeKeys.value, (key) => {
-      return d3.max(formattedData.value, (d: any) => d[key]) as number
+    const maxY = max(activeKeys.value, (key) => {
+      return max(formattedData.value, (d: any) => d[key]) as number
     }) as number
-    return d3
-      .scaleLinear()
+    return scaleLinear()
       .range([toValue(padded).height, 0])
       .domain([0, maxY])
   })
 
-  const lineGenerator = computed((): d3.Line<{ x: number, y: number }> => {
-    const generator = d3
-      .line<{ x: number, y: number }>()
+  const lineGenerator = computed((): Line<{ x: number, y: number }> => {
+    const generator = createLine<{ x: number, y: number }>()
       .x(d => d.x)
       .y(d => d.y)
     const curveFactory = toValue(curve)
@@ -247,16 +251,14 @@ export function useLineChart(options: UseLineChartOptions): UseLineChart {
     return lineGenerator.value(seriesPoints(toValue(seriesName)))
   })
 
-  const xAxis = computed((): d3.Axis<Date | d3.NumberValue> => {
-    return d3
-      .axisBottom(scaleX.value)
+  const xAxis = computed((): Axis<Date | NumberValue> => {
+    return axisBottom(scaleX.value)
       .ticks(toValue(xAxisTicks) as any)
       .tickFormat((d: any) => castCall(xAxisYearFormat, d.getFullYear()))
   })
 
-  const yAxis = computed((): d3.Axis<d3.NumberValue> => {
-    return d3
-      .axisLeft(scaleY.value)
+  const yAxis = computed((): Axis<NumberValue> => {
+    return axisLeft(scaleY.value)
       .tickFormat((d: any) => d3Formatter(d, toValue(yAxisTickFormat)))
       .ticks(toValue(yAxisTicks) as number)
   })

@@ -1,10 +1,11 @@
-import * as d3 from 'd3'
+import * as d3Fetch from 'd3-fetch'
+import { timeYear } from 'd3-time'
 import { mount } from '@vue/test-utils'
 import LineChart from '@/datavisualisations/LineChart/LineChart.vue'
 
-vi.mock('d3', async () => {
+vi.mock('d3-fetch', async () => {
   return {
-    ...(await vi.importActual('d3'))
+    ...(await vi.importActual('d3-fetch'))
   }
 })
 
@@ -30,7 +31,7 @@ describe('LineChart.vue', () => {
     beforeEach(async () => {
       const propsData = {
         fixedHeight: 300,
-        xAxisTicks: d3.timeYear.every(1),
+        xAxisTicks: timeYear.every(1),
         data: [
           { date: 2000, value: 0 },
           { date: 2001, value: 1 },
@@ -72,14 +73,14 @@ describe('LineChart.vue', () => {
 
     beforeEach(async () => {
       // eslint-disable-next-line no-import-assign
-      d3.json = vi.fn().mockReturnValue([
+      d3Fetch.json = vi.fn().mockReturnValue([
         { date: 2019, value: 50 },
         { date: 2020, value: 100 }
       ])
 
       const propsData = {
         data: 'http://localhost/data.json',
-        xAxisTicks: d3.timeYear.every(1)
+        xAxisTicks: timeYear.every(1)
       }
       wrapper = mount(LineChart, { propsData })
       wrapper.vm.$el.style.width = '500px'
@@ -106,7 +107,7 @@ describe('LineChart.vue', () => {
     beforeEach(async () => {
       const propsData = {
         fixedHeight: 300,
-        xAxisTicks: d3.timeYear.every(1),
+        xAxisTicks: timeYear.every(1),
         keys: ['injuries', 'deaths'],
         groups: ['Injuries', 'Deaths'],
         lineColors: ['#e53935', '#ff8a80'],
@@ -224,7 +225,7 @@ describe('LineChart.vue', () => {
 
     beforeEach(async () => {
       // eslint-disable-next-line no-import-assign
-      d3.csv = vi.fn().mockReturnValue([
+      d3Fetch.csv = vi.fn().mockReturnValue([
         { date: 2000, indicator: 0, highlight: false },
         { date: 2001, indicator: 10, highlight: false },
         { date: 2002, indicator: 20, highlight: false },
@@ -240,7 +241,7 @@ describe('LineChart.vue', () => {
       const propsData = {
         data: 'http://localhost/data.csv',
         dataUrlType: 'csv',
-        xAxisTicks: d3.timeYear.every(1),
+        xAxisTicks: timeYear.every(1),
         seriesName: 'indicator'
       }
       wrapper = mount(LineChart, { propsData })

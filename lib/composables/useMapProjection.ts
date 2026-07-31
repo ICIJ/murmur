@@ -1,5 +1,4 @@
-import * as d3 from 'd3'
-import { geoGraticule } from 'd3-geo'
+import { geoGraticule, geoPath } from 'd3-geo'
 import type { GeoPath, GeoProjection } from 'd3-geo'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
@@ -192,7 +191,7 @@ export function useMapProjection(
   })
 
   const featurePath = computed((): GeoPath => {
-    return d3.geoPath().projection(mapProjection.value)
+    return geoPath().projection(mapProjection.value)
   })
 
   const initialMapProjection = computed((): GeoProjection => {

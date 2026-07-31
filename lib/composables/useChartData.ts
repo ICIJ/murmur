@@ -1,4 +1,4 @@
-import * as d3 from 'd3'
+import { json, csv, tsv } from 'd3-fetch'
 import isString from 'lodash/isString'
 import { ref, toRef, toValue, watch } from 'vue'
 import type { Ref } from 'vue'
@@ -77,8 +77,9 @@ export function useChartData(
     const dataUrlType = toValue(dataUrlTypeRef)
 
     if (isString(data)) {
+      const loaders = { json, csv, tsv }
       // @ts-expect-error introspection in typescript is tricky
-      loadedData.value = await d3[dataUrlType](data)
+      loadedData.value = await loaders[dataUrlType](data)
     }
     else {
       loadedData.value = data as unknown as []

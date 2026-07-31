@@ -1,5 +1,5 @@
-import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'
+import { geoPath } from 'd3-geo'
 import type { GeoPath, GeoProjection } from 'd3-geo'
 import { feature } from 'topojson'
 import type { GeometryCollection, Topology } from 'topojson-specification'
@@ -184,7 +184,7 @@ export function useSymbolMap(options: UseSymbolMapOptions): UseSymbolMap {
   })
 
   const featurePath = computed((): GeoPath => {
-    return d3.geoPath().projection(mapProjection.value)
+    return geoPath().projection(mapProjection.value)
   })
 
   const categories = computed((): string[] => {
