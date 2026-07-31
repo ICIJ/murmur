@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash'
+import isFunction from 'lodash/isFunction'
 import * as d3 from 'd3'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'

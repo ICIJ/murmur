@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ComponentPublicInstance, computed, getCurrentInstance, ref, toRef, watch } from 'vue'
-import { identity } from 'lodash'
+import identity from 'lodash/identity'
 import * as d3 from 'd3'
 
 import { getChartProps, useChart } from '@/composables/useChart'

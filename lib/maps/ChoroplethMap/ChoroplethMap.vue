@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import {
-  clamp,
-  debounce,
-  get,
-  kebabCase,
-  keys,
-  pickBy
-} from 'lodash'
+import clamp from 'lodash/clamp'
+import debounce from 'lodash/debounce'
+import get from 'lodash/get'
+import kebabCase from 'lodash/kebabCase'
+import keys from 'lodash/keys'
+import pickBy from 'lodash/pickBy'
 
 import * as d3 from 'd3'
 import { geoRobinson } from 'd3-geo-projection'

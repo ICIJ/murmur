@@ -1,4 +1,4 @@
-import { round } from 'lodash'
+import round from 'lodash/round'
 import { computed, ref, toValue, watch } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter, Ref } from 'vue'
 

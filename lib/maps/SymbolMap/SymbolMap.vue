@@ -1,18 +1,16 @@
 <script setup lang="ts">
 import * as d3 from 'd3'
 import type { GeoPermissibleObjects } from 'd3'
-import {
-  debounce,
-  find,
-  get,
-  groupBy,
-  isFunction,
-  kebabCase,
-  keys,
-  pickBy,
-  set,
-  uniqueId
-} from 'lodash'
+import debounce from 'lodash/debounce'
+import find from 'lodash/find'
+import get from 'lodash/get'
+import groupBy from 'lodash/groupBy'
+import isFunction from 'lodash/isFunction'
+import kebabCase from 'lodash/kebabCase'
+import keys from 'lodash/keys'
+import pickBy from 'lodash/pickBy'
+import set from 'lodash/set'
+import uniqueId from 'lodash/uniqueId'
 
 import config from '@/config'
 import OrdinalLegend from '@/components/Legend/LegendOrdinal.vue'

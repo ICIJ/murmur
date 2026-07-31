@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { get, kebabCase } from 'lodash'
+import get from 'lodash/get'
+import kebabCase from 'lodash/kebabCase'
 import { computed, toRef } from 'vue'
 
 import { useLegendMarker } from '@/composables/useLegendMarker'

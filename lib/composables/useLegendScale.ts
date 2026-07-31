@@ -1,4 +1,4 @@
-import { isString } from 'lodash'
+import isString from 'lodash/isString'
 import * as d3 from 'd3'
 import * as scaleFunctions from 'd3-scale'
 import { computed, toValue } from 'vue'
