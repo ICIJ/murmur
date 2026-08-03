@@ -15,11 +15,11 @@ export interface ColumnChartProps {
   /**
    * Color of the columns. Falls back to theme's dark color.
    */
-  columnColor?: string | null
+  columnColor?: string
   /**
    * Color of highlighted columns. Falls back to theme's primary color.
    */
-  columnHighlightColor?: string | null
+  columnHighlightColor?: string
   /**
    * Fixed height for the chart in pixels. If not set, height is calculated from width.
    */
@@ -140,12 +140,12 @@ export interface ColumnChartProps {
   /**
    * Color for the waterfall total bar. Falls back to currentColor.
    */
-  waterfallTotalColor?: string | null
+  waterfallTotalColor?: string
 }
 
 const props = withDefaults(defineProps<ColumnChartProps>(), {
-  columnColor: null,
-  columnHighlightColor: null,
+  columnColor: undefined,
+  columnHighlightColor: undefined,
   fixedHeight: null,
   fixedLabelWidth: null,
   seriesName: 'value',
@@ -175,7 +175,7 @@ const props = withDefaults(defineProps<ColumnChartProps>(), {
   waterfall: false,
   waterfallTotal: false,
   waterfallTotalLabel: 'Total',
-  waterfallTotalColor: null
+  waterfallTotalColor: undefined
 })
 
 const emit = defineEmits<{
