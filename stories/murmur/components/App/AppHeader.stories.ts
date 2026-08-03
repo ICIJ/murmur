@@ -5,10 +5,7 @@ import { AppHeader } from '@/components'
 const meta: Meta<typeof AppHeader> = {
   title: 'Murmur/components/App/AppHeader',
   component: AppHeader,
-  tags: ['autodocs'],
-  argTypes: {
-    brandOptions: { control: 'select' }
-  }
+  tags: ['autodocs']
 }
 
 export default meta
