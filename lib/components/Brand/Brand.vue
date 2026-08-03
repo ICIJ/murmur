@@ -48,11 +48,11 @@ interface BrandProps {
   /**
    * Monochromatic logo's color
    */
-  color?: string | undefined
+  color?: string
   /**
    * Logo's background color
    */
-  background?: string | undefined
+  background?: string
   /**
    * Logo's size
    */
