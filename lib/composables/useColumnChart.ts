@@ -304,10 +304,13 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
     // Either use the explicit `xAxisTicks` prop or use the data
     const ticks
       = toValue(xAxisTicks) ?? sortedData.value.map(iteratee(toValue(timeseriesKey)))
-    // Then filter out ticks according to `xAxisHiddenTicks`
-    const filtered = ticks.map((tick: string, i: number) => {
-      return (i + 1) % xAxisHiddenTicks.value ? null : tick
-    }) as string[]
+    // Then drop ticks according to `xAxisHiddenTicks`, rather than keeping a
+    // placeholder for them: a `null` entry isn't part of the scale's domain,
+    // so d3 would resolve its position to NaN and break the axis' transform.
+    const stride = xAxisHiddenTicks.value
+    const filtered = ticks.filter((_tick: string, i: number) => {
+      return stride === 0 || (i + 1) % stride === 0
+    })
     // Add the total label for waterfall charts
     if (toValue(waterfall) && toValue(waterfallTotal)) {
       filtered.push(toValue(waterfallTotalLabel))

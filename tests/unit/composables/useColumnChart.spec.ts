@@ -132,6 +132,26 @@ describe('useColumnChart', () => {
       expect(xAxisTickValues.value).toEqual([2000, 2001, 2002, 2003, 2004])
     })
 
+    it('drops collapsed ticks instead of keeping a null placeholder', () => {
+      // A null placeholder isn't part of the scale's domain, so d3 would
+      // resolve its position to NaN and break the axis' <g> transform.
+      const { xAxisTickValues } = useColumnChart(
+        createOptions({
+          loadedData: ref([
+            { date: 2000, value: 0 },
+            { date: 2001, value: 1 },
+            { date: 2002, value: 2 },
+            { date: 2003, value: 3 }
+          ]),
+          width: ref(40),
+          bucketWidth: ref(10),
+          xAxisTickCollapse: ref(true)
+        })
+      )
+      expect(xAxisTickValues.value).toEqual([2001, 2003])
+      expect(xAxisTickValues.value).not.toContain(null)
+    })
+
     it('appends the total label for waterfall totals', () => {
       const { xAxisTickValues } = useColumnChart(
         createOptions({
