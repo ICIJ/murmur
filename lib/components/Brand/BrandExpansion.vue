@@ -45,11 +45,11 @@ export interface BrandExpansionProps {
   /**
    * Monochromatic logo's color
    */
-  color?: string | null
+  color?: string
   /**
    * Logo's background color
    */
-  background?: string | null
+  background?: string
   /**
    * Logo's size
    */
@@ -71,8 +71,8 @@ export interface BrandExpansionProps {
 
 const props = withDefaults(defineProps<BrandExpansionProps>(), {
   animated: false,
-  color: null,
-  background: null,
+  color: undefined,
+  background: undefined,
   size: '70px',
   mode: BrandMode.Short,
   dark: false,

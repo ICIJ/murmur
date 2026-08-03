@@ -15,7 +15,7 @@ export interface LineChartProps {
    * Color of the line. Falls back to theme's dark color.
    * Used for single-series mode (when `keys` is not set).
    */
-  lineColor?: string | null
+  lineColor?: string
   /**
    * Colors for each line when using multi-series mode (`keys`).
    */
@@ -90,7 +90,7 @@ export interface LineChartProps {
 }
 
 const props = withDefaults(defineProps<LineChartProps>(), {
-  lineColor: null,
+  lineColor: undefined,
   lineColors: () => [],
   keys: () => [],
   groups: () => [],
