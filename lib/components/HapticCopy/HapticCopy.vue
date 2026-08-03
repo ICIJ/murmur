@@ -4,6 +4,7 @@ import uniqueId from 'lodash/uniqueId'
 import {
   ComponentPublicInstance,
   computed,
+  markRaw,
   ref,
   type Component
 } from 'vue'
@@ -63,7 +64,7 @@ export interface HapticCopyProps {
 }
 
 const props = withDefaults(defineProps<HapticCopyProps>(), {
-  tag: () => BButton,
+  tag: () => markRaw(BButton),
   text: null,
   plain: null,
   hideLabel: false,
