@@ -20,11 +20,11 @@ export interface BarChartProps {
   /**
    * Color of the bars. Falls back to theme's dark color.
    */
-  barColor?: string | null
+  barColor?: string
   /**
    * Color of highlighted bars. Falls back to theme's primary color.
    */
-  barHighlightColor?: string | null
+  barHighlightColor?: string
   /**
    * Fixed width for labels in pixels. If not set, width is calculated automatically.
    */
@@ -74,8 +74,8 @@ export interface BarChartProps {
 const props = withDefaults(defineProps<BarChartProps>(), {
   barHeight: 30,
   barGap: 15,
-  barColor: null,
-  barHighlightColor: null,
+  barColor: undefined,
+  barHighlightColor: undefined,
   fixedLabelWidth: null,
   fixedValueWidth: null,
   labelGap: 10,
