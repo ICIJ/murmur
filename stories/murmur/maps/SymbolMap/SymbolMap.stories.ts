@@ -90,7 +90,9 @@ const meta: Meta<typeof SymbolMap> = {
     zoomable: { control: 'boolean' },
     fitToMarkers: { control: 'boolean' },
     hideLegend: { control: 'boolean' },
-    hideTooltip: { control: 'boolean' }
+    hideTooltip: { control: 'boolean' },
+    // featureColor also accepts a function; the color control only supports strings.
+    featureColor: { control: false }
   },
   parameters: {
     docs: {
@@ -187,7 +189,7 @@ export const NuclearPowerPlants: Story = {
           <small><a href="https://pris.iaea.org/PRIS/" target="_blank">Source: IAEA PRIS</a></small>
         </p>
       </div>
-      <style>
+      <component is="style">
         .power-plants-map.symbol-map {
           --category-color-0n: #ffeda0;
           --category-color-1n: #fed976;
@@ -198,7 +200,7 @@ export const NuclearPowerPlants: Story = {
           --category-color-6n: #b10026;
           --category-color-7n: #630015;
         }
-      </style>
+      </component>
     `
   }),
   parameters: {
@@ -245,11 +247,11 @@ export const Marseille: Story = {
           <small><a href="https://trouver.datasud.fr/dataset/marseille-equipements-sportifs" target="_blank">Source: DataSud</a></small>
         </p>
       </div>
-      <style>
-        .marseille-facilities-map.symbol-map :deep(.symbol-map__main__features__item) {
+      <component is="style">
+        .marseille-facilities-map.symbol-map .symbol-map__main__features__item {
           stroke: #ccc;
         }
-      </style>
+      </component>
     `
   }),
   parameters: {
