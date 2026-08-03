@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { HapticCopy } from '@/components'
 import { BBadge } from 'bootstrap-vue-next'
+import { markRaw } from 'vue'
 
 const meta: Meta<typeof HapticCopy> = {
   title: 'Murmur/components/HapticCopy/HapticCopy',
@@ -40,6 +41,6 @@ export const PillBadge: Story = {
     text: 'Lorem info sit amet',
     variant: 'warning',
     pill: true,
-    tag: BBadge
+    tag: markRaw(BBadge)
   }
 }
