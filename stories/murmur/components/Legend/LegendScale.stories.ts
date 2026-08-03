@@ -27,7 +27,7 @@ export const Default: Story = {
 }
 
 export const Width: Story = {
-  args: { width: '200' }
+  args: { width: 200 }
 }
 
 export const ColorScale: Story = {
