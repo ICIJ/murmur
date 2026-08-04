@@ -155,6 +155,21 @@ describe('AccordionStep', () => {
     })
   })
 
+  describe('outside an Accordion', () => {
+    it('warns instead of silently doing nothing', () => {
+      // Passing `undefined` as inject's default argument silences Vue's own
+      // "injection not found" warning, since it only fires on the no-default
+      // overload; that left a step with dead buttons and no console signal.
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      shallowMount(AccordionStep, {
+        propsData: { step },
+        global: { stubs, renderStubDefaultSlot: true }
+      })
+      expect(warnSpy.mock.calls[0][0]).toContain('injection "Symbol(Accordion)" not found')
+      warnSpy.mockRestore()
+    })
+  })
+
   describe('action buttons', () => {
     it('displays a back button', async () => {
       const propsData = { step }
