@@ -3486,7 +3486,7 @@ lightningcss@^1.32.0, lightningcss@^1.33.0:
     lightningcss-win32-arm64-msvc "1.33.0"
     lightningcss-win32-x64-msvc "1.33.0"
 
-local-pkg@^1.1.1:
+local-pkg@^1.1.1, local-pkg@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/local-pkg/-/local-pkg-1.2.1.tgz#9628389399851d78f3b50c9236eddb02f0c31b2b"
   integrity sha512-++gUqRDEvcnN6Zhqrr+y/CkVEHhlrR96vZn3nZZPYzMcBUyBtTKzB9NadClFIsIVSsu+3i9tfk/erqy9kAmt7Q==
@@ -4564,7 +4564,7 @@ tinyglobby@^0.2.15:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
-tinyglobby@^0.2.17:
+tinyglobby@^0.2.16, tinyglobby@^0.2.17:
   version "0.2.17"
   resolved "https://registry.yarnpkg.com/tinyglobby/-/tinyglobby-0.2.17.tgz#562a9a6c9eb2b3b123d39719f9af5bb44fcd7631"
   integrity sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==
@@ -4795,19 +4795,19 @@ unplugin-utils@^0.3.1:
     pathe "^2.0.3"
     picomatch "^4.0.3"
 
-unplugin-vue-components@31.1.0:
-  version "31.1.0"
-  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-31.1.0.tgz#ea0b149d9b99aca02603ab88d773259916900847"
-  integrity sha512-9EbV5ark21A4BOBt6RJGJXCVD2I1eoxTZL1TAvNgYTokcrFIiuxpufb8owyWn7n+z2x8daz/ltZq6IRRKL3ydQ==
+unplugin-vue-components@32.1.0:
+  version "32.1.0"
+  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-32.1.0.tgz#6381802ff55b72b4664f575e926765f454255b8d"
+  integrity sha512-YiUkSxuRjab18XFOrX5VsIxXzccrfmHVGsGeJgSgklb829DQmCy9E4vvDUE4tuvZZdxyFJZX0Oc4TPnnxiiMyg==
   dependencies:
     chokidar "^5.0.0"
-    local-pkg "^1.1.2"
+    local-pkg "^1.2.0"
     magic-string "^0.30.21"
     mlly "^1.8.2"
     obug "^2.1.1"
-    picomatch "^4.0.3"
-    tinyglobby "^0.2.15"
-    unplugin "^2.3.11"
+    picomatch "^4.0.4"
+    tinyglobby "^0.2.16"
+    unplugin "^3.0.0"
     unplugin-utils "^0.3.1"
 
 unplugin@^2.3.11, unplugin@^2.3.2, unplugin@^2.3.4, unplugin@^2.3.5:
@@ -4818,6 +4818,15 @@ unplugin@^2.3.11, unplugin@^2.3.2, unplugin@^2.3.4, unplugin@^2.3.5:
     "@jridgewell/remapping" "^2.3.5"
     acorn "^8.15.0"
     picomatch "^4.0.3"
+    webpack-virtual-modules "^0.6.2"
+
+unplugin@^3.0.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-3.3.0.tgz#18de476b6130a6cde94db87f70ac32b97757f3c9"
+  integrity sha512-qa66K+crbfyE6JK10GjvbJeRrOsuC/JpbnHctfyp/i4oBTxWOzJfRZyDiOk1PtErMFRu8JhsU/wPvOdBNWe5Rg==
+  dependencies:
+    "@jridgewell/remapping" "^2.3.5"
+    picomatch "^4.0.4"
     webpack-virtual-modules "^0.6.2"
 
 until-async@^3.0.2:
