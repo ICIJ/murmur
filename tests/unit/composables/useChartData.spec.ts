@@ -25,10 +25,14 @@ function mountHost(data: ChartData, dataUrlType: 'json' | 'csv' | 'tsv' = 'json'
       return () => h('div')
     }
   })
-  const wrapper = mount(host)
+  const errorHandler = vi.fn()
+  const wrapper = mount(host, {
+    global: { config: { errorHandler } }
+  })
   return {
     wrapper,
     onLoaded,
+    errorHandler,
     get loadedData() {
       return api.loadedData
     }
@@ -68,5 +72,19 @@ describe('useChartData', () => {
     await Promise.resolve()
     await Promise.resolve()
     expect(d3Fetch.csv).toHaveBeenCalledWith('https://example.com/data.csv')
+  })
+
+  it('throws a descriptive error for an unsupported dataUrlType instead of failing silently', async () => {
+    // Previously `loaders[dataUrlType]` was `undefined` for any unlisted type,
+    // so calling it threw an opaque "is not a function" deep inside the watcher.
+    const { errorHandler, wrapper } = mountHost('https://example.com/data.xml', 'xml' as any)
+    await wrapper.vm.$nextTick()
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(errorHandler).toHaveBeenCalledWith(
+      expect.objectContaining({ message: expect.stringContaining('unsupported dataUrlType "xml"') }),
+      expect.anything(),
+      expect.any(String)
+    )
   })
 })
