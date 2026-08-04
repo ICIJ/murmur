@@ -54,13 +54,13 @@ describe('ScaleLegend.vue', () => {
       expect(wrapper.classes('scale-legend--has-cursor')).toBeFalsy()
     })
 
-    it('should give around 100 for the width 100', () => {
-      const value = Math.round(wrapper.vm.widthScale(100))
-      expect(value).toBe(100)
+    it('should give the domain min for pixel column 0', () => {
+      const value = Math.round(wrapper.vm.widthScale(0))
+      expect(value).toBe(0)
     })
 
-    it('should give around 150 for the width 150', () => {
-      const value = Math.round(wrapper.vm.widthScale(150))
+    it('should give the domain max for the last painted pixel column (width - 1 = 149)', () => {
+      const value = Math.round(wrapper.vm.widthScale(149))
       expect(value).toBe(150)
     })
   })

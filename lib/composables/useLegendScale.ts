@@ -165,10 +165,13 @@ export function useLegendScale(options: UseLegendScaleOptions): UseLegendScale {
     return scale
   })
 
-  // Map canvas pixel columns to values on the domain.
+  // Map canvas pixel columns to values on the domain. The canvas is sized to
+  // exactly `width`, so its columns are 0..width-1 — the domain's upper bound
+  // must be width - 1, not width, or the last painted column falls short of
+  // the true max (e.g. width=150 maps column 149 to ~99.3, not 100).
   const widthScale = computed((): ScaleLinear<number, number> => {
     return scaleLinear()
-      .domain([0, toValue(width)])
+      .domain([0, Math.max(1, toValue(width) - 1)])
       .range([toValue(min), toValue(max)])
   })
 

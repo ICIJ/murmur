@@ -53,11 +53,21 @@ describe('useLegendScale', () => {
       expect(cursorLeft.value).toBe('100%')
     })
 
-    it('maps a pixel column back to its domain value', () => {
+    it('maps pixel column 0 to the domain min', () => {
       const { widthScale } = useLegendScale(
         createOptions({ width: ref(100), min: ref(0), max: ref(100) })
       )
-      expect(Math.round(widthScale.value(100))).toBe(100)
+      expect(Math.round(widthScale.value(0))).toBe(0)
+    })
+
+    it('maps the last painted pixel column (width - 1) to the domain max', () => {
+      // Regression test: widthScale's domain used to be [0, width], one wider
+      // than the columns that actually exist (0..width-1), so the last real
+      // column undershot the true max.
+      const { widthScale } = useLegendScale(
+        createOptions({ width: ref(100), min: ref(0), max: ref(100) })
+      )
+      expect(Math.round(widthScale.value(99))).toBe(100)
     })
 
     it('ranges over every pixel column from 0 to width - 1 inclusive', () => {
