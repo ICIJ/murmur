@@ -118,6 +118,13 @@ export interface UseColumnChart {
   waterfallTotalValue: ComputedRef<number>
   bars: ComputedRef<ColumnChartBar[]>
   xAxisHiddenTicks: ComputedRef<number>
+  /**
+   * Ticks to actually render on the x-axis: the collapsed, surviving subset
+   * of `sortedData`'s keys, not one entry per datum. Do not zip this with
+   * {@link bars} by index to derive your own labels — their lengths diverge
+   * as soon as `xAxisTickCollapse` yields a stride above 1; match by value
+   * against each bar's `datum` instead.
+   */
   xAxisTickValues: ComputedRef<string[]>
   xAxis: ComputedRef<Axis<string>>
   yAxis: ComputedRef<Axis<NumberValue>>
