@@ -97,7 +97,8 @@ export interface UseLegendScale {
    */
   widthScaleColor: ComputedRef<WidthScaleFn>
   /**
-   * Pixel columns to paint, from `1` to `width` inclusive.
+   * Pixel columns to paint, from `0` to `width - 1` inclusive: the canvas is
+   * sized to exactly `width`, so those are its only valid columns.
    */
   colorScaleWidthRange: ComputedRef<number[]>
   /**
@@ -176,7 +177,7 @@ export function useLegendScale(options: UseLegendScaleOptions): UseLegendScale {
   })
 
   const colorScaleWidthRange = computed((): number[] => {
-    return range(1, toValue(width) + 1)
+    return range(toValue(width))
   })
 
   const hasCursor = computed((): boolean => {

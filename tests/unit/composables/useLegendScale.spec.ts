@@ -60,11 +60,26 @@ describe('useLegendScale', () => {
       expect(Math.round(widthScale.value(100))).toBe(100)
     })
 
-    it('ranges over every pixel column from 1 to width inclusive', () => {
+    it('ranges over every pixel column from 0 to width - 1 inclusive', () => {
       const { colorScaleWidthRange } = useLegendScale(
         createOptions({ width: ref(3) })
       )
-      expect(colorScaleWidthRange.value).toEqual([1, 2, 3])
+      expect(colorScaleWidthRange.value).toEqual([0, 1, 2])
+    })
+
+    it('paints the canvas edge-to-edge: includes column 0 and the last real column, excludes the out-of-bounds one at width', () => {
+      // Regression test for a bug where range(1, width + 1) skipped column 0
+      // (leaving a transparent 1px stripe on the left) and painted column
+      // `width`, which falls outside a canvas sized to exactly `width` (valid
+      // columns are 0..width-1) — clipping away the max-domain color.
+      const width = 150
+      const { colorScaleWidthRange } = useLegendScale(
+        createOptions({ width: ref(width) })
+      )
+      const columns = colorScaleWidthRange.value
+      expect(columns).toContain(0)
+      expect(columns).toContain(width - 1)
+      expect(columns).not.toContain(width)
     })
 
     it('throws a descriptive error for an unsupported colorScale name', () => {
