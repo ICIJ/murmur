@@ -1,7 +1,7 @@
 import isString from 'lodash/isString'
 import { range } from 'd3-array'
 import { interpolateRound } from 'd3-interpolate'
-import { scaleLinear, scaleLog, scalePow, scaleRadial, scaleSqrt } from 'd3-scale'
+import { scaleLinear, scaleLog, scalePow, scaleRadial, scaleSqrt, scaleSequential, scaleSymlog, scaleTime, scaleUtc } from 'd3-scale'
 import type { ScaleLinear } from 'd3-scale'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
@@ -14,7 +14,11 @@ const SCALE_FACTORIES: Record<string, () => any> = {
   scaleLog,
   scalePow,
   scaleRadial,
-  scaleSqrt
+  scaleSqrt,
+  scaleSequential,
+  scaleSymlog,
+  scaleTime,
+  scaleUtc
 }
 
 /**
@@ -54,9 +58,10 @@ export interface UseLegendScaleOptions {
   /**
    * Either a ready-made color scale function, or the name of one of the
    * supported continuous d3-scale factories (`'scaleLinear'`, `'scaleLog'`,
-   * `'scalePow'`, `'scaleRadial'`, `'scaleSqrt'`) to build a two-stop scale
+   * `'scalePow'`, `'scaleRadial'`, `'scaleSqrt'`, `'scaleSequential'`,
+   * `'scaleSymlog'`, `'scaleTime'`, `'scaleUtc'`) to build a two-stop scale
    * from. Any other factory name must be passed as a ready-made function
-   * instead (e.g. `scaleSequential(...)`).
+   * instead (e.g. `scaleQuantize(...)`).
    */
   colorScale: MaybeRefOrGetter<ColorScaleFn | string>
   /**
@@ -149,6 +154,9 @@ export function useLegendScale(options: UseLegendScaleOptions): UseLegendScale {
     const scale = toValue(colorScale)
     if (isString(scale)) {
       const factory = SCALE_FACTORIES[scale]
+      if (!factory) {
+        throw new Error(`unsupported colorScale name "${scale}": expected one of ${Object.keys(SCALE_FACTORIES).join(', ')}, or a scale function`)
+      }
       return factory()
         .domain([toValue(min), toValue(max)])
         .range([toValue(colorScaleStart), toValue(colorScaleEnd)])

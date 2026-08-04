@@ -60,11 +60,26 @@ describe('useLegendScale', () => {
       expect(Math.round(widthScale.value(100))).toBe(100)
     })
 
-    it('ranges over every pixel column from 1 to width', () => {
+    it('ranges over every pixel column from 1 to width inclusive', () => {
       const { colorScaleWidthRange } = useLegendScale(
         createOptions({ width: ref(3) })
       )
       expect(colorScaleWidthRange.value).toEqual([1, 2, 3])
+    })
+
+    it('throws a descriptive error for an unsupported colorScale name', () => {
+      const { colorScaleFunction } = useLegendScale(
+        createOptions({ colorScale: ref('scaleQuantize') })
+      )
+      expect(() => colorScaleFunction.value).toThrow(/unsupported colorScale name "scaleQuantize"/)
+    })
+
+    it.each(['scaleSequential', 'scaleSymlog', 'scaleTime', 'scaleUtc'])('builds a two-stop scale from %s spanning colorScaleStart to colorScaleEnd', (name) => {
+      const { colorScaleFunction } = useLegendScale(
+        createOptions({ colorScale: ref(name), colorScaleStart: ref('#fff'), colorScaleEnd: ref('#000') })
+      )
+      expect(colorScaleFunction.value(0)).toBe('rgb(255, 255, 255)')
+      expect(colorScaleFunction.value(100)).toBe('rgb(0, 0, 0)')
     })
   })
 
