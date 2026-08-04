@@ -152,6 +152,19 @@ describe('useColumnChart', () => {
       expect(xAxisTickValues.value).not.toContain(null)
     })
 
+    it('keeps an explicit xAxisTicks list uncollapsed even when collapse is on', () => {
+      // The stride is derived from sortedData's length; applying it to a
+      // caller-supplied ticks list of a different length used to match no
+      // index and silently drop every label.
+      const { xAxisTickValues } = useColumnChart(
+        createOptions({
+          xAxisTicks: ref(['2000', '2010', '2020']),
+          xAxisTickCollapse: ref(true)
+        })
+      )
+      expect(xAxisTickValues.value).toEqual(['2000', '2010', '2020'])
+    })
+
     it('appends the total label for waterfall totals', () => {
       const { xAxisTickValues } = useColumnChart(
         createOptions({

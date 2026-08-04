@@ -301,13 +301,14 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
   })
 
   const xAxisTickValues = computed((): string[] => {
-    // Either use the explicit `xAxisTicks` prop or use the data
-    const ticks
-      = toValue(xAxisTicks) ?? sortedData.value.map(iteratee(toValue(timeseriesKey)))
+    // An explicit `xAxisTicks` list is the caller's own axis: collapsing only
+    // applies to ticks derived from the data, whose count drives the stride.
+    const explicitTicks = toValue(xAxisTicks)
+    const ticks = explicitTicks ?? sortedData.value.map(iteratee(toValue(timeseriesKey)))
     // Then drop ticks according to `xAxisHiddenTicks`, rather than keeping a
     // placeholder for them: a `null` entry isn't part of the scale's domain,
     // so d3 would resolve its position to NaN and break the axis' transform.
-    const stride = xAxisHiddenTicks.value
+    const stride = explicitTicks ? 0 : xAxisHiddenTicks.value
     const filtered = ticks.filter((_tick: string, i: number) => {
       return stride === 0 || (i + 1) % stride === 0
     })
