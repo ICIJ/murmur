@@ -34,9 +34,9 @@ describe('SelectableDropdown.vue', () => {
     const wrapper = mount(SelectableDropdown, { propsData })
     await flushPromises()
 
-    expect(wrapper.findAll('.dropdown-item').at(0).text()).toBe('LESOTHO')
-    expect(wrapper.findAll('.dropdown-item').at(1).text()).toBe('SENEGAL')
-    expect(wrapper.findAll('.dropdown-item').at(2).text()).toBe('DJIBOUTI')
+    expect(wrapper.find('#dropdown-item-lesotho').text()).toBe('LESOTHO')
+    expect(wrapper.find('#dropdown-item-senegal').text()).toBe('SENEGAL')
+    expect(wrapper.find('#dropdown-item-djibouti').text()).toBe('DJIBOUTI')
   })
 
   it('has a list a `list` class', () => {
@@ -56,9 +56,9 @@ describe('SelectableDropdown.vue', () => {
     const wrapper = mount(SelectableDropdown, { propsData })
     await flushPromises()
 
-    expect(wrapper.findAll('.item').at(0).text()).toBe('Lesotho')
-    expect(wrapper.findAll('.item').at(1).text()).toBe('Senegal')
-    expect(wrapper.findAll('.item').at(2).text()).toBe('Djibouti')
+    expect(wrapper.find('#dropdown-item-lesotho').text()).toBe('Lesotho')
+    expect(wrapper.find('#dropdown-item-senegal').text()).toBe('Senegal')
+    expect(wrapper.find('#dropdown-item-djibouti').text()).toBe('Djibouti')
   })
 
   it('updates active indexes when hitting arrow down', async () => {
@@ -111,12 +111,11 @@ describe('SelectableDropdown.vue', () => {
     const wrapper = mount(SelectableDropdown, { propsData })
     await flushPromises()
 
-    const findAll = wrapper.findAll('.dropdown-item')
-    await findAll.at(0).trigger('click') // TODO fix me
+    await wrapper.find('#dropdown-item-lesotho').trigger('click')
     expect(wrapper.emitted('click')[0]).toContain('Lesotho')
-    await findAll.at(1).trigger('click') // TODO fix me
+    await wrapper.find('#dropdown-item-senegal').trigger('click')
     expect(wrapper.emitted('click')[1]).toContain('Senegal')
-    await findAll.at(0).trigger('click') // TODO fix me
+    await wrapper.find('#dropdown-item-lesotho').trigger('click')
     expect(wrapper.emitted('click')[2]).toContain('Lesotho')
   })
 
