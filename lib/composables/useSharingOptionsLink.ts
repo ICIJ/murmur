@@ -169,7 +169,9 @@ export function useSharingOptionsLink(
   })
 
   const href = computed((): string => {
-    return base.value + new URLSearchParams(query.value).toString()
+    // URLSearchParams encodes spaces as `+`, but a mailto query is
+    // percent-decoded per RFC 6068 without treating `+` as a space.
+    return base.value + new URLSearchParams(query.value).toString().replaceAll('+', '%20')
   })
 
   // NOTE: latent quirk preserved from the original — no network entry carries a

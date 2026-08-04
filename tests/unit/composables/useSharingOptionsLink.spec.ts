@@ -67,6 +67,16 @@ describe('useSharingOptionsLink', () => {
     )
   })
 
+  it('percent-encodes spaces in the mailto href instead of using +', () => {
+    // A mailto query is percent-decoded per RFC 6068, which does not treat
+    // `+` as a space, so a literal `+` would leak into the mail subject.
+    const { api } = mountLink(SharingPlatform.email, {
+      title: 'Panama Papers: the secrets'
+    })
+    expect(api.href.value).toContain('subject=Panama%20Papers')
+    expect(api.href.value).not.toContain('+')
+  })
+
   it('reports a popup for every network but email', () => {
     expect(mountLink(SharingPlatform.facebook).api.hasPopup()).toBe(true)
     expect(mountLink(SharingPlatform.email).api.hasPopup()).toBe(false)
