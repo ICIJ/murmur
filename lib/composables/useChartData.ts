@@ -77,9 +77,12 @@ export function useChartData(
     const dataUrlType = toValue(dataUrlTypeRef)
 
     if (isString(data)) {
-      const loaders = { json, csv, tsv }
-      // @ts-expect-error introspection in typescript is tricky
-      loadedData.value = await loaders[dataUrlType](data)
+      const loaders: Record<string, (url: string) => Promise<unknown>> = { json, csv, tsv }
+      const loader = loaders[dataUrlType as string]
+      if (!loader) {
+        throw new Error(`unsupported dataUrlType "${dataUrlType}": expected json, csv or tsv`)
+      }
+      loadedData.value = (await loader(data)) as unknown as []
     }
     else {
       loadedData.value = data as unknown as []
