@@ -16,18 +16,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, toRef } from 'vue'
+import { computed, toRef } from 'vue'
 
+import BrandExpansionShort from './BrandExpansionShort.vue'
+import BrandExpansionMedium from './BrandExpansionMedium.vue'
+import BrandExpansionLong from './BrandExpansionLong.vue'
 import { BrandMode } from '@/enums'
 import { useBrandExpansion } from '@/composables/useBrandExpansion'
 
-// Each mode's SVG path data is sizeable, so it's lazily loaded as its own
-// chunk: a consumer bundler that code-splits dynamic imports only fetches
-// the mode(s) actually rendered, instead of always shipping all three.
 const MODE_COMPONENTS = {
-  [BrandMode.Short]: defineAsyncComponent(() => import('./BrandExpansionShort.vue')),
-  [BrandMode.Medium]: defineAsyncComponent(() => import('./BrandExpansionMedium.vue')),
-  [BrandMode.Long]: defineAsyncComponent(() => import('./BrandExpansionLong.vue'))
+  [BrandMode.Short]: BrandExpansionShort,
+  [BrandMode.Medium]: BrandExpansionMedium,
+  [BrandMode.Long]: BrandExpansionLong
 }
 
 /**
