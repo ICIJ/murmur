@@ -127,7 +127,11 @@ export default defineConfig({
         // under _vendor/ instead; Rollup rewrites the importing specifiers to
         // match, so AppHeader points at the shipped file.
         entryFileNames: (chunk) => {
-          const name = chunk.name.replace(/(^|\/)node_modules\//, '$1_vendor/')
+          // Vite 8's default bundler (Rolldown) keeps the SFC `?vue&type=...`
+          // query string in chunk.name where Rollup used to strip it.
+          const name = chunk.name
+            .replace(/\?.*$/, '')
+            .replace(/(^|\/)node_modules\//, '$1_vendor/')
           return `${name}.js`
         },
         exports: 'named'
