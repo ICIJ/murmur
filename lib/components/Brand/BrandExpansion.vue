@@ -132,7 +132,7 @@ const modeComponent = computed(() => MODE_COMPONENTS[props.mode])
   align-items: center;
   justify-content: center;
 
-  // The SVG markup is rendered by a lazily-loaded child component
+  // The SVG markup is rendered by a child component
   // (BrandExpansionShort/Medium/Long.vue), so these selectors need :deep()
   // to pierce past that component's own scoped-style boundary.
   :deep(svg) {
