@@ -113,7 +113,7 @@
     "@types/eslint__js": "^8.42.3",
     "@types/jsonp": "^0.2.3",
     "@types/lodash": "^4.17.21",
-    "@types/node": "^24.0.14",
+    "@types/node": "25.9.5",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
     "@typescript-eslint/eslint-plugin": "^8.51.0",
