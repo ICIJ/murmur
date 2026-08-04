@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<AccordionStepProps>(), {
 
 const emit = defineEmits(['next-step', 'previous-step'])
 
-const accordion = inject<Accordion>(AccordionKey, undefined)
+const accordion = inject<Accordion | undefined>(AccordionKey)
 
 // A step is expanded when the parent accordion marks it active or when the
 // consumer forces it open through the `active` prop.
