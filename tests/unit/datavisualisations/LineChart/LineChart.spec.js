@@ -162,8 +162,8 @@ describe('LineChart.vue', () => {
 
     it('applies stroke color to each line', () => {
       const paths = wrapper.findAll('.line-chart__line')
-      expect(paths.at(0).element.style.stroke).toBe('#e53935')
-      expect(paths.at(1).element.style.stroke).toBe('#ff8a80')
+      expect(paths.at(0).element.style.stroke).toBe('rgb(229, 57, 53)')
+      expect(paths.at(1).element.style.stroke).toBe('rgb(255, 138, 128)')
     })
 
     it('subtracts legend height from fixed height', async () => {
