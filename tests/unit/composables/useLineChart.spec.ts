@@ -1,4 +1,5 @@
-import * as d3 from 'd3'
+import { curveStep } from 'd3-shape'
+import type { CurveFactory } from 'd3-shape'
 import { ref } from 'vue'
 import { describe, expect, it } from 'vitest'
 import identity from 'lodash/identity'
@@ -32,7 +33,7 @@ function createOptions(overrides: Record<string, unknown> = {}) {
     seriesName: ref('value'),
     timeseriesKey: ref('date'),
     lineColors: ref<string[]>([]),
-    curve: ref<d3.CurveFactory | undefined>(undefined),
+    curve: ref<CurveFactory | undefined>(undefined),
     d3Formatter: passthroughFormatter,
     xAxisTicks: ref<object | number | null>(null),
     yAxisTickFormat: ref<((v: any) => string) | string>(identity),
@@ -152,7 +153,7 @@ describe('useLineChart', () => {
 
     it('applies the curve factory when provided', () => {
       const linear = useLineChart(createOptions())
-      const stepped = useLineChart(createOptions({ curve: ref(d3.curveStep) }))
+      const stepped = useLineChart(createOptions({ curve: ref(curveStep) }))
       expect(stepped.line.value).not.toBe(linear.line.value)
     })
   })

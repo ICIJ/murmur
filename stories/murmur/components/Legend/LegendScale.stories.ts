@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
-import * as d3 from 'd3'
+import { scaleThreshold } from 'd3-scale'
+
 import { LegendScale } from '@/components'
 
 const meta: Meta<typeof LegendScale> = {
@@ -15,8 +16,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 function thresholdScaleFn() {
-  return d3
-    .scaleThreshold()
+  return scaleThreshold()
     .domain([1e4, 2e4, 3e4, 4e4, 5e4])
     // @ts-expect-error expect an array with numbers but hex color strings works
     .range(['#D12229', '#F68A1E', '#FDE01A', '#007940', '#24408E', '#732982'])

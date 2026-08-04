@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
-import * as d3 from 'd3'
+import { curveMonotoneX, curveStep } from 'd3-shape'
+
 import { LineChart } from '@/datavisualisations'
 
 const meta: Meta<typeof LineChart> = {
@@ -93,7 +94,7 @@ export const CurveStep: Story = {
     keys: ['europe', 'americas', 'asia'],
     groups: ['Europe', 'Americas', 'Asia-Pacific'],
     lineColors: ['#e53935', '#1e88e5', '#43a047'],
-    curve: d3.curveStep,
+    curve: curveStep,
     fixedHeight: 400
   },
   decorators: [multiLineDecorator]
@@ -105,7 +106,7 @@ export const CurveMonotoneX: Story = {
     keys: ['europe', 'americas', 'asia'],
     groups: ['Europe', 'Americas', 'Asia-Pacific'],
     lineColors: ['#e53935', '#1e88e5', '#43a047'],
-    curve: d3.curveMonotoneX,
+    curve: curveMonotoneX,
     fixedHeight: 400
   },
   decorators: [multiLineDecorator]

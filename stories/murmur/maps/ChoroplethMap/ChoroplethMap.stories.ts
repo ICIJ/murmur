@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { ChoroplethMap, ChoroplethMapAnnotation } from '@/maps'
-import { scaleThreshold } from 'd3'
+import { scaleThreshold } from 'd3-scale'
 import { geoOrthographic } from 'd3-geo'
 import { motorVehiclesPer1000people, wineStockByDepartment } from '../fixtures'
 import { bgPolkaDecorator } from '../../decorators'
@@ -106,7 +106,7 @@ export const CustomColorScale: Story = {
 Use a custom D3 scale function to colorize the map features:
 
 \`\`\`javascript
-import { scaleThreshold } from 'd3'
+import { scaleThreshold } from 'd3-scale'
 
 const featureColorScale = scaleThreshold()
   .domain([100, 300, 700])

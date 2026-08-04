@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
+import { extent } from 'd3-array'
+import { scaleLinear } from 'd3-scale'
+
 import { SymbolMap } from '@/maps'
-import * as d3 from 'd3'
 
 const icijOffices = [
   { latitude: 48.859116, longitude: 2.331839, category: 'Technology', label: 'Paris, France' },
@@ -74,8 +76,8 @@ const powerPlants = [
 const powerPlantMarkerPath = 'M 143.97,136.52 144,153 H 0 V 137 C 18.15,94.8 28.98,48.61 30,0 h 84 c 1.01,48.36 11.98,94.49 29.97,136.52 z'
 
 function powerPlantMarkerWidth(data: typeof powerPlants) {
-  const scale = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.MWe) as [number, number])
+  const scale = scaleLinear()
+    .domain(extent(data, d => d.MWe) as [number, number])
     .range([5, 20])
   return (d: { MWe: number }) => scale(d.MWe)
 }
