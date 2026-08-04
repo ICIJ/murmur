@@ -1,8 +1,39 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
-import { scaleThreshold } from 'd3-scale'
+import { range } from 'd3-array'
+import { scaleLinear, scaleThreshold } from 'd3-scale'
 
 import { LegendScale } from '@/components'
+
+// Renders the same gradient logic useLegendScale uses, magnified: 10 columns
+// blown up to 30px squares with `image-rendering: pixelated`, over a
+// checkerboard so a transparent column would read as visibly different from
+// any painted color.
+function buildScaleCanvasDataUrl(columns: number[], width: number): string {
+  const min = 0
+  const max = 100
+  const height = 1
+  const colorScale = scaleLinear<string>().domain([min, max]).range(['#fafa6e', 'teal'])
+  const widthScale = scaleLinear().domain([0, width]).range([min, max])
+
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+  for (const x of columns) {
+    ctx.fillStyle = colorScale(widthScale(x))
+    ctx.fillRect(x, 0, 1, height)
+  }
+  return canvas.toDataURL()
+}
+
+const magnifiedSwatchStyle = {
+  width: '300px',
+  height: '30px',
+  imageRendering: 'pixelated',
+  backgroundImage: 'repeating-conic-gradient(#808080 0% 25%, #ffffff 0% 50%)',
+  backgroundSize: '10px 10px'
+}
 
 const meta: Meta<typeof LegendScale> = {
   title: 'Murmur/components/Legend/LegendScale',
@@ -69,6 +100,27 @@ export const CustomizedWithSlot: Story = {
           </div>
         </template>
       </LegendScale>
+    `
+  })
+}
+
+// Magnified reproduction of colorScaleWidthRange's pixel coverage, for a
+// direct visual check — not a real usage example. See useLegendScale.ts's
+// colorScaleWidthRange.
+const COMPARISON_WIDTH = 10
+
+export const PixelRangeCoverage: Story = {
+  name: 'Pixel range: 0 to width - 1',
+  render: () => ({
+    setup: () => ({
+      src: buildScaleCanvasDataUrl(range(COMPARISON_WIDTH), COMPARISON_WIDTH),
+      style: magnifiedSwatchStyle
+    }),
+    template: `
+      <div>
+        <p>Columns 0..width-1: every canvas column is painted, including the max-domain color at the right edge.</p>
+        <img :src="src" :style="style" alt="gradient painted from column 0 to width - 1">
+      </div>
     `
   })
 }
