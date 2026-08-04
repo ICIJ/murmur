@@ -332,6 +332,8 @@ watch(() => props.socialMode, update, { immediate: true })
 
 // Expose the derived geometry so tests (and host apps) can read the scales and
 // dimensions the chart computes. Superset of the bindings poked by the specs.
+// `xAxisTickValues` is the collapsed tick subset, not one entry per `bars`
+// datum — don't zip the two by index (see useColumnChart's JSDoc).
 defineExpose({
   sortedData,
   margin,
