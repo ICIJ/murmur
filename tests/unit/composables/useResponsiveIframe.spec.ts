@@ -42,7 +42,7 @@ describe('useResponsiveIframe', () => {
     parentSpy.mockClear()
     vi.mocked(injectAssets).mockClear()
     window.pym = {
-      Parent: vi.fn((id: string, url: string, options: object) => {
+      Parent: vi.fn(function (id: string, url: string, options: object) {
         parentSpy(id, url, options)
         return { remove: removeSpy } as never
       }) as never

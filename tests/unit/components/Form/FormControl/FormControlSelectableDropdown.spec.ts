@@ -11,22 +11,6 @@ window.addEventListener = vi.fn((event, cb) => {
 })
 
 describe('SelectableDropdown.vue', () => {
-  beforeAll(() => {
-    // Removes warning about IntersectionObserver used in vue virtual scroller
-    // but not implemented in jsdom
-    const mockIntersectionObserver = vi.fn()
-    mockIntersectionObserver.mockReturnValue({
-      observe: () => null,
-      unobserve: () => null,
-      disconnect: () => null
-    })
-    window.IntersectionObserver = mockIntersectionObserver
-  })
-
-  afterAll(() => {
-    window.IntersectionObserver.mockClear()
-  })
-
   it('is a Vue instance', () => {
     const wrapper = mount(SelectableDropdown)
     expect(wrapper.vm).toBeTruthy()
