@@ -131,7 +131,7 @@
     "prettier": "^3.7.4",
     "sass": "^1.97.1",
     "storybook": "^10.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "unplugin-auto-import": "^20.0.0",
     "unplugin-icons": "^22.5.0",
     "unplugin-vue-components": "^30.0.0",
