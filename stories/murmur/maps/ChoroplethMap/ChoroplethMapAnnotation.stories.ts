@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { ChoroplethMap, ChoroplethMapAnnotation } from '@/maps'
 import { geoOrthographic } from 'd3-geo'
-import { scaleSequential } from 'd3'
+import { scaleSequential } from 'd3-scale'
 import { bgPolkaDecorator } from '../../decorators'
 
 const offices = [
