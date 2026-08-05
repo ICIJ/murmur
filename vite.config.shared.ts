@@ -6,7 +6,7 @@ import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-import Delete from './plugins/plugin-delete'
+import Delete from './plugins/plugin-delete.ts'
 import { BootstrapVueNextResolver } from 'bootstrap-vue-next'
 
 /**
@@ -36,7 +36,7 @@ export function sharedPlugins(cleanTargets?: string[]) {
       }
     }),
     VueI18nPlugin({
-      include: resolve(__dirname, 'lib/locales')
+      include: resolve(import.meta.dirname, 'lib/locales')
     }),
     Icons({
       scale: 1,
@@ -63,10 +63,10 @@ export function sharedPlugins(cleanTargets?: string[]) {
 export const sharedResolve = {
   extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   alias: {
-    'vue': resolve(__dirname, './node_modules/vue'),
-    'node_modules': resolve(__dirname, 'node_modules'),
+    'vue': resolve(import.meta.dirname, './node_modules/vue'),
+    'node_modules': resolve(import.meta.dirname, 'node_modules'),
     '@': fileURLToPath(new URL('./lib', import.meta.url)),
-    '~storybook': resolve(__dirname, './.storybook')
+    '~storybook': resolve(import.meta.dirname, './.storybook')
   },
   dedupe: ['vue']
 }
