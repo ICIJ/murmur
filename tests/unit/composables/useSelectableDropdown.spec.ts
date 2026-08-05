@@ -9,7 +9,8 @@ describe('useSelectableDropdown', () => {
     items = STRING_ITEMS,
     multiple = false,
     modelValue = null,
-    activeItems = []
+    activeItems = [],
+    eq = equals
   } = {}) => {
     const activeItemsRef = ref(activeItems)
     const modelValueRef = ref(modelValue)
@@ -18,7 +19,7 @@ describe('useSelectableDropdown', () => {
       modelValue: modelValueRef,
       items: () => items,
       multiple: () => multiple,
-      eq: () => equals
+      eq: () => eq
     })
     return { ...control, activeItems: activeItemsRef, modelValue: modelValueRef }
   }
@@ -30,6 +31,28 @@ describe('useSelectableDropdown', () => {
     expect(itemActivated('Lesotho')).toBe(true)
     expect(itemActivated('Senegal')).toBe(false)
     expect(activeItems.value).toEqual(['Lesotho'])
+  })
+
+  it('reports whether an item is active with a custom eq', () => {
+    const eq = (item, other) => item.label === other.label
+    const { itemActivated } = createDropdown({
+      items: [{ label: 'Lesotho' }, { label: 'Senegal' }, { label: 'Djibouti' }],
+      activeItems: [{ label: 'Lesotho' }],
+      eq
+    })
+    expect(itemActivated({ label: 'Lesotho' })).toBe(true)
+    expect(itemActivated({ label: 'Senegal' })).toBe(false)
+  })
+
+  it('resolves each active item to a single distinct index, even with duplicate values', () => {
+    const { itemActivatedAtIndex, selectItem } = createDropdown({
+      items: ['Paris', 'Paris', 'London'],
+      activeItems: []
+    })
+    selectItem('Paris')
+    expect(itemActivatedAtIndex(0)).toBe(true)
+    expect(itemActivatedAtIndex(1)).toBe(false)
+    expect(itemActivatedAtIndex(2)).toBe(false)
   })
 
   it('selects a single item', () => {

@@ -51,6 +51,12 @@ export interface UseSelectableDropdown {
    */
   itemActivated: (item: Item) => boolean
   /**
+   * Whether the item at the given items-list index is currently active.
+   * Unlike {@link itemActivated}, resolves each active item to a single
+   * distinct index, so duplicate-valued items aren't all marked active.
+   */
+  itemActivatedAtIndex: (index: number) => boolean
+  /**
    * Selects a single item, toggling it off when it is the only active one.
    */
   selectItem: (item: Item) => void
@@ -130,6 +136,25 @@ export function useSelectableDropdown(
     return findIndex(activeItems.value, i => toValue(eq)(item, i)) > -1
   }
 
+  // Resolves each active item to a single, distinct items-list index (first
+  // unused match), so a value shared by several list entries only marks the
+  // one actually selected rather than every entry with that value.
+  const activeIndexes = computed((): Set<number> => {
+    const itemsList = toValue(items)
+    const usedIndexes = new Set<number>()
+    for (const activeItem of activeItems.value) {
+      const index = findIndex(itemsList, (it, i) => !usedIndexes.has(i) && toValue(eq)(it, activeItem))
+      if (index > -1) {
+        usedIndexes.add(index)
+      }
+    }
+    return usedIndexes
+  })
+
+  function itemActivatedAtIndex(index: number): boolean {
+    return activeIndexes.value.has(index)
+  }
+
   function selectItem(item: Item): void {
     if (itemActivated(item) && activeItems.value.length === 1) {
       activeItems.value = filter(activeItems.value, i => !toValue(eq)(item, i))
@@ -201,6 +226,7 @@ export function useSelectableDropdown(
   return {
     firstActiveItemIndex,
     itemActivated,
+    itemActivatedAtIndex,
     selectItem,
     addItem,
     selectRangeToItem,
