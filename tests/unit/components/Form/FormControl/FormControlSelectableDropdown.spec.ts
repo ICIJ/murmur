@@ -132,30 +132,23 @@ describe('SelectableDropdown.vue', () => {
   })
 
   describe('itemActivated', () => {
-    it('set item as activated for multiple and items is an array of string', () => {
+    it('marks only the actually-selected entry as active, not every entry sharing its value', async () => {
+      // Regression test: aria-selected/active used to be computed by value
+      // equality, so a value shared by several list entries lit up all of
+      // them even though only one was selected.
       const propsData = {
-        items: ['Lesotho', 'Senegal', 'Djibouti'],
-        modelValue: ['Lesotho'],
-        multiple: true
+        items: ['Paris', 'Paris', 'London'],
+        modelValue: 'Paris'
       }
       const wrapper = mount(SelectableDropdown, { propsData })
+      await flushPromises()
 
-      expect(wrapper.vm.itemActivated('Lesotho')).toBeTruthy()
-      expect(wrapper.vm.itemActivated('Senegal')).toBeFalsy()
-    })
-
-    it('set item as activated for multiple and items is an array of objects', () => {
-      const eq = (item, other) => item.label === other.label
-      const propsData = {
-        items: [{ label: 'Lesotho' }, { label: 'Senegal' }, { label: 'Djibouti' }],
-        modelValue: [{ label: 'Lesotho' }],
-        multiple: true,
-        eq
-      }
-      const wrapper = mount(SelectableDropdown, { propsData })
-
-      expect(wrapper.vm.itemActivated({ label: 'Lesotho' })).toBeTruthy()
-      expect(wrapper.vm.itemActivated({ label: 'Senegal' })).toBeFalsy()
+      // Pooled DOM order isn't list order, so look up by aria-posinset.
+      const byPosinset = wrapper.findAll('.selectable-dropdown__item')
+        .sort((a, b) => Number(a.attributes('aria-posinset')) - Number(b.attributes('aria-posinset')))
+      expect(byPosinset[0].attributes('aria-selected')).toBe('true')
+      expect(byPosinset[1].attributes('aria-selected')).toBe('false')
+      expect(byPosinset[2].attributes('aria-selected')).toBe('false')
     })
   })
 

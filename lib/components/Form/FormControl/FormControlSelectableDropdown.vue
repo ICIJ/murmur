@@ -134,7 +134,7 @@ const keyField = computed(() => {
 // Selection state machine (active set, navigation, range select, model sync)
 // lives in a dedicated composable; the component keeps DOM and emit wiring.
 const {
-  itemActivated,
+  itemActivatedAtIndex,
   selectItem,
   addItem,
   selectRangeToItem,
@@ -161,8 +161,8 @@ const keysMap = computed((): Record<string, Function> => {
 
 watch(toRef(props, 'hide'), toggleKeys)
 
-function indexIcon(item: Item): Component {
-  return itemActivated(item) ? IPhCheckSquare : IPhSquare
+function indexIcon(index: number): Component {
+  return itemActivatedAtIndex(index) ? IPhCheckSquare : IPhSquare
 }
 
 function clickToSelectItem(item: Item) {
@@ -276,12 +276,12 @@ function serialize(item: Item) {
       <span
         :id="itemId(item)"
         role="option"
-        :aria-selected="itemActivated(item)"
+        :aria-selected="itemActivatedAtIndex(index)"
         :aria-posinset="index + 1"
         :aria-setsize="items_.length"
         :class="{
           'recycle_scroller-item--active': active,
-          active: itemActivated(item),
+          active: itemActivatedAtIndex(index),
           [itemClass]: true
         }"
         class="selectable-dropdown__item px-3 d-flex"
@@ -299,7 +299,7 @@ function serialize(item: Item) {
             class="selectable-dropdown__item__check"
           >
             <app-icon class="me-2">
-              <component :is="indexIcon(item)" />
+              <component :is="indexIcon(index)" />
             </app-icon>
           </div>
           <div
