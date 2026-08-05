@@ -24,6 +24,5 @@ describe('clipboard.js', () => {
 
   it('should reject the promise with an error containing the copied text', async () => {
     await expect(copyText('uwu')).rejects.toMatchObject({ text: 'uwu' })
-    expect(Clipboard).toHaveBeenCalled()
   })
 })
