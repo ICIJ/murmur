@@ -39,7 +39,13 @@ const meta: Meta<typeof LegendScale> = {
   title: 'Murmur/components/Legend/LegendScale',
   component: LegendScale,
   tags: ['autodocs'],
-  argTypes: {}
+  argTypes: {
+    // Accepts a named d3-scale preset (e.g. 'scaleLinear') or an arbitrary
+    // scale function — not a CSS color, despite the name. Storybook's docgen
+    // infers a color-picker control for it, which breaks whenever a story
+    // (e.g. ThresholdScale) passes a function instead of a string.
+    colorScale: { control: false }
+  }
 }
 
 export default meta
