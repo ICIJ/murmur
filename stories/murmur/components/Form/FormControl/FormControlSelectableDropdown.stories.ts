@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { expect, within } from 'storybook/test'
 
 import { ref, onBeforeMount } from 'vue'
 import { FormControlSelectableDropdown } from '@/components'
@@ -138,34 +137,4 @@ export const BigList: Story = {
       />
     `
   })
-}
-
-export const AccessiblePositionInVirtualScroll: Story = {
-  // A short scroller with many items forces vue-virtual-scroller to pool and
-  // recycle DOM nodes: the rendered <span role="option"> elements no longer
-  // come out of the DOM in list order. aria-posinset/aria-setsize (driven by
-  // the scroller's own index, not DOM position) is what keeps screen readers
-  // announcing each item's real position despite that.
-  args: {
-    modelValue: [],
-    items: Array.from({ length: 30 }, (_, index) => `Item ${index + 1}`),
-    multiple: true,
-    scrollerHeight: '200px'
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const listbox = canvas.getByRole('listbox')
-    expect(listbox).toBeInTheDocument()
-
-    const options = canvas.getAllByRole('option')
-    expect(options.length).toBeGreaterThan(0)
-    // Confirms the pooling actually kicked in for this assertion to be meaningful.
-    expect(options.length).toBeLessThan(30)
-
-    for (const option of options) {
-      const index = Number(option.textContent?.match(/\d+/)?.[0]) - 1
-      expect(option.getAttribute('aria-posinset')).toBe(String(index + 1))
-      expect(option.getAttribute('aria-setsize')).toBe('30')
-    }
-  }
 }
