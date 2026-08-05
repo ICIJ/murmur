@@ -314,7 +314,7 @@ const buttonProps = computed(() => ({
 <style lang="scss" scoped>
 .button-icon {
 
-  &::deep(.app-icon) {
+  &:deep(.app-icon) {
     font-size: 1.25em;
   }
 
