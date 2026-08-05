@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
-import { sharedPlugins, sharedResolve, sharedCss, umdExternal } from './vite.config.shared'
+import { sharedPlugins, sharedResolve, sharedCss, umdExternal } from './vite.config.shared.ts'
 
 // Type declarations are emitted only by the ESM pass (vite.config.es.ts) into
 // dist/es, which is where package.json `types`/`exports.types` resolve. Running
@@ -20,7 +20,7 @@ export default defineConfig({
     outDir: 'dist/lib',
     sourcemap: true,
     lib: {
-      entry: resolve(__dirname, 'lib/main.ts'),
+      entry: resolve(import.meta.dirname, 'lib/main.ts'),
       name: '@icij/murmur',
       fileName: 'murmur'
     },

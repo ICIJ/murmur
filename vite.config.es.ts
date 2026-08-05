@@ -1,7 +1,7 @@
 import { resolve, relative, dirname, sep } from 'path'
 import { defineConfig } from 'vite'
 import DTS from 'vite-plugin-dts'
-import { sharedPlugins, sharedResolve, sharedCss, esmExternal } from './vite.config.shared'
+import { sharedPlugins, sharedResolve, sharedCss, esmExternal } from './vite.config.shared.ts'
 
 // A Vue SFC compiles to one or more chunks named like Foo.vue.js / Foo.vue2.js.
 // These are the only chunks that own component CSS — barrels and plain modules
@@ -111,7 +111,7 @@ export default defineConfig({
     // Emit one CSS file per component chunk, auto-imported by that chunk's JS.
     cssCodeSplit: true,
     lib: {
-      entry: resolve(__dirname, 'lib/main.ts'),
+      entry: resolve(import.meta.dirname, 'lib/main.ts'),
       formats: ['es']
     },
     rollupOptions: {
