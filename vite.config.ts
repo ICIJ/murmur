@@ -27,7 +27,7 @@ export default defineConfig({
     rollupOptions: {
       external: umdExternal,
       output: {
-        inlineDynamicImports: true,
+        codeSplitting: false,
         globals: {
           vue: 'Vue'
         },
