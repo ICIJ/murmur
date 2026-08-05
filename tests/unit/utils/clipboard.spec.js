@@ -1,5 +1,4 @@
 import noop from 'lodash/noop'
-import Clipboard from 'clipboard'
 import { copyText } from '@/utils/clipboard'
 
 vi.mock('clipboard', () => {
