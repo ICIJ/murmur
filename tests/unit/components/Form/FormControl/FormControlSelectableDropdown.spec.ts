@@ -169,4 +169,36 @@ describe('SelectableDropdown.vue', () => {
       expect(wrapper.findAll('.dropdown-item')).toHaveLength(7)
     })
   })
+
+  describe('accessibility', () => {
+    it('exposes listbox/option roles and aria-selected', async () => {
+      const propsData = {
+        items: ['Lesotho', 'Senegal', 'Djibouti'],
+        modelValue: 'Senegal'
+      }
+      const wrapper = mount(SelectableDropdown, { propsData })
+      await flushPromises()
+
+      expect(wrapper.find('.scroller').attributes('role')).toBe('listbox')
+      expect(wrapper.find('#dropdown-item-senegal').attributes('role')).toBe('option')
+      expect(wrapper.find('#dropdown-item-senegal').attributes('aria-selected')).toBe('true')
+      expect(wrapper.find('#dropdown-item-lesotho').attributes('aria-selected')).toBe('false')
+    })
+
+    it('exposes aria-posinset/aria-setsize independent of DOM (pooled) order', async () => {
+      // Regression test for the RecycleScroller DOM-order change: pooled item
+      // nodes no longer come out in list order, so screen readers need
+      // aria-posinset/aria-setsize (based on the scroller's own `index`) to
+      // announce the correct position instead of relying on DOM order.
+      const items = ['Lesotho', 'Senegal', 'Djibouti']
+      const wrapper = mount(SelectableDropdown, { propsData: { items } })
+      await flushPromises()
+
+      items.forEach((item, index) => {
+        const option = wrapper.find(`#dropdown-item-${item.toLowerCase()}`)
+        expect(option.attributes('aria-posinset')).toBe(String(index + 1))
+        expect(option.attributes('aria-setsize')).toBe(String(items.length))
+      })
+    })
+  })
 })

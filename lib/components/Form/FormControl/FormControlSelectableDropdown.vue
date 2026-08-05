@@ -264,15 +264,21 @@ function serialize(item: Item) {
     :class="{ 'selectable-dropdown--multiple': multiple, [listClass]: true }"
   >
     <recycle-scroller
-      v-slot="{ item, active }"
+      v-slot="{ item, index, active }"
       :style="cssProps"
       class="scroller"
+      role="listbox"
+      :aria-multiselectable="multiple"
       :items="items_"
       :key-field="keyField"
       :item-size="itemSize"
     >
       <span
         :id="itemId(item)"
+        role="option"
+        :aria-selected="itemActivated(item)"
+        :aria-posinset="index + 1"
+        :aria-setsize="items_.length"
         :class="{
           'recycle_scroller-item--active': active,
           active: itemActivated(item),
