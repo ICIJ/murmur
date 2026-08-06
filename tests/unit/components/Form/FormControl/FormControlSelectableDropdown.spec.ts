@@ -3,7 +3,7 @@ import SelectableDropdown from '@/components/Form/FormControl/FormControlSelecta
 
 const KEY_UP_CODE = 38
 const KEY_DOWN_CODE = 40
-const KEY_MAP = {}
+const KEY_MAP: Record<string, (event: KeyboardEvent) => void> = {}
 
 // Wrapper the addEventListener to trigger events
 window.addEventListener = vi.fn((event, cb) => {
@@ -29,7 +29,7 @@ describe('SelectableDropdown.vue', () => {
   it('has a list of items written in upper case', async () => {
     const propsData = {
       items: ['Lesotho', 'Senegal', 'Djibouti'],
-      serializer: c => c.toUpperCase()
+      serializer: (c: string) => c.toUpperCase()
     }
     const wrapper = mount(SelectableDropdown, { propsData })
     await flushPromises()
@@ -70,9 +70,9 @@ describe('SelectableDropdown.vue', () => {
     await flushPromises()
 
     expect(wrapper.vm.activeItems).toContain('Lesotho')
-    KEY_MAP.keydown({ keyCode: KEY_DOWN_CODE })
+    KEY_MAP.keydown({ keyCode: KEY_DOWN_CODE } as KeyboardEvent)
     expect(wrapper.vm.activeItems).toContain('Senegal')
-    KEY_MAP.keydown({ keyCode: KEY_DOWN_CODE })
+    KEY_MAP.keydown({ keyCode: KEY_DOWN_CODE } as KeyboardEvent)
     expect(wrapper.vm.activeItems).toContain('Djibouti')
   })
 
@@ -85,9 +85,9 @@ describe('SelectableDropdown.vue', () => {
     await flushPromises()
 
     expect(wrapper.vm.activeItems).toContain('Djibouti')
-    KEY_MAP.keydown({ keyCode: KEY_UP_CODE })
+    KEY_MAP.keydown({ keyCode: KEY_UP_CODE } as KeyboardEvent)
     expect(wrapper.vm.activeItems).toContain('Senegal')
-    KEY_MAP.keydown({ keyCode: KEY_UP_CODE })
+    KEY_MAP.keydown({ keyCode: KEY_UP_CODE } as KeyboardEvent)
     expect(wrapper.vm.activeItems).toContain('Lesotho')
   })
 
@@ -123,11 +123,11 @@ describe('SelectableDropdown.vue', () => {
     const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'] }
     const wrapper = mount(SelectableDropdown, { propsData })
 
-    wrapper.vm.clickToSelectItem('Lesotho')
+    ;(wrapper.vm as any).clickToSelectItem('Lesotho')
     expect(wrapper.emitted().click[0]).toContain('Lesotho')
-    wrapper.vm.clickToSelectItem('Senegal')
+    ;(wrapper.vm as any).clickToSelectItem('Senegal')
     expect(wrapper.emitted().click[1]).toContain('Senegal')
-    wrapper.vm.clickToSelectItem('Lesotho')
+    ;(wrapper.vm as any).clickToSelectItem('Lesotho')
     expect(wrapper.emitted().click[2]).toContain('Lesotho')
   })
 

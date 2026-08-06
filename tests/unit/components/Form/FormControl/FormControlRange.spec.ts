@@ -18,8 +18,8 @@ describe('RangePicker.vue', () => {
         range: [0.2, 0.8]
       }
     })
-    expect(wrapper.vm.start).toBe(0.2)
-    expect(wrapper.vm.end).toBe(0.8)
+    expect((wrapper.vm as any).start).toBe(0.2)
+    expect((wrapper.vm as any).end).toBe(0.8)
   })
 
   it('sets the correct class based on the variant prop', async () => {
@@ -48,7 +48,7 @@ describe('RangePicker.vue', () => {
 
   it('sets the disabled class if value prop is empty', async () => {
     const wrapper = shallowMount(RangePicker, {
-      propsData: { range: [] }
+      propsData: { range: [] as unknown as [number, number] }
     })
 
     expect(wrapper.classes()).toContain('range-picker--disabled')
@@ -56,7 +56,7 @@ describe('RangePicker.vue', () => {
 
   it('hides the bounds if value prop is empty', async () => {
     const wrapper = shallowMount(RangePicker, {
-      propsData: { range: [] }
+      propsData: { range: [] as unknown as [number, number] }
     })
 
     expect(wrapper.find('.range-picker__bounds').isVisible()).toBeFalsy()
@@ -67,10 +67,10 @@ describe('RangePicker.vue', () => {
       propsData: { range: [0.1, 0.11], minDistance: 0.05 }
     })
 
-    wrapper.vm.dragStartBound({ detail: 0.06 })
+    ;(wrapper.vm as any).dragStartBound({ detail: 0.06 })
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.vm.start).not.toBe(0.06)
+    expect((wrapper.vm as any).start).not.toBe(0.06)
   })
 
   it('snaps value based on snap prop', async () => {
@@ -78,10 +78,10 @@ describe('RangePicker.vue', () => {
       propsData: { range: [0.1, 0.9], snap: 0.05 }
     })
 
-    wrapper.vm.dragStartBound(0.12)
+    ;(wrapper.vm as any).dragStartBound(0.12)
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.vm.start).toBe(0.1)
+    expect((wrapper.vm as any).start).toBe(0.1)
   })
 
   it('updates start and end when updating props', async () => {
@@ -89,10 +89,10 @@ describe('RangePicker.vue', () => {
       propsData: { range: [0.1, 0.9] }
     })
 
-    expect(wrapper.vm.start).toBe(0.1)
-    expect(wrapper.vm.end).toBe(0.9)
+    expect((wrapper.vm as any).start).toBe(0.1)
+    expect((wrapper.vm as any).end).toBe(0.9)
     await wrapper.setProps({ range: [0.3, 0.7] })
-    expect(wrapper.vm.start).toBe(0.3)
-    expect(wrapper.vm.end).toBe(0.7)
+    expect((wrapper.vm as any).start).toBe(0.3)
+    expect((wrapper.vm as any).end).toBe(0.7)
   })
 })
