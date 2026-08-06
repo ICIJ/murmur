@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { BCard } from 'bootstrap-vue-next'
 
 import { FormAdvancedLink } from '@/components'
-import { SIZE } from '@/enums'
+import { SIZE, AdvancedLinkTab } from '@/enums'
 import { modalDecorator, popoverDecorator } from '../../../decorators'
 
 const meta: Meta<typeof FormAdvancedLink> = {
@@ -34,7 +34,7 @@ export const Default: Story = {
     title: 'Medtronic spends millions each year on lobbying in the US',
     link: 'https://projects.icij.org/the-implant-files/graphics/#/medtronic-lobbying',
     card: true,
-    forms: ['markdown', 'html', 'raw']
+    forms: [AdvancedLinkTab.markdown, AdvancedLinkTab.html, AdvancedLinkTab.raw]
   }
 }
 
@@ -54,7 +54,7 @@ export const InsidePopover: Story = {
     card: true,
     small: true,
     noFade: true,
-    forms: ['raw', 'markdown']
+    forms: [AdvancedLinkTab.raw, AdvancedLinkTab.markdown]
   },
   decorators: [popoverDecorator]
 }

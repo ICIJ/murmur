@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { TexturedDeck, Brand } from '@/components'
 import { BButton } from 'bootstrap-vue-next'
+import { DeckTexture } from '@/enums'
 
 const meta: Meta<typeof TexturedDeck> = {
   title: 'Murmur/components/TexturedDeck/TexturedDeck',
@@ -48,7 +49,7 @@ export const Black: Story = {
 }
 
 export const BrickDonate: Story = {
-  args: { modelValue: 'brick' },
+  args: { modelValue: DeckTexture.Brick },
   render: (args: any) => ({
     components: { TexturedDeck, BButton },
     setup: () => ({ args, shortLorem }),
@@ -64,7 +65,7 @@ export const BrickDonate: Story = {
 }
 
 export const CrackBrand: Story = {
-  args: { modelValue: 'crack' },
+  args: { modelValue: DeckTexture.Crack },
   render: (args: any) => ({
     components: { TexturedDeck, Brand },
     setup: () => ({ args, shortLorem }),
@@ -77,7 +78,7 @@ export const CrackBrand: Story = {
 }
 
 export const Rock: Story = {
-  args: { modelValue: 'rock' },
+  args: { modelValue: DeckTexture.Rock },
   render: (args: any) => ({
     components: { TexturedDeck },
     setup: () => ({ args, loremText }),
@@ -86,7 +87,7 @@ export const Rock: Story = {
 }
 
 export const Sand: Story = {
-  args: { modelValue: 'sand' },
+  args: { modelValue: DeckTexture.Sand },
   render: (args: any) => ({
     components: { TexturedDeck },
     setup: () => ({ args, loremText }),
@@ -95,7 +96,7 @@ export const Sand: Story = {
 }
 
 export const Crack: Story = {
-  args: { modelValue: 'crack' },
+  args: { modelValue: DeckTexture.Crack },
   render: (args: any) => ({
     components: { TexturedDeck },
     setup: () => ({ args, loremText }),
@@ -104,7 +105,7 @@ export const Crack: Story = {
 }
 
 export const Carbon: Story = {
-  args: { modelValue: 'carbon' },
+  args: { modelValue: DeckTexture.Carbon },
   render: (args: any) => ({
     components: { TexturedDeck },
     setup: () => ({ args, loremText }),
