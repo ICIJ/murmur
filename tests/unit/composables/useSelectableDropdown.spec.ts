@@ -11,6 +11,12 @@ describe('useSelectableDropdown', () => {
     modelValue = null,
     activeItems = [],
     eq = equals
+  }: {
+    items?: any[]
+    multiple?: boolean
+    modelValue?: any
+    activeItems?: any[]
+    eq?: (a: any, b: any) => boolean
   } = {}) => {
     const activeItemsRef = ref(activeItems)
     const modelValueRef = ref(modelValue)
@@ -34,7 +40,7 @@ describe('useSelectableDropdown', () => {
   })
 
   it('reports whether an item is active with a custom eq', () => {
-    const eq = (item, other) => item.label === other.label
+    const eq = (item: { label: string }, other: { label: string }) => item.label === other.label
     const { itemActivated } = createDropdown({
       items: [{ label: 'Lesotho' }, { label: 'Senegal' }, { label: 'Djibouti' }],
       activeItems: [{ label: 'Lesotho' }],

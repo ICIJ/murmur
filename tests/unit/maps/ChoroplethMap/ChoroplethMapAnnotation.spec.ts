@@ -60,8 +60,8 @@ describe('ChoroplethMapAnnotation', () => {
       global: { provide }
     })
 
-    expect(wrapper.vm.x).toEqual(100)
-    expect(wrapper.vm.y).toEqual(200)
+    expect((wrapper.vm as any).x).toEqual(100)
+    expect((wrapper.vm as any).y).toEqual(200)
   })
 
   describe('placements', () => {
@@ -78,11 +78,11 @@ describe('ChoroplethMapAnnotation', () => {
           global: { provide }
         })
 
-        expect(wrapper.vm.isRight).toBe(!!expectedResults.isRight)
-        expect(wrapper.vm.isLeft).toBe(!!expectedResults.isLeft)
-        expect(wrapper.vm.isTop).toBe(!!expectedResults.isTop)
-        expect(wrapper.vm.isBottom).toBe(!!expectedResults.isBottom)
-        expect(wrapper.vm.isCenter).toBe(!!expectedResults.isCenter)
+        expect((wrapper.vm as any).isRight).toBe(!!expectedResults.isRight)
+        expect((wrapper.vm as any).isLeft).toBe(!!expectedResults.isLeft)
+        expect((wrapper.vm as any).isTop).toBe(!!expectedResults.isTop)
+        expect((wrapper.vm as any).isBottom).toBe(!!expectedResults.isBottom)
+        expect((wrapper.vm as any).isCenter).toBe(!!expectedResults.isCenter)
       })
     }
 
@@ -119,9 +119,9 @@ describe('ChoroplethMapAnnotation', () => {
           global: { provide }
         })
 
-        expect(wrapper.vm.wrapperTransformOriginX).toBe(expectedX)
-        expect(wrapper.vm.wrapperTransformOriginY).toBe(expectedY)
-        expect(wrapper.vm.wrapperTransformOrigin).toBe(
+        expect((wrapper.vm as any).wrapperTransformOriginX).toBe(expectedX)
+        expect((wrapper.vm as any).wrapperTransformOriginY).toBe(expectedY)
+        expect((wrapper.vm as any).wrapperTransformOrigin).toBe(
           `${expectedX} ${expectedY}`
         )
       })
@@ -199,9 +199,9 @@ describe('ChoroplethMapAnnotation', () => {
             placement
           })
 
-          expect(wrapper.vm.translateX).toBe(translateX)
-          expect(wrapper.vm.translateY).toBe(translateY)
-          expect(wrapper.vm.transform).toBe(
+          expect((wrapper.vm as any).translateX).toBe(translateX)
+          expect((wrapper.vm as any).translateY).toBe(translateY)
+          expect((wrapper.vm as any).transform).toBe(
             `translate(${translateX}, ${translateY})`
           )
         })
@@ -221,7 +221,7 @@ describe('ChoroplethMapAnnotation', () => {
         global: { provide }
       })
 
-      expect(wrapper.vm.isVisible).toBeTruthy()
+      expect((wrapper.vm as any).isVisible).toBeTruthy()
     })
 
     it('is not visible when outside geoDistanceThreshold', () => {
@@ -234,7 +234,7 @@ describe('ChoroplethMapAnnotation', () => {
         },
         global: { provide }
       })
-      expect(wrapper.vm.isVisible).toBeFalsy()
+      expect((wrapper.vm as any).isVisible).toBeFalsy()
     })
   })
 })
