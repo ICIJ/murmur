@@ -96,12 +96,12 @@ export interface FormSignUpProps {
 }
 
 const props = withDefaults(defineProps<FormSignUpProps>(), {
-  action: () => config.get('signup-form.action'),
-  emailField: () => config.get('signup-form.email-field'),
-  defaultGroups: () => config.get('signup-form.default-groups'),
+  action: () => (config.get('signup-form.action') ?? undefined) as string,
+  emailField: () => (config.get('signup-form.email-field') ?? undefined) as string,
+  defaultGroups: () => (config.get('signup-form.default-groups') ?? undefined) as string | string[],
   noLabel: false,
   horizontal: false,
-  tracker: () => config.get('signup-form.tracker'),
+  tracker: () => (config.get('signup-form.tracker') ?? undefined) as string,
   referrer: null,
   variant: 'primary',
   compact: false

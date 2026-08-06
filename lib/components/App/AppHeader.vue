@@ -112,6 +112,7 @@ import { useI18n } from 'vue-i18n'
 import { BPopover } from 'bootstrap-vue-next'
 import Headroom from 'vue-headroom/src/headroom.vue'
 import { computed, ref } from 'vue'
+import type { Component } from 'vue'
 
 import config from '@/config'
 import BrandExpansion from '@/components/Brand/BrandExpansion.vue'
@@ -146,15 +147,15 @@ export interface AppHeaderProps {
 const props = withDefaults(defineProps<AppHeaderProps>(), {
   position: 'fixed',
   noHeadroom: false,
-  homeUrl: () => config.get('app.home'),
-  donateUrl: () => config.get('app.donate-url'),
+  homeUrl: () => (config.get('app.home') ?? undefined) as string,
+  donateUrl: () => (config.get('app.donate-url') ?? undefined) as string,
   compactSignUp: false
 })
 
 const { t } = useI18n()
 const shortMode = ref(BrandMode.Short)
 const longMode = ref(BrandMode.Long)
-const rootElement = computed((): string => props.noHeadroom ? 'div' : Headroom)
+const rootElement = computed((): string | Component => props.noHeadroom ? 'div' : Headroom)
 
 // Navbar collapse and popover visibility are managed by useAppHeader.
 const { showFollowUsPopover, collapseNavbar, closeFollowUsPopover, toggleNavbar } = useAppHeader()

@@ -41,11 +41,11 @@ export interface EmbeddableFooterProps {
 }
 
 withDefaults(defineProps<EmbeddableFooterProps>(), {
-  title: () => config.get('project.name'),
+  title: () => (config.get('project.name') ?? undefined) as string,
   lead: '',
   iframeMinHeight: 100,
   iframeMinWidth: 100,
-  homeUrl: () => config.get('app.home'),
+  homeUrl: () => (config.get('app.home') ?? undefined) as string,
   sharingOptionsValues: () => ({}),
   hideDivider: false,
   logoHeight: 40
