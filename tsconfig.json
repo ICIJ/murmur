@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "jsx": "preserve",
     "module": "esnext",
     "resolveJsonModule":true,
@@ -21,7 +21,8 @@
       "node"
     ],
     "paths": {
-      "@/*": [ "lib/*"]
+      "@/*": [ "lib/*"],
+      "~storybook/*": [ ".storybook/*"]
     }
   },
   "include": [

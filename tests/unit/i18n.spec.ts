@@ -1,9 +1,8 @@
 import { locale, fallbackLocale, i18n } from '@/i18n'
-import { I18n } from 'vue-i18n'
 
 describe('i18n.js', () => {
   it('exposes a static method called install', () => {
-    expectTypeOf(i18n).toEqualTypeOf<I18n>()
+    expect(i18n.install).toBeTypeOf('function')
   })
 
   it('should use `en` as default locale', () => {

@@ -59,7 +59,7 @@ describe('SharingOptions', () => {
 
   it('renders the embed button by default', () => {
     const wrapper = mount(SharingOptions, { propsData })
-    expect(wrapper.find('.sharing-options__link--embed').element.style.display).not.toBe('none')
+    expect((wrapper.find('.sharing-options__link--embed').element as HTMLElement).style.display).not.toBe('none')
   })
 
   it('hides the embed button when props.noEmbed is passed', () => {
@@ -67,7 +67,7 @@ describe('SharingOptions', () => {
     const wrapper = mount(SharingOptions, {
       propsData: { noEmbed, ...propsData }
     })
-    expect(wrapper.find('.sharing-options__link--embed').element.style.display).toBe('none')
+    expect((wrapper.find('.sharing-options__link--embed').element as HTMLElement).style.display).toBe('none')
   })
 
   it('uses a generic title', () => {
@@ -102,7 +102,7 @@ describe('SharingOptions', () => {
   })
 
   it('uses the current location is none is given', () => {
-    const wrapper = mount(SharingOptions, { global })
+    const wrapper = mount(SharingOptions)
     expect(wrapper.vm.url).toBe('http://localhost:3000/')
   })
 })

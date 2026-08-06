@@ -14,7 +14,7 @@ export type ConfigValue
     | null
     | object
     | ConfigValue[]
-    | Record<string, ConfigValue>
+    | { [key: string]: ConfigValue }
 
 type ConfigValues = Record<string, ConfigValue>
 type ConfigScopes = Record<string, Config>
@@ -50,12 +50,14 @@ export class Config {
     return value
   }
 
+  get<T extends ConfigValue = ConfigValue>(key: string, defaultValue: T): T
+  get<T extends ConfigValue = ConfigValue>(key: string, defaultValue?: null): T | null
   get<T extends ConfigValue = ConfigValue>(key: string, defaultValue?: T | null): T | null {
     return get(this._VALUES.value, key, defaultValue) as T | null
   }
 
   is(key: string): boolean {
-    const value = this.get(key, null)
+    const value = this.get(key)
     switch (value) {
       case 1:
         return true

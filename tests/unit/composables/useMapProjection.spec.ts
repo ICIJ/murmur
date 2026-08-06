@@ -9,6 +9,7 @@ import type { MapTransform } from '@/types'
 // projection fitting deterministically without loading a topojson fixture.
 const SQUARE_GEOJSON = {
   type: 'Feature' as const,
+  properties: null,
   geometry: {
     type: 'Polygon' as const,
     coordinates: [

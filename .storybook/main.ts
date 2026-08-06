@@ -24,8 +24,7 @@ const config: StorybookConfig = {
     },
   },
   typescript: {
-    check: false,
-    reactDocgen: false
+    check: false
   },
   docs: {},
   viteFinal: (config) => {

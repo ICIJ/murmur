@@ -56,7 +56,6 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const IconLeft: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     label: 'Button',
@@ -66,7 +65,6 @@ export const IconLeft: Story = {
 }
 
 export const IconBothSide: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'md',
@@ -77,7 +75,6 @@ export const IconBothSide: Story = {
 }
 
 export const IconRight: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'md',
@@ -87,7 +84,6 @@ export const IconRight: Story = {
 }
 
 export const WithCounter: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.outline_primary,
     size: 'md',
@@ -99,7 +95,6 @@ export const WithCounter: Story = {
 }
 
 export const HideLabel: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'md',
@@ -110,7 +105,6 @@ export const HideLabel: Story = {
 }
 
 export const Square: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'md',
@@ -122,7 +116,6 @@ export const Square: Story = {
 }
 
 export const SquareWithCounter: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'md',
@@ -138,7 +131,6 @@ export const SquareWithCounter: Story = {
 }
 
 export const SquarePill: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'md',
@@ -226,7 +218,6 @@ export const AllSizes: Story = {
 }
 
 export const SizeSmall: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'sm',
@@ -236,7 +227,6 @@ export const SizeSmall: Story = {
 }
 
 export const SizeLarge: Story = {
-  component: ButtonIcon,
   args: {
     variant: VARIANT.primary,
     size: 'lg',

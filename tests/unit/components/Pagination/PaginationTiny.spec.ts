@@ -32,7 +32,7 @@ describe('TinyPagination.vue', () => {
     wrapper.vm.currentPageInput = 3
     await wrapper.vm.applyPageForm()
     await wrapper.vm.$nextTick()
-    expect(wrapper.emitted('update:modelValue')[0]).toContain(3)
+    expect(wrapper.emitted('update:modelValue')![0]).toContain(3)
   })
 
   it('does not emit an event if the currentPageInput is invalid', async () => {

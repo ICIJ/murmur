@@ -7,8 +7,6 @@ import values from 'lodash/values'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 
-import type { LoadedData } from '@/composables/useChart'
-
 /**
  * Reactive inputs driving {@link useChoropleth}. They mirror the
  * `ChoroplethMap` component's loaded data, the color-scale bounds and the
@@ -19,7 +17,7 @@ export interface UseChoroplethOptions {
   /**
    * The map's loaded data, keyed by feature identifier, as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<LoadedData>
+  loadedData: MaybeRefOrGetter<Record<string, number> | null>
   /**
    * Path (dot notation supported) to a feature's identifier inside the geojson
    * datum, used to look its value up in `loadedData`.
@@ -71,7 +69,7 @@ export interface UseChoropleth {
   /**
    * Maps a geojson datum to its color, or `undefined` when the feature has no data.
    */
-  featureColor: ComputedRef<(d: any) => string | undefined>
+  featureColor: ComputedRef<(d: any) => string | null>
 }
 
 /**
@@ -127,9 +125,9 @@ export function useChoropleth(options: UseChoroplethOptions): UseChoropleth {
   })
 
   const defaultFeatureColorScale = computed(() => {
-    return scaleSequential()
+    return scaleSequential<string>()
       .domain([Math.max(1, minValue.value), maxValue.value])
-      .range([toValue(colorScaleStart), toValue(colorScaleEnd)] as any)
+      .range([toValue(colorScaleStart), toValue(colorScaleEnd)])
   })
 
   const featureColorScaleFunction = computed((): ((v: any) => string) => {
@@ -141,13 +139,13 @@ export function useChoropleth(options: UseChoroplethOptions): UseChoropleth {
   })
 
   const featureColor = computed(() => {
-    return (d: any): string | undefined => {
+    return (d: any): string | null => {
       const data = toValue(loadedData)
       const id = get(d, toValue(topojsonObjectsPath))
       const hasIdProp = data && (id in data)
       return hasIdProp
         ? featureColorScaleFunction.value(data[id])
-        : undefined
+        : null
     }
   })
 

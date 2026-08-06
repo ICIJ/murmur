@@ -9,7 +9,6 @@ import type { CurveFactory, Line } from 'd3-shape'
 import { timeParse } from 'd3-time-format'
 import { computed, toRaw, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { LoadedData } from '@/composables/useChartData'
 
 /**
  * One rendered line series: its source key, the SVG path `d` attribute and the
@@ -48,7 +47,7 @@ export interface UseLineChartOptions {
   /**
    * The chart's loaded data (inline array or fetched), as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<LoadedData>
+  loadedData: MaybeRefOrGetter<Record<string, any>[] | null>
   /**
    * The measured inner padding box (width/height in pixels) the scales map onto.
    */
@@ -259,7 +258,7 @@ export function useLineChart(options: UseLineChartOptions): UseLineChart {
 
   const yAxis = computed((): Axis<NumberValue> => {
     return axisLeft(scaleY.value)
-      .tickFormat((d: any) => d3Formatter(d, toValue(yAxisTickFormat)))
+      .tickFormat((d: any) => String(d3Formatter(d, toValue(yAxisTickFormat))))
       .ticks(toValue(yAxisTicks) as number)
   })
 

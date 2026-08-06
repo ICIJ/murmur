@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 
-import SharingOptionsLink, { $popup, networks } from '@/components/SharingOptions/SharingOptionsLink.vue'
+import SharingOptionsLink from '@/components/SharingOptions/SharingOptionsLink.vue'
+import { $popup, networks } from '@/composables/useSharingOptionsLink'
 
 function mockPopupParent() {
   return {
@@ -8,9 +9,9 @@ function mockPopupParent() {
       return {
         focus: vi.fn(),
         close: vi.fn()
-      }
+      } as unknown as Window
     })
-  }
+  } as unknown as Window & typeof globalThis
 }
 
 vi.useFakeTimers()
@@ -132,24 +133,24 @@ describe('SharingOptionsLink', () => {
 
   it('should clear the interval and close existing popup when clicking on the component', () => {
     const wrapper = mount(SharingOptionsLink, { propsData })
-    $popup.instance = { close: vi.fn(), focus: vi.fn() }
+    $popup.instance = { close: vi.fn(), focus: vi.fn() } as unknown as Window
     $popup.interval = setInterval(() => null)
     wrapper.vm.cleanExistingPopupInstance()
     expect($popup.interval).toBe(undefined)
-    expect($popup.instance.close).toBeCalled()
+    expect($popup.instance!.close).toBeCalled()
   })
 
   it('should share popup between components', () => {
-    $popup.instance = { close: vi.fn(), focus: vi.fn() }
+    $popup.instance = { close: vi.fn(), focus: vi.fn() } as unknown as Window
     $popup.interval = setInterval(() => null)
     const wrapperA = mount(SharingOptionsLink, { propsData })
     const wrapperB = mount(SharingOptionsLink, { propsData })
     wrapperA.vm.cleanExistingPopupInstance()
     expect($popup.interval).toBe(undefined)
-    expect($popup.instance.close).toBeCalled()
+    expect($popup.instance!.close).toBeCalled()
     wrapperB.vm.cleanExistingPopupInstance()
     expect($popup.interval).toBe(undefined)
-    expect($popup.instance.close).toBeCalled()
+    expect($popup.instance!.close).toBeCalled()
   })
 
   it('should open a popup when clicking on the component', async () => {
@@ -170,7 +171,7 @@ describe('SharingOptionsLink', () => {
     expect($popup.instance).not.toBe(null)
     expect($popup.interval).not.toBe(undefined)
     // Close the popup
-    $popup.instance.closed = true
+    ;($popup.instance as any).closed = true
     // Wait for the interval to be called
     vi.advanceTimersByTime(1000)
     // And check again!

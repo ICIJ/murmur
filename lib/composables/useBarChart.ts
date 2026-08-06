@@ -4,7 +4,6 @@ import type { ScaleLinear } from 'd3-scale'
 import sortByFn from 'lodash/sortBy'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { LoadedData } from '@/composables/useChartData'
 
 /**
  * A single datum of a horizontal bar chart. `value` is the measured quantity;
@@ -66,7 +65,7 @@ export interface UseBarChartOptions {
   /**
    * The chart's loaded data (inline array or fetched), as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<LoadedData>
+  loadedData: MaybeRefOrGetter<BarChartDatum[] | null>
   /**
    * Measured outer width of the chart, in pixels.
    */
@@ -106,7 +105,7 @@ export interface UseBarChart {
   /**
    * The loaded data, optionally sorted by the `sortBy` option.
    */
-  sortedData: ComputedRef<object[]>
+  sortedData: ComputedRef<BarChartDatum[]>
   /**
    * The chart's margins (only the left margin reserves label room).
    */
@@ -170,7 +169,7 @@ export function useBarChart(options: UseBarChartOptions): UseBarChart {
     labelGap
   } = options
 
-  const sortedData = computed((): object[] => {
+  const sortedData = computed((): BarChartDatum[] => {
     const data = toValue(loadedData)
     if (!data) {
       return []

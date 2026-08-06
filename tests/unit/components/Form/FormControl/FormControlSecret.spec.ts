@@ -34,7 +34,7 @@ describe('SecretInput.vue', () => {
     const wrapper = mount(SecretInput, { global, propsData })
     await wrapper.find('.secret-input__toggler').trigger('click')
     expect(wrapper.emitted('update:visible')).toBeTruthy()
-    expect(wrapper.emitted('update:visible')[0][0]).toBe(true)
+    expect(wrapper.emitted('update:visible')![0][0]).toBe(true)
   })
 
   it('shows an eye icon when input is not visible', () => {

@@ -7,10 +7,10 @@ import ChoroplethMap from '@/maps/ChoroplethMap/ChoroplethMap.vue'
 vi.mock('d3-fetch', async () => {
   return {
     ...(await vi.importActual('d3-fetch')),
-    json: async (url) => {
-      const pathname = url.split('https://icij.github.io/murmur/').pop()
+    json: async (url: string) => {
+      const pathname = url.split('https://icij.github.io/murmur/').pop()!
       const abspath = resolve(__dirname, join('../../../../public', pathname))
-      const raw = await fs.readFile(abspath, 'UTF-8')
+      const raw = await fs.readFile(abspath, 'utf-8')
       return JSON.parse(raw)
     }
   }
@@ -33,7 +33,7 @@ vi.mock('d3-zoom', async () => {
 
 describe('ChoroplethMap.vue', () => {
   describe('a map of the world', () => {
-    let wrapper
+    let wrapper: ReturnType<typeof shallowMount<typeof ChoroplethMap>>
 
     beforeEach(async () => {
       const propsData = {
@@ -45,7 +45,7 @@ describe('ChoroplethMap.vue', () => {
       }
       wrapper = shallowMount(ChoroplethMap, {
         propsData,
-        global: { renderDefaultStub: true }
+        global: { renderStubDefaultSlot: true }
       })
       wrapper.vm.resizable.style.width = '500px'
       await wrapper.vm.loadTopojson()
@@ -59,7 +59,7 @@ describe('ChoroplethMap.vue', () => {
 
     it('has a feature for KGZ with the end color of the scale', () => {
       const feature = wrapper.find('.choropleth-map__main__features__item--identifier-kgz')
-      const color = window.getComputedStyle(feature.wrapperElement).color
+      const color = window.getComputedStyle(feature.element).color
       expect(color).toBe('rgb(122, 1, 119)')
     })
 
@@ -120,7 +120,7 @@ describe('ChoroplethMap.vue', () => {
   })
 
   describe('a clickable map of france with data on 3 departments', () => {
-    let wrapper
+    let wrapper: ReturnType<typeof shallowMount<typeof ChoroplethMap>>
 
     beforeEach(async () => {
       const propsData = {
@@ -177,7 +177,7 @@ describe('ChoroplethMap.vue', () => {
       const zoomed = wrapper.emitted('zoomed')
 
       expect(zoomed).toHaveLength(1)
-      expect(zoomed[0][0]).toMatchObject({
+      expect(zoomed![0][0]).toMatchObject({
         properties: {
           code: '03',
           nom: 'Allier'

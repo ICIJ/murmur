@@ -5,7 +5,6 @@ import sortByFn from 'lodash/sortBy'
 import without from 'lodash/without'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { LoadedData } from '@/composables/useChartData'
 
 /**
  * Reactive inputs driving {@link useStackedChart}. They mirror the data and
@@ -17,7 +16,7 @@ export interface UseStackedChartOptions {
   /**
    * The chart's loaded data (inline array or fetched), as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<LoadedData>
+  loadedData: MaybeRefOrGetter<Record<string, any>[] | null>
   /**
    * Whether the data has finished loading. Until then `sortedData` is empty so
    * the chart never reads from half-loaded data.
@@ -123,6 +122,9 @@ export function useStackedChart(options: UseStackedChartOptions): UseStackedChar
       return []
     }
     const data = toValue(loadedData)
+    if (!data) {
+      return []
+    }
     const sortKey = toValue(sortBy)
     return !sortKey ? data : sortByFn(data, sortKey)
   })

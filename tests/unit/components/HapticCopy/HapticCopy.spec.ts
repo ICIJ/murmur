@@ -5,13 +5,15 @@ import HapticCopy from '@/components/HapticCopy/HapticCopy.vue'
 describe('HapticCopy.vue', () => {
   const propsData = { text: 'Lorem ipsum', noTooltip: true }
 
+  const consoleWarn = vi.spyOn(console, 'warn')
+
   beforeAll(() => {
     // Prevent multiple Bootstrap Vue warnings in tests
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    consoleWarn.mockImplementation(() => {})
   })
 
   afterAll(() => {
-    console.warn.mockClear()
+    consoleWarn.mockClear()
   })
 
   it('is a Vue instance', () => {

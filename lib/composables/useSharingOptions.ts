@@ -11,11 +11,11 @@ import config from '@/config'
  */
 export interface MetaValuesMap {
   url: string
-  title: string
-  description: string
-  facebook_title: string
-  facebook_description: string
-  facebook_media: string
+  title?: string
+  description?: string
+  facebook_title?: string
+  facebook_description?: string
+  facebook_media?: string
 }
 
 /**
@@ -48,11 +48,11 @@ export function useSharingOptions(
 ) {
   // Read a default value from the page meta tags, falling back to the config.
   // When meta reading is disabled or no selector is given, use the config only.
-  function defaultValueFor(key: string, metaSelector?: string): string {
+  function defaultValueFor(key: string, metaSelector?: string): string | undefined {
     if (toValue(noMeta) || !metaSelector) {
-      return config.get(key)
+      return config.get<string>(key) ?? undefined
     }
-    return get(document.head.querySelector(metaSelector), 'content', config.get(key))
+    return get(document.head.querySelector(metaSelector), 'content', config.get<string>(key) ?? undefined)
   }
 
   const metaValues = computed((): MetaValuesMap => {
@@ -69,11 +69,11 @@ export function useSharingOptions(
   // Build the values for a network, preferring its prefixed key (e.g.
   // `facebook_title`) and falling back to the generic key (`title`).
   function valuesFor(network: string): Record<string, string> {
-    const resolvedValues = Object.assign({}, metaValues.value, toValue(values))
+    const resolvedValues = Object.assign({}, metaValues.value, toValue(values)) as Record<string, string | undefined>
     return reduce(
       toValue(valuesKeys),
       (res: Record<string, string>, key) => {
-        res[key] = get(resolvedValues, `${network}_${key}`, resolvedValues[key])
+        res[key] = get(resolvedValues, `${network}_${key}`, resolvedValues[key]) ?? ''
         return res
       },
       {}

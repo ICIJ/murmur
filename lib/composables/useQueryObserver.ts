@@ -1,4 +1,5 @@
 import { computed, onScopeDispose, reactive, toRef, watch } from 'vue'
+import type { MaybeRefOrGetter } from 'vue'
 import first from 'lodash/first'
 import get from 'lodash/get'
 
@@ -20,8 +21,8 @@ type ObserverMap = Record<string, MutationObserver>
  * const links = querySelectorAll('a')
  * </script>
  */
-export function useQueryObserver(root = window.document, once = false) {
-  const rootRef = toRef<Document | null>(root)
+export function useQueryObserver(root: MaybeRefOrGetter<Document | HTMLElement | null | undefined> = window.document, once = false) {
+  const rootRef = toRef(root)
   const elements = reactive<ElementMap>({})
   const observers = reactive<ObserverMap>({})
 

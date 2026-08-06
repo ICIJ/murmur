@@ -2,12 +2,13 @@ import { ref } from 'vue'
 import { describe, expect, it } from 'vitest'
 
 import { useBarChart } from '@/composables/useBarChart'
+import type { BarChartDatum } from '@/composables/useBarChart'
 
 // Default options matching the BarChart component defaults, overridable per
 // test. Kept as a factory so each call gets fresh refs.
 function createOptions(overrides: Record<string, unknown> = {}) {
   return {
-    loadedData: ref<object[]>([
+    loadedData: ref<BarChartDatum[]>([
       { label: 'A', value: 10 },
       { label: 'B', value: 20, highlight: true },
       { label: 'C', value: 40 }

@@ -7,7 +7,6 @@ import iteratee from 'lodash/iteratee'
 import sortByFn from 'lodash/sortBy'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { LoadedData } from '@/composables/useChartData'
 
 /**
  * The geometry of a single rendered column, in canvas pixels, carrying its
@@ -59,7 +58,7 @@ export interface UseColumnChartOptions {
   /**
    * The chart's loaded data (inline array or fetched), as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<LoadedData>
+  loadedData: MaybeRefOrGetter<Record<string, any>[] | null>
   /**
    * Measured outer width of the chart, in pixels.
    */
@@ -110,7 +109,7 @@ export interface UseColumnChartOptions {
  * Reactive API returned by {@link useColumnChart}.
  */
 export interface UseColumnChart {
-  sortedData: ComputedRef<object[]>
+  sortedData: ComputedRef<Record<string, any>[]>
   margin: ComputedRef<ColumnChartMargin>
   padded: ComputedRef<ColumnChartPadded>
   scaleX: ComputedRef<ScaleBand<string>>
@@ -187,7 +186,7 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
     waterfallTotalLabel
   } = options
 
-  const sortedData = computed((): object[] => {
+  const sortedData = computed((): Record<string, any>[] => {
     const data = toValue(loadedData)
     if (!data) {
       return []
@@ -233,7 +232,7 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
     }
     else {
       resolvedMax
-        = toValue(maxValue) ?? max(sortedData.value, iteratee(toValue(seriesName))) ?? 0
+        = toValue(maxValue) ?? (max(sortedData.value, iteratee(toValue(seriesName))) as number | undefined) ?? 0
     }
     return scaleLinear()
       .domain([0, resolvedMax])
@@ -340,7 +339,7 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
 
   const yAxis = computed((): Axis<NumberValue> => {
     return axisLeft(scaleY.value)
-      .tickFormat((d: any) => d3Formatter(d, toValue(yAxisTickFormat)))
+      .tickFormat((d: any) => String(d3Formatter(d, toValue(yAxisTickFormat))))
       .ticks(toValue(yAxisTicks) as number)
   })
 

@@ -144,12 +144,16 @@ export function useSymbolMap(options: UseSymbolMapOptions): UseSymbolMap {
   } = options
 
   const featuresGeojson = computed(() => {
+    const topojsonValue = toValue(topojson)
+    if (!topojsonValue) {
+      return { type: 'FeatureCollection', features: [] } as const
+    }
     const object = get(
-      toValue(topojson),
+      topojsonValue,
       ['objects', toValue(topojsonObjects)],
       null
     )
-    return feature(toValue(topojson), object as GeometryCollection)
+    return feature(topojsonValue, object as GeometryCollection)
   })
 
   const coordinates = computed((): number[][] => {

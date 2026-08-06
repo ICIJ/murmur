@@ -52,7 +52,7 @@ describe('useAccordion', () => {
 
   it('reads the step ref reactively when navigating', () => {
     const emit = vi.fn()
-    const step = ref(step1)
+    const step = ref<Step>(step1)
     const { emitAccordionNextStepEvent } = useAccordion(step, ref(steps), emit)
 
     // Move the active step forward through the ref, then navigate: the emitted

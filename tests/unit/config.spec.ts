@@ -105,13 +105,13 @@ describe('config.ts', () => {
     const component = {
       setup() {
         const app = getCurrentInstance()
-        return () => h('div', app.appContext.config.globalProperties.$config.get('reactiveProp', 'bar'))
+        return () => h('div', app!.appContext.config.globalProperties.$config.get('reactiveProp', 'bar'))
       }
     }
 
     const wrapper = mount(component, { global: { plugins: [Murmur] } })
     expect(wrapper.text()).toBe('bar')
-    wrapper.vm.$config.set('reactiveProp', 'baz')
+    ;(wrapper.vm as any).$config.set('reactiveProp', 'baz')
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('baz')
   })
@@ -121,13 +121,13 @@ describe('config.ts', () => {
     const component = {
       setup() {
         const app = getCurrentInstance()
-        return () => h('div', app.appContext.config.globalProperties.$config.get('nested.reactiveProp', 'bar'))
+        return () => h('div', app!.appContext.config.globalProperties.$config.get('nested.reactiveProp', 'bar'))
       }
     }
 
     const wrapper = mount(component, { global: { plugins: [Murmur] } })
     expect(wrapper.text()).toBe('bar')
-    wrapper.vm.$config.set('nested.reactiveProp', 'baz')
+    ;(wrapper.vm as any).$config.set('nested.reactiveProp', 'baz')
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('baz')
   })

@@ -23,7 +23,7 @@ describe('AdvancedLinkFormTab.vue', () => {
     const props: AdvancedLinkFormTabsProps = {
       link: 'https://www.icij.org',
       title: 'A Great Website',
-      type: 'raw'
+      type: AdvancedLinkTab.raw
     }
     const wrapper = shallowMount(AdvancedLinkFormTab, { props, global })
     expect(wrapper.find('.advanced-link-form-tab__input').attributes('modelvalue')).toBe(props.link)
@@ -33,7 +33,7 @@ describe('AdvancedLinkFormTab.vue', () => {
     const props: AdvancedLinkFormTabsProps = {
       link: 'https://www.icij.org',
       title: 'A Great Website',
-      type: 'markdown'
+      type: AdvancedLinkTab.markdown
     }
     const markdown = `[${props.title}](${props.link})`
     const wrapper = shallowMount(AdvancedLinkFormTab, { props, global })
@@ -44,7 +44,7 @@ describe('AdvancedLinkFormTab.vue', () => {
     const props: AdvancedLinkFormTabsProps = {
       link: 'https://www.icij.org',
       title: 'A Great Website',
-      type: 'rich'
+      type: AdvancedLinkTab.rich
     }
     const wrapper = shallowMount(AdvancedLinkFormTab, { props, global })
     expect(wrapper.find('.advanced-link-form-tab__input').text()).toBe(props.title)
