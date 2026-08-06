@@ -83,7 +83,11 @@ const tooltip = ref<ComponentPublicInstance | null>(null)
 const el = ref<ComponentPublicInstance<HTMLElement> | null>(null)
 const buttonId = computed(() => uniqueId('haptic-copy-'))
 const buttonBinding = computed(() => {
-  if (typeof props.tag !== 'string' && (props.tag as any)?.props?.['variant']) {
+  // Vue's Component type doesn't statically expose a `props` declaration; we
+  // only need to probe whether this particular tag declares a `variant` prop
+  // (as bootstrap-vue-next's button-like components do).
+  const tag = props.tag as { props?: Record<string, unknown> } | string
+  if (typeof tag !== 'string' && tag.props?.['variant']) {
     return { variant: props.variant }
   }
   return { }

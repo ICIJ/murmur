@@ -43,11 +43,18 @@ const thresholds = {
   }
 } as DonationThresholds
 
-const localeMessages = messages.value[locale.value] as any
-const suggestedAmount = localeMessages['donate-form']['suggesteddonation'] as SuggestedDonation
-const listBenefits = ref<string[]>(
-  localeMessages['donate-form']['benefits']['list']
-)
+// Locale files (en.json/fr.json) are the actual source of truth for this
+// shape; vue-i18n's own LocaleMessage type is too generic to express it.
+interface DonateFormMessages {
+  'donate-form': {
+    suggesteddonation: SuggestedDonation
+    benefits: { list: string[] }
+  }
+}
+
+const localeMessages = messages.value[locale.value] as unknown as DonateFormMessages
+const suggestedAmount = localeMessages['donate-form'].suggesteddonation
+const listBenefits = ref<string[]>(localeMessages['donate-form'].benefits.list)
 
 const { amount, installmentPeriod, level, selectLevel, amountIsNotPristine } = useDonateForm({
   thresholds,

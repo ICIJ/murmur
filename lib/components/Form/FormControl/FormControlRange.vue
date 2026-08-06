@@ -43,7 +43,9 @@ const vDraggable = {
           ? event.clientX
           : event.touches[0].clientX
       const offset = relative ? el.offsetWidth : 0
-      const maxX = (binding.instance as any)?.rangeWidth() - offset
+      // binding.instance is the directive's host component (this one, via
+      // defineExpose({ rangeWidth })); narrow to just what we call on it.
+      const maxX = ((binding.instance as { rangeWidth: () => number } | null)?.rangeWidth() ?? 0) - offset
       const data = clamp(startX + clientX - initialClientX, 0, maxX)
       emitEvent({ name: 'dragged', data })
       return false

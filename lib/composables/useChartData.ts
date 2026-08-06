@@ -7,13 +7,13 @@ import type { Ref } from 'vue'
  * Data a chart can be fed: an array of rows, a keyed record of numbers, a URL
  * string to fetch from, or `null` before anything is provided.
  */
-export type ChartData = Record<string, any>[] | Record<string, number> | string | null
+export type ChartData = object[] | Record<string, number> | string | null
 
 /**
  * Data a chart holds once loading has settled: the inline value passed through,
  * the parsed result of a fetched URL, or `null` before the first load.
  */
-export type LoadedData = Record<string, any>[] | Record<string, number> | null
+export type LoadedData = object[] | Record<string, number> | null
 
 /**
  * Reactive inputs driving {@link useChartData}: the raw chart data and the file

@@ -16,7 +16,7 @@ export type { ChartData, LoadedData }
 interface ChartEmit {
   emit: {
     (event: 'resized'): void
-    (event: 'loaded', data: any): void
+    (event: 'loaded', data: LoadedData): void
   }
 }
 

@@ -219,7 +219,7 @@ const { loadedData: rawLoadedData } = useChart(
 
 // SymbolMap never receives the bare-Record<string, number> variant of
 // LoadedData; narrow it to the array shape used everywhere below.
-const loadedData = rawLoadedData as Ref<any[] | null>
+const loadedData = rawLoadedData as Ref<object[] | null>
 
 function afterLoaded() {
   return new Promise<void>((resolve) => {
