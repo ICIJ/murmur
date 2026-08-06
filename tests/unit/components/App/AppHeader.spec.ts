@@ -1,5 +1,6 @@
 import { shallowMount, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { BPopover } from 'bootstrap-vue-next'
 import AppHeader from '@/components/App/AppHeader.vue'
 
 describe('AppHeader.vue', () => {
@@ -86,7 +87,7 @@ describe('AppHeader.vue', () => {
     const navbarToggler = wrapper.find('.navbar-toggler')
     await navbarToggler.trigger('click')
     expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeFalsy()
-    expect((wrapper.vm as any).showFollowUsPopover).toBe(false)
+    expect(wrapper.findComponent(BPopover).props('modelValue')).toBe(false)
     await navbarToggler.trigger('click')
     expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
   })
@@ -100,25 +101,25 @@ describe('AppHeader.vue', () => {
     const popovertoggler = wrapper.find('#follow-us-toggler')
     await popovertoggler.trigger('mouseenter')
     // given popover shown
-    expect((wrapper.vm as any).showFollowUsPopover).toBe(true)
+    expect(wrapper.findComponent(BPopover).props('modelValue')).toBe(true)
     const navbarToggler = wrapper.find('.navbar-toggler')
     // when show navbar
     await navbarToggler.trigger('click')
     // popover should be hidden
-    expect((wrapper.vm as any).showFollowUsPopover).toBe(false)
+    expect(wrapper.findComponent(BPopover).props('modelValue')).toBe(false)
   })
   it('should show on mouseenter then hide popover', async () => {
     const wrapper = mount(AppHeader, {
       global: {
         renderStubDefaultSlot: true,
-        stubs: { teleport: true, BPopover: true, FollowUsPopover: true }
+        stubs: { teleport: true, BPopover: true }
       }
     })
     const popovertoggler = wrapper.find('#follow-us-toggler')
     await popovertoggler.trigger('mouseenter')
-    expect((wrapper.vm as any).showFollowUsPopover).toBe(true)
+    expect(wrapper.findComponent(BPopover).props('modelValue')).toBe(true)
 
-    ;(wrapper.vm as any).closeFollowUsPopover()
-    expect((wrapper.vm as any).showFollowUsPopover).toBe(false)
+    await wrapper.find('.follow-us__close').trigger('click')
+    expect(wrapper.findComponent(BPopover).props('modelValue')).toBe(false)
   })
 })

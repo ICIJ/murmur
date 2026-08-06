@@ -18,15 +18,15 @@ describe('SecretInput.vue', () => {
   it('changes visibility according to the "visible" prop', async () => {
     const propsData = { value: 'a secret value' }
     const wrapper = shallowMount(SecretInput, { global, propsData })
-    expect((wrapper.vm as any).inputType).toBe('password')
+    expect(wrapper.find('.secret-input__input').attributes('type')).toBe('password')
     await wrapper.setProps({ visible: true })
-    expect((wrapper.vm as any).inputType).toBe('text')
+    expect(wrapper.find('.secret-input__input').attributes('type')).toBe('text')
   })
 
   it('sets initial visibility according to the "visible" prop', () => {
     const propsData = { value: 'a secret value', visible: true }
     const wrapper = shallowMount(SecretInput, { global, propsData })
-    expect((wrapper.vm as any).inputType).toBe('text')
+    expect(wrapper.find('.secret-input__input').attributes('type')).toBe('text')
   })
 
   it('emits "input" event when changing visibility', async () => {
@@ -40,13 +40,13 @@ describe('SecretInput.vue', () => {
   it('shows an eye icon when input is not visible', () => {
     const propsData = { value: 'a secret value', visible: false }
     const wrapper = shallowMount(SecretInput, { global, propsData })
-    expect((wrapper.vm as any).togglerIcon.name).toBe('ph-eye')
+    expect(wrapper.find('.secret-input__toggler').find('ph-eye-stub').exists()).toBe(true)
   })
 
   it('shows an eye-slash icon when input is visible', () => {
     const propsData = { value: 'a secret value', visible: true }
     const wrapper = shallowMount(SecretInput, { global, propsData })
-    expect((wrapper.vm as any).togglerIcon.name).toBe('ph-eye-slash')
+    expect(wrapper.find('.secret-input__toggler').find('ph-eye-slash-stub').exists()).toBe(true)
   })
 
   it('shows the toggler button by default', () => {

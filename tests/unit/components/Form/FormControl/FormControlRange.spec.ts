@@ -18,8 +18,8 @@ describe('RangePicker.vue', () => {
         range: [0.2, 0.8]
       }
     })
-    expect((wrapper.vm as any).start).toBe(0.2)
-    expect((wrapper.vm as any).end).toBe(0.8)
+    expect(wrapper.find('.range-picker__bounds__start').attributes('style')).toContain('left: 20%')
+    expect(wrapper.find('.range-picker__bounds__end').attributes('style')).toContain('left: 80%')
   })
 
   it('sets the correct class based on the variant prop', async () => {
@@ -67,10 +67,18 @@ describe('RangePicker.vue', () => {
       propsData: { range: [0.1, 0.11], minDistance: 0.05 }
     })
 
-    ;(wrapper.vm as any).dragStartBound({ detail: 0.06 })
+    // Mock the draggable width so the drag offset below maps to a
+    // predictable fraction (7px of 100px = 0.07, past the end(0.11) -
+    // minDistance(0.05) = 0.06 threshold, so the drag must be rejected).
+    const bounds = wrapper.find('.range-picker__bounds').element as HTMLElement
+    bounds.getBoundingClientRect = () => ({ width: 100 }) as DOMRect
+    const startHandle = wrapper.find('.range-picker__bounds__start')
+    await startHandle.trigger('mousedown', { clientX: 0 })
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 7 }))
     await wrapper.vm.$nextTick()
 
-    expect((wrapper.vm as any).start).not.toBe(0.06)
+    expect(startHandle.attributes('style')).toContain('left: 10%')
+    expect(wrapper.emitted('update:range')).toBeUndefined()
   })
 
   it('snaps value based on snap prop', async () => {
@@ -78,10 +86,16 @@ describe('RangePicker.vue', () => {
       propsData: { range: [0.1, 0.9], snap: 0.05 }
     })
 
-    ;(wrapper.vm as any).dragStartBound(0.12)
+    // Mock the draggable width so a 12px drag maps to a raw fraction of
+    // 0.12, which should snap down to the nearest 0.05 step (0.1).
+    const bounds = wrapper.find('.range-picker__bounds').element as HTMLElement
+    bounds.getBoundingClientRect = () => ({ width: 100 }) as DOMRect
+    const startHandle = wrapper.find('.range-picker__bounds__start')
+    await startHandle.trigger('mousedown', { clientX: 0 })
+    document.dispatchEvent(new MouseEvent('mousemove', { clientX: 12 }))
     await wrapper.vm.$nextTick()
 
-    expect((wrapper.vm as any).start).toBe(0.1)
+    expect(startHandle.attributes('style')).toContain('left: 10%')
   })
 
   it('updates start and end when updating props', async () => {
@@ -89,10 +103,10 @@ describe('RangePicker.vue', () => {
       propsData: { range: [0.1, 0.9] }
     })
 
-    expect((wrapper.vm as any).start).toBe(0.1)
-    expect((wrapper.vm as any).end).toBe(0.9)
+    expect(wrapper.find('.range-picker__bounds__start').attributes('style')).toContain('left: 10%')
+    expect(wrapper.find('.range-picker__bounds__end').attributes('style')).toContain('left: 90%')
     await wrapper.setProps({ range: [0.3, 0.7] })
-    expect((wrapper.vm as any).start).toBe(0.3)
-    expect((wrapper.vm as any).end).toBe(0.7)
+    expect(wrapper.find('.range-picker__bounds__start').attributes('style')).toContain('left: 30%')
+    expect(wrapper.find('.range-picker__bounds__end').attributes('style')).toContain('left: 70%')
   })
 })
