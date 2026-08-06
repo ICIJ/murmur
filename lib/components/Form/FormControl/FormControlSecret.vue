@@ -3,8 +3,13 @@ import { computed, ref, type Component } from 'vue'
 import HapticCopy from '@/components/HapticCopy/HapticCopy.vue'
 import AppIcon from '@/components/App/AppIcon.vue'
 import { Size } from 'bootstrap-vue-next'
+import { SIZE } from '@/enums'
 import IPhEye from '~icons/ph/eye'
 import IPhEyeSlash from '~icons/ph/eye-slash'
+
+// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
+// applies); 'md' is our sentinel for "no size class" and never forwarded to bootstrap-vue-next components.
+type FormControlSecretSize = Size | SIZE.md
 
 export interface FormControlSecretProps {
   /**
@@ -18,7 +23,7 @@ export interface FormControlSecretProps {
   /**
    * Size of the input form
    */
-  size?: Size
+  size?: FormControlSecretSize
   /**
    * Bootstrap variant of the haptic copy button
    */
@@ -36,7 +41,7 @@ export interface FormControlSecretProps {
 const props = withDefaults(defineProps<FormControlSecretProps>(), {
   visible: false,
   value: '',
-  size: 'md',
+  size: SIZE.md,
   hapticCopyVariant: 'primary',
   noToggler: false,
   noHapticCopy: false
@@ -53,6 +58,11 @@ const togglerIcon = computed((): Component => {
 })
 const hapticCopyClassList = computed(() => {
   return `btn-${props.hapticCopyVariant}`
+})
+
+// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel.
+const resolvedSize = computed((): Size | undefined => {
+  return props.size === SIZE.md ? undefined : props.size
 })
 
 function toggle() {
@@ -73,7 +83,7 @@ function selectInput() {
 
 <template>
   <b-input-group
-    :size="size"
+    :size="resolvedSize"
     class="secret-input"
   >
     <b-button
