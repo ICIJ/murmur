@@ -52,6 +52,7 @@
 import { computed } from 'vue'
 
 import config from '@/config'
+import configDefaults from '@/config.default'
 import { useI18n } from 'vue-i18n'
 import { useSignUpForm } from '@/composables/useSignUpForm'
 import type { ButtonVariant } from 'bootstrap-vue-next'
@@ -96,12 +97,12 @@ export interface FormSignUpProps {
 }
 
 const props = withDefaults(defineProps<FormSignUpProps>(), {
-  action: () => (config.get('signup-form.action') ?? undefined) as string,
-  emailField: () => (config.get('signup-form.email-field') ?? undefined) as string,
-  defaultGroups: () => (config.get('signup-form.default-groups') ?? undefined) as string | string[],
+  action: () => config.get('signup-form.action', configDefaults['signup-form.action']),
+  emailField: () => config.get('signup-form.email-field', configDefaults['signup-form.email-field']),
+  defaultGroups: () => config.get('signup-form.default-groups', configDefaults['signup-form.default-groups']),
   noLabel: false,
   horizontal: false,
-  tracker: () => (config.get('signup-form.tracker') ?? undefined) as string,
+  tracker: () => config.get('signup-form.tracker', configDefaults['signup-form.tracker']),
   referrer: null,
   variant: 'primary',
   compact: false

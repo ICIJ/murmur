@@ -30,6 +30,7 @@
 
 <script setup lang="ts">
 import config from '@/config'
+import configDefaults from '@/config.default'
 import { useContentPlaceholder } from '@/composables/useContentPlaceholder'
 import type { ContentPlaceholderRows } from '@/types'
 
@@ -56,7 +57,7 @@ export interface ContentPlaceholderProps {
 }
 
 const props = withDefaults(defineProps<ContentPlaceholderProps>(), {
-  rows: () => (config.get('content-placeholder.rows') ?? undefined) as ContentPlaceholderRows,
+  rows: () => config.get('content-placeholder.rows', configDefaults['content-placeholder.rows']),
   size: '250%'
 })
 

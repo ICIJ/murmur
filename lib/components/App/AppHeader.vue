@@ -115,6 +115,7 @@ import { computed, ref } from 'vue'
 import type { Component } from 'vue'
 
 import config from '@/config'
+import configDefaults from '@/config.default'
 import BrandExpansion from '@/components/Brand/BrandExpansion.vue'
 import FollowUsPopover from '@/components/FollowUsPopover/FollowUsPopover.vue'
 import AppIcon from '@/components/App/AppIcon.vue'
@@ -147,8 +148,8 @@ export interface AppHeaderProps {
 const props = withDefaults(defineProps<AppHeaderProps>(), {
   position: 'fixed',
   noHeadroom: false,
-  homeUrl: () => (config.get('app.home') ?? undefined) as string,
-  donateUrl: () => (config.get('app.donate-url') ?? undefined) as string,
+  homeUrl: () => config.get('app.home', configDefaults['app.home']),
+  donateUrl: () => config.get('app.donate-url', configDefaults['app.donate-url']),
   compactSignUp: false
 })
 
