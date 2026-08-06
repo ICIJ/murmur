@@ -134,7 +134,7 @@ const props = withDefaults(defineProps<StackedColumnChartProps>(), {
   restoreHighlightDelay: 50,
   noDirectLabeling: false,
   maxValue: null,
-  tooltipDisplay: ({ formattedKey, formattedValue }) => {
+  tooltipDisplay: () => ({ formattedKey, formattedValue }: { formattedKey: string, formattedValue: string }) => {
     return `<h6 class="mb-0">${formattedKey}</h6><div>${formattedValue}</div>`
   },
   noTooltips: false,
@@ -202,18 +202,18 @@ const leftScale = computed(() => {
 
 const leftAxis = computed(() => {
   return axisLeft(leftScale.value)
-    .tickFormat(d => d3Formatter(d, props.yAxisTickFormat))
+    .tickFormat((d: any) => String(d3Formatter(d, props.yAxisTickFormat)))
     .tickSize(Math.max(0, width.value - leftAxisLabelsWidth.value))
     .tickPadding(props.yAxisTickPadding)
 })
 
-const leftAxisLabelsWidth = computed(() => {
+const leftAxisLabelsWidth = computed((): number => {
   // Track redraw counter to re-measure after axis text is created in the DOM
   void leftAxisRedrawCount.value
   const selector = '.stacked-column-chart__left-axis__canvas .tick text'
   const defaultWidth = 0
   return (
-    elementsMaxBBox({ selector, defaultWidth }).width
+    (elementsMaxBBox({ selector, defaultWidth }).width as number)
     + props.yAxisTickPadding
   )
 })
@@ -298,7 +298,7 @@ function barStyle(i: string | number, key: string) {
 
 function barTitle(i: string | number, key: string) {
   const value = sortedData.value[i as number][key]
-  const formattedValue = d3Formatter(value, props.yAxisTickFormat)
+  const formattedValue = String(d3Formatter(value, props.yAxisTickFormat))
   const formattedKey = groupName(key)
   return props.tooltipDisplay({ value, formattedValue, key, formattedKey })
 }
