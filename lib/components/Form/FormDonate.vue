@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import config from '@/config'
 import { useI18n } from 'vue-i18n'
+import en from '@/locales/en.json'
 import { ref } from 'vue'
 
 import { useDonateForm } from '@/composables/useDonateForm'
@@ -24,7 +25,7 @@ withDefaults(defineProps<FormDonateProps>(), {
   noTitle: false
 })
 
-const { t, locale, messages } = useI18n()
+const { t, locale, messages } = useI18n<{ message: typeof en }>()
 // config.get's return type is the recursive ConfigValue; wrapping it directly
 // in ref() makes Vue's UnwrapRef choke on it ("Type instantiation is
 // excessively deep"). The tracker value is always a plain string.
@@ -43,17 +44,8 @@ const thresholds = {
   }
 } as DonationThresholds
 
-// Locale files (en.json/fr.json) are the actual source of truth for this
-// shape; vue-i18n's own LocaleMessage type is too generic to express it.
-interface DonateFormMessages {
-  'donate-form': {
-    suggesteddonation: SuggestedDonation
-    benefits: { list: string[] }
-  }
-}
-
-const localeMessages = messages.value[locale.value] as unknown as DonateFormMessages
-const suggestedAmount = localeMessages['donate-form'].suggesteddonation
+const localeMessages = messages.value[locale.value]
+const suggestedAmount: SuggestedDonation = localeMessages['donate-form'].suggesteddonation
 const listBenefits = ref<string[]>(localeMessages['donate-form'].benefits.list)
 
 const { amount, installmentPeriod, level, selectLevel, amountIsNotPristine } = useDonateForm({
