@@ -5,10 +5,12 @@ import { geoOrthographic } from 'd3-geo'
 import { SIZE } from '@/enums'
 import { ChoroplethMap } from '@/maps'
 
+// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
+// applies); 'md' is our sentinel for "no size class" and never forwarded to bootstrap-vue-next components.
 export const modalDecorator = (
   buttonLabel = 'Click to see the form',
   modalTitle: string | null,
-  size: Size = SIZE.md
+  size: Size | SIZE.md = SIZE.md
 ) => ({
   components: { BModal },
   setup() {
@@ -16,7 +18,8 @@ export const modalDecorator = (
     const show = () => {
       visible.value = true
     }
-    return { visible, show, buttonLabel, modalTitle, size }
+    const resolvedSize = size === SIZE.md ? undefined : size
+    return { visible, show, buttonLabel, modalTitle, size: resolvedSize }
   },
   template: `
     <div class="p-4 text-center">
