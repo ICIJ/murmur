@@ -53,11 +53,11 @@
   },
   "type": "module",
   "dependencies": {
-    "@floating-ui/vue": "^2.0.1",
+    "@floating-ui/vue": "2.0.1",
     "@storybook/preset-scss": "^1.0.3",
     "@vueuse/core": "^14.0.0",
     "bootstrap": "^5.3.8",
-    "bootstrap-vue-next": "^0.45.8",
+    "bootstrap-vue-next": "0.45.8",
     "canvas": "^3.2.0",
     "clipboard": "^2.0.11",
     "d3-array": "^3.2.4",
@@ -82,7 +82,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "topojson-client": "^3.0.0",
     "vue-input-autowidth": "^2.2.1",
-    "vue-virtual-scroller": "^3.0.4"
+    "vue-virtual-scroller": "3.0.4"
   },
   "peerDependencies": {
     "vue": "^3.5.18",
@@ -114,7 +114,7 @@
     "@types/d3-zoom": "^3.0.8",
     "@types/jsonp": "^0.2.3",
     "@types/lodash": "^4.17.21",
-    "@types/node": "^20.19.43",
+    "@types/node": "20.19.43",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
     "@typescript-eslint/eslint-plugin": "^8.66.0",
