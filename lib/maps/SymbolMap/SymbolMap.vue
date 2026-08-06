@@ -3,6 +3,8 @@ import type { GeoPermissibleObjects } from 'd3-geo'
 import { json } from 'd3-fetch'
 import { pointer as d3Pointer, select } from 'd3-selection'
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from 'd3-zoom'
+// Imported for its side-effect type augmentation of Selection with `.transition()`.
+import 'd3-transition'
 import debounce from 'lodash/debounce'
 import find from 'lodash/find'
 import get from 'lodash/get'
@@ -15,6 +17,7 @@ import set from 'lodash/set'
 import uniqueId from 'lodash/uniqueId'
 
 import config from '@/config'
+import { LegendCategory } from '@/enums'
 import OrdinalLegend from '@/components/Legend/LegendOrdinal.vue'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useSymbolMap } from '@/composables/useSymbolMap'
@@ -172,7 +175,7 @@ const props = withDefaults(defineProps<SymbolMapProps>(), {
   tooltipFallbackPlacement: 'flip',
   topojsonObjects: 'countries1',
   topojsonObjectsPath: 'id',
-  topojsonUrl: () => config.get('map.topojson.world-countries-sans-antarctica'),
+  topojsonUrl: () => (config.get('map.topojson.world-countries-sans-antarctica') ?? undefined) as string,
   transitionDuration: 750,
   zoomable: false,
   zoomMin: 1,
@@ -194,7 +197,7 @@ const emit = defineEmits<{
 
 const el = ref<ComponentPublicInstance<HTMLElement> | null>(null)
 const topojson = ref<Topology | null>(null)
-const topojsonPromise = ref<Promise<void> | null>(null)
+const topojsonPromise = ref<Promise<Topology | null> | null>(null)
 const mapRect = ref<DOMRect>(new DOMRect(0, 0, 0, 0))
 const markerCursor = ref<Record<string, string> | null>(null)
 const categoryHighlight = ref<string | null>(null)
@@ -205,7 +208,7 @@ const debouncedDraw = debounce(function () {
   draw()
 }, 10)
 
-const { loadedData } = useChart(
+const { loadedData: rawLoadedData } = useChart(
   el,
   getChartProps(props),
   { emit },
@@ -213,6 +216,10 @@ const { loadedData } = useChart(
   debouncedDraw,
   afterLoaded
 )
+
+// SymbolMap never receives the bare-Record<string, number> variant of
+// LoadedData; narrow it to the array shape used everywhere below.
+const loadedData = rawLoadedData as Ref<any[] | null>
 
 function afterLoaded() {
   return new Promise<void>((resolve) => {
@@ -247,7 +254,7 @@ const {
   topojson,
   // SymbolMap never receives the bare-Record<string, number> variant of
   // LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<any[] | null>,
+  loadedData,
   width: mapWidth,
   height: mapHeight,
   padding: toRef(() => props.mapPadding),
@@ -644,7 +651,7 @@ defineExpose({
         :data="legendData"
         :horizontal="horizontalLegend"
         :marker-path="markerPath"
-        category-objects-path="label"
+        :category-objects-path="LegendCategory.label"
       >
         <template #marker="d">
           <slot

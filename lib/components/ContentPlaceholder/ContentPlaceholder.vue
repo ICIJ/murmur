@@ -56,7 +56,7 @@ export interface ContentPlaceholderProps {
 }
 
 const props = withDefaults(defineProps<ContentPlaceholderProps>(), {
-  rows: () => config.get('content-placeholder.rows'),
+  rows: () => (config.get('content-placeholder.rows') ?? undefined) as ContentPlaceholderRows,
   size: '250%'
 })
 
