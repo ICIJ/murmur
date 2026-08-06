@@ -25,6 +25,7 @@ import {
   toRef,
   watch
 } from 'vue'
+import type { Ref } from 'vue'
 import type { Topology } from 'topojson-specification'
 import { PopoverPlacement } from 'bootstrap-vue-next'
 
@@ -244,7 +245,9 @@ const {
   markerTransformValue
 } = useSymbolMap({
   topojson,
-  loadedData,
+  // SymbolMap never receives the bare-Record<string, number> variant of
+  // LoadedData; narrow it to the array shape the composable expects.
+  loadedData: loadedData as Ref<any[] | null>,
   width: mapWidth,
   height: mapHeight,
   padding: toRef(() => props.mapPadding),

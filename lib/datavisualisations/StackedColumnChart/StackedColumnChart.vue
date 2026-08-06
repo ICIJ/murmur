@@ -13,6 +13,7 @@ import {
   toRef,
   watch
 } from 'vue'
+import type { Ref } from 'vue'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useStackedChart } from '@/composables/useStackedChart'
 
@@ -174,7 +175,9 @@ const {
   maxStackValue,
   groupName
 } = useStackedChart({
-  loadedData,
+  // StackedColumnChart never receives the bare-Record<string, number> variant
+  // of LoadedData; narrow it to the array shape the composable expects.
+  loadedData: loadedData as Ref<Record<string, any>[] | null>,
   isLoaded,
   sortBy: toRef(() => props.sortBy),
   keys: toRef(() => props.keys),

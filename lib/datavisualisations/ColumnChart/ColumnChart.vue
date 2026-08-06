@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ComponentPublicInstance, computed, getCurrentInstance, ref, toRef, watch } from 'vue'
+import type { Ref } from 'vue'
 import identity from 'lodash/identity'
 import { select as d3Select } from 'd3-selection'
 
@@ -247,7 +248,9 @@ const {
   xAxis,
   yAxis
 } = useColumnChart({
-  loadedData,
+  // ColumnChart never receives the bare-Record<string, number> variant of
+  // LoadedData; narrow it to the array shape the composable expects.
+  loadedData: loadedData as Ref<Record<string, any>[] | null>,
   width,
   height,
   labelWidth,
