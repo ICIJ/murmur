@@ -17,6 +17,7 @@ import set from 'lodash/set'
 import uniqueId from 'lodash/uniqueId'
 
 import config from '@/config'
+import configDefaults from '@/config.default'
 import { LegendCategory } from '@/enums'
 import OrdinalLegend from '@/components/Legend/LegendOrdinal.vue'
 import { getChartProps, useChart } from '@/composables/useChart'
@@ -175,7 +176,11 @@ const props = withDefaults(defineProps<SymbolMapProps>(), {
   tooltipFallbackPlacement: 'flip',
   topojsonObjects: 'countries1',
   topojsonObjectsPath: 'id',
-  topojsonUrl: () => (config.get('map.topojson.world-countries-sans-antarctica') ?? undefined) as string,
+  topojsonUrl: () =>
+    config.get(
+      'map.topojson.world-countries-sans-antarctica',
+      configDefaults['map.topojson.world-countries-sans-antarctica']
+    ),
   transitionDuration: 750,
   zoomable: false,
   zoomMin: 1,
