@@ -180,7 +180,7 @@ defineExpose({
           name="cursor"
           v-bind="{ value: cursorValue }"
         >
-          {{ formatNumber(cursorValue) }}
+          {{ formatNumber(cursorValue ?? 0) }}
         </slot>
       </div>
     </div>
