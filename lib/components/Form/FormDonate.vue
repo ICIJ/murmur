@@ -31,6 +31,9 @@ const { t, locale, messages } = useI18n<{ message: typeof en }>()
 // excessively deep"). The tracker value is always a plain string.
 const campaign = ref(config.get<string | null>('donate-form.tracker'))
 
+// t() returns the generic `string` vue-i18n infers for any translation key,
+// not the DonationCategory literal union; satisfies can't narrow it, and the
+// three translation keys used here are trusted to match DonationCategory.
 const thresholds = {
   monthly: {
     1: t('donate-form.result.conversation'),
