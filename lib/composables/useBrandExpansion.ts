@@ -117,8 +117,8 @@ export function useBrandExpansion(
 
   const style = computed((): BrandExpansionStyle => {
     return {
-      '--monochrome-color': toValue(color),
-      'background': toValue(background)
+      '--monochrome-color': toValue(color) ?? undefined,
+      'background': toValue(background) ?? undefined
     }
   })
 

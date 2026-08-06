@@ -31,13 +31,13 @@ export interface AccordionProvide {
  * Brand component style types
  */
 export type BrandStyle = StyleValue & {
-  '--monochrome-color': string | null
+  '--monochrome-color': string | undefined
   'color': string
-  'background': string | null
+  'background': string | undefined
   'width': string
 }
 
 export type BrandExpansionStyle = Pick<
   BrandStyle,
   '--monochrome-color' | 'background'
->
+> & StyleValue

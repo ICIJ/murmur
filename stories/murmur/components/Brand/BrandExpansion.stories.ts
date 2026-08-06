@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { BrandExpansion } from '@/components'
+import { BrandMode } from '@/enums'
 
 const meta: Meta<typeof BrandExpansion> = {
   title: 'Murmur/components/Brand/BrandExpansion',
@@ -20,15 +21,15 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  args: { mode: 'short' }
+  args: { mode: BrandMode.Short }
 }
 
 export const Medium: Story = {
-  args: { mode: 'medium' }
+  args: { mode: BrandMode.Medium }
 }
 
 export const Long: Story = {
-  args: { mode: 'long' }
+  args: { mode: BrandMode.Long }
 }
 
 export const Animated: Story = {
