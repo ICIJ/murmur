@@ -11,8 +11,7 @@ const meta: Meta<typeof HapticCopy> = {
   decorators: [() => ({ template: '<div class="p-2 text-center"><story/></div>' })],
   argTypes: {
     hideLabel: { control: 'boolean' },
-    tooltipPlacement: { control: 'text' },
-    title: { control: 'text' }
+    tooltipPlacement: { control: 'text' }
   }
 }
 
@@ -40,7 +39,8 @@ export const PillBadge: Story = {
   args: {
     text: 'Lorem info sit amet',
     variant: 'warning',
+    // Not a declared prop, but falls through to the underlying BBadge's pill prop.
     pill: true,
     tag: markRaw(BBadge)
-  }
+  } as any
 }

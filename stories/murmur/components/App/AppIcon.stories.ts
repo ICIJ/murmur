@@ -147,7 +147,7 @@ export const VariantSecondary: Story = {
 
 export const HoverVariant: Story = {
   args: {
-    variant: 'link',
+    variant: 'primary',
     hoverVariant: 'danger',
     size: '2xl',
     name: IPhTrashDuotone

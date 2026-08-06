@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import equals from 'lodash/eq'
 import identity from 'lodash/identity'
-// @ts-expect-error no typings available
 import { RecycleScroller } from 'vue-virtual-scroller'
 
 import {
@@ -128,7 +127,7 @@ const items_ = computed((): Item[] => {
 })
 
 const keyField = computed(() => {
-  return typeof items_.value[0] === 'string' ? null : 'recycle_scroller_id'
+  return typeof items_.value[0] === 'string' ? undefined : 'recycle_scroller_id'
 })
 
 // Selection state machine (active set, navigation, range select, model sync)

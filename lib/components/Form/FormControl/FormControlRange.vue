@@ -43,7 +43,7 @@ const vDraggable = {
           ? event.clientX
           : event.touches[0].clientX
       const offset = relative ? el.offsetWidth : 0
-      const maxX = binding.instance?.rangeWidth() - offset
+      const maxX = (binding.instance as any)?.rangeWidth() - offset
       const data = clamp(startX + clientX - initialClientX, 0, maxX)
       emitEvent({ name: 'dragged', data })
       return false

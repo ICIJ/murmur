@@ -56,7 +56,7 @@ export const TooltipSlot: Story = {
     data: discreteData,
     seriesName: 'size',
     timeseriesKey: 'leak',
-    yAxisYTicks: 4,
+    yAxisTicks: 4,
     maxValue: 3000
   },
   decorators: [leakSizeDecorator],
@@ -78,7 +78,7 @@ export const DynamicHeight: Story = {
     data: discreteData,
     seriesName: 'size',
     timeseriesKey: 'leak',
-    yAxisYTicks: 4,
+    yAxisTicks: 4,
     maxValue: 3000,
     stripped: true,
     fixedHeight: 300

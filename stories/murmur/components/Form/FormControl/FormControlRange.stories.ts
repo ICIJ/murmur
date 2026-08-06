@@ -49,11 +49,13 @@ const dataPerYear = [
 ]
 
 export const WithColumnChart: Story = {
+  // rangeYears/dataPerYear are story-only data threaded through to the
+  // custom render below, not real FormControlRange props.
   args: {
     range: [0.2, 0.8],
     rangeYears: [0, 1 / 5],
     dataPerYear
-  },
+  } as any,
   render: (args: any) => ({
     components: { FormControlRange, ColumnChart },
     setup() {

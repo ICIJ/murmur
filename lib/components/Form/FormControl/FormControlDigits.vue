@@ -53,7 +53,9 @@ const { values, joinedValues } = useDigitsModel(
 
 const lastInput = computed((): HTMLElement | null => {
   const index = inputs.value.length - 1
-  return inputs.value[index]
+  // vue-tsc infers the array-bound v-for ref as the <input>'s attrs type
+  // rather than the actual element; the runtime value is a real HTMLInputElement.
+  return (inputs.value[index] as unknown as HTMLInputElement) ?? null
 })
 
 const nextInput = computed((): HTMLInputElement | null => {
@@ -62,7 +64,7 @@ const nextInput = computed((): HTMLInputElement | null => {
   }
 
   // Next input is the first non-empty input or the last input
-  return inputs.value[joinedValues.value.length] || lastInput.value
+  return (inputs.value[joinedValues.value.length] as unknown as HTMLInputElement) || lastInput.value
 })
 
 const hasNextInput = computed((): boolean => {

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { ChoroplethMap, ChoroplethMapAnnotation } from '@/maps'
+import { PLACEMENTS } from '@/enums'
 import { geoOrthographic } from 'd3-geo'
 import { scaleSequential } from 'd3-scale'
 import { bgPolkaDecorator } from '../../decorators'
@@ -210,7 +211,7 @@ export const BasicAnnotation: Story = {
   args: {
     latitude: 44.836151,
     longitude: -0.580816,
-    placement: 'righttop'
+    placement: PLACEMENTS.RIGHTTOP
   },
   render: args => ({
     components: { ChoroplethMap, ChoroplethMapAnnotation },

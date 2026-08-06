@@ -1,4 +1,4 @@
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
 import type { ComputedRef, CSSProperties, Ref } from 'vue'
 
 import { SlideUpDownState } from '@/enums'
@@ -92,7 +92,11 @@ export function useSlideUpDown(options: UseSlideUpDownOptions): UseSlideUpDown {
   // NOTE: preserved latent behaviour — this ref is written by `triggerSlide`
   // but never read; the rendered height derives from `containerScrollHeight`.
   const scrollHeight = ref(0)
-  const container = ref<HTMLElement | undefined>(undefined)
+  // shallowRef: DOM elements shouldn't be made deeply reactive, and it
+  // sidesteps a Vue/TS UnwrapRef quirk where a deeply-reactive ref<HTMLElement>
+  // doesn't structurally match Ref<HTMLElement> ("Type instantiation is
+  // excessively deep").
+  const container = shallowRef<HTMLElement | undefined>(undefined)
 
   const containerScrollHeight = computed((): number => {
     return container.value?.scrollHeight ?? 0

@@ -18,7 +18,7 @@ const MAILVELOPE = Symbol('MAILVELOPE')
 
 export const Default: Story = {
   args: {
-    active: 'active',
+    active: true,
     step: MAILVELOPE,
     content: 'Install Mailvelope and create your key'
   },

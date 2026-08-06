@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, ref } from 'vue'
+import { defineComponent, h, nextTick, ref, shallowRef } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 
@@ -20,7 +20,7 @@ function mountWithImageMode(
   defaultColorMode = 'light',
   fallbackSrc?: string
 ) {
-  const element = ref<HTMLElement | null>(null)
+  const element = shallowRef<HTMLElement | null>(null)
   const fallbackRef = ref<string | undefined>(fallbackSrc)
   let api!: ReturnType<typeof useImageMode>
 
