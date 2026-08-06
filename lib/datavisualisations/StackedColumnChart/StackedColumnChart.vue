@@ -202,7 +202,9 @@ const leftScale = computed(() => {
 
 const leftAxis = computed(() => {
   return axisLeft(leftScale.value)
-    .tickFormat((d: any) => String(d3Formatter(d, props.yAxisTickFormat)))
+    // d3-axis' domain type is NumberValue (number | { valueOf(): number }),
+    // not the plain number d3Formatter expects.
+    .tickFormat(d => String(d3Formatter(Number(d), props.yAxisTickFormat)))
     .tickSize(Math.max(0, width.value - leftAxisLabelsWidth.value))
     .tickPadding(props.yAxisTickPadding)
 })
