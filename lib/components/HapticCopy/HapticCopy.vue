@@ -83,7 +83,7 @@ const tooltip = ref<ComponentPublicInstance | null>(null)
 const el = ref<ComponentPublicInstance<HTMLElement> | null>(null)
 const buttonId = computed(() => uniqueId('haptic-copy-'))
 const buttonBinding = computed(() => {
-  if (props.tag?.props?.['variant']) {
+  if (typeof props.tag !== 'string' && (props.tag as any)?.props?.['variant']) {
     return { variant: props.variant }
   }
   return { }

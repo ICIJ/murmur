@@ -25,24 +25,28 @@ withDefaults(defineProps<FormDonateProps>(), {
 })
 
 const { t, locale, messages } = useI18n()
-const campaign = ref(config.get('donate-form.tracker'))
+// config.get's return type is the recursive ConfigValue; wrapping it directly
+// in ref() makes Vue's UnwrapRef choke on it ("Type instantiation is
+// excessively deep"). The tracker value is always a plain string.
+const campaign = ref(config.get<string | null>('donate-form.tracker'))
 
-const thresholds: DonationThresholds = {
+const thresholds = {
   monthly: {
-    1: t('donate-form.result.conversation') as DonationCategory,
-    15: t('donate-form.result.rules') as DonationCategory,
-    50: t('donate-form.result.world') as DonationCategory
+    1: t('donate-form.result.conversation'),
+    15: t('donate-form.result.rules'),
+    50: t('donate-form.result.world')
   },
   yearly: {
-    1: t('donate-form.result.conversation') as DonationCategory,
-    180: t('donate-form.result.rules') as DonationCategory,
-    600: t('donate-form.result.world') as DonationCategory
+    1: t('donate-form.result.conversation'),
+    180: t('donate-form.result.rules'),
+    600: t('donate-form.result.world')
   }
-}
+} as DonationThresholds
 
-const suggestedAmount = messages.value[locale.value]['donate-form']['suggesteddonation'] as SuggestedDonation
+const localeMessages = messages.value[locale.value] as any
+const suggestedAmount = localeMessages['donate-form']['suggesteddonation'] as SuggestedDonation
 const listBenefits = ref<string[]>(
-  messages.value[locale.value]['donate-form']['benefits']['list']
+  localeMessages['donate-form']['benefits']['list']
 )
 
 const { amount, installmentPeriod, level, selectLevel, amountIsNotPristine } = useDonateForm({

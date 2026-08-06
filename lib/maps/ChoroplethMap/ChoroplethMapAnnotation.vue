@@ -70,7 +70,7 @@ const hasParent = computed(() => !!parent)
 const mapRect = computed(() => parent?.mapRect?.value ?? { width: 0, height: 0 })
 const rotatingMapProjection = computed(() => parent?.rotatingMapProjection?.value)
 const mapTransform = computed(() => {
-  return parent?.mapTransform?.value ?? { k: 1 }
+  return parent?.mapTransform?.value ?? { k: 1, x: 0, y: 0, rotateX: 0, rotateY: 0 }
 })
 
 const translateY = computed(() => {
@@ -183,7 +183,7 @@ const wrapperStyle = computed(() => {
   return {
     '--color': props.color,
     '--drop-shadow': props.dropShadow,
-    '--scale': props.scale ? null : 1 / mapK.value,
+    '--scale': props.scale ? undefined : 1 / mapK.value,
     '--transform-origin': wrapperTransformOrigin.value
   }
 })
