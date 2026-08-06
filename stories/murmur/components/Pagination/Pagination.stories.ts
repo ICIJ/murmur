@@ -35,7 +35,7 @@ export const Small: Story = {
 }
 
 export const Medium: Story = {
-  args: { size: 'md' }
+  args: { size: SIZE.md }
 }
 
 export const Large: Story = {

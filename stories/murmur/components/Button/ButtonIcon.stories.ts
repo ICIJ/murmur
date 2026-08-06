@@ -124,7 +124,6 @@ export const SquareWithCounter: Story = {
     label: 'Path',
     hideLabel: true,
     square: true,
-    iconRiht: IPhPath,
     counter: 6,
     counterVariant: VARIANT.action
   }

@@ -6,7 +6,7 @@
     <b-button
       v-if="!noFirst"
       class="tiny-pagination__nav tiny-pagination__nav--bound  tiny-pagination__nav--first"
-      :size="size"
+      :size="resolvedSize"
       :disabled="!hasFirst"
       :variant="navVariant"
       @click="applyFirstPage"
@@ -25,7 +25,7 @@
     <b-button
       v-if="!noPrevious"
       class="tiny-pagination__nav"
-      :size="size"
+      :size="resolvedSize"
       :disabled="!hasPrevious"
       :variant="navVariant"
       @click="applyPreviousPage"
@@ -49,7 +49,7 @@
       <b-form-input
         v-model="currentRowInput"
         v-input-autowidth="{ minWidth: '2em' }"
-        :size="size"
+        :size="resolvedSize"
         class="tiny-pagination__form__input tiny-pagination__form__input--row me-1"
         type="number"
         step="1"
@@ -91,7 +91,7 @@
       <b-form-input
         v-model="currentPageInput"
         v-input-autowidth="{ minWidth: '2em' }"
-        :size="size"
+        :size="resolvedSize"
         class="tiny-pagination__form__input tiny-pagination__form__input--item me-1"
         type="number"
         step="1"
@@ -116,7 +116,7 @@
     <b-button
       v-if="!noNext"
       class="tiny-pagination__nav"
-      :size="size"
+      :size="resolvedSize"
       :disabled="!hasNext"
       :variant="navVariant"
       @click="applyNextPage"
@@ -135,7 +135,7 @@
     <b-button
       v-if="!noLast"
       class="tiny-pagination__nav tiny-pagination__nav--bound  tiny-pagination__nav--last"
-      :size="size"
+      :size="resolvedSize"
       :disabled="!hasLast"
       :variant="navVariant"
       @click="applyLastPage"
@@ -164,6 +164,10 @@ import type { ButtonVariant, Size } from 'bootstrap-vue-next'
 import { SIZE } from '@/enums'
 import { usePagination } from '@/composables/usePagination'
 import vEllipsisTooltip from '@/directives/EllipsisTooltip'
+
+// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
+// applies); 'md' is our sentinel for "no size class" and never forwarded to bootstrap-vue-next components.
+type PaginationSize = Size | SIZE.md
 import AppIcon from '@/components/App/AppIcon.vue'
 import IPhCaretDoubleLeft from '~icons/ph/caret-double-left'
 import IPhCaretDoubleRight from '~icons/ph/caret-double-right'
@@ -193,7 +197,7 @@ export interface PaginationTinyProps {
   /**
    * Set the size of the input: 'sm', 'md' (default), or 'lg'.
    */
-  size?: Size
+  size?: PaginationSize
   /**
    * (Optional) Number of page. Property `size` is required for this to work
    * properly. If `pages` is empty, it will be calculated using the size.
@@ -323,6 +327,11 @@ const {
   pages: () => props.pages
 })
 
+// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel.
+const resolvedSize = computed((): Size | undefined => {
+  return props.size === SIZE.md ? undefined : props.size
+})
+
 const paginationClassList = computed((): object => {
   return {
     [`tiny-pagination--${props.size}`]: true,
@@ -336,7 +345,7 @@ const paginationClassList = computed((): object => {
 const currentPageInput = ref<number>(0)
 const currentRowInput = ref<number>(0)
 
-watch(modelValue, (value: number) => {
+watch(modelValue, (value: number | string) => {
   // Update currentPageInput value based on totalRows
   currentPageInput.value = props.totalRows ? +value : 0
   // Determine the row offset based on the perPage value.

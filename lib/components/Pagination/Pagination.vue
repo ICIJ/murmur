@@ -10,6 +10,10 @@ import IPhCaretRight from '~icons/ph/caret-right'
 import { SIZE } from '@/enums'
 import { usePagination } from '@/composables/usePagination'
 
+// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
+// applies); 'md' is our sentinel for "no size class" and never forwarded to bootstrap-vue-next components.
+type PaginationSize = Size | SIZE.md
+
 /**
  * Define options
  */
@@ -37,7 +41,7 @@ export interface PaginationProps {
   /**
    * Set the size of the input: 'sm', 'md' (default), or 'lg'.
    */
-  size?: Size
+  size?: PaginationSize
   /**
    * Compact layout
    */
@@ -85,6 +89,11 @@ const paginationClassList = computed((): string[] => {
   return props.size === SIZE.sm ? ['float-end', 'me-1'] : []
 })
 
+// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel.
+const resolvedSize = computed((): Size | undefined => {
+  return props.size === SIZE.md ? undefined : props.size
+})
+
 function applyJumpFormPage(): void {
   const number = isNaN(parseInt(currentPageInput.value))
     ? 0
@@ -130,7 +139,7 @@ defineExpose({
           :model-value="modelValue"
           :pills="pills"
           :class="paginationClassList"
-          :size="size"
+          :size="resolvedSize"
           class="m-0"
           first-number
           last-number
@@ -178,7 +187,7 @@ defineExpose({
             class="input-group"
             @submit.prevent="applyJumpFormPage"
           >
-            <b-input-group :size="size">
+            <b-input-group :size="resolvedSize">
               <input
                 v-model="currentPageInput"
                 type="number"

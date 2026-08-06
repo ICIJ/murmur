@@ -70,7 +70,11 @@
 import { computed, ref, inject, useTemplateRef, type Component } from 'vue'
 import uniqueId from 'lodash/uniqueId'
 import IPhCircleNotch from '~icons/ph/circle-notch'
-import type { TextColorVariant, ButtonVariant, PopoverPlacement, Size } from 'bootstrap-vue-next'
+import type { TextColorVariant, ButtonVariant, PopoverPlacement, Size, ButtonType, ColorVariant } from 'bootstrap-vue-next'
+
+// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
+// applies); 'md' is our sentinel for "no size class" and never forwarded to b-button.
+type ButtonIconSize = Size | 'md'
 
 import AppIcon from '@/components/App/AppIcon.vue'
 import ButtonIconCounter from '@/components/Button/ButtonIconCounter.vue'
@@ -163,7 +167,7 @@ export interface ButtonIconProps {
   /**
    * Button size
    */
-  size?: Size
+  size?: ButtonIconSize
   /**
    * Make the button full-width block element
    */
@@ -183,7 +187,7 @@ export interface ButtonIconProps {
   /**
    * Button type attribute
    */
-  type?: string
+  type?: ButtonType
   /**
    * Show loading spinner and disable interactions
    */
@@ -231,14 +235,14 @@ export interface ButtonIconProps {
   /**
    * Color variant for the counter badge
    */
-  counterVariant?: TextColorVariant
+  counterVariant?: ColorVariant
   /**
    * Custom styles for the counter badge
    */
   counterStyle?: string | object
 }
 
-const props = withDefaults(defineProps<Omit<ButtonIconProps, 'pressed'>>(), {
+const props = withDefaults(defineProps<ButtonIconProps>(), {
   square: false,
   iconLeftLabelOffset: 19,
   iconLeftSize: '1.25em',
@@ -262,7 +266,7 @@ function emitIconRightClick() {
 // Fall back to the variant and size provided by an ancestor (e.g. a button
 // group) whenever the component does not set them explicitly.
 const injectedVariant = inject('variant', 'action')
-const injectedSize = inject('size', 'md')
+const injectedSize = inject<ButtonIconSize>('size', 'md')
 const elementRef = useTemplateRef<HTMLElement>('element')
 
 const currentHover = ref(false)
@@ -300,11 +304,17 @@ const hasTooltip = computed(() => {
   return !!tooltipText.value && !props.hideTooltip && (props.showTooltipForce || props.hideLabel)
 })
 
+// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel.
+const resolvedSize = computed((): Size | undefined => {
+  const size = props.size ?? injectedSize
+  return size === 'md' ? undefined : size
+})
+
 const buttonProps = computed(() => ({
   block: props.block,
   pill: props.pill,
   pressed: props.pressed,
-  size: props.size ?? injectedSize,
+  size: resolvedSize.value,
   tag: props.tag,
   type: props.type,
   variant: props.variant ?? injectedVariant
