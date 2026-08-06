@@ -1,4 +1,5 @@
 import { ref, toRef, onMounted, onUnmounted } from 'vue'
+import type { MaybeRefOrGetter } from 'vue'
 
 const THEME_ATTRIBUTE = 'data-bs-theme'
 
@@ -15,11 +16,14 @@ const THEME_ATTRIBUTE = 'data-bs-theme'
  * const { colorMode } = useColorMode()
  * </script>
  */
-export function useColorMode(element = window?.document?.body, defaultColorMode = 'light') {
+export function useColorMode(
+  element: MaybeRefOrGetter<HTMLElement | null | undefined> = window?.document?.body,
+  defaultColorMode = 'light'
+) {
   const elementRef = toRef(element)
   const colorMode = ref(defaultColorMode)
 
-  const findClosestThemeElement = () => elementRef.value.closest(`[${THEME_ATTRIBUTE}]`)
+  const findClosestThemeElement = () => elementRef.value?.closest(`[${THEME_ATTRIBUTE}]`)
 
   const updateColorMode = () => {
     colorMode.value = findClosestThemeElement()?.getAttribute(THEME_ATTRIBUTE) ?? defaultColorMode

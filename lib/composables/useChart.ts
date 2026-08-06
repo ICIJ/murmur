@@ -3,7 +3,7 @@ import isString from 'lodash/isString'
 import max from 'lodash/max'
 import { ComponentPublicInstance, toRef, ref, onMounted, nextTick, watch } from 'vue'
 import { isUrl } from '@/utils/strings'
-import type { Ref, SetupContext, ComputedRef } from 'vue'
+import type { Ref, ComputedRef } from 'vue'
 import { useResizeObserver } from '@/composables/useResizeObserver'
 import { useChartData } from '@/composables/useChartData'
 import { useChartFormat } from '@/composables/useChartFormat'
@@ -13,9 +13,12 @@ import type { ChartData, LoadedData } from '@/composables/useChartData'
 // though the underlying definitions now live in the data sub-composable.
 export type { ChartData, LoadedData }
 
-type ChartContext<T extends string[]> = SetupContext<[...T, ...string[]]>
-
-type ChartEmit = Pick<ChartContext<['resized', 'loaded']>, 'emit'>
+interface ChartEmit {
+  emit: {
+    (event: 'resized'): void
+    (event: 'loaded', data: any): void
+  }
+}
 
 interface ChartPropsDefinition {
   chartHeightRatio: { type: NumberConstructor }
@@ -61,7 +64,7 @@ export function getChartProps(props: {
 }): ChartPropsRefs {
   return {
     chartHeightRatio: toRef(props, 'chartHeightRatio'),
-    data: toRef(props, 'data'),
+    data: toRef(props, 'data') as Ref<ChartData>,
     dataUrlType: toRef(props, 'dataUrlType') as Ref<'json' | 'csv' | 'tsv'>,
     socialMode: toRef(props, 'socialMode') as Ref<boolean>,
     socialModeRatio: toRef(props, 'socialModeRatio') as Ref<number>
@@ -220,7 +223,7 @@ export function useChart(
     selector = 'text',
     defaultWidth = null,
     defaultHeight = null
-  } = {}) {
+  }: ElementsMaxBBoxOptions = {}): ElementsMaxBBox {
     const returnDefault = { width: defaultWidth, height: defaultHeight }
     if (!isLoaded.value || !resizeRef.value) {
       return returnDefault

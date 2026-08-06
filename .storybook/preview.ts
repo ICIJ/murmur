@@ -1,4 +1,5 @@
 import { setup } from '@storybook/vue3-vite'
+import type { Decorator } from '@storybook/vue3-vite'
 import { styled } from 'storybook/theming'
 import { useArgs } from 'storybook/preview-api'
 import { withThemeByDataAttribute } from '@storybook/addon-themes'
@@ -30,12 +31,12 @@ export const decorators = [
    * Support `v-model` for vue
    * @see {@link https://craigbaldwin.com/blog/updating-args-storybook-vue/}
    */
-  (story, context) => {
+  ((story, context) => {
     const [args, updateArgs] = useArgs()
     if ('modelValue' in args) {
       const update = args['onUpdate:model-value'] || args['onUpdate:modelValue']
       args['onUpdate:model-value'] = undefined
-      args['onUpdate:modelValue'] = (...vals) => {
+      args['onUpdate:modelValue'] = (...vals: unknown[]) => {
         update?.(...vals)
         /**
          * Arg with `undefined` will be deleted by `deleteUndefined()`, then loss of reactive
@@ -46,7 +47,7 @@ export const decorators = [
       }
     }
     return story({ ...context, updateArgs })
-  }
+  }) satisfies Decorator
 ]
 
 const style = { 

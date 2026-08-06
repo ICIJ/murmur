@@ -31,9 +31,9 @@ export interface AccordionProvide {
  * Brand component style types
  */
 export type BrandStyle = StyleValue & {
-  '--monochrome-color': string
+  '--monochrome-color': string | null
   'color': string
-  'background': string
+  'background': string | null
   'width': string
 }
 

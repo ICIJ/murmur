@@ -171,7 +171,7 @@ export function useHapticCopy(options: UseHapticCopyOptions = {}): UseHapticCopy
     }
     // Hide the feedback once the delay elapses, reading a reactive delay afresh.
     const delay = typeof hideDelay === 'function' ? hideDelay() : hideDelay
-    return nextTimeout(close, delay)
+    await nextTimeout(close, delay)
   }
 
   onUnmounted(() => {

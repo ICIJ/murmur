@@ -1,5 +1,5 @@
 import { createBootstrap } from 'bootstrap-vue-next'
-import { App, Component, DefineComponent } from 'vue'
+import { App, Component, DefineComponent, WritableComputedRef } from 'vue'
 import { i18n } from './i18n'
 import * as components from './components'
 import * as datavisualisations from './datavisualisations'
@@ -37,8 +37,8 @@ const Murmur = {
   mergeLocaleMessage(lang: string, message: any) {
     return Murmur.i18n.global.mergeLocaleMessage(lang, message)
   },
-  setLocale(lang: 'fr' | 'en') {
-    return (Murmur.i18n.global.locale.value = lang)
+  setLocale(lang: string) {
+    return ((Murmur.i18n.global.locale as WritableComputedRef<string>).value = lang)
   },
   getLocale() {
     return Murmur.i18n.global.locale.value

@@ -15,6 +15,7 @@ import type { Selection } from 'd3-selection'
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from 'd3-zoom'
 import { feature } from 'topojson-client'
 import type { GeometryCollection, Topology } from 'topojson-specification'
+import type { Feature, Geometry } from 'geojson'
 
 import {
   ComponentPublicInstance,
@@ -24,6 +25,7 @@ import {
   toRef,
   watch
 } from 'vue'
+import type { Ref } from 'vue'
 
 import { ParentKey } from '@/keys'
 import { MapTransform, ParentMap } from '@/types'
@@ -153,7 +155,7 @@ const props = withDefaults(defineProps<ChoroplethMapProps>(), {
   clickable: false,
   topojsonObjects: 'countries1',
   topojsonObjectsPath: 'id',
-  topojsonUrl: () => config.get('map.topojson.world-countries-sans-antarctica'),
+  topojsonUrl: () => config.get<string>('map.topojson.world-countries-sans-antarctica', ''),
   transitionDuration: 750,
   zoomable: false,
   spherical: false,
@@ -186,7 +188,7 @@ const resizable = ref<ComponentPublicInstance<HTMLElement> | null>(null)
 const topojson = ref<Topology | null>(null)
 const topojsonPromise = ref<Promise<Topology> | null>(null)
 const mapRect = ref<DOMRect>(new DOMRect(0, 0, 0, 0))
-const featureCursor = ref<Record<string, string> | null>(null)
+const featureCursor = ref<string | null>(null)
 const featureZoom = ref<string | null>(null)
 const isLoaded = ref<boolean>(false)
 const mapTransform = ref<MapTransform>({
@@ -201,7 +203,7 @@ const debouncedDraw = debounce(function () {
   draw()
 }, 10)
 
-const { loadedData } = useChart(
+const { loadedData: rawLoadedData } = useChart(
   resizable,
   getChartProps(props),
   { emit },
@@ -209,6 +211,9 @@ const { loadedData } = useChart(
   debouncedDraw,
   afterLoaded
 )
+// Choropleth data is always keyed by feature identifier, never the array shape
+// `LoadedData` also allows for other chart types.
+const loadedData = rawLoadedData as Ref<Record<string, number> | null>
 
 async function afterLoaded() {
   return new Promise<void>((resolve) => {
@@ -268,6 +273,9 @@ const hasZoom = computed(() => {
 })
 
 const geojson = computed(() => {
+  if (!topojson.value) {
+    return { type: 'FeatureCollection', features: [] } as const
+  }
   const object = get(
     topojson.value,
     ['objects', props.topojsonObjects],
@@ -295,13 +303,13 @@ const mapZoom = computed(() => {
 })
 
 const mapSphericalZoom = computed(() => {
-  return d3Zoom(map.value as any)
+  return d3Zoom()
     .scaleExtent([props.zoomMin, props.zoomMax])
     .on('zoom', mapSphericalZoomed)
 })
 
 const mapRotate = computed(() => {
-  return drag(map.value as any).on('drag', mapRotated)
+  return drag().on('drag', mapRotated)
 })
 
 // The zoom behavior actually bound to the selection (see prepareZoom): spherical
@@ -475,11 +483,11 @@ function update() {
     .style('color', featureColor.value)
 }
 
-function featureClass(d: string) {
+function featureClass(d: Feature<Geometry>) {
   return keys(pickBy(featureClassObject(d), value => value)).join(' ')
 }
 
-function featureClassObject(d: string) {
+function featureClassObject(d: Feature<Geometry>) {
   const pathClass = 'choropleth-map__main__features__item'
   const id = get(d, props.topojsonObjectsPath)
   return {
@@ -495,7 +503,7 @@ function featureMouseLeave() {
   featureCursor.value = null
 }
 
-function featureMouseOver(_: any, d: number) {
+function featureMouseOver(_: any, d: Feature<Geometry>) {
   const id = get(d, props.topojsonObjectsPath)
   const cursorId = loadedData.value && (id in loadedData.value) ? id : null
   updateFeatureCursor(cursorId)
@@ -510,13 +518,13 @@ async function loadTopojson() {
     if (!props.topojsonUrl?.length) {
       throw new Error('Empty topojsonUrl')
     }
-    topojsonPromise.value = json(props.topojsonUrl)
+    topojsonPromise.value = json(props.topojsonUrl) as Promise<Topology>
     topojson.value = await topojsonPromise.value
   }
   return topojsonPromise.value
 }
 
-async function mapClicked(event: MouseEvent, d: number) {
+async function mapClicked(event: MouseEvent, d: Feature<Geometry>) {
   /**
    * A click on a feature
    * @event click
@@ -604,7 +612,7 @@ function applyZoomIdentity(
     .end()
 }
 
-function resetZoom(_event: MouseEvent, _d: number) {
+function resetZoom(_event: MouseEvent, _d: Feature<Geometry>) {
   map.value
     ?.style('--map-scale', 1)
     .transition()
@@ -624,11 +632,11 @@ function emitResetEvent() {
 
 function setFeaturesClasses() {
   map.value
-    ?.selectAll('.choropleth-map__main__features__item')
+    ?.selectAll<SVGPathElement, Feature<Geometry>>('.choropleth-map__main__features__item')
     .attr('class', featureClass)
 }
 
-function setFeatureZoom(d: any, pointer = [0, 0]) {
+function setFeatureZoom(d: Feature<Geometry>, pointer = [0, 0]) {
   featureZoom.value = get(d, props.topojsonObjectsPath)
   const [[x0, y0], [x1, y1]] = featurePath.value.bounds(d)
   const scale = Math.min(

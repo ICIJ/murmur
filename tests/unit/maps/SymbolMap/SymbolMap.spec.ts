@@ -6,10 +6,10 @@ import SymbolMap from '@/maps/SymbolMap/SymbolMap.vue'
 vi.mock('d3-fetch', async () => {
   return {
     ...(await vi.importActual('d3-fetch')),
-    json: async (url) => {
-      const pathname = url.split('https://icij.github.io/murmur/').pop()
+    json: async (url: string) => {
+      const pathname = url.split('https://icij.github.io/murmur/').pop()!
       const abspath = resolve(__dirname, join('../../../../public', pathname))
-      const raw = await fs.readFile(abspath, 'UTF-8')
+      const raw = await fs.readFile(abspath, 'utf-8')
       return JSON.parse(raw)
     }
   }
@@ -17,7 +17,7 @@ vi.mock('d3-fetch', async () => {
 
 describe('SymbolMap.vue', () => {
   describe('a map of the world', () => {
-    let wrapper
+    let wrapper: ReturnType<typeof shallowMount<typeof SymbolMap>>
 
     beforeEach(async () => {
       const propsData = {
@@ -50,7 +50,7 @@ describe('SymbolMap.vue', () => {
         ]
       }
       wrapper = shallowMount(SymbolMap, { propsData })
-      wrapper.vm.$refs.el.style.width = '500px'
+      ;(wrapper.vm.$refs.el as HTMLElement).style.width = '500px'
       await wrapper.vm.loadTopojson()
       await wrapper.vm.$nextTick()
     })
@@ -61,7 +61,7 @@ describe('SymbolMap.vue', () => {
 
     it('has a marker in the tech category', () => {
       const feature = wrapper.find('.symbol-map__main__markers__item--category-tech path')
-      const { nodeValue: fill } = feature.wrapperElement.getAttributeNode('fill')
+      const { nodeValue: fill } = feature.element.getAttributeNode('fill')!
       expect(fill).toBe('#6e40aa')
     })
 
@@ -73,7 +73,7 @@ describe('SymbolMap.vue', () => {
 
     it('has a marker in the finance category', () => {
       const feature = wrapper.find('.symbol-map__main__markers__item--category-finance path')
-      const { nodeValue: fill } = feature.element.getAttributeNode('fill')
+      const { nodeValue: fill } = feature.element.getAttributeNode('fill')!
       expect(fill).toBe('#ff5e63')
     })
 

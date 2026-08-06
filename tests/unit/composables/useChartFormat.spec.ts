@@ -19,7 +19,7 @@ describe('useChartFormat', () => {
   describe('d3Formatter', () => {
     it('applies a formatter function to the value', () => {
       const { d3Formatter } = buildFormat()
-      expect(d3Formatter(3, (v: number) => `#${v}`)).toBe('#3')
+      expect(d3Formatter(3, (v: string | number) => `#${v}`)).toBe('#3')
     })
 
     it('applies a d3 format string to the value', () => {

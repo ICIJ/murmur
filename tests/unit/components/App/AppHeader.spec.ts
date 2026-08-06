@@ -23,7 +23,7 @@ describe('AppHeader.vue', () => {
 
   it('sets the header position to `fixed` by default', () => {
     const wrapper = shallowMount(AppHeader)
-    expect(wrapper.find('#app-header').element.style.position).toBe('fixed')
+    expect((wrapper.find('#app-header').element as HTMLElement).style.position).toBe('fixed')
   })
 
   it('sets the header position to `relative`', () => {
@@ -31,7 +31,7 @@ describe('AppHeader.vue', () => {
     const wrapper = shallowMount(AppHeader, {
       propsData: { position }
     })
-    expect(wrapper.find('#app-header').element.style.position).toBe(position)
+    expect((wrapper.find('#app-header').element as HTMLElement).style.position).toBe(position)
   })
 
   it('sets the header position to `absolute`', () => {
@@ -39,7 +39,7 @@ describe('AppHeader.vue', () => {
     const wrapper = shallowMount(AppHeader, {
       propsData: { position }
     })
-    expect(wrapper.find('#app-header').element.style.position).toBe(position)
+    expect((wrapper.find('#app-header').element as HTMLElement).style.position).toBe(position)
   })
 
   it('renders home link to the default value', () => {

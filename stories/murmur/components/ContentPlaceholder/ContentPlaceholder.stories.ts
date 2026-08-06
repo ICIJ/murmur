@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { ContentPlaceholder } from '@/components'
-import { ContentPlaceholderRows } from '@/utils/placeholderTypes'
+import type { ContentPlaceholderRows } from '@/types'
 
 const meta: Meta<typeof ContentPlaceholder> = {
   title: 'Murmur/components/ContentPlaceholder/ContentPlaceholder',

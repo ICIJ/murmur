@@ -23,7 +23,7 @@ describe('main.js', () => {
   })
 
   it('use plugin to register Murmur components', () => {
-    const app = createApp()
+    const app = createApp({})
     expect(app._context.components.ContentPlaceholder).toBeUndefined()
     app.use(Murmur)
     expect(app._context.components.ContentPlaceholder).toBeDefined()

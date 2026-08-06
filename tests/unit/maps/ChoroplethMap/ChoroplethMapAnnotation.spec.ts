@@ -4,7 +4,7 @@ import { shallowMount } from '@vue/test-utils'
 import {
   default as ChoroplethMapAnnotation
 } from '@/maps/ChoroplethMap/ChoroplethMapAnnotation.vue'
-import type { ParentMap, ParentMapProvide } from '@/types.js'
+import type { ParentMap, ParentMapProvide } from '@/types'
 import { ParentKey } from '@/keys.js'
 import { computed } from 'vue'
 import { geoRobinson } from 'd3-geo-projection'

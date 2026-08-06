@@ -54,7 +54,7 @@ describe('useChartData', () => {
 
   it('fetches and parses a URL through the matching d3 loader', async () => {
     const parsed = [{ value: 3 }]
-    d3Fetch.json = vi.fn().mockResolvedValue(parsed) as any
+    vi.spyOn(d3Fetch, 'json').mockResolvedValue(parsed as any)
     const { loadedData, onLoaded, wrapper } = mountHost('https://example.com/data.json', 'json')
     await wrapper.vm.$nextTick()
     await Promise.resolve()
@@ -66,7 +66,7 @@ describe('useChartData', () => {
 
   it('selects the d3 loader matching the data URL type', async () => {
     const parsed = [{ value: 4 }]
-    d3Fetch.csv = vi.fn().mockResolvedValue(parsed) as any
+    vi.spyOn(d3Fetch, 'csv').mockResolvedValue(parsed as any)
     const { wrapper } = mountHost('https://example.com/data.csv', 'csv')
     await wrapper.vm.$nextTick()
     await Promise.resolve()

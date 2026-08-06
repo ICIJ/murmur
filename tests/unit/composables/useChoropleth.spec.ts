@@ -66,9 +66,9 @@ describe('useChoropleth', () => {
       expect(featureColor.value({ id: 'FRA' })).toBe('rgb(255, 255, 255)')
     })
 
-    it('returns undefined for a feature without data', () => {
+    it('returns null for a feature without data', () => {
       const { featureColor } = useChoropleth(createOptions())
-      expect(featureColor.value({ id: 'USA' })).toBeUndefined()
+      expect(featureColor.value({ id: 'USA' })).toBeNull()
     })
 
     it('reads the identifier through a dot-notation path', () => {
@@ -81,7 +81,7 @@ describe('useChoropleth', () => {
       expect(featureColor.value({ properties: { code: '03' } })).toBe(
         'rgb(122, 1, 119)'
       )
-      expect(featureColor.value({ properties: { code: '99' } })).toBeUndefined()
+      expect(featureColor.value({ properties: { code: '99' } })).toBeNull()
     })
   })
 })

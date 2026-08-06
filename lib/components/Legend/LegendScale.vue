@@ -132,7 +132,9 @@ watch(cursorValue, async () => {
 defineExpose({
   widthScale,
   colorScaleFunction,
-  widthScaleColor
+  widthScaleColor,
+  hasCursor,
+  cursorLeft
 })
 </script>
 

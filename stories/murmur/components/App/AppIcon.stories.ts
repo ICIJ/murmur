@@ -269,8 +269,6 @@ export const SizeInRem: Story = {
 }
 
 export const SizeInPercent: Story = {
-  component: null,
-  argTypes: null,
   render: () => ({
     components: { AppIcon, IPhGlobe },
     template: `

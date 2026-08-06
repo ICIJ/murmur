@@ -100,10 +100,10 @@ describe('SelectableDropdown.vue', () => {
     await flushPromises()
 
     await wrapper.find('#dropdown-item-lesotho').trigger('click')
-    expect(wrapper.emitted('update:modelValue')[0]).toContain('Lesotho')
+    expect(wrapper.emitted('update:modelValue')![0]).toContain('Lesotho')
 
     await wrapper.find('#dropdown-item-senegal').trigger('click')
-    expect(wrapper.emitted('update:modelValue')[1]).toContain('Senegal')
+    expect(wrapper.emitted('update:modelValue')![1]).toContain('Senegal')
   })
 
   it('emits a `click` event when user click on an item', async () => {
@@ -112,11 +112,11 @@ describe('SelectableDropdown.vue', () => {
     await flushPromises()
 
     await wrapper.find('#dropdown-item-lesotho').trigger('click')
-    expect(wrapper.emitted('click')[0]).toContain('Lesotho')
+    expect(wrapper.emitted('click')![0]).toContain('Lesotho')
     await wrapper.find('#dropdown-item-senegal').trigger('click')
-    expect(wrapper.emitted('click')[1]).toContain('Senegal')
+    expect(wrapper.emitted('click')![1]).toContain('Senegal')
     await wrapper.find('#dropdown-item-lesotho').trigger('click')
-    expect(wrapper.emitted('click')[2]).toContain('Lesotho')
+    expect(wrapper.emitted('click')![2]).toContain('Lesotho')
   })
 
   it('emits a `click` event when using `clickToSelectItem` method', () => {
