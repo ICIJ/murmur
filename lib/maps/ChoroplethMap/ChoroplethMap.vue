@@ -518,7 +518,11 @@ async function loadTopojson() {
     if (!props.topojsonUrl?.length) {
       throw new Error('Empty topojsonUrl')
     }
-    topojsonPromise.value = json(props.topojsonUrl) as Promise<Topology>
+    // json()'s generic pins the parsed shape instead of leaving it unconstrained;
+    // its signature still allows `undefined` for a failed fetch, but a rejected
+    // fetch rejects the promise rather than resolving to it, so this endpoint's
+    // response is trusted to always be a parsed Topology.
+    topojsonPromise.value = json<Topology>(props.topojsonUrl) as Promise<Topology>
     topojson.value = await topojsonPromise.value
   }
   return topojsonPromise.value
