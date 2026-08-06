@@ -5,6 +5,7 @@ import identity from 'lodash/identity'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useLineChart } from '@/composables/useLineChart'
 import { computed, ref, toRef, watchEffect, ComponentPublicInstance } from 'vue'
+import type { Ref } from 'vue'
 
 defineOptions({
   name: 'LineChart'
@@ -149,31 +150,31 @@ function groupName(key: string) {
   return props.groups[index] || key
 }
 
-const labelWidth = computed(() => {
+const labelWidth = computed((): number => {
   if (props.fixedLabelWidth) {
     return props.fixedLabelWidth
   }
   const selector = '.line-chart__axis--y .tick text'
   const defaultWidth = 100
-  return elementsMaxBBox({ selector, defaultWidth }).width
+  return elementsMaxBBox({ selector, defaultWidth }).width as number
 })
 
-const labelHeight = computed(() => {
+const labelHeight = computed((): number => {
   const selector = '.line-chart__axis--y .tick'
   const defaultHeight = 10
-  return elementsMaxBBox({ selector, defaultHeight }).height
+  return elementsMaxBBox({ selector, defaultHeight }).height as number
 })
 
-const bucketHeight = computed(() => {
+const bucketHeight = computed((): number => {
   const selector = '.line-chart__axis--x .tick'
   const defaultHeight = 10
-  return elementsMaxBBox({ selector, defaultHeight }).height
+  return elementsMaxBBox({ selector, defaultHeight }).height as number
 })
 
-const bucketWidth = computed(() => {
+const bucketWidth = computed((): number => {
   const selector = '.line-chart__axis--x .tick text'
   const defaultWidth = 0
-  return elementsMaxBBox({ selector, defaultWidth }).width
+  return elementsMaxBBox({ selector, defaultWidth }).width as number
 })
 
 const margin = computed(() => {
@@ -204,7 +205,9 @@ const {
   xAxis,
   yAxis
 } = useLineChart({
-  loadedData,
+  // Line charts never receive the bare-Record<string, number> variant of
+  // LoadedData; narrow it to the array shape the composable expects.
+  loadedData: loadedData as Ref<Record<string, any>[] | null>,
   padded,
   d3Formatter,
   xAxisYearFormat,
@@ -225,7 +228,7 @@ function setSizes() {
       ? props.fixedHeight
       : el.value.offsetWidth * baseHeightRatio.value
     // Subtract legend height so the SVG fits within the container
-    const legend = el.value.querySelector('.line-chart__legend')
+    const legend = el.value.querySelector<HTMLElement>('.line-chart__legend')
     if (legend) {
       const style = getComputedStyle(legend)
       h -= legend.offsetHeight + (parseFloat(style.marginTop) || 0) + (parseFloat(style.marginBottom) || 0)
@@ -328,8 +331,8 @@ defineExpose({
             :key="series.key"
             class="line-chart__line"
             :class="{ 'line-chart__line--highlighted': isHighlighted(series.key) }"
-            :d="series.path"
-            :style="{ stroke: series.color }"
+            :d="series.path ?? undefined"
+            :style="{ stroke: series.color ?? undefined }"
             @mouseover="highlight(series.key)"
             @mouseleave="resetHighlight()"
           />
@@ -337,7 +340,7 @@ defineExpose({
         <path
           v-else
           class="line-chart__line"
-          :d="line"
+          :d="line ?? undefined"
         />
       </g>
     </svg>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import identity from 'lodash/identity'
 import { computed, ref, toRef, ComponentPublicInstance } from 'vue'
+import type { Ref } from 'vue'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useBarChart } from '@/composables/useBarChart'
+import type { BarChartDatum } from '@/composables/useBarChart'
 
 defineOptions({
   name: 'BarChart'
@@ -121,7 +123,9 @@ const valueWidth = computed(() => {
 })
 
 const { margin, padded, scale, bars, labels, height } = useBarChart({
-  loadedData,
+  // BarChart never receives the bare-Record<string, number> variant of
+  // LoadedData; narrow it to the array shape the composable expects.
+  loadedData: loadedData as Ref<BarChartDatum[] | null>,
   width,
   labelWidth,
   valueWidth,
