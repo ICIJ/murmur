@@ -107,7 +107,7 @@ export interface StackedColumnChartProps {
    * Hide bar tooltips
    */
   noTooltips?: boolean
-  data?: string | object[] | null
+  data?: string | Record<string, unknown>[] | null
   dataUrlType?: 'json' | 'csv' | 'tsv'
   chartHeightRatio?: number
   socialMode?: boolean
@@ -177,7 +177,7 @@ const {
 } = useStackedChart({
   // StackedColumnChart never receives the bare-Record<string, number> variant
   // of LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<Record<string, any>[] | null>,
+  loadedData: loadedData as Ref<Record<string, unknown>[] | null>,
   isLoaded,
   sortBy: toRef(() => props.sortBy),
   keys: toRef(() => props.keys),

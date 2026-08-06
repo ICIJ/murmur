@@ -136,7 +136,7 @@ export interface SymbolMapProps {
   /**
    * Data to display, either as a URL string to fetch or an array of objects.
    */
-  data?: string | object[] | null
+  data?: string | Record<string, unknown>[] | null
   /**
    * Type of data file when fetching from URL.
    */
@@ -219,7 +219,7 @@ const { loadedData: rawLoadedData } = useChart(
 
 // SymbolMap never receives the bare-Record<string, number> variant of
 // LoadedData; narrow it to the array shape used everywhere below.
-const loadedData = rawLoadedData as Ref<object[] | null>
+const loadedData = rawLoadedData as Ref<Record<string, unknown>[] | null>
 
 function afterLoaded() {
   return new Promise<void>((resolve) => {

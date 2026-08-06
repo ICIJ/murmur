@@ -54,7 +54,7 @@ export interface BarChartProps {
   /**
    * Data to display, either as a URL string to fetch or an array of objects.
    */
-  data?: string | object[] | null
+  data?: string | Record<string, unknown>[] | null
   /**
    * Type of data file when fetching from URL.
    */

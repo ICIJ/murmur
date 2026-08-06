@@ -108,7 +108,7 @@ export interface ColumnChartProps {
   /**
    * Data to display, either as a URL string to fetch or an array of objects.
    */
-  data?: string | object[] | null
+  data?: string | Record<string, unknown>[] | null
   /**
    * Type of data file when fetching from URL.
    */
@@ -250,7 +250,7 @@ const {
 } = useColumnChart({
   // ColumnChart never receives the bare-Record<string, number> variant of
   // LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<Record<string, any>[] | null>,
+  loadedData: loadedData as Ref<Record<string, unknown>[] | null>,
   width,
   height,
   labelWidth,

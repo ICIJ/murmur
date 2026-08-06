@@ -137,7 +137,7 @@ export interface ChoroplethMapProps {
    * Neutral color of the map s features in social mode.
    */
   socialColor?: string
-  data?: string | object[] | Record<string, number> | null
+  data?: string | Record<string, unknown>[] | Record<string, number> | null
   dataUrlType?: 'json' | 'csv' | 'tsv'
   chartHeightRatio?: number
   socialMode?: boolean
