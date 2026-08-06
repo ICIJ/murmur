@@ -38,6 +38,8 @@ describe('TinyPagination.vue', () => {
   it('does not emit an event if the currentPageInput is invalid', async () => {
     const propsData = { totalRows: 200, perPage: 20 }
     const wrapper = mount(TinyPagination, { propsData })
+    // currentPageInput is ref<number>; assigning a string here is the point
+    // of this test — it verifies the invalid-input guard rejects non-numeric input.
     ;(wrapper.vm as any).currentPageInput = 'azrazzer'
     await wrapper.vm.applyPageForm()
     await wrapper.vm.$nextTick()
