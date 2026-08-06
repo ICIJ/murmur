@@ -232,7 +232,7 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
     }
     else {
       resolvedMax
-        = toValue(maxValue) ?? (max(sortedData.value, iteratee(toValue(seriesName))) as number | undefined) ?? 0
+        = toValue(maxValue) ?? (max(sortedData.value, (d): number => Number(d[toValue(seriesName)])) ?? 0)
     }
     return scaleLinear()
       .domain([0, resolvedMax])

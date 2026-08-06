@@ -2,6 +2,7 @@ import { defineComponent, h, ref, toRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import * as d3Fetch from 'd3-fetch'
+import type { DSVParsedArray } from 'd3-dsv'
 
 import { useChartData } from '@/composables/useChartData'
 import type { ChartData, LoadedData } from '@/composables/useChartData'
@@ -54,7 +55,7 @@ describe('useChartData', () => {
 
   it('fetches and parses a URL through the matching d3 loader', async () => {
     const parsed = [{ value: 3 }]
-    vi.spyOn(d3Fetch, 'json').mockResolvedValue(parsed as any)
+    vi.spyOn(d3Fetch, 'json').mockResolvedValue(parsed)
     const { loadedData, onLoaded, wrapper } = mountHost('https://example.com/data.json', 'json')
     await wrapper.vm.$nextTick()
     await Promise.resolve()
@@ -66,7 +67,10 @@ describe('useChartData', () => {
 
   it('selects the d3 loader matching the data URL type', async () => {
     const parsed = [{ value: 4 }]
-    vi.spyOn(d3Fetch, 'csv').mockResolvedValue(parsed as any)
+    // The spy's resolved overload expects a real DSVParsedArray (with a
+    // `columns` property); this fixture only needs to exercise data flow
+    // through the composable, not the exact DSV shape.
+    vi.spyOn(d3Fetch, 'csv').mockResolvedValue(parsed as unknown as DSVParsedArray<object>)
     const { wrapper } = mountHost('https://example.com/data.csv', 'csv')
     await wrapper.vm.$nextTick()
     await Promise.resolve()

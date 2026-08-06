@@ -53,7 +53,9 @@ export class Config {
   get<T extends ConfigValue = ConfigValue>(key: string, defaultValue: T): T
   get<T extends ConfigValue = ConfigValue>(key: string, defaultValue?: null): T | null
   get<T extends ConfigValue = ConfigValue>(key: string, defaultValue?: T | null): T | null {
-    return get(this._VALUES.value, key, defaultValue) as T | null
+    // A stored value can itself be `null`; lodash's `get` only substitutes its
+    // default on `undefined`, so coalesce here to also cover that case.
+    return (get(this._VALUES.value, key) ?? defaultValue) as T | null
   }
 
   is(key: string): boolean {

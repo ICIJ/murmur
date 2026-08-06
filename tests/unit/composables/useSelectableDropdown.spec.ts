@@ -2,21 +2,23 @@ import equals from 'lodash/eq'
 import { nextTick, ref } from 'vue'
 import { useSelectableDropdown } from '@/composables/useSelectableDropdown'
 
+type DropdownItem = string | { label: string }
+
 describe('useSelectableDropdown', () => {
   const STRING_ITEMS = ['Lesotho', 'Senegal', 'Djibouti']
 
-  const createDropdown = ({
-    items = STRING_ITEMS,
+  const createDropdown = <T extends DropdownItem = string>({
+    items = STRING_ITEMS as T[],
     multiple = false,
     modelValue = null,
     activeItems = [],
     eq = equals
   }: {
-    items?: string[] | { label: string }[]
+    items?: T[]
     multiple?: boolean
     modelValue?: string | null
-    activeItems?: string[] | { label: string }[]
-    eq?: (a: any, b: any) => boolean
+    activeItems?: T[]
+    eq?: (a: T, b: T) => boolean
   } = {}) => {
     const activeItemsRef = ref(activeItems)
     const modelValueRef = ref(modelValue)
