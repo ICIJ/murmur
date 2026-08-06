@@ -171,8 +171,9 @@ describe('SharingOptionsLink', () => {
     await wrapper.trigger('click')
     expect($popup.instance).not.toBe(null)
     expect($popup.interval).not.toBe(undefined)
-    // Close the popup
-    ;($popup.instance as any).closed = true
+    // Close the popup. $popup.instance is typed as the real (readonly-`closed`)
+    // Window, but at runtime holds the mock `open()` returned above.
+    ;($popup.instance as unknown as { closed: boolean }).closed = true
     // Wait for the interval to be called
     vi.advanceTimersByTime(1000)
     // And check again!
