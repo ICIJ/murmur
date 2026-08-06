@@ -4,6 +4,7 @@ import AppIcon from '@/components/App/AppIcon.vue'
 import SharingOptions from '@/components/SharingOptions/SharingOptions.vue'
 import { useEmbeddableFooter } from '@/composables/useEmbeddableFooter'
 import config from '@/config'
+import configDefaults from '@/config.default'
 
 export interface EmbeddableFooterProps {
   /**
@@ -41,11 +42,11 @@ export interface EmbeddableFooterProps {
 }
 
 withDefaults(defineProps<EmbeddableFooterProps>(), {
-  title: () => (config.get('project.name') ?? undefined) as string,
+  title: () => config.get('project.name', configDefaults['project.name']),
   lead: '',
   iframeMinHeight: 100,
   iframeMinWidth: 100,
-  homeUrl: () => (config.get('app.home') ?? undefined) as string,
+  homeUrl: () => config.get('app.home', configDefaults['app.home']),
   sharingOptionsValues: () => ({}),
   hideDivider: false,
   logoHeight: 40
