@@ -134,7 +134,7 @@ const props = withDefaults(defineProps<StackedColumnChartProps>(), {
   restoreHighlightDelay: 50,
   noDirectLabeling: false,
   maxValue: null,
-  tooltipDisplay: () => ({ formattedKey, formattedValue }: { formattedKey: string, formattedValue: string }) => {
+  tooltipDisplay: ({ formattedKey, formattedValue }: { formattedKey: string, formattedValue: string }) => {
     return `<h6 class="mb-0">${formattedKey}</h6><div>${formattedValue}</div>`
   },
   noTooltips: false,
