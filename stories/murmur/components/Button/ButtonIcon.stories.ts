@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { computed, ref } from 'vue'
 import { AppIcon, ButtonIcon } from '@/components'
 import { buttonSizesArgType, variantsArgType } from '~storybook/utils'
-import { VARIANT } from '@/enums'
+import { SIZE, VARIANT } from '@/enums'
 
 import IPhCirclesThreePlus from '~icons/ph/circles-three-plus'
 import IPhUsers from '~icons/ph/users'
@@ -38,7 +38,7 @@ const meta: Meta<typeof ButtonIcon> = {
   },
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     pill: false,
     loading: false
   },
@@ -59,7 +59,7 @@ export const IconLeft: Story = {
   args: {
     variant: VARIANT.primary,
     label: 'Button',
-    size: 'md',
+    size: SIZE.md,
     iconLeft: IPhCirclesThreePlus
   }
 }
@@ -67,7 +67,7 @@ export const IconLeft: Story = {
 export const IconBothSide: Story = {
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     label: 'Save search',
     iconLeft: IPhCirclesThreePlus,
     iconRight: IPhUsers
@@ -77,7 +77,7 @@ export const IconBothSide: Story = {
 export const IconRight: Story = {
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     iconRight: IPhUsers,
     label: 'Button'
   }
@@ -86,7 +86,7 @@ export const IconRight: Story = {
 export const WithCounter: Story = {
   args: {
     variant: VARIANT.outline_primary,
-    size: 'md',
+    size: SIZE.md,
     iconLeft: IPhUserCircle,
     label: 'Shakira',
     counter: 134,
@@ -97,7 +97,7 @@ export const WithCounter: Story = {
 export const HideLabel: Story = {
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     iconRight: IPhUsers,
     label: 'Button',
     hideLabel: true
@@ -107,7 +107,7 @@ export const HideLabel: Story = {
 export const Square: Story = {
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     pill: false,
     iconRight: IPhPath,
     hideLabel: true,
@@ -118,7 +118,7 @@ export const Square: Story = {
 export const SquareWithCounter: Story = {
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     pill: false,
     iconRight: IPhPath,
     label: 'Path',
@@ -132,7 +132,7 @@ export const SquareWithCounter: Story = {
 export const SquarePill: Story = {
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     iconLeft: IPhX,
     label: 'Close',
     pill: true,
@@ -144,7 +144,7 @@ export const SquarePill: Story = {
 export const Truncated: Story = {
   args: {
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     truncate: true,
     label: 'Saving the tags',
     iconLeft: IPhFloppyDisk
@@ -164,7 +164,7 @@ export const Loading: Story = {
   args: {
     iconLeft: IPhFloppyDisk,
     variant: VARIANT.primary,
-    size: 'md',
+    size: SIZE.md,
     label: 'Save',
     pill: true
   },
@@ -185,7 +185,7 @@ export const LoadingSpinner: Story = {
   args: {
     iconLeft: IPhFloppyDisk,
     variant: VARIANT.secondary,
-    size: 'md',
+    size: SIZE.md,
     pill: true
   },
   render: (args: any) => ({

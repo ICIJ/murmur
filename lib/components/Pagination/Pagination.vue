@@ -2,17 +2,14 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import { BPagination, Size } from 'bootstrap-vue-next'
+import { BPagination } from 'bootstrap-vue-next'
 
 import AppIcon from '@/components/App/AppIcon.vue'
 import IPhCaretLeft from '~icons/ph/caret-left'
 import IPhCaretRight from '~icons/ph/caret-right'
 import { SIZE } from '@/enums'
 import { usePagination } from '@/composables/usePagination'
-
-// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
-// applies); 'md' is our sentinel for "no size class" and never forwarded to bootstrap-vue-next components.
-type PaginationSize = Size | SIZE.md
+import { resolveSize, type SizeWithMd } from '@/utils/size'
 
 /**
  * Define options
@@ -41,7 +38,7 @@ export interface PaginationProps {
   /**
    * Set the size of the input: 'sm', 'md' (default), or 'lg'.
    */
-  size?: PaginationSize
+  size?: SizeWithMd
   /**
    * Compact layout
    */
@@ -89,10 +86,7 @@ const paginationClassList = computed((): string[] => {
   return props.size === SIZE.sm ? ['float-end', 'me-1'] : []
 })
 
-// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel.
-const resolvedSize = computed((): Size | undefined => {
-  return props.size === SIZE.md ? undefined : props.size
-})
+const resolvedSize = computed(() => resolveSize(props.size))
 
 function applyJumpFormPage(): void {
   const number = isNaN(parseInt(currentPageInput.value))
