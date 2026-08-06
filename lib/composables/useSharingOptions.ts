@@ -69,11 +69,12 @@ export function useSharingOptions(
   // Build the values for a network, preferring its prefixed key (e.g.
   // `facebook_title`) and falling back to the generic key (`title`).
   function valuesFor(network: string): Record<string, string> {
-    const resolvedValues = Object.assign({}, metaValues.value, toValue(values)) as Record<string, string | undefined>
+    const resolvedValues: Record<string, unknown> = { ...metaValues.value, ...toValue(values) }
     return reduce(
       toValue(valuesKeys),
       (res: Record<string, string>, key) => {
-        res[key] = get(resolvedValues, `${network}_${key}`, resolvedValues[key]) ?? ''
+        const value = get(resolvedValues, `${network}_${key}`, resolvedValues[key])
+        res[key] = value == null ? '' : String(value)
         return res
       },
       {}

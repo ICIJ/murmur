@@ -136,7 +136,10 @@ const { margin, padded, scale, bars, labels, height } = useBarChart({
 })
 
 function formatXDatum(d: number | number[]) {
-  return d3Formatter(d as number, props.xAxisTickFormat)
+  if (Array.isArray(d)) {
+    return d.map(v => d3Formatter(v, props.xAxisTickFormat)).join(' – ')
+  }
+  return d3Formatter(d, props.xAxisTickFormat)
 }
 
 function onResize() {

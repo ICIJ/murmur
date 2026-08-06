@@ -503,7 +503,7 @@ function featureMouseLeave() {
   featureCursor.value = null
 }
 
-function featureMouseOver(_: any, d: Feature<Geometry>) {
+function featureMouseOver(_event: MouseEvent, d: Feature<Geometry>) {
   const id = get(d, props.topojsonObjectsPath)
   const cursorId = loadedData.value && (id in loadedData.value) ? id : null
   updateFeatureCursor(cursorId)

@@ -140,8 +140,8 @@ describe('ChoroplethMap.vue', () => {
       await wrapper.vm.loadTopojson()
       wrapper.vm.draw()
       await wrapper.vm.$nextTick()
-      // Since JSDOM badly lack SVG support, we need to mock
-      // some low level attributes such as size of the SVG element.
+      // JSDOM has no real SVG geometry; these fake the SVGAnimatedLength-shaped
+      // values setMapNodeSize expects, forced past its `number` param type.
       wrapper.vm.setMapNodeSize({
         width: zipObjectDeep(['baseVal.width.value'], [500]) as unknown as number,
         height: zipObjectDeep(['baseVal.height.value'], [300]) as unknown as number
