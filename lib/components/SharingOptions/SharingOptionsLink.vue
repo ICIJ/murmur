@@ -18,7 +18,7 @@ defineOptions({
   name: 'SharingOptionsLink'
 })
 
-export interface SharingOptionsLinkProps {
+interface SharingOptionsLinkProps {
   /**
    * Root element type
    */

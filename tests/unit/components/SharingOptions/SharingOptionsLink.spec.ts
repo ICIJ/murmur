@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 
 import SharingOptionsLink from '@/components/SharingOptions/SharingOptionsLink.vue'
 import { $popup, networks } from '@/composables/useSharingOptionsLink'
+import { SharingPlatform } from '@/enums'
 
 function mockPopupParent() {
   return {
@@ -17,7 +18,7 @@ function mockPopupParent() {
 vi.useFakeTimers()
 
 describe('SharingOptionsLink', () => {
-  const propsData = { network: 'bluesky' }
+  const propsData = { network: SharingPlatform.bluesky }
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -35,7 +36,7 @@ describe('SharingOptionsLink', () => {
   })
 
   it('should generate the component with `button` tag', () => {
-    const propsData = { network: 'bluesky', tag: 'button' }
+    const propsData = { network: SharingPlatform.bluesky, tag: 'button' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.element.tagName).toBe('BUTTON')
   })
@@ -48,19 +49,19 @@ describe('SharingOptionsLink', () => {
   })
 
   it('should give a different `base` for Bluesky', () => {
-    const propsData = { network: 'bluesky' }
+    const propsData = { network: SharingPlatform.bluesky }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.base).toBe('https://bsky.app/intent/compose?')
   })
 
   it('should give a different `base` for Facebook', () => {
-    const propsData = { network: 'facebook' }
+    const propsData = { network: SharingPlatform.facebook }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.base).toBe('https://www.facebook.com/sharer.php?')
   })
 
   it('should give a different `base` for Linkedin', () => {
-    const propsData = { network: 'linkedin' }
+    const propsData = { network: SharingPlatform.linkedin }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.base).toBe('https://www.linkedin.com/sharing/share-offsite/?')
   })
@@ -71,37 +72,37 @@ describe('SharingOptionsLink', () => {
   })
 
   it('shouldn\'t have a popup when network is `email`', () => {
-    const propsData = { network: 'email' }
+    const propsData = { network: SharingPlatform.email }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.hasPopup()).toBeFalsy()
   })
 
   it('should create a query with the correct `url` param', () => {
-    const propsData = { network: 'bluesky', url: 'https://icij.org' }
+    const propsData = { network: SharingPlatform.bluesky, url: 'https://icij.org' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.query.url).toBe(propsData.url)
   })
 
   it('should create a query with the correct `u` param', () => {
-    const propsData = { network: 'facebook', url: 'https://icij.org' }
+    const propsData = { network: SharingPlatform.facebook, url: 'https://icij.org' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.query.u).toBe(propsData.url)
   })
 
   it('should create a query with the correct `text` param', () => {
-    const propsData = { network: 'bluesky', title: 'Foo' }
+    const propsData = { network: SharingPlatform.bluesky, title: 'Foo' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.query.text).toBe(propsData.title)
   })
 
   it('should create a query with the correct `title` param', () => {
-    const propsData = { network: 'facebook', title: 'Foo' }
+    const propsData = { network: SharingPlatform.facebook, title: 'Foo' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.query.title).toBe(propsData.title)
   })
 
   it('should create a query with the correct `summary` param', () => {
-    const propsData = { network: 'linkedin', description: 'Foo' }
+    const propsData = { network: SharingPlatform.linkedin, description: 'Foo' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.query.summary).toBe(propsData.description)
   })
@@ -113,7 +114,7 @@ describe('SharingOptionsLink', () => {
   })
 
   it('should have correct `args` for Facebook', () => {
-    const propsData = { network: 'facebook' }
+    const propsData = { network: SharingPlatform.facebook }
     const wrapper = mount(SharingOptionsLink, { propsData })
     expect(wrapper.vm.args).toHaveProperty('u')
     expect(wrapper.vm.args).toHaveProperty('title')
@@ -124,7 +125,7 @@ describe('SharingOptionsLink', () => {
   it('should create open a popup when clicking on the component', async () => {
     // Return a fake popup instance to prevent jsdom error
     $popup.parent = mockPopupParent()
-    const propsData = { network: 'twitter', title: 'Foo' }
+    const propsData = { network: SharingPlatform.bluesky, title: 'Foo' }
     const wrapper = mount(SharingOptionsLink, { propsData })
     await wrapper.trigger('click')
     // Verify that the popup parent's open method was called
