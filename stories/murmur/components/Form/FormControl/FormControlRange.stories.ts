@@ -55,7 +55,7 @@ export const WithColumnChart: Story = {
     range: [0.2, 0.8],
     rangeYears: [0, 1 / 5],
     dataPerYear
-  } as any,
+  } as Story['args'] & { rangeYears: number[], dataPerYear: typeof dataPerYear },
   render: (args: any) => ({
     components: { FormControlRange, ColumnChart },
     setup() {
