@@ -111,7 +111,7 @@ describe('config.ts', () => {
 
     const wrapper = mount(component, { global: { plugins: [Murmur] } })
     expect(wrapper.text()).toBe('bar')
-    ;(wrapper.vm as any).$config.set('reactiveProp', 'baz')
+    wrapper.vm.$config.set('reactiveProp', 'baz')
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('baz')
   })
@@ -127,7 +127,7 @@ describe('config.ts', () => {
 
     const wrapper = mount(component, { global: { plugins: [Murmur] } })
     expect(wrapper.text()).toBe('bar')
-    ;(wrapper.vm as any).$config.set('nested.reactiveProp', 'baz')
+    wrapper.vm.$config.set('nested.reactiveProp', 'baz')
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('baz')
   })
