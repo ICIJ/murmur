@@ -16,7 +16,7 @@ export interface UseStackedChartOptions {
   /**
    * The chart's loaded data (inline array or fetched), as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<Record<string, any>[] | null>
+  loadedData: MaybeRefOrGetter<Record<string, unknown>[] | null>
   /**
    * Whether the data has finished loading. Until then `sortedData` is empty so
    * the chart never reads from half-loaded data.

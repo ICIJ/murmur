@@ -58,7 +58,7 @@ export interface UseColumnChartOptions {
   /**
    * The chart's loaded data (inline array or fetched), as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<Record<string, any>[] | null>
+  loadedData: MaybeRefOrGetter<Record<string, unknown>[] | null>
   /**
    * Measured outer width of the chart, in pixels.
    */
@@ -109,7 +109,7 @@ export interface UseColumnChartOptions {
  * Reactive API returned by {@link useColumnChart}.
  */
 export interface UseColumnChart {
-  sortedData: ComputedRef<Record<string, any>[]>
+  sortedData: ComputedRef<Record<string, unknown>[]>
   margin: ComputedRef<ColumnChartMargin>
   padded: ComputedRef<ColumnChartPadded>
   scaleX: ComputedRef<ScaleBand<string>>
@@ -186,7 +186,7 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
     waterfallTotalLabel
   } = options
 
-  const sortedData = computed((): Record<string, any>[] => {
+  const sortedData = computed((): Record<string, unknown>[] => {
     const data = toValue(loadedData)
     if (!data) {
       return []
