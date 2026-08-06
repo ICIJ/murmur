@@ -156,25 +156,25 @@ const labelWidth = computed((): number => {
   }
   const selector = '.line-chart__axis--y .tick text'
   const defaultWidth = 100
-  return elementsMaxBBox({ selector, defaultWidth }).width as number
+  return elementsMaxBBox({ selector, defaultWidth }).width ?? defaultWidth
 })
 
 const labelHeight = computed((): number => {
   const selector = '.line-chart__axis--y .tick'
   const defaultHeight = 10
-  return elementsMaxBBox({ selector, defaultHeight }).height as number
+  return elementsMaxBBox({ selector, defaultHeight }).height ?? defaultHeight
 })
 
 const bucketHeight = computed((): number => {
   const selector = '.line-chart__axis--x .tick'
   const defaultHeight = 10
-  return elementsMaxBBox({ selector, defaultHeight }).height as number
+  return elementsMaxBBox({ selector, defaultHeight }).height ?? defaultHeight
 })
 
 const bucketWidth = computed((): number => {
   const selector = '.line-chart__axis--x .tick text'
   const defaultWidth = 0
-  return elementsMaxBBox({ selector, defaultWidth }).width as number
+  return elementsMaxBBox({ selector, defaultWidth }).width ?? defaultWidth
 })
 
 const margin = computed(() => {

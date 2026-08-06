@@ -64,6 +64,8 @@ export function getChartProps(props: {
 }): ChartPropsRefs {
   return {
     chartHeightRatio: toRef(props, 'chartHeightRatio'),
+    // toRef() infers `| undefined` from each optional prop; withDefaults() at the
+    // call site guarantees a value, so these casts drop the undefined it can't see.
     data: toRef(props, 'data') as Ref<ChartData>,
     dataUrlType: toRef(props, 'dataUrlType') as Ref<'json' | 'csv' | 'tsv'>,
     socialMode: toRef(props, 'socialMode') as Ref<boolean>,

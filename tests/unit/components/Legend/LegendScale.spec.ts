@@ -72,6 +72,9 @@ describe('ScaleLegend.vue', () => {
       // * values from 10,000 to 20,000 in pink
       // * values from 20,000 to 30,000 in red
       const thresholdScale = scaleThreshold<number, string>().domain([1e4, 2e4]).range(['white', 'pink', 'red'])
+      // ScaleLegend's colorScale prop allows `v` to be undefined (the legend-hover
+      // state); d3's scaleThreshold requires a number, and this test never calls
+      // colorScale with undefined, so the cast is safe here.
       const colorScale = (v?: number) => thresholdScale(v as number)
       // Create a scale for value between 0 and 30,000
       const propsData = { min: 0, max: 3e4, width: 150, colorScale }

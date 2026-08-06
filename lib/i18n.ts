@@ -9,6 +9,9 @@ export const options = {
   warnHtmlMessage: false,
   // https://vue-i18n.intlify.dev/guide/advanced/composition.html#implicit-with-injected-properties-and-functions
   globalInjection: true,
+  // createI18n()'s overload resolution keys off the literal `false`, not `boolean`,
+  // to pick the Composition API mode; without `as const` it widens and falls back
+  // to the legacy-mode overload.
   legacy: false as const,
   locale,
   fallbackLocale,
