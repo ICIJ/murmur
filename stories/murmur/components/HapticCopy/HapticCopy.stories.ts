@@ -39,8 +39,9 @@ export const PillBadge: Story = {
   args: {
     text: 'Lorem info sit amet',
     variant: 'warning',
-    // Not a declared prop, but falls through to the underlying BBadge's pill prop.
-    pill: true,
-    tag: markRaw(BBadge)
-  } as any
+    tag: markRaw(BBadge),
+    // `pill` isn't a declared HapticCopy prop, but falls through as an
+    // attribute to the underlying BBadge's own `pill` prop.
+    pill: true
+  } as Story['args'] & { pill: boolean }
 }
