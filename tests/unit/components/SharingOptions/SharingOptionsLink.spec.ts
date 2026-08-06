@@ -4,6 +4,7 @@ import SharingOptionsLink from '@/components/SharingOptions/SharingOptionsLink.v
 import { $popup, networks } from '@/composables/useSharingOptionsLink'
 import { SharingPlatform } from '@/enums'
 
+// These mocks only need to satisfy `$popup`'s call sites (open/focus/close)
 function mockPopupParent() {
   return {
     open: vi.fn().mockImplementation(() => {
@@ -134,6 +135,7 @@ describe('SharingOptionsLink', () => {
 
   it('should clear the interval and close existing popup when clicking on the component', () => {
     const wrapper = mount(SharingOptionsLink, { propsData })
+    // Same minimal-mock reasoning as mockPopupParent(): only close/focus are exercised.
     $popup.instance = { close: vi.fn(), focus: vi.fn() } as unknown as Window
     $popup.interval = setInterval(() => null)
     wrapper.vm.cleanExistingPopupInstance()
@@ -142,6 +144,7 @@ describe('SharingOptionsLink', () => {
   })
 
   it('should share popup between components', () => {
+    // Same minimal-mock reasoning as mockPopupParent(): only close/focus are exercised.
     $popup.instance = { close: vi.fn(), focus: vi.fn() } as unknown as Window
     $popup.interval = setInterval(() => null)
     const wrapperA = mount(SharingOptionsLink, { propsData })

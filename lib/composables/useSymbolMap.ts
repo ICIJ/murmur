@@ -146,6 +146,8 @@ export function useSymbolMap(options: UseSymbolMapOptions): UseSymbolMap {
   const featuresGeojson = computed(() => {
     const topojsonValue = toValue(topojson)
     if (!topojsonValue) {
+      // `as const` keeps `type` a literal 'FeatureCollection' instead of widening to
+      // `string`, it matches the discriminated union `feature()` returns below.
       return { type: 'FeatureCollection', features: [] } as const
     }
     const object = get(

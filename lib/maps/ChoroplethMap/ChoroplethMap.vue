@@ -30,6 +30,7 @@ import type { Ref } from 'vue'
 import { ParentKey } from '@/keys'
 import { MapTransform, ParentMap } from '@/types'
 import config from '@/config'
+import configDefaults from '@/config.default'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useChoropleth } from '@/composables/useChoropleth'
 import { useMapProjection } from '@/composables/useMapProjection'
@@ -155,7 +156,11 @@ const props = withDefaults(defineProps<ChoroplethMapProps>(), {
   clickable: false,
   topojsonObjects: 'countries1',
   topojsonObjectsPath: 'id',
-  topojsonUrl: () => config.get<string>('map.topojson.world-countries-sans-antarctica', ''),
+  topojsonUrl: () =>
+    config.get(
+      'map.topojson.world-countries-sans-antarctica',
+      configDefaults['map.topojson.world-countries-sans-antarctica']
+    ),
   transitionDuration: 750,
   zoomable: false,
   spherical: false,

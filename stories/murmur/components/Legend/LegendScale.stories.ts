@@ -77,6 +77,8 @@ export const ThresholdScale: Story = {
   args: {
     min: 0,
     max: 6e4,
+    // Same reasoning as LegendScale.spec.ts: colorScale allows undefined for the
+    // hover state, but Storybook always renders with a concrete value.
     colorScale: (v?: number) => thresholdScaleFn()(v as number)
   }
 }

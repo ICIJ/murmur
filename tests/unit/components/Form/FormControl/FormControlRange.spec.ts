@@ -48,6 +48,8 @@ describe('RangePicker.vue', () => {
 
   it('sets the disabled class if value prop is empty', async () => {
     const wrapper = shallowMount(RangePicker, {
+      // range's [number, number] tuple type doesn't admit empty, but this test
+      // against out-of-contract input.
       propsData: { range: [] as unknown as [number, number] }
     })
 
@@ -56,6 +58,8 @@ describe('RangePicker.vue', () => {
 
   it('hides the bounds if value prop is empty', async () => {
     const wrapper = shallowMount(RangePicker, {
+      // range's [number, number] tuple type doesn't admit empty, but test against
+      // out-of-contract input.
       propsData: { range: [] as unknown as [number, number] }
     })
 

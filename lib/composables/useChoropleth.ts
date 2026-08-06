@@ -67,7 +67,7 @@ export interface UseChoropleth {
    */
   featureColorScaleFunction: ComputedRef<(v: any) => string>
   /**
-   * Maps a geojson datum to its color, or `undefined` when the feature has no data.
+   * Maps a geojson datum to its color, or `null` when the feature has no data.
    */
   featureColor: ComputedRef<(d: any) => string | null>
 }

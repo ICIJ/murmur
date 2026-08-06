@@ -215,7 +215,7 @@ const leftAxisLabelsWidth = computed((): number => {
   const selector = '.stacked-column-chart__left-axis__canvas .tick text'
   const defaultWidth = 0
   return (
-    (elementsMaxBBox({ selector, defaultWidth }).width as number)
+    (elementsMaxBBox({ selector, defaultWidth }).width ?? defaultWidth)
     + props.yAxisTickPadding
   )
 })
