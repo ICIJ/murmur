@@ -29,20 +29,18 @@ describe('TinyPagination.vue', () => {
   it('emits an event on form submit with the currentPageInput', async () => {
     const propsData = { totalRows: 200, perPage: 20 }
     const wrapper = mount(TinyPagination, { propsData })
-    wrapper.vm.currentPageInput = 3
-    await wrapper.vm.applyPageForm()
-    await wrapper.vm.$nextTick()
+    await wrapper.find('.tiny-pagination__form__input--item').setValue(3)
+    await wrapper.find('.tiny-pagination__form').trigger('submit')
     expect(wrapper.emitted('update:modelValue')![0]).toContain(3)
   })
 
   it('does not emit an event if the currentPageInput is invalid', async () => {
     const propsData = { totalRows: 200, perPage: 20 }
     const wrapper = mount(TinyPagination, { propsData })
-    // currentPageInput is ref<number>; assigning a string here is the point
-    // of this test — it verifies the invalid-input guard rejects non-numeric input.
-    ;(wrapper.vm as any).currentPageInput = 'azrazzer'
-    await wrapper.vm.applyPageForm()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.emitted()).toEqual({})
+    // A number input sanitizes a non-numeric value down to an empty string
+    // before it ever reaches v-model, which is exactly the case this guards.
+    await wrapper.find('.tiny-pagination__form__input--item').setValue('azrazzer')
+    await wrapper.find('.tiny-pagination__form').trigger('submit')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
   })
 })
