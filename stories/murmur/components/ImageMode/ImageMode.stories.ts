@@ -6,7 +6,6 @@ const meta: Meta<typeof ImageMode> = {
   title: 'Murmur/components/ImageMode/ImageMode',
   component: ImageMode,
   args: {
-    colorModes: ['light', 'dark'],
     defaultColorMode: 'light',
     imageClass: ['rounded-5', 'img-fluid', 'shadow-sm']
   },

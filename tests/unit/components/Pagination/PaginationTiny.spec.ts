@@ -38,7 +38,7 @@ describe('TinyPagination.vue', () => {
   it('does not emit an event if the currentPageInput is invalid', async () => {
     const propsData = { totalRows: 200, perPage: 20 }
     const wrapper = mount(TinyPagination, { propsData })
-    wrapper.vm.currentPageInput = 'azrazzer'
+    ;(wrapper.vm as any).currentPageInput = 'azrazzer'
     await wrapper.vm.applyPageForm()
     await wrapper.vm.$nextTick()
     expect(wrapper.emitted()).toEqual({})
