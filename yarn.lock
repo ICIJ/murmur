@@ -533,6 +533,14 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.12.tgz#afefe785949f16ac4cdd1e695935a321572dd56a"
   integrity sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==
 
+"@floating-ui/vue@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@floating-ui/vue/-/vue-2.0.1.tgz#987976853159255ce8be3a39239706192228485c"
+  integrity sha512-043dyEKD9TDSfz080YH2vobubgg+NIo/9Fw4RAl7sEMpD8Am1DNrrSTl/GpMBjyGHoD/FbJY2QLawY+HSQsEIA==
+  dependencies:
+    "@floating-ui/dom" "^1.8.0"
+    "@floating-ui/utils" "^0.2.12"
+
 "@floating-ui/vue@^1.1.11", "@floating-ui/vue@^1.1.6":
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/@floating-ui/vue/-/vue-1.1.11.tgz#94fb1e62f6e157f91258a315a78b17079dd260e3"
@@ -541,14 +549,6 @@
     "@floating-ui/dom" "^1.7.6"
     "@floating-ui/utils" "^0.2.11"
     vue-demi ">=0.13.0"
-
-"@floating-ui/vue@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@floating-ui/vue/-/vue-2.0.1.tgz#987976853159255ce8be3a39239706192228485c"
-  integrity sha512-043dyEKD9TDSfz080YH2vobubgg+NIo/9Fw4RAl7sEMpD8Am1DNrrSTl/GpMBjyGHoD/FbJY2QLawY+HSQsEIA==
-  dependencies:
-    "@floating-ui/dom" "^1.8.0"
-    "@floating-ui/utils" "^0.2.12"
 
 "@humanfs/core@^0.19.1":
   version "0.19.1"
@@ -1529,7 +1529,7 @@
   resolved "https://registry.yarnpkg.com/@types/mdx/-/mdx-2.0.14.tgz#c1e54113265b152021ab0afe0434e3cadd90bfe3"
   integrity sha512-T48PeuJtvLosNTPVhfnIp3i/n3a4g4Bad7YCq5k64D4u7NwDrAotikQ+5+sjtUvBmxCMlbo3dVL+C2dP0rWHzg==
 
-"@types/node@^20.19.43":
+"@types/node@20.19.43":
   version "20.19.43"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.19.43.tgz#fcecf580ba42a0db55cf404c372c97973c376c97"
   integrity sha512-6oYBAi5ikg4Pl+kGsoYtawUMBT2zZMCvPNF7pVLnHZfd1zf38DRiWn/gT01RYCdUqkv7Fhr+C9ot4/tb+2sVvA==
@@ -2257,10 +2257,10 @@ boolbase@^1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
 
-bootstrap-vue-next@^0.45.8:
-  version "0.45.10"
-  resolved "https://registry.yarnpkg.com/bootstrap-vue-next/-/bootstrap-vue-next-0.45.10.tgz#8a4ea4877dd10bbeed3027ec295ab58bb95a3e7a"
-  integrity sha512-9HkNYQ0pS6E48qFsSifR/S04qdTNBy+E5+Qxe+R0ORUAVe3z/R9dhq2fnjGjKV3yOPJzLxC1y/fqvkzVV3dZbQ==
+bootstrap-vue-next@0.45.8:
+  version "0.45.8"
+  resolved "https://registry.yarnpkg.com/bootstrap-vue-next/-/bootstrap-vue-next-0.45.8.tgz#af2d688bc488a930dfd757b7be7d4a5c809c9916"
+  integrity sha512-D4Lntb6z7cVttLrOYCUy7joCZMYnl6lkKbOFJSxHKc0pNFsnduvp9PQs47FQwPWyq5HxTk3twcsyRdB0eWDAoA==
   dependencies:
     "@floating-ui/core" "^1.7.5"
     "@floating-ui/vue" "^1.1.11"
@@ -5098,7 +5098,7 @@ vue-tsc@^3.3.9:
     "@volar/typescript" "2.4.28"
     "@vue/language-core" "3.3.9"
 
-vue-virtual-scroller@^3.0.4:
+vue-virtual-scroller@3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-3.0.4.tgz#b97214b0e8f32e4667921550a461a3ac0741389e"
   integrity sha512-3qh3c9VUVysuXynaa4fVZ3ncx3VgD7EPRiQcj+jUVZl5u/TTkD3c27XvSEu3JGJfsJt/vVTVziZ3djiiHtW4cQ==
