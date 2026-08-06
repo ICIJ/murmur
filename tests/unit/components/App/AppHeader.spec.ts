@@ -86,7 +86,7 @@ describe('AppHeader.vue', () => {
     const navbarToggler = wrapper.find('.navbar-toggler')
     await navbarToggler.trigger('click')
     expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeFalsy()
-    expect(wrapper.vm.showFollowUsPopover).toBe(false)
+    expect((wrapper.vm as any).showFollowUsPopover).toBe(false)
     await navbarToggler.trigger('click')
     expect(wrapper.find('.navbar-collapse').classes('collapse')).toBeTruthy()
   })
@@ -100,12 +100,12 @@ describe('AppHeader.vue', () => {
     const popovertoggler = wrapper.find('#follow-us-toggler')
     await popovertoggler.trigger('mouseenter')
     // given popover shown
-    expect(wrapper.vm.showFollowUsPopover).toBe(true)
+    expect((wrapper.vm as any).showFollowUsPopover).toBe(true)
     const navbarToggler = wrapper.find('.navbar-toggler')
     // when show navbar
     await navbarToggler.trigger('click')
     // popover should be hidden
-    expect(wrapper.vm.showFollowUsPopover).toBe(false)
+    expect((wrapper.vm as any).showFollowUsPopover).toBe(false)
   })
   it('should show on mouseenter then hide popover', async () => {
     const wrapper = mount(AppHeader, {
@@ -116,9 +116,9 @@ describe('AppHeader.vue', () => {
     })
     const popovertoggler = wrapper.find('#follow-us-toggler')
     await popovertoggler.trigger('mouseenter')
-    expect(wrapper.vm.showFollowUsPopover).toBe(true)
+    expect((wrapper.vm as any).showFollowUsPopover).toBe(true)
 
-    wrapper.vm.closeFollowUsPopover()
-    expect(wrapper.vm.showFollowUsPopover).toBe(false)
+    ;(wrapper.vm as any).closeFollowUsPopover()
+    expect((wrapper.vm as any).showFollowUsPopover).toBe(false)
   })
 })
