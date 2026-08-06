@@ -90,4 +90,27 @@ describe('BarChart.vue', () => {
       expect(labels).toEqual(['C', 'B', 'A'])
     })
   })
+
+  describe('with a range value', () => {
+    let wrapper
+
+    beforeEach(async () => {
+      const propsData = {
+        data: [
+          { label: 'A', value: [10, 20] },
+          { label: 'B', value: 30 }
+        ]
+      }
+      wrapper = mount(BarChart, { propsData })
+      wrapper.vm.$el.style.width = '500px'
+      await wrapper.vm.$nextTick()
+    })
+
+    it('formats a range value as its bounds joined with an en dash', () => {
+      const values = wrapper
+        .findAll('.bar-chart__bars__item__value')
+        .map(node => node.text())
+      expect(values).toEqual(['10 – 20', '30'])
+    })
+  })
 })

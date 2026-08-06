@@ -217,4 +217,18 @@ describe('ChoroplethMap.vue', () => {
       expect(wrapper.classes('choropleth-map--has-zoom')).toBeFalsy()
     })
   })
+
+  describe('before the topojson has loaded', () => {
+    it('draws no features instead of throwing', async () => {
+      const wrapper = shallowMount(ChoroplethMap, {
+        propsData: { data: { FRA: 100 } },
+        global: { renderStubDefaultSlot: true }
+      })
+      wrapper.vm.resizable!.style.width = '500px'
+      await wrapper.vm.$nextTick()
+
+      expect(() => wrapper.vm.draw()).not.toThrow()
+      expect(wrapper.findAll('.choropleth-map__main__features__item')).toHaveLength(0)
+    })
+  })
 })
