@@ -47,7 +47,7 @@ export interface UseLineChartOptions {
   /**
    * The chart's loaded data (inline array or fetched), as exposed by `useChart`.
    */
-  loadedData: MaybeRefOrGetter<Record<string, any>[] | null>
+  loadedData: MaybeRefOrGetter<Record<string, unknown>[] | null>
   /**
    * The measured inner padding box (width/height in pixels) the scales map onto.
    */

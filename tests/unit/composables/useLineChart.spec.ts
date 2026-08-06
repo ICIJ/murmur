@@ -21,7 +21,7 @@ const yearFormat = (year: number | string) => year
 // test. Kept as a factory so each call gets fresh refs.
 function createOptions(overrides: Record<string, unknown> = {}) {
   return {
-    loadedData: ref<object[]>([
+    loadedData: ref<Record<string, unknown>[]>([
       { date: 2000, value: 0 },
       { date: 2001, value: 1 },
       { date: 2002, value: 2 },
