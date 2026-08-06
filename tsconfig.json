@@ -2,7 +2,6 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
     "checkJs": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -21,8 +20,8 @@
       "node"
     ],
     "paths": {
-      "@/*": [ "lib/*"],
-      "~storybook/*": [ ".storybook/*"]
+      "@/*": [ "./lib/*"],
+      "~storybook/*": [ "./.storybook/*"]
     }
   },
   "include": [

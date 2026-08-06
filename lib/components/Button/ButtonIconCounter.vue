@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TextColorVariant } from 'bootstrap-vue-next'
+import type { ColorVariant } from 'bootstrap-vue-next'
 
 export interface ButtonIconCounterProps {
   /**
@@ -9,7 +9,7 @@ export interface ButtonIconCounterProps {
   /**
    * The badge color variant
    */
-  variant?: TextColorVariant
+  variant?: ColorVariant
 }
 
 withDefaults(defineProps<ButtonIconCounterProps>(), {
