@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { SharingPlatform } from '@/enums'
 
 import { SharingOptionsLink } from '@/components'
 
@@ -20,7 +21,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    network: 'bluesky',
+    network: SharingPlatform.bluesky,
     class: 'btn btn-outline-primary mx-1',
     url: 'https://www.icij.org'
   }
@@ -28,7 +29,7 @@ export const Default: Story = {
 
 export const CustomSlot: Story = {
   args: {
-    network: 'bluesky',
+    network: SharingPlatform.bluesky,
     class: 'btn btn-outline-primary mx-1',
     url: 'https://www.icij.org',
     noIcon: true
@@ -42,7 +43,7 @@ export const CustomSlot: Story = {
 
 export const CustomTagAndSlot: Story = {
   args: {
-    network: 'bluesky',
+    network: SharingPlatform.bluesky,
     title: 'Murmur Design System',
     class: 'btn btn-warning',
     url: 'https://www.icij.org',

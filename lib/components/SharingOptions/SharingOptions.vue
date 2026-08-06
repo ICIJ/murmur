@@ -8,6 +8,7 @@ import config from '@/config'
 import IframeResizer from '@/utils/iframe-resizer'
 import { useSharingOptions } from '@/composables/useSharingOptions'
 import { BModal } from 'bootstrap-vue-next'
+import { SharingPlatform } from '@/enums'
 
 export interface SharingOptionsProps {
   /**
@@ -92,22 +93,22 @@ defineExpose({
   >
     <sharing-options-link
       class="sharing-options__link"
-      network="facebook"
+      :network="SharingPlatform.facebook"
       v-bind="valuesFor('facebook')"
     />
     <sharing-options-link
       class="sharing-options__link"
-      network="bluesky"
+      :network="SharingPlatform.bluesky"
       v-bind="valuesFor('bluesky')"
     />
     <sharing-options-link
       class="sharing-options__link"
-      network="linkedin"
+      :network="SharingPlatform.linkedin"
       v-bind="valuesFor('linkedin')"
     />
     <sharing-options-link
       class="sharing-options__link"
-      network="email"
+      :network="SharingPlatform.email"
       v-bind="valuesFor('email')"
     />
     <a
