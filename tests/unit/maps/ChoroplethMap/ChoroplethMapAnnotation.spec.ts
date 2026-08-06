@@ -60,8 +60,9 @@ describe('ChoroplethMapAnnotation', () => {
       global: { provide }
     })
 
-    expect((wrapper.vm as any).x).toEqual(100)
-    expect((wrapper.vm as any).y).toEqual(200)
+    const foreignObject = wrapper.find('foreignObject')
+    expect(foreignObject.attributes('x')).toBe('100')
+    expect(foreignObject.attributes('y')).toBe('200')
   })
 
   describe('placements', () => {
@@ -78,11 +79,12 @@ describe('ChoroplethMapAnnotation', () => {
           global: { provide }
         })
 
-        expect((wrapper.vm as any).isRight).toBe(!!expectedResults.isRight)
-        expect((wrapper.vm as any).isLeft).toBe(!!expectedResults.isLeft)
-        expect((wrapper.vm as any).isTop).toBe(!!expectedResults.isTop)
-        expect((wrapper.vm as any).isBottom).toBe(!!expectedResults.isBottom)
-        expect((wrapper.vm as any).isCenter).toBe(!!expectedResults.isCenter)
+        const classes = wrapper.classes()
+        expect(classes.includes('choropleth-map-annotation--right')).toBe(!!expectedResults.isRight)
+        expect(classes.includes('choropleth-map-annotation--left')).toBe(!!expectedResults.isLeft)
+        expect(classes.includes('choropleth-map-annotation--top')).toBe(!!expectedResults.isTop)
+        expect(classes.includes('choropleth-map-annotation--bottom')).toBe(!!expectedResults.isBottom)
+        expect(classes.includes('choropleth-map-annotation--center')).toBe(!!expectedResults.isCenter)
       })
     }
 
@@ -119,11 +121,8 @@ describe('ChoroplethMapAnnotation', () => {
           global: { provide }
         })
 
-        expect((wrapper.vm as any).wrapperTransformOriginX).toBe(expectedX)
-        expect((wrapper.vm as any).wrapperTransformOriginY).toBe(expectedY)
-        expect((wrapper.vm as any).wrapperTransformOrigin).toBe(
-          `${expectedX} ${expectedY}`
-        )
+        const style = wrapper.find('.choropleth-map-annotation__wrapper').attributes('style')
+        expect(style).toContain(`--transform-origin: ${expectedX} ${expectedY};`)
       })
     }
 
@@ -199,9 +198,7 @@ describe('ChoroplethMapAnnotation', () => {
             placement
           })
 
-          expect((wrapper.vm as any).translateX).toBe(translateX)
-          expect((wrapper.vm as any).translateY).toBe(translateY)
-          expect((wrapper.vm as any).transform).toBe(
+          expect(wrapper.find('foreignObject').attributes('transform')).toBe(
             `translate(${translateX}, ${translateY})`
           )
         })
@@ -221,7 +218,7 @@ describe('ChoroplethMapAnnotation', () => {
         global: { provide }
       })
 
-      expect((wrapper.vm as any).isVisible).toBeTruthy()
+      expect(wrapper.find('.choropleth-map-annotation__wrapper').isVisible()).toBe(true)
     })
 
     it('is not visible when outside geoDistanceThreshold', () => {
@@ -234,7 +231,7 @@ describe('ChoroplethMapAnnotation', () => {
         },
         global: { provide }
       })
-      expect((wrapper.vm as any).isVisible).toBeFalsy()
+      expect(wrapper.find('.choropleth-map-annotation__wrapper').isVisible()).toBe(false)
     })
   })
 })

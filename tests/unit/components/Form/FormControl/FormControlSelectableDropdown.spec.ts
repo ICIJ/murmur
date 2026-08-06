@@ -119,18 +119,6 @@ describe('SelectableDropdown.vue', () => {
     expect(wrapper.emitted('click')![2]).toContain('Lesotho')
   })
 
-  it('emits a `click` event when using `clickToSelectItem` method', () => {
-    const propsData = { items: ['Lesotho', 'Senegal', 'Djibouti'] }
-    const wrapper = mount(SelectableDropdown, { propsData })
-
-    ;(wrapper.vm as any).clickToSelectItem('Lesotho')
-    expect(wrapper.emitted().click[0]).toContain('Lesotho')
-    ;(wrapper.vm as any).clickToSelectItem('Senegal')
-    expect(wrapper.emitted().click[1]).toContain('Senegal')
-    ;(wrapper.vm as any).clickToSelectItem('Lesotho')
-    expect(wrapper.emitted().click[2]).toContain('Lesotho')
-  })
-
   describe('itemActivated', () => {
     it('marks only the actually-selected entry as active, not every entry sharing its value', async () => {
       // Regression test: aria-selected/active used to be computed by value
