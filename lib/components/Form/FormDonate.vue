@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 
 import { useDonateForm } from '@/composables/useDonateForm'
-import type { DonationCategory, DonationThresholds, SuggestedDonation } from '@/composables/useDonateForm'
+import type { DonationThresholds, SuggestedDonation } from '@/composables/useDonateForm'
 
 /**
  * A form to encourage donations. We usually put this form inside a modal
