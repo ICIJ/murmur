@@ -270,6 +270,13 @@ describe('StackedColumnChart.vue', () => {
       const leftAxis = wrapper.find('.stacked-column-chart__left-axis')
       expect(leftAxis.attributes('style')).toBe('display: none;')
     })
+
+    it('renders the default tooltip content as HTML instead of returning the display function itself', () => {
+      const html = wrapper.vm.barTitle(0, 'foo')
+      expect(typeof html).toBe('string')
+      expect(html).toContain('<h6 class="mb-0">foo</h6>')
+      expect(html).toContain('90')
+    })
   })
 
   describe('a stacked-columns chart with 3 columns in 2 groups and no direct labeling', () => {
