@@ -82,8 +82,8 @@ const props = withDefaults(defineProps<BrandExpansionProps>(), {
 const { width, height, style } = useBrandExpansion({
   size: toRef(props, 'size'),
   mode: toRef(props, 'mode'),
-  color: toRef(props, 'color'),
-  background: toRef(props, 'background'),
+  color: computed(() => props.color ?? null),
+  background: computed(() => props.background ?? null),
   responsive: toRef(props, 'responsive')
 })
 
