@@ -159,15 +159,12 @@ import { BButton, BFormInput } from 'bootstrap-vue-next'
 import { computed, ref, watch, type Component } from 'vue'
 import { directive as vInputAutowidth } from 'vue-input-autowidth'
 import { useI18n } from 'vue-i18n'
-import type { ButtonVariant, Size } from 'bootstrap-vue-next'
+import type { ButtonVariant } from 'bootstrap-vue-next'
 
 import { SIZE } from '@/enums'
 import { usePagination } from '@/composables/usePagination'
 import vEllipsisTooltip from '@/directives/EllipsisTooltip'
-
-// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
-// applies); 'md' is our sentinel for "no size class" and never forwarded to bootstrap-vue-next components.
-type PaginationSize = Size | SIZE.md
+import { resolveSize, type SizeWithMd } from '@/utils/size'
 import AppIcon from '@/components/App/AppIcon.vue'
 import IPhCaretDoubleLeft from '~icons/ph/caret-double-left'
 import IPhCaretDoubleRight from '~icons/ph/caret-double-right'
@@ -197,7 +194,7 @@ export interface PaginationTinyProps {
   /**
    * Set the size of the input: 'sm', 'md' (default), or 'lg'.
    */
-  size?: PaginationSize
+  size?: SizeWithMd
   /**
    * (Optional) Number of page. Property `size` is required for this to work
    * properly. If `pages` is empty, it will be calculated using the size.
@@ -327,10 +324,7 @@ const {
   pages: () => props.pages
 })
 
-// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel.
-const resolvedSize = computed((): Size | undefined => {
-  return props.size === SIZE.md ? undefined : props.size
-})
+const resolvedSize = computed(() => resolveSize(props.size))
 
 const paginationClassList = computed((): object => {
   return {

@@ -1,16 +1,15 @@
 import { ref, toRefs } from 'vue'
-import { BModal, BPopover, Size } from 'bootstrap-vue-next'
+import { BModal, BPopover } from 'bootstrap-vue-next'
 import { geoOrthographic } from 'd3-geo'
 
 import { SIZE } from '@/enums'
 import { ChoroplethMap } from '@/maps'
+import { resolveSize, type SizeWithMd } from '@/utils/size'
 
-// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
-// applies); 'md' is our sentinel for "no size class" and never forwarded to bootstrap-vue-next components.
 export const modalDecorator = (
   buttonLabel = 'Click to see the form',
   modalTitle: string | null,
-  size: Size | SIZE.md = SIZE.md
+  size: SizeWithMd = SIZE.md
 ) => ({
   components: { BModal },
   setup() {
@@ -18,8 +17,7 @@ export const modalDecorator = (
     const show = () => {
       visible.value = true
     }
-    const resolvedSize = size === SIZE.md ? undefined : size
-    return { visible, show, buttonLabel, modalTitle, size: resolvedSize }
+    return { visible, show, buttonLabel, modalTitle, size: resolveSize(size) }
   },
   template: `
     <div class="p-4 text-center">

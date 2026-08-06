@@ -70,14 +70,12 @@
 import { computed, ref, inject, useTemplateRef, type Component } from 'vue'
 import uniqueId from 'lodash/uniqueId'
 import IPhCircleNotch from '~icons/ph/circle-notch'
-import type { TextColorVariant, ButtonVariant, PopoverPlacement, Size, ButtonType, ColorVariant } from 'bootstrap-vue-next'
-
-// bootstrap-vue-next's own Size type only covers 'sm' | 'lg' (the classes it
-// applies); 'md' is our sentinel for "no size class" and never forwarded to b-button.
-type ButtonIconSize = Size | 'md'
+import type { TextColorVariant, ButtonVariant, PopoverPlacement, ButtonType, ColorVariant } from 'bootstrap-vue-next'
 
 import AppIcon from '@/components/App/AppIcon.vue'
 import ButtonIconCounter from '@/components/Button/ButtonIconCounter.vue'
+import { SIZE } from '@/enums'
+import { resolveSize, type SizeWithMd } from '@/utils/size'
 
 defineOptions({
   name: 'ButtonIcon'
@@ -167,7 +165,7 @@ export interface ButtonIconProps {
   /**
    * Button size
    */
-  size?: ButtonIconSize
+  size?: SizeWithMd
   /**
    * Make the button full-width block element
    */
@@ -266,7 +264,7 @@ function emitIconRightClick() {
 // Fall back to the variant and size provided by an ancestor (e.g. a button
 // group) whenever the component does not set them explicitly.
 const injectedVariant = inject('variant', 'action')
-const injectedSize = inject<ButtonIconSize>('size', 'md')
+const injectedSize = inject<SizeWithMd>('size', SIZE.md)
 const elementRef = useTemplateRef<HTMLElement>('element')
 
 const currentHover = ref(false)
@@ -304,11 +302,7 @@ const hasTooltip = computed(() => {
   return !!tooltipText.value && !props.hideTooltip && (props.showTooltipForce || props.hideLabel)
 })
 
-// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel.
-const resolvedSize = computed((): Size | undefined => {
-  const size = props.size ?? injectedSize
-  return size === 'md' ? undefined : size
-})
+const resolvedSize = computed(() => resolveSize(props.size ?? injectedSize))
 
 const buttonProps = computed(() => ({
   block: props.block,
