@@ -123,7 +123,7 @@ const { tabs, activeForm, onUpdate } = useFormAdvancedLink({
       :title="tab.title"
     >
       <advanced-link-form-tab
-        :title="title"
+        :title="title ?? ''"
         :type="tab.type"
         :data-type="tab.type"
         :compact="small"

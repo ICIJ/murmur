@@ -30,7 +30,9 @@ const props = withDefaults(defineProps<AdvancedLinkFormTabProps>(), {
   variant: 'primary'
 })
 
-const size = computed(() => (props.compact ? 'sm' : 'md'))
+// bootstrap-vue-next's `size` prop doesn't accept our 'md' sentinel (it only
+// covers 'sm' | 'lg', the classes it applies).
+const size = computed(() => (props.compact ? 'sm' : undefined))
 
 const inputRef = useTemplateRef<HTMLInputElement>('input')
 
@@ -67,7 +69,7 @@ function select() {
 async function selectInput(target: Readonly<ShallowRef<HTMLInputElement | null>>) {
   // wait for the copy to finish to select text
   await nextTick()
-  target.value?.element.select()
+  target.value?.select()
 }
 
 async function selectRich(target: Readonly<ShallowRef<HTMLInputElement | null>>) {

@@ -278,7 +278,7 @@ const year = computed((): number => {
 })
 
 const contactEmail = computed((): string => {
-  return config.get('contact-email')
+  return config.get('contact-email', '')
 })
 
 const contactEmailMailto = computed((): string => {
