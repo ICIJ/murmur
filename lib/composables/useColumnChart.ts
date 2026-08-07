@@ -231,8 +231,9 @@ export function useColumnChart(options: UseColumnChartOptions): UseColumnChart {
       resolvedMax = toValue(maxValue) ?? waterfallTotalValue.value
     }
     else {
+      const seriesValue = iteratee(toValue(seriesName))
       resolvedMax
-        = toValue(maxValue) ?? (max(sortedData.value, (d): number => Number(d[toValue(seriesName)])) ?? 0)
+        = toValue(maxValue) ?? (max(sortedData.value, d => Number(seriesValue(d))) ?? 0)
     }
     return scaleLinear()
       .domain([0, resolvedMax])
