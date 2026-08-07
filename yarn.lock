@@ -4832,7 +4832,7 @@ unimport@^6.4.0:
     unplugin "^3.3.0"
     unplugin-utils "^0.3.2"
 
-unplugin-auto-import@^21.0.0:
+unplugin-auto-import@21.1.0:
   version "21.1.0"
   resolved "https://registry.yarnpkg.com/unplugin-auto-import/-/unplugin-auto-import-21.1.0.tgz#b10adf6f9b02c5808023c93d590eb42eec304688"
   integrity sha512-EzrSqWIBulEqCuP7idADXH+tVKYrbwKlR5+r/lOWik0o+Ksny1kitmtryHGNSv7puzzORlcIwT/x2JStiszlHA==
@@ -4858,7 +4858,7 @@ unplugin-dts@1.0.3:
     magic-string "^0.30.17"
     unplugin "^2.3.2"
 
-unplugin-icons@^23.0.1:
+unplugin-icons@23.0.1:
   version "23.0.1"
   resolved "https://registry.yarnpkg.com/unplugin-icons/-/unplugin-icons-23.0.1.tgz#aef196f5e0cb8121797ff22314e02063dc4fe04b"
   integrity sha512-rv0XEJepajKzDLvRUWASM8K+8+/CCfZn2jtogXqg6RIp7kpatRc/aFrVJn8ANQA09e++lPEEv9yX8cC9enc+QQ==
@@ -4877,7 +4877,7 @@ unplugin-utils@^0.3.0, unplugin-utils@^0.3.1, unplugin-utils@^0.3.2:
     pathe "^2.0.3"
     picomatch "^4.0.4"
 
-unplugin-vue-components@^32.1.0:
+unplugin-vue-components@32.1.0:
   version "32.1.0"
   resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-32.1.0.tgz#6381802ff55b72b4664f575e926765f454255b8d"
   integrity sha512-YiUkSxuRjab18XFOrX5VsIxXzccrfmHVGsGeJgSgklb829DQmCy9E4vvDUE4tuvZZdxyFJZX0Oc4TPnnxiiMyg==
@@ -4928,14 +4928,14 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-vite-plugin-dts@^5.0.3:
+vite-plugin-dts@5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/vite-plugin-dts/-/vite-plugin-dts-5.0.3.tgz#c4ca204d3bdd5c8d9d21420b4ff013c64efb9f0b"
   integrity sha512-gIth6NdCEHWPiiRMCK3N6C8WjvdsrtEQrmsiG8h6Ov+lFP+b07Y+wcs9H0H7n146l0PDTYK4cQN1vgeG1pMdRQ==
   dependencies:
     unplugin-dts "1.0.3"
 
-"vite@^6.0.0 || ^7.0.0 || ^8.0.0", vite@^8.2.0:
+vite@8.2.0, "vite@^6.0.0 || ^7.0.0 || ^8.0.0":
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/vite/-/vite-8.2.0.tgz#902fcd3dc0312f553c85b6cbc4625dcaca2d8df8"
   integrity sha512-pn+CFpM0lwDeKwmOq1ZaBK/9sjorZcgqxki6MbY/jPEVd9vichIlmlD4HmQ5wdP5EgqQCFRaACBxMC7uEGc6lQ==
@@ -4948,7 +4948,7 @@ vite-plugin-dts@^5.0.3:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vitest@^4.1.10:
+vitest@4.1.10:
   version "4.1.10"
   resolved "https://registry.yarnpkg.com/vitest/-/vitest-4.1.10.tgz#7e9285efe264b1167050b7a3a7ff34788e1b7afc"
   integrity sha512-R9jUTe5S4Qb0HCd4TNqpC7oGcrMssMRGXLW80ubjWsW9VH5GF8y1Y0SFLY9AbqSk6nt0PnOx4H4WNJYZ13GUPw==
@@ -5066,7 +5066,7 @@ vue-input-autowidth@^2.2.1:
   resolved "https://registry.yarnpkg.com/vue-input-autowidth/-/vue-input-autowidth-2.2.1.tgz#877f7fb60db46a292dd54973371ceb093e49ebb0"
   integrity sha512-AXmLy53BBg5nqFnjRc8N1c0xNLljiuba5yjxRaW9+HRy9F9zhk5AEu6n3cu3SYoDLYQAM0GNgWzzi3g9KTFyBA==
 
-vue-router@^5.0.6:
+vue-router@5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-5.2.0.tgz#34f03b1012729c33bb23184d96ad8e1b1b5c4546"
   integrity sha512-QAC5i0LEb1GLG0LXDQmHu8L7FX12j0KwU/JTKmLQUJMrn04gQdKP6Du+p0QwpHb3iy71vBlqnHQ8WAfOSAWhqw==
