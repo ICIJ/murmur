@@ -91,7 +91,7 @@ describe('useSymbolMap', () => {
       // The path bounds reflect the fitted projection; every corner must sit
       // inside the inset box [padding, size - padding], proving fitExtent (not
       // fitSize) framing with edge padding (allowing a 1px rounding slack).
-      const [[x0, y0], [x1, y1]] = featurePath.value.bounds(geojson.value as any)
+      const [[x0, y0], [x1, y1]] = featurePath.value.bounds(geojson.value)
       expect(x0).toBeGreaterThanOrEqual(padding - 1)
       expect(y0).toBeGreaterThanOrEqual(padding - 1)
       expect(x1).toBeLessThanOrEqual(width - padding + 1)
@@ -102,7 +102,7 @@ describe('useSymbolMap', () => {
   describe('featurePath', () => {
     it('produces an SVG path string for the geojson', () => {
       const { featurePath, geojson } = useSymbolMap(createOptions())
-      const d = featurePath.value(geojson.value as any)
+      const d = featurePath.value(geojson.value)
       expect(typeof d).toBe('string')
       expect(d?.startsWith('M')).toBe(true)
     })

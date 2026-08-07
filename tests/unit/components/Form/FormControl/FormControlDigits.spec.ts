@@ -15,7 +15,7 @@ describe('DigitsInput', () => {
     beforeEach(() => {
       const propsData = { length: 4, name: 'inputName' }
       const attachTo = createContainer()
-      wrapper = shallowMount(DigitsInput as any, { propsData, attachTo })
+      wrapper = shallowMount(DigitsInput, { propsData, attachTo })
     })
 
     it('should have 4 visible inputs and a hidden one', () => {

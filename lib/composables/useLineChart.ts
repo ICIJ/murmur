@@ -252,14 +252,14 @@ export function useLineChart(options: UseLineChartOptions): UseLineChart {
 
   const xAxis = computed((): Axis<Date | NumberValue> => {
     return axisBottom(scaleX.value)
-      .ticks(toValue(xAxisTicks) as any)
+      .ticks(toValue(xAxisTicks))
       .tickFormat((d: any) => castCall(xAxisYearFormat, d.getFullYear()))
   })
 
   const yAxis = computed((): Axis<NumberValue> => {
     return axisLeft(scaleY.value)
       .tickFormat((d: any) => String(d3Formatter(d, toValue(yAxisTickFormat))))
-      .ticks(toValue(yAxisTicks) as number)
+      .ticks(toValue(yAxisTicks))
   })
 
   return {
