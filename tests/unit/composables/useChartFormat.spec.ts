@@ -57,13 +57,13 @@ describe('useChartFormat', () => {
 
   describe('dataHasHighlights', () => {
     it('detects a highlighted datum in the loaded data', () => {
-      const loadedData = ref<LoadedData>([{ value: 1 }, { value: 2, highlight: true }] as any)
+      const loadedData = ref<LoadedData>([{ value: 1 }, { value: 2, highlight: true }])
       const { dataHasHighlights } = buildFormat({ loadedData })
       expect(dataHasHighlights.value).toBe(true)
     })
 
     it('returns false when no datum is highlighted', () => {
-      const loadedData = ref<LoadedData>([{ value: 1 }, { value: 2 }] as any)
+      const loadedData = ref<LoadedData>([{ value: 1 }, { value: 2 }])
       const { dataHasHighlights } = buildFormat({ loadedData })
       expect(dataHasHighlights.value).toBe(false)
     })

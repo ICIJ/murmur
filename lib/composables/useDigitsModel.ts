@@ -104,7 +104,7 @@ export function useDigitsModel(
   )
 
   const joinedValues = computed((): string => {
-    return filter(values.value, v => !isNaN(v as any)).join('')
+    return filter(values.value, v => !isNaN(Number(v))).join('')
   })
 
   // Intentionally watches the ref object itself (not `values.value`) and relies

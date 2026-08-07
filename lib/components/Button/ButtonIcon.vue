@@ -18,7 +18,11 @@
     <slot name="start" />
     <app-icon
       v-if="iconLeft || (!iconLeft && !iconRight && loading)"
-      v-b-tooltip.top.body="{ title: iconLeftLabel, offset: iconLeftLabelOffset, delay: tooltipDelay }"
+      v-b-tooltip.top.body="{
+        title: iconLeftLabel,
+        offset: iconLeftLabelOffset,
+        delay: tooltipDelay
+      }"
       :name="iconLeftOrSpinner"
       :size="iconLeftSize"
       :spin="loading"
@@ -36,7 +40,11 @@
     </span>
     <app-icon
       v-if="iconRight"
-      v-b-tooltip.top.body="{ title: iconRightLabel, offset: iconRightLabelOffset, delay: tooltipDelay }"
+      v-b-tooltip.top.body="{
+        title: iconRightLabel,
+        offset: iconRightLabelOffset,
+        delay: tooltipDelay
+      }"
       :name="iconRightOrSpinner"
       :size="iconRightSize"
       :spin="loading"
@@ -70,13 +78,18 @@
 import { computed, ref, inject, useTemplateRef, type Component } from 'vue'
 import uniqueId from 'lodash/uniqueId'
 import IPhCircleNotch from '~icons/ph/circle-notch'
-import type { TextColorVariant, ButtonVariant, PopoverPlacement, ButtonType, ColorVariant } from 'bootstrap-vue-next'
+import type {
+  TextColorVariant,
+  ButtonVariant,
+  PopoverPlacement,
+  ButtonType,
+  ColorVariant
+} from 'bootstrap-vue-next'
 
 import AppIcon from '@/components/App/AppIcon.vue'
 import ButtonIconCounter from '@/components/Button/ButtonIconCounter.vue'
 import { SIZE } from '@/enums'
 import { resolveSize, type SizeWithMd } from '@/utils/size'
-
 defineOptions({
   name: 'ButtonIcon'
 })
@@ -299,7 +312,11 @@ const tooltipText = computed(() => {
 })
 
 const hasTooltip = computed(() => {
-  return !!tooltipText.value && !props.hideTooltip && (props.showTooltipForce || props.hideLabel)
+  return (
+    !!tooltipText.value
+    && !props.hideTooltip
+    && (props.showTooltipForce || props.hideLabel)
+  )
 })
 
 const resolvedSize = computed(() => resolveSize(props.size ?? injectedSize))
@@ -317,7 +334,6 @@ const buttonProps = computed(() => ({
 
 <style lang="scss" scoped>
 .button-icon {
-
   &:deep(.app-icon) {
     font-size: 1.25em;
   }
@@ -335,7 +351,8 @@ const buttonProps = computed(() => ({
   }
 
   --button-icon-square-size: calc(
-    var(--bs-btn-line-height) * var(--bs-btn-font-size) + var(--bs-btn-padding-y) * 2 + var(--bs-btn-border-width) * 2
+    var(--bs-btn-line-height) * var(--bs-btn-font-size) +
+      var(--bs-btn-padding-y) * 2 + var(--bs-btn-border-width) * 2
   );
 
   &--truncate.btn {
