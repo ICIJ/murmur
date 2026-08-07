@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import identity from 'lodash/identity'
 import { computed, ref, toRef, ComponentPublicInstance } from 'vue'
-import type { Ref } from 'vue'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useBarChart } from '@/composables/useBarChart'
 import type { BarChartDatum } from '@/composables/useBarChart'
@@ -92,7 +91,7 @@ const props = withDefaults(defineProps<BarChartProps>(), {
 })
 
 const emit = defineEmits<{
-  loaded: [data: any]
+  loaded: [data: BarChartDatum[] | null]
   resized: []
 }>()
 
@@ -100,7 +99,7 @@ const el = ref<ComponentPublicInstance<HTMLElement> | null>(null)
 const width = ref(0)
 const isLoaded = ref(false)
 const { loadedData, elementsMaxBBox, dataHasHighlights, d3Formatter }
-  = useChart(el, getChartProps(props), { emit }, isLoaded, onResize)
+  = useChart<BarChartDatum[]>(el, getChartProps(props), { emit }, isLoaded, onResize)
 
 // Label and value widths are measured from the rendered SVG text, so they stay
 // in the component (the geometry composable holds no DOM state) and feed it.
@@ -123,9 +122,7 @@ const valueWidth = computed(() => {
 })
 
 const { margin, padded, scale, bars, labels, height } = useBarChart({
-  // BarChart never receives the bare-Record<string, number> variant of
-  // LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<BarChartDatum[] | null>,
+  loadedData,
   width,
   labelWidth,
   valueWidth,

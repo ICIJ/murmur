@@ -5,7 +5,6 @@ import identity from 'lodash/identity'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useLineChart } from '@/composables/useLineChart'
 import { computed, ref, toRef, watchEffect, ComponentPublicInstance } from 'vue'
-import type { Ref } from 'vue'
 
 defineOptions({
   name: 'LineChart'
@@ -112,7 +111,7 @@ const props = withDefaults(defineProps<LineChartProps>(), {
 })
 
 const emit = defineEmits<{
-  loaded: [data: any]
+  loaded: [data: Record<string, unknown>[] | null]
   resized: []
 }>()
 
@@ -127,7 +126,7 @@ const {
   d3Formatter,
   xAxisYearFormat,
   baseHeightRatio
-} = useChart(el, getChartProps(props), { emit }, isLoaded, setSizes)
+} = useChart<Record<string, unknown>[]>(el, getChartProps(props), { emit }, isLoaded, setSizes)
 
 const highlightedKey = ref<string | null>(null)
 
@@ -205,9 +204,7 @@ const {
   xAxis,
   yAxis
 } = useLineChart({
-  // Line charts never receive the bare-Record<string, number> variant of
-  // LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<Record<string, unknown>[] | null>,
+  loadedData,
   padded,
   d3Formatter,
   xAxisYearFormat,

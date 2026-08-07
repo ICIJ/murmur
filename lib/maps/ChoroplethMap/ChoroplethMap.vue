@@ -25,7 +25,6 @@ import {
   toRef,
   watch
 } from 'vue'
-import type { Ref } from 'vue'
 
 import { ParentKey } from '@/keys'
 import { MapTransform, ParentMap } from '@/types'
@@ -138,7 +137,7 @@ export interface ChoroplethMapProps {
    * Neutral color of the map s features in social mode.
    */
   socialColor?: string
-  data?: string | Record<string, unknown>[] | Record<string, number> | null
+  data?: string | Record<string, number> | null
   dataUrlType?: 'json' | 'csv' | 'tsv'
   chartHeightRatio?: number
   socialMode?: boolean
@@ -185,7 +184,7 @@ const emit = defineEmits<{
   click: [d: any]
   reset: []
   zoomed: [d: any]
-  loaded: [data: any]
+  loaded: [data: Record<string, number> | null]
   resized: []
 }>()
 
@@ -208,7 +207,7 @@ const debouncedDraw = debounce(function () {
   draw()
 }, 10)
 
-const { loadedData: rawLoadedData } = useChart(
+const { loadedData } = useChart<Record<string, number>>(
   resizable,
   getChartProps(props),
   { emit },
@@ -216,9 +215,6 @@ const { loadedData: rawLoadedData } = useChart(
   debouncedDraw,
   afterLoaded
 )
-// Choropleth data is always keyed by feature identifier, never the array shape
-// `LoadedData` also allows for other chart types.
-const loadedData = rawLoadedData as Ref<Record<string, number> | null>
 
 async function afterLoaded() {
   return new Promise<void>((resolve) => {
@@ -533,7 +529,7 @@ async function loadTopojson() {
   return topojsonPromise.value
 }
 
-async function mapClicked(event: MouseEvent, d: Feature<Geometry>) {
+async function mapClicked(event: MouseEvent, d: Feature) {
   /**
    * A click on a feature
    * @event click

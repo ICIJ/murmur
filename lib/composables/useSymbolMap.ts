@@ -22,7 +22,7 @@ export interface UseSymbolMapOptions {
   /**
    * The marker rows to plot, each carrying at least `longitude`/`latitude`.
    */
-  loadedData: MaybeRefOrGetter<any[] | null>
+  loadedData: MaybeRefOrGetter<Record<string, unknown>[] | null>
   /**
    * Measured outer width of the map, in pixels.
    */
@@ -185,7 +185,7 @@ export function useSymbolMap(options: UseSymbolMapOptions): UseSymbolMap {
         [inset, inset],
         [toValue(width) - inset, toValue(height) - inset]
       ],
-      geojson.value as any
+      geojson.value
     )
   })
 
@@ -194,7 +194,7 @@ export function useSymbolMap(options: UseSymbolMapOptions): UseSymbolMap {
   })
 
   const categories = computed((): string[] => {
-    const values = (toValue(loadedData) || []).map((d: any) => {
+    const values = (toValue(loadedData) || []).map((d: Record<string, unknown>) => {
       return get(d, toValue(categoryObjectsPath))
     })
     return uniq(values).map(String)

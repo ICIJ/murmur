@@ -4,7 +4,6 @@ import identity from 'lodash/identity'
 import isArray from 'lodash/isArray'
 import kebabCase from 'lodash/kebabCase'
 import { ComponentPublicInstance, computed, nextTick, ref, toRef, watch } from 'vue'
-import type { Ref } from 'vue'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useStackedChart } from '@/composables/useStackedChart'
 
@@ -129,7 +128,7 @@ const props = withDefaults(defineProps<StackedBarChartProps>(), {
 })
 
 const emit = defineEmits<{
-  loaded: [data: any]
+  loaded: [data: Record<string, unknown>[] | null]
   resized: []
 }>()
 
@@ -144,7 +143,7 @@ const {
   baseHeightRatio,
   d3Formatter,
   dataHasHighlights
-} = useChart(el, getChartProps(props), { emit }, isLoaded)
+} = useChart<Record<string, unknown>[]>(el, getChartProps(props), { emit }, isLoaded)
 
 const {
   sortedData,
@@ -154,9 +153,7 @@ const {
   maxStackValue: maxValue,
   groupName
 } = useStackedChart({
-  // StackedBarChart never receives the bare-Record<string, number> variant of
-  // LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<Record<string, unknown>[] | null>,
+  loadedData,
   isLoaded,
   sortBy: toRef(() => props.sortBy),
   keys: toRef(() => props.keys),
@@ -418,7 +415,7 @@ watch(sortedData, async () => {
           :class="{ 'w-100': labelAbove }"
           class="stacked-bar-chart__groups__item__label me-1 small"
         >
-          {{ datum[labelField] }}
+          {{ datum[props.labelField] }}
         </div>
         <div
           class="stacked-bar-chart__groups__item__bars my-1 d-flex flex-grow-1 align-items-center"

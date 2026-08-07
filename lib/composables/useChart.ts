@@ -13,10 +13,10 @@ import type { ChartData, LoadedData } from '@/composables/useChartData'
 // though the underlying definitions now live in the data sub-composable.
 export type { ChartData, LoadedData }
 
-interface ChartEmit {
+interface ChartEmit<T = Record<string, unknown>[] | Record<string, number>> {
   emit: {
     (event: 'resized'): void
-    (event: 'loaded', data: LoadedData): void
+    (event: 'loaded', data: LoadedData<T>): void
   }
 }
 
@@ -134,9 +134,9 @@ export interface ElementsMaxBBox {
   height: number | null | undefined
 }
 
-export interface UseChartReturn {
+export interface UseChartReturn<T = Record<string, unknown>[] | Record<string, number>> {
   dataHasHighlights: ComputedRef<boolean>
-  loadedData: Ref<LoadedData>
+  loadedData: Ref<LoadedData<T>>
   mounted: Ref<boolean>
   xAxisYearFormat: (year: number | string) => number | string
   elementsMaxBBox: (options?: ElementsMaxBBoxOptions) => ElementsMaxBBox
@@ -176,14 +176,14 @@ export interface UseChartReturn {
  *   <div ref="resizableRef">{{ loadedData }}</div>
  * </template>
  */
-export function useChart(
+export function useChart<T = Record<string, unknown>[] | Record<string, number>>(
   resizableRef: Ref<ComponentPublicInstance<HTMLElement> | null>,
   props: ChartPropsRefs,
-  { emit }: ChartEmit,
+  { emit }: ChartEmit<T>,
   isLoaded: Ref<boolean>,
   onResized?: () => void,
   afterLoaded?: () => Promise<void>
-): UseChartReturn {
+): UseChartReturn<T> {
   const { resizeRef, resizeState } = useResizeObserver(resizableRef)
   const mounted = ref<boolean>(false)
 
@@ -197,7 +197,7 @@ export function useChart(
   // the lifecycle side effects in the order consumers depend on once a load
   // settles (after the optional afterLoaded hook, flip isLoaded, emit loaded,
   // then run the initial resize).
-  const { loadedData } = useChartData(
+  const { loadedData } = useChartData<T>(
     { data: props.data, dataUrlType: props.dataUrlType },
     async (data) => {
       await afterLoaded?.()
