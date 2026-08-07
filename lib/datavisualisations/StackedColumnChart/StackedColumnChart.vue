@@ -13,7 +13,6 @@ import {
   toRef,
   watch
 } from 'vue'
-import type { Ref } from 'vue'
 import { getChartProps, useChart } from '@/composables/useChart'
 import { useStackedChart } from '@/composables/useStackedChart'
 
@@ -146,7 +145,7 @@ const props = withDefaults(defineProps<StackedColumnChartProps>(), {
 })
 
 const emit = defineEmits<{
-  loaded: [data: any]
+  loaded: [data: Record<string, unknown>[] | null]
   resized: []
 }>()
 
@@ -165,7 +164,7 @@ const {
   loadedData,
   mounted,
   d3Formatter
-} = useChart(el, getChartProps(props), { emit }, isLoaded, setSizes)
+} = useChart<Record<string, unknown>[]>(el, getChartProps(props), { emit }, isLoaded, setSizes)
 
 const {
   sortedData,
@@ -175,9 +174,7 @@ const {
   maxStackValue,
   groupName
 } = useStackedChart({
-  // StackedColumnChart never receives the bare-Record<string, number> variant
-  // of LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<Record<string, unknown>[] | null>,
+  loadedData,
   isLoaded,
   sortBy: toRef(() => props.sortBy),
   keys: toRef(() => props.keys),

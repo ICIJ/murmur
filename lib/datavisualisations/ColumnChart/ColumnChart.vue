@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ComponentPublicInstance, computed, getCurrentInstance, ref, toRef, watch } from 'vue'
-import type { Ref } from 'vue'
 import identity from 'lodash/identity'
 import { select as d3Select } from 'd3-selection'
 
@@ -180,7 +179,7 @@ const props = withDefaults(defineProps<ColumnChartProps>(), {
 })
 
 const emit = defineEmits<{
-  loaded: [data: any]
+  loaded: [data: Record<string, unknown>[] | null]
   select: [datum: any]
   resized: []
 }>()
@@ -198,7 +197,7 @@ const {
   d3Formatter,
   baseHeightRatio,
   dataHasHighlights
-} = useChart(el, getChartProps(props), { emit }, isLoaded, setSizes)
+} = useChart<Record<string, unknown>[]>(el, getChartProps(props), { emit }, isLoaded, setSizes)
 
 // Label and bucket dimensions are measured from the rendered SVG ticks, so they
 // stay in the component (the geometry composable holds no DOM state) and feed it.
@@ -248,9 +247,7 @@ const {
   xAxis,
   yAxis
 } = useColumnChart({
-  // ColumnChart never receives the bare-Record<string, number> variant of
-  // LoadedData; narrow it to the array shape the composable expects.
-  loadedData: loadedData as Ref<Record<string, unknown>[] | null>,
+  loadedData,
   width,
   height,
   labelWidth,

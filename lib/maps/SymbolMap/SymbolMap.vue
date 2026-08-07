@@ -29,7 +29,6 @@ import {
   toRef,
   watch
 } from 'vue'
-import type { Ref } from 'vue'
 import type { Topology } from 'topojson-specification'
 import { PopoverPlacement } from 'bootstrap-vue-next'
 
@@ -196,7 +195,7 @@ const emit = defineEmits<{
   click: [d: any]
   reset: []
   zoomed: [d: any]
-  loaded: [data: any]
+  loaded: [data: Record<string, unknown>[] | null]
   resized: []
 }>()
 
@@ -213,7 +212,7 @@ const debouncedDraw = debounce(function () {
   draw()
 }, 10)
 
-const { loadedData: rawLoadedData } = useChart(
+const { loadedData } = useChart<Record<string, unknown>[]>(
   el,
   getChartProps(props),
   { emit },
@@ -221,10 +220,6 @@ const { loadedData: rawLoadedData } = useChart(
   debouncedDraw,
   afterLoaded
 )
-
-// SymbolMap never receives the bare-Record<string, number> variant of
-// LoadedData; narrow it to the array shape used everywhere below.
-const loadedData = rawLoadedData as Ref<Record<string, unknown>[] | null>
 
 function afterLoaded() {
   return new Promise<void>((resolve) => {
@@ -257,8 +252,6 @@ const {
   markerTransformValue
 } = useSymbolMap({
   topojson,
-  // SymbolMap never receives the bare-Record<string, number> variant of
-  // LoadedData; narrow it to the array shape the composable expects.
   loadedData,
   width: mapWidth,
   height: mapHeight,

@@ -4,14 +4,15 @@ import isString from 'lodash/isString'
 import some from 'lodash/some'
 import { computed, toValue } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
-import type { LoadedData } from '@/composables/useChartData'
 
 /**
  * Reactive inputs driving {@link useChartFormat}: the chart's loaded data (used
  * to detect highlights) and the height-ratio props feeding {@link baseHeightRatio}.
  */
 export interface UseChartFormatOptions {
-  loadedData: Ref<LoadedData>
+  // Only ever feature-tested with Array.isArray() below, so this stays
+  // unknown rather than depending on the caller's loaded-data shape.
+  loadedData: Ref<unknown>
   rawData: Ref<unknown>
   chartHeightRatio: Ref<number | undefined>
   socialMode: Ref<boolean>

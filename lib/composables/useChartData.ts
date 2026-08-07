@@ -1,6 +1,6 @@
 import { json, csv, tsv } from 'd3-fetch'
 import isString from 'lodash/isString'
-import { ref, toRef, toValue, watch } from 'vue'
+import { shallowRef, toRef, toValue, watch } from 'vue'
 import type { Ref } from 'vue'
 
 /**
@@ -11,9 +11,10 @@ export type ChartData = Record<string, unknown>[] | Record<string, number> | str
 
 /**
  * Data a chart holds once loading has settled: the inline value passed through,
- * the parsed result of a fetched URL, or `null` before the first load.
+ * or the parsed result of a fetched URL, narrowed to the caller's own datum
+ * shape `T` (e.g. `BarChartDatum[]`), or `null` before the first load.
  */
-export type LoadedData = Record<string, unknown>[] | Record<string, number> | null
+export type LoadedData<T = Record<string, unknown>[] | Record<string, number>> = T | null
 
 /**
  * Reactive inputs driving {@link useChartData}: the raw chart data and the file
@@ -27,12 +28,12 @@ export interface UseChartDataOptions {
 /**
  * Reactive API returned by {@link useChartData}.
  */
-export interface UseChartData {
+export interface UseChartData<T = Record<string, unknown>[] | Record<string, number>> {
   /**
    * The chart's resolved data: inline data passed through, or the parsed result
    * of a fetched URL. `null` until the first load settles.
    */
-  loadedData: Ref<LoadedData>
+  loadedData: Ref<LoadedData<T>>
 }
 
 /**
@@ -60,13 +61,15 @@ export interface UseChartData {
  *   }
  * )
  */
-export function useChartData(
+export function useChartData<T = Record<string, unknown>[] | Record<string, number>>(
   options: UseChartDataOptions,
-  onLoaded: (data: LoadedData) => void | Promise<void>
-): UseChartData {
+  onLoaded: (data: LoadedData<T>) => void | Promise<void>
+): UseChartData<T> {
   const dataRef = toRef(options.data)
   const dataUrlTypeRef = toRef(options.dataUrlType)
-  const loadedData = ref<LoadedData>(null)
+  // shallowRef: loadedData is always replaced wholesale on load, never mutated
+  // in place, and it sidesteps a Vue/TS UnwrapRef quirk on the generic T.
+  const loadedData = shallowRef<LoadedData<T>>(null)
 
   // Reload whenever the data or its format changes: a URL string is fetched and
   // parsed through the matching d3 loader, while inline data is passed through.
@@ -82,10 +85,15 @@ export function useChartData(
       if (!loader) {
         throw new Error(`unsupported dataUrlType "${dataUrlType}": expected json, csv or tsv`)
       }
-      loadedData.value = (await loader(data)) as unknown as []
+      // Trust boundary: the fetched/parsed payload's actual shape is asserted by
+      // the caller's T type argument to useChart<T>, not verified at runtime.
+      loadedData.value = (await loader(data)) as unknown as LoadedData<T>
     }
     else {
-      loadedData.value = data as unknown as []
+      // Same trust boundary: props.data is declared as the wide ChartData union
+      // by each component's own props, but T asserts the concrete shape that
+      // component actually feeds in.
+      loadedData.value = data as unknown as LoadedData<T>
     }
 
     await onLoaded(loadedData.value)
