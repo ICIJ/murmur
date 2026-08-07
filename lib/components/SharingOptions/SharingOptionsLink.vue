@@ -1,24 +1,11 @@
 <script lang="ts">
+import { SharingPlatform } from '@/enums'
+
 // Re-exported for backward compatibility: the share popup singleton and the
 // per-network share endpoints now live in the composable.
 export { $popup, networks } from '@/composables/useSharingOptionsLink'
-</script>
 
-<script setup lang="ts">
-import { computed } from 'vue'
-
-import AppIcon from '@/components/App/AppIcon.vue'
-import { SharingPlatform } from '@/enums'
-import {
-  useSharingOptionsLink,
-  type SharingValues
-} from '@/composables/useSharingOptionsLink'
-
-defineOptions({
-  name: 'SharingOptionsLink'
-})
-
-interface SharingOptionsLinkProps {
+export interface SharingOptionsLinkProps {
   /**
    * Root element type
    */
@@ -56,6 +43,20 @@ interface SharingOptionsLinkProps {
    */
   hashtags?: string | null
 }
+</script>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+import AppIcon from '@/components/App/AppIcon.vue'
+import {
+  useSharingOptionsLink,
+  type SharingValues
+} from '@/composables/useSharingOptionsLink'
+
+defineOptions({
+  name: 'SharingOptionsLink'
+})
 
 const props = withDefaults(defineProps<SharingOptionsLinkProps>(), {
   tag: 'a',
