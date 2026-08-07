@@ -36,23 +36,23 @@ const size = computed(() => (props.compact ? 'sm' : undefined))
 
 const inputRef = useTemplateRef<HTMLInputElement>('input')
 
-const text = computed(
-  () => {
-    switch (props.type) {
-      case AdvancedLinkTab.rich:
-      case AdvancedLinkTab.html:
-        return linkAsHtml.value
-      case AdvancedLinkTab.markdown:
-        return linkAsMarkdown.value
-      case AdvancedLinkTab.raw:
-      default:
-        return props.link
-    }
+const text = computed(() => {
+  switch (props.type) {
+    case AdvancedLinkTab.rich:
+    case AdvancedLinkTab.html:
+      return linkAsHtml.value
+    case AdvancedLinkTab.markdown:
+      return linkAsMarkdown.value
+    case AdvancedLinkTab.raw:
+    default:
+      return props.link
   }
-)
+})
 
 const titleOrLink = computed(() => props.title || props.link)
-const linkAsHtml = computed(() => `<a href="${props.link}" target="_blank">${titleOrLink.value}</a>`)
+const linkAsHtml = computed(
+  () => `<a href="${props.link}" target="_blank">${titleOrLink.value}</a>`
+)
 const linkAsMarkdown = computed(() => `[${titleOrLink.value}](${props.link})`)
 const isRich = computed(() => props.type === AdvancedLinkTab.rich)
 const isHTML = computed(() => props.type === AdvancedLinkTab.html)
@@ -66,13 +66,22 @@ function select() {
   }
 }
 
-async function selectInput(target: Readonly<ShallowRef<HTMLInputElement | null>>) {
+async function selectInput(
+  target: Readonly<ShallowRef<HTMLInputElement | null>>
+) {
   // wait for the copy to finish to select text
   await nextTick()
-  target.value?.select()
+  // The ref is on <b-form-input>, which exposes the real input as `element`;
+  // the component instance itself has no select().
+  const input = (
+    target.value as unknown as { element?: HTMLInputElement | null }
+  )?.element
+  input?.select()
 }
 
-async function selectRich(target: Readonly<ShallowRef<HTMLInputElement | null>>) {
+async function selectRich(
+  target: Readonly<ShallowRef<HTMLInputElement | null>>
+) {
   if (!target.value) {
     return
   }

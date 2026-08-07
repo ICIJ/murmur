@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
 
 import SharingOptionsLink from '@/components/SharingOptions/SharingOptionsLink.vue'
+import type { SharingOptionsLinkProps } from '@/components/SharingOptions/SharingOptionsLink.vue'
 import { $popup, networks } from '@/composables/useSharingOptionsLink'
 import { SharingPlatform } from '@/enums'
 
@@ -19,7 +20,7 @@ function mockPopupParent() {
 vi.useFakeTimers()
 
 describe('SharingOptionsLink', () => {
-  const propsData = { network: SharingPlatform.bluesky }
+  const propsData: Pick<SharingOptionsLinkProps, 'network'> = { network: SharingPlatform.bluesky }
 
   beforeEach(() => {
     vi.clearAllMocks()
