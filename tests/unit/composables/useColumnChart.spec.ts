@@ -110,6 +110,21 @@ describe('useColumnChart', () => {
       // With max 8, the data max (4) lands at half the padded height.
       expect(scaleY.value(4)).toBe(padded.value.height / 2)
     })
+
+    it('resolves a dot-notation seriesName the same way waterfallTotalValue does', () => {
+      const { scaleY, padded } = useColumnChart(
+        createOptions({
+          loadedData: ref([
+            { metrics: { value: 0 } },
+            { metrics: { value: 4 } },
+            { metrics: { value: 2 } }
+          ]),
+          seriesName: ref('metrics.value')
+        })
+      )
+      expect(scaleY.value(4)).toBe(0)
+      expect(scaleY.value(0)).toBe(padded.value.height)
+    })
   })
 
   describe('bars', () => {
