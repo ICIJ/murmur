@@ -38,10 +38,10 @@ const Murmur = {
     return Murmur.i18n.global.mergeLocaleMessage(lang, message)
   },
   setLocale(lang: string) {
-    // vue-i18n infers `locale`'s type from the `en`/`fr` keys of the initial
-    // messages, but setLocaleMessage/mergeLocaleMessage let consumers register
-    // arbitrary locales at runtime (see main.spec.ts) — so this accepts any
-    // string and casts past the narrower inferred type.
+    // i18n.ts pins createI18n()'s Locales generic to 'en' | 'fr' (the initial
+    // messages' keys), but setLocaleMessage/mergeLocaleMessage let consumers
+    // register arbitrary locales at runtime (see main.spec.ts) — so this
+    // accepts any string and casts past the narrower type.
     return ((Murmur.i18n.global.locale as WritableComputedRef<string>).value = lang)
   },
   getLocale() {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import config from '@/config'
 import { useI18n } from 'vue-i18n'
-import en from '@/locales/en.json'
 import { ref } from 'vue'
 
 import { useDonateForm } from '@/composables/useDonateForm'
@@ -25,7 +24,7 @@ withDefaults(defineProps<FormDonateProps>(), {
   noTitle: false
 })
 
-const { t, locale, messages } = useI18n<{ message: typeof en }>()
+const { t, locale, messages } = useI18n()
 // config.get's return type is the recursive ConfigValue; wrapping it directly
 // in ref() makes Vue's UnwrapRef choke on it ("Type instantiation is
 // excessively deep"). The tracker value is always a plain string.
