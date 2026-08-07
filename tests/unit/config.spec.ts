@@ -64,6 +64,15 @@ describe('config.ts', () => {
     expect(murmurConfig.get('help')).toBe('link')
   })
 
+  it('returns a stored `null` as-is instead of falling back to the given default', () => {
+    murmurConfig.set('nullable', null)
+    expect(murmurConfig.get('nullable', 'fallback')).toBeNull()
+  })
+
+  it('falls back to the given default when the key is missing', () => {
+    expect(murmurConfig.get('missing-key', 'fallback')).toBe('fallback')
+  })
+
   it('should give the value of a given key as true', () => {
     murmurConfig.set('activated', 1)
     expect(murmurConfig.is('activated')).toBeTruthy()
