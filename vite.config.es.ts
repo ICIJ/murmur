@@ -103,7 +103,7 @@ export default defineConfig({
   resolve: sharedResolve,
   css: sharedCss,
   build: {
-    target: 'es2015',
+    target: 'esnext',
     copyPublicDir: false,
     outDir: 'dist/es',
     emptyOutDir: true,
