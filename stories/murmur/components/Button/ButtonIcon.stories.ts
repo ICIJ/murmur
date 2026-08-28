@@ -202,32 +202,6 @@ export const LoadingSpinner: Story = {
   })
 }
 
-export const ToggleActive: Story = {
-  args: {
-    iconLeft: IPhPath,
-    size: SIZE.md,
-    hideLabel: true,
-    square: true
-  },
-  render: (args: any) => ({
-    components: { ButtonIcon },
-    setup() {
-      const active = ref(false)
-      const variant = computed(() => (active.value ? VARIANT.action : VARIANT.outline_tertiary))
-      return { args, active, variant }
-    },
-    template: `
-      <p class="text-muted">
-        Click to toggle. This mirrors how datashare-client's ButtonToggle*
-        components drive \`variant\` from external state instead of BButton's
-        own \`pressed\`: the button should never stay stuck on the "active"
-        variant once \`active\` is toggled back off.
-      </p>
-      <ButtonIcon v-bind="args" :variant="variant" label="Toggle" @click="active = !active" />
-    `
-  })
-}
-
 export const AllSizes: Story = {
   render: () => ({
     components: { ButtonIcon },
