@@ -3,6 +3,15 @@
     NOTE: `@mousenter` is a typo for `@mouseenter`, so the hover-in state never
     fires and `currentHover` only ever resets on mouse leave. Preserved as-is;
     fixing it changes rendered behavior and belongs in a separate change.
+
+    `@mousedown.prevent`: BTooltip's default triggers are hover + focus. A
+    native <button> keeps focus after a mouse click, so its tooltip stays
+    stuck open until something else steals focus. preventDefault on mousedown
+    stops a mouse click from focusing the button at all - click still fires
+    normally (only focus is denied, never the click itself) - while keyboard
+    activation (Tab, then Enter/Space) still focuses it exactly as before,
+    since that goes through focus(), not mousedown. Keyboard users keep the
+    tooltip-on-focus behavior; mouse clicks no longer leave it hanging around.
   -->
   <b-button
     v-bind="buttonProps"
@@ -14,6 +23,7 @@
     :aria-label="tooltipText"
     @mousenter="currentHover = true"
     @mouseleave="currentHover = false"
+    @mousedown.prevent
   >
     <slot name="start" />
     <app-icon

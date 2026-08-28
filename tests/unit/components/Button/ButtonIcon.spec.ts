@@ -31,4 +31,13 @@ describe('ButtonIcon.vue', () => {
     expect(button.attributes('aria-pressed')).toBe('true')
     expect(button.classes()).toContain('active')
   })
+
+  it('prevents the default mousedown action, so a mouse click never leaves the button focused (and its hover/focus tooltip stuck open)', () => {
+    const wrapper = mount(ButtonIcon, { props: { label: 'Action' } })
+    const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true })
+
+    wrapper.get('button').element.dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBe(true)
+  })
 })
