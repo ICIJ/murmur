@@ -265,7 +265,15 @@ const props = withDefaults(defineProps<ButtonIconProps>(), {
   type: 'button',
   loadingDuration: '1s',
   tooltipPlacement: 'top',
-  tooltipDelay: () => ({ show: 0, hide: 0 })
+  tooltipDelay: () => ({ show: 0, hide: 0 }),
+  // Vue defaults an absent `Boolean`-typed prop to `false` unless a default
+  // is given explicitly. Left unset, that silently forwards `pressed: false`
+  // to BButton, which switches it into toggle-button mode: it then flips its
+  // own internal `pressed`/`.active` state on every click, regardless of
+  // this component's `variant`, and never flips it back. Declaring the
+  // default as `undefined` here keeps `pressed` genuinely unset for callers
+  // that don't pass it, so BButton stays a plain (non-toggle) button.
+  pressed: undefined
 })
 
 const emit = defineEmits(['click:icon-right'])
