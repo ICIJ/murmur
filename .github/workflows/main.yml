@@ -59,4 +59,39 @@ jobs:
       - name: Deploy artifact to Github Pages
         uses: actions/deploy-pages@v4
 
+  release:
+    if: github.ref == 'refs/heads/main'
+    needs: [test]
+    runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      - name: Bump version
+        id: bump
+        uses: commitizen-tools/commitizen-action@0.27.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          changelog: false
+
+      - name: Setup Node 24
+        if: steps.bump.outputs.version != steps.bump.outputs.previous_version
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'yarn'
+
+      - name: Install Node dependencies
+        if: steps.bump.outputs.version != steps.bump.outputs.previous_version
+        run: yarn --frozen-lockfile
+
+      - name: Publish to npm
+        if: steps.bump.outputs.version != steps.bump.outputs.previous_version
+        run: npm publish
