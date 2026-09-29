@@ -264,8 +264,13 @@ const props = withDefaults(defineProps<ButtonIconProps>(), {
   tag: 'button',
   type: 'button',
   loadingDuration: '1s',
-  tooltipPlacement: 'top',
-  tooltipDelay: () => ({ show: 0, hide: 0 }),
+  // `tooltipPlacement` and `tooltipDelay` are deliberately left without a
+  // default. bootstrap-vue-next only falls back to a globally configured
+  // default when a prop is absent from the vnode, so declaring one here would
+  // pin every tooltip to it and make a global `BTooltip` default a no-op for
+  // every button in the application. Left unset, BTooltip applies its own
+  // defaults while remaining globally configurable.
+
   // Vue defaults an absent `Boolean`-typed prop to `false` unless a default
   // is given explicitly. Left unset, that silently forwards `pressed: false`
   // to BButton, which switches it into toggle-button mode: it then flips its
