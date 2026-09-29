@@ -264,8 +264,7 @@ const props = withDefaults(defineProps<ButtonIconProps>(), {
   tag: 'button',
   type: 'button',
   loadingDuration: '1s',
-  tooltipPlacement: 'top',
-  tooltipDelay: () => ({ show: 0, hide: 0 }),
+
   // Vue defaults an absent `Boolean`-typed prop to `false` unless a default
   // is given explicitly. Left unset, that silently forwards `pressed: false`
   // to BButton, which switches it into toggle-button mode: it then flips its
