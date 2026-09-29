@@ -2,4 +2,3 @@
 name = "cz_conventional_commits"
 version_provider = "npm"
 tag_format = "v$version"
-legacy_tag_formats = ["$version"]
