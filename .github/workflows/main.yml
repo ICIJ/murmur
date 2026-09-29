@@ -95,3 +95,9 @@ jobs:
       - name: Publish to npm
         if: steps.bump.outputs.version != steps.bump.outputs.previous_version
         run: npm publish
+
+      - name: Create GitHub release
+        if: steps.bump.outputs.version != steps.bump.outputs.previous_version
+        run: gh release create "v${{ steps.bump.outputs.version }}" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
