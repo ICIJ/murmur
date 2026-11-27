@@ -113,6 +113,38 @@ describe('SecretInput.vue', () => {
     expect(children[1].classList.contains('secret-input__input')).toBe(true)
   })
 
+  it('names the toggler for screen readers', () => {
+    const wrapper = shallowMount(SecretInput, { global })
+    expect(wrapper.find('.secret-input__toggler').attributes('aria-label')).toBe('Show secret')
+  })
+
+  it('exposes the toggler state as not pressed when hidden', () => {
+    const wrapper = shallowMount(SecretInput, { global })
+    expect(wrapper.find('.secret-input__toggler').attributes('aria-pressed')).toBe('false')
+  })
+
+  it('exposes the toggler state as pressed when visible', () => {
+    const props = { visible: true }
+    const wrapper = shallowMount(SecretInput, { global, props })
+    expect(wrapper.find('.secret-input__toggler').attributes('aria-pressed')).toBe('true')
+  })
+
+  it('forwards attributes to the input', () => {
+    const attrs = { 'aria-label': 'API token' }
+    const wrapper = shallowMount(SecretInput, { global, attrs })
+    expect(wrapper.find('.secret-input__input').attributes('aria-label')).toBe('API token')
+    expect(wrapper.find('.secret-input').attributes('aria-label')).toBeUndefined()
+  })
+
+  it('keeps class and style on the root', () => {
+    const attrs = { class: 'mb-3', style: 'max-width: 20rem;' }
+    const wrapper = shallowMount(SecretInput, { global, attrs })
+    expect(wrapper.find('.secret-input').classes()).toContain('mb-3')
+    expect(wrapper.find('.secret-input').attributes('style')).toBe('max-width: 20rem;')
+    expect(wrapper.find('.secret-input__input').classes()).not.toContain('mb-3')
+    expect(wrapper.find('.secret-input__input').attributes('style')).toBeUndefined()
+  })
+
   it('has no toggler modifier without toggler', () => {
     const props = { noToggler: true }
     const wrapper = shallowMount(SecretInput, { global, props })

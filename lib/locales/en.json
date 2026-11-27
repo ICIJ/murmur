@@ -131,6 +131,9 @@
     "placeholder": "Enter your email",
     "submit": "Sign up"
   },
+  "form-control-secret": {
+    "toggler": "Show secret"
+  },
   "haptic-copy": {
     "label": "Copy",
     "tooltip": {

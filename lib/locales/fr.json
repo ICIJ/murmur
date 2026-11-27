@@ -115,6 +115,9 @@
     "placeholder": "Adresse email",
     "submit": "S'abonner"
   },
+  "form-control-secret": {
+    "toggler": "Afficher le secret"
+  },
   "haptic-copy": {
     "label": "Copier",
     "tooltip": {

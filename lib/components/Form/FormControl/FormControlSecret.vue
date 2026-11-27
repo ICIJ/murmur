@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, type Component } from 'vue'
+import { computed, ref, useAttrs, type Component } from 'vue'
+import { useI18n } from 'vue-i18n'
 import HapticCopy from '@/components/HapticCopy/HapticCopy.vue'
 import AppIcon from '@/components/App/AppIcon.vue'
 import { SIZE } from '@/enums'
@@ -38,6 +39,10 @@ export interface FormControlSecretProps {
   togglerPosition?: 'left' | 'right'
 }
 
+defineOptions({
+  inheritAttrs: false
+})
+
 const props = withDefaults(defineProps<FormControlSecretProps>(), {
   visible: false,
   value: '',
@@ -49,6 +54,13 @@ const props = withDefaults(defineProps<FormControlSecretProps>(), {
 })
 
 const emit = defineEmits(['update:visible'])
+
+const { t } = useI18n()
+const attrs = useAttrs()
+const inputAttrs = computed(() => {
+  const { class: _class, style: _style, ...rest } = attrs
+  return rest
+})
 
 const secretInput = ref<HTMLInputElement | null>(null)
 const inputType = computed(() => {
@@ -88,6 +100,8 @@ function selectInput() {
   <b-input-group
     :size="resolvedSize"
     class="secret-input"
+    :class="$attrs.class"
+    :style="$attrs.style"
   >
     <div
       class="secret-input__field"
@@ -97,12 +111,15 @@ function selectInput() {
         v-if="!noToggler && togglerPosition === 'left'"
         variant="link"
         class="secret-input__toggler"
+        :aria-label="t('form-control-secret.toggler')"
+        :aria-pressed="visible"
         @click="toggle"
       >
         <app-icon><component :is="togglerIcon" /></app-icon>
       </b-button>
       <b-form-input
         ref="secretInput"
+        v-bind="inputAttrs"
         class="text-monospace secret-input__input"
         readonly
         :size="resolvedSize"
@@ -114,6 +131,8 @@ function selectInput() {
         v-if="!noToggler && togglerPosition === 'right'"
         variant="link"
         class="secret-input__toggler"
+        :aria-label="t('form-control-secret.toggler')"
+        :aria-pressed="visible"
         @click="toggle"
       >
         <app-icon><component :is="togglerIcon" /></app-icon>
