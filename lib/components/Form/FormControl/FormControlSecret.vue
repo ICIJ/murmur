@@ -32,6 +32,10 @@ export interface FormControlSecretProps {
    * Hide haptic copy button
    */
   noHapticCopy?: boolean
+  /**
+   * Side of the input where the toggler is drawn
+   */
+  togglerPosition?: 'left' | 'right'
 }
 
 const props = withDefaults(defineProps<FormControlSecretProps>(), {
@@ -40,7 +44,8 @@ const props = withDefaults(defineProps<FormControlSecretProps>(), {
   size: SIZE.md,
   hapticCopyVariant: 'primary',
   noToggler: false,
-  noHapticCopy: false
+  noHapticCopy: false,
+  togglerPosition: 'left'
 })
 
 const emit = defineEmits(['update:visible'])
@@ -54,6 +59,11 @@ const togglerIcon = computed((): Component => {
 })
 const hapticCopyClassList = computed(() => {
   return `btn-${props.hapticCopyVariant}`
+})
+
+const fieldClassList = computed(() => {
+  const modifier = `secret-input__field--toggler-${props.togglerPosition}`
+  return { [modifier]: !props.noToggler }
 })
 
 const resolvedSize = computed(() => resolveSize(props.size))
@@ -79,22 +89,36 @@ function selectInput() {
     :size="resolvedSize"
     class="secret-input"
   >
-    <b-button
-      v-if="!noToggler"
-      variant="link"
-      class="secret-input__toggler"
-      @click="toggle"
+    <div
+      class="secret-input__field"
+      :class="fieldClassList"
     >
-      <app-icon><component :is="togglerIcon" /></app-icon>
-    </b-button>
-    <b-form-input
-      ref="secretInput"
-      class="text-monospace secret-input__input"
-      readonly
-      :type="inputType"
-      :model-value="value"
-      @click="selectInput"
-    />
+      <b-button
+        v-if="!noToggler && togglerPosition === 'left'"
+        variant="link"
+        class="secret-input__toggler"
+        @click="toggle"
+      >
+        <app-icon><component :is="togglerIcon" /></app-icon>
+      </b-button>
+      <b-form-input
+        ref="secretInput"
+        class="text-monospace secret-input__input"
+        readonly
+        :size="resolvedSize"
+        :type="inputType"
+        :model-value="value"
+        @click="selectInput"
+      />
+      <b-button
+        v-if="!noToggler && togglerPosition === 'right'"
+        variant="link"
+        class="secret-input__toggler"
+        @click="toggle"
+      >
+        <app-icon><component :is="togglerIcon" /></app-icon>
+      </b-button>
+    </div>
     <haptic-copy
       v-if="!noHapticCopy"
       class="secret-input__copy"
@@ -110,10 +134,47 @@ function selectInput() {
 <style scoped lang="scss">
 
 .secret-input {
+  &__field {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+
+    &:not(:last-child) .secret-input__input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &--toggler-left {
+      .secret-input__toggler {
+        left: 0;
+      }
+
+      .secret-input__input {
+        padding-left: calc(#{$input-padding-x} * 2 + 1em);
+      }
+    }
+
+    &--toggler-right {
+      .secret-input__toggler {
+        right: 0;
+      }
+
+      .secret-input__input {
+        padding-right: calc(#{$input-padding-x} * 2 + 1em);
+      }
+    }
+  }
+
   &__toggler {
-    background: $input-disabled-bg;
-    border: $input-border-width solid $input-border-color;
-    border-right: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    border: 0;
+    background: transparent;
   }
 }
 </style>

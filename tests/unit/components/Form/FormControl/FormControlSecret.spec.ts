@@ -82,4 +82,42 @@ describe('SecretInput.vue', () => {
     expect(wrapper.find('.secret-input__copy').classes('btn-primary')).toBeFalsy()
     expect(wrapper.find('.secret-input__copy').classes('btn-info')).toBeTruthy()
   })
+
+  it('places the toggler on the left by default', () => {
+    const wrapper = shallowMount(SecretInput, { global })
+    const field = wrapper.find('.secret-input__field')
+    expect(field.classes()).toContain('secret-input__field--toggler-left')
+    expect(field.find('.secret-input__toggler').exists()).toBe(true)
+  })
+
+  it('places the toggler on the right', () => {
+    const props = { togglerPosition: 'right' as const }
+    const wrapper = shallowMount(SecretInput, { global, props })
+    const field = wrapper.find('.secret-input__field')
+    expect(field.classes()).toContain('secret-input__field--toggler-right')
+    expect(field.classes()).not.toContain('secret-input__field--toggler-left')
+  })
+
+  it('renders the toggler after the input when on the right', () => {
+    const props = { togglerPosition: 'right' as const }
+    const wrapper = shallowMount(SecretInput, { global, props })
+    const children = wrapper.find('.secret-input__field').element.children
+    expect(children[0].classList.contains('secret-input__input')).toBe(true)
+    expect(children[1].classList.contains('secret-input__toggler')).toBe(true)
+  })
+
+  it('renders the toggler before the input when on the left', () => {
+    const wrapper = shallowMount(SecretInput, { global })
+    const children = wrapper.find('.secret-input__field').element.children
+    expect(children[0].classList.contains('secret-input__toggler')).toBe(true)
+    expect(children[1].classList.contains('secret-input__input')).toBe(true)
+  })
+
+  it('has no toggler modifier without toggler', () => {
+    const props = { noToggler: true }
+    const wrapper = shallowMount(SecretInput, { global, props })
+    const field = wrapper.find('.secret-input__field')
+    expect(field.classes()).not.toContain('secret-input__field--toggler-left')
+    expect(field.classes()).not.toContain('secret-input__field--toggler-right')
+  })
 })

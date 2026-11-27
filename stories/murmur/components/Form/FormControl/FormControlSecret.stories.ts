@@ -70,3 +70,11 @@ export const HapticCopyVariant: Story = {
     hapticCopyVariant: 'secondary'
   }
 }
+
+export const TogglerRight: Story = {
+  args: {
+    value: secretValue,
+    visible: true,
+    togglerPosition: 'right'
+  }
+}
