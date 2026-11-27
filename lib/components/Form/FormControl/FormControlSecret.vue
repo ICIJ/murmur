@@ -145,6 +145,11 @@ function selectInput() {
       border-bottom-right-radius: 0;
     }
 
+    .secret-input__input:focus {
+      position: relative;
+      z-index: 3;
+    }
+
     &--toggler-left {
       .secret-input__toggler {
         left: 0;
@@ -166,7 +171,7 @@ function selectInput() {
     }
   }
 
-  &__toggler {
+  &__field &__toggler {
     position: absolute;
     top: 0;
     bottom: 0;
