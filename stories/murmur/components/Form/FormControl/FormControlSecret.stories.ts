@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import { FormControlSecret } from '@/components'
-import { SIZE } from '@/enums'
+import { SIZE, TogglerPosition } from '@/enums'
 
 const meta: Meta<typeof FormControlSecret> = {
   title: 'Murmur/components/Form/FormControl/FormControlSecret',
@@ -75,6 +75,6 @@ export const TogglerRight: Story = {
   args: {
     value: secretValue,
     visible: true,
-    togglerPosition: 'right'
+    togglerPosition: TogglerPosition.right
   }
 }

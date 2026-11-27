@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import SecretInput from '@/components/Form/FormControl/FormControlSecret.vue'
+import { TogglerPosition } from '@/enums'
 
 describe('SecretInput.vue', () => {
   // Stubs Bootstrap Vue components
@@ -91,7 +92,7 @@ describe('SecretInput.vue', () => {
   })
 
   it('places the toggler on the right', () => {
-    const props = { togglerPosition: 'right' as const }
+    const props = { togglerPosition: TogglerPosition.right }
     const wrapper = shallowMount(SecretInput, { global, props })
     const field = wrapper.find('.secret-input__field')
     expect(field.classes()).toContain('secret-input__field--toggler-right')
@@ -99,7 +100,7 @@ describe('SecretInput.vue', () => {
   })
 
   it('renders the toggler after the input when on the right', () => {
-    const props = { togglerPosition: 'right' as const }
+    const props = { togglerPosition: TogglerPosition.right }
     const wrapper = shallowMount(SecretInput, { global, props })
     const children = wrapper.find('.secret-input__field').element.children
     expect(children[0].classList.contains('secret-input__input')).toBe(true)

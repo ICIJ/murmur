@@ -108,3 +108,8 @@ export enum LegendCategory {
   path = 'path',
   label = 'label'
 }
+
+export enum TogglerPosition {
+  left = 'left',
+  right = 'right'
+}

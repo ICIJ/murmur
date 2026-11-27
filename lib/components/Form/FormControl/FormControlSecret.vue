@@ -3,7 +3,7 @@ import { computed, ref, useAttrs, type Component } from 'vue'
 import { useI18n } from 'vue-i18n'
 import HapticCopy from '@/components/HapticCopy/HapticCopy.vue'
 import AppIcon from '@/components/App/AppIcon.vue'
-import { SIZE } from '@/enums'
+import { SIZE, TogglerPosition } from '@/enums'
 import IPhEye from '~icons/ph/eye'
 import IPhEyeSlash from '~icons/ph/eye-slash'
 import { resolveSize, type SizeWithMd } from '@/utils/size'
@@ -36,7 +36,7 @@ export interface FormControlSecretProps {
   /**
    * Side of the input where the toggler is drawn
    */
-  togglerPosition?: 'left' | 'right'
+  togglerPosition?: TogglerPosition | `${TogglerPosition}`
 }
 
 defineOptions({
@@ -50,7 +50,7 @@ const props = withDefaults(defineProps<FormControlSecretProps>(), {
   hapticCopyVariant: 'primary',
   noToggler: false,
   noHapticCopy: false,
-  togglerPosition: 'left'
+  togglerPosition: TogglerPosition.left
 })
 
 const emit = defineEmits(['update:visible'])
@@ -76,6 +76,13 @@ const hapticCopyClassList = computed(() => {
 const fieldClassList = computed(() => {
   const modifier = `secret-input__field--toggler-${props.togglerPosition}`
   return { [modifier]: !props.noToggler }
+})
+
+const hasTogglerLeft = computed(() => {
+  return !props.noToggler && props.togglerPosition === TogglerPosition.left
+})
+const hasTogglerRight = computed(() => {
+  return !props.noToggler && props.togglerPosition === TogglerPosition.right
 })
 
 const resolvedSize = computed(() => resolveSize(props.size))
@@ -108,7 +115,7 @@ function selectInput() {
       :class="fieldClassList"
     >
       <b-button
-        v-if="!noToggler && togglerPosition === 'left'"
+        v-if="hasTogglerLeft"
         variant="link"
         class="secret-input__toggler"
         :aria-label="t('form-control-secret.toggler')"
@@ -128,7 +135,7 @@ function selectInput() {
         @click="selectInput"
       />
       <b-button
-        v-if="!noToggler && togglerPosition === 'right'"
+        v-if="hasTogglerRight"
         variant="link"
         class="secret-input__toggler"
         :aria-label="t('form-control-secret.toggler')"
